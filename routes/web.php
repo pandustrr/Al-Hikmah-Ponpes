@@ -15,12 +15,12 @@ use Inertia\Inertia;
 
 // --- ADMIN INDUK (SUPER ADMIN) ---
 Route::prefix('admin/console')->name('admin.')->group(function () {
-    // Login Induk
-    Route::get('/login', [HomeController::class, 'adminLogin'])->name('login');
+    // Login Induk (Sekarang langsung di /admin/console)
+    Route::get('/', [HomeController::class, 'adminLogin'])->name('login');
     
     // Dashboard Induk (Protected)
     Route::middleware(['auth', 'verified'])->group(function () {
-        Route::get('/', function () {
+        Route::get('/dashboard', function () {
             return Inertia::render('IndukAdmin/Dashboard');
         })->name('dashboard');
 
@@ -36,13 +36,13 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
 
 // --- ADMIN LEMBAGA (SCOPED) ---
 Route::prefix('{lembaga_slug}/admin/console')->name('lembaga.admin.')->group(function () {
-    // Login Lembaga
-    Route::get('/login', [LembagaAuthenticatedSessionController::class, 'create'])->name('login');
-    Route::post('/login', [LembagaAuthenticatedSessionController::class, 'store']);
+    // Login Lembaga (Sekarang langsung di /{slug}/admin/console)
+    Route::get('/', [LembagaAuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/', [LembagaAuthenticatedSessionController::class, 'store']);
 
     // Dashboard Lembaga (Protected)
     Route::middleware(['auth', 'verified', 'lembaga.admin'])->group(function () {
-        Route::get('/', function ($lembaga_slug) {
+        Route::get('/dashboard', function ($lembaga_slug) {
             $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
             return Inertia::render('LembagaAdmin/Dashboard', [
                 'lembaga' => $lembaga
