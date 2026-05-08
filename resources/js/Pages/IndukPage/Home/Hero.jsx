@@ -1,0 +1,27 @@
+import React from 'react';
+
+export default function Hero({ offsetY }) {
+    return (
+        <section className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-brand-primary">
+            <div className="absolute inset-0">
+                <img
+                    src="https://images.unsplash.com/photo-1519452575417-564c1401ecc0?auto=format&fit=crop&q=80&w=2000"
+                    alt="Yayasan background"
+                    className="w-full h-full object-cover object-center"
+                    style={{ transform: `translateY(${offsetY * 0.3}px)`, opacity: 0.55 }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/50 via-brand-primary/30 to-brand-primary/70"></div>
+            </div>
+            <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 w-full max-w-3xl mx-auto">
+                <h1 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tighter leading-tight animate-fade-in-up">
+                    Membangun Masa Depan <br /> dengan <span className="text-brand-secondary">Adab & Ilmu</span>
+                </h1>
+                <p className="text-sm text-white/80 max-w-xl mx-auto font-light leading-relaxed animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+                    YPDS Al-Hikmah mendidik generasi yang tidak hanya cerdas intelektual, tapi juga kokoh secara spiritual dan beradab.
+                </p>
+            </div>
+        </section>
+    );
+}
+
+

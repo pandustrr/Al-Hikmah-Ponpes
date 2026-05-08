@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+@theme {
+  --radius-custom: 0.25rem;
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* Sage & Olive Brand Colors */
+  --color-brand-primary: #4A4E42;    /* Olive Dark — Teks utama & elemen bold */
+  --color-brand-secondary: #EEEEE6;  /* Off White — Background section */
+  --color-brand-accent: #7D8471;     /* Sage Dark — Teks sekunder & border */
+  --color-brand-light: #FFFFFF;      /* Base White — Background dasar */
+  --color-sage-light: #B5BAA9;       /* Sage Light — Border halus & muted */
+  --color-sage-mid: #9EA495;         /* Sage Mid — Ikon & divider */
+}
+
+/* Scroll Reveal Animations */
+.reveal-section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-element-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-element-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-element-up {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-active .reveal-element-left,
+.reveal-active .reveal-element-right,
+.reveal-active .reveal-element-up {
+    opacity: 1;
+    transform: translate(0);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@layer base {
+    body {
+        @apply antialiased text-brand-primary bg-brand-light;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-semibold tracking-tight text-brand-primary;
+    }
+}
+
+@layer components {
+    .card-clean {
+        @apply bg-white border border-sage-light shadow-sm overflow-hidden;
+        border-radius: var(--radius-custom);
+    }
+
+    .btn-primary {
+        @apply bg-brand-primary text-white px-4 py-2 hover:bg-brand-accent transition-colors duration-200 font-medium;
+        border-radius: var(--radius-custom);
+    }
+
+    .nav-link {
+        @apply text-brand-accent hover:text-brand-primary font-medium transition-colors duration-200;
+    }
+}
