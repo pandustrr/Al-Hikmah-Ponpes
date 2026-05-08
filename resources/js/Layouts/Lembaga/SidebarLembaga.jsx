@@ -5,14 +5,14 @@ export default function SidebarLembaga({ lembaga, isOpen }) {
     const { url } = usePage();
 
     const menuItems = [
-        { name: 'Dashboard', href: `/${lembaga?.slug}/admin`, icon: '📊' },
-        { name: 'Info PPDB', href: `/${lembaga?.slug}/admin/info-ppdb`, icon: '📝' },
-        { name: 'Berita & Artikel', href: `/${lembaga?.slug}/admin/berita`, icon: '📰' },
-        { name: 'Kegiatan Santri', href: `/${lembaga?.slug}/admin/kegiatan`, icon: '🌙' },
-        { name: 'Prestasi', href: `/${lembaga?.slug}/admin/prestasi`, icon: '🏆' },
-        { name: 'Alumni', href: `/${lembaga?.slug}/admin/alumni`, icon: '🎓' },
-        { name: 'Fasilitas', href: `/${lembaga?.slug}/admin/fasilitas`, icon: '🏢' },
-        { name: 'Tentang Sekolah', href: `/${lembaga?.slug}/admin/tentang`, icon: '🏫' },
+        { name: 'Dashboard', href: route('lembaga.admin.dashboard', { lembaga_slug: lembaga?.slug }), icon: '📊' },
+        { name: 'Info PPDB', href: route('lembaga.admin.info-ppdb.index', { lembaga_slug: lembaga?.slug }), icon: '📝' },
+        { name: 'Berita & Artikel', href: route('lembaga.admin.berita.index', { lembaga_slug: lembaga?.slug }), icon: '📰' },
+        { name: 'Kegiatan Santri', href: route('lembaga.admin.kegiatan.index', { lembaga_slug: lembaga?.slug }), icon: '🌙' },
+        { name: 'Prestasi', href: route('lembaga.admin.prestasi.index', { lembaga_slug: lembaga?.slug }), icon: '🏆' },
+        { name: 'Alumni', href: route('lembaga.admin.alumni.index', { lembaga_slug: lembaga?.slug }), icon: '🎓' },
+        { name: 'Fasilitas', href: route('lembaga.admin.fasilitas.index', { lembaga_slug: lembaga?.slug }), icon: '🏢' },
+        { name: 'Tentang Sekolah', href: route('lembaga.admin.tentang.index', { lembaga_slug: lembaga?.slug }), icon: '🏫' },
     ];
 
     return (

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 // --- ADMIN INDUK (SUPER ADMIN) ---
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin/console')->name('admin.')->group(function () {
     // Login Induk
     Route::get('/login', [HomeController::class, 'adminLogin'])->name('login');
     
@@ -23,11 +23,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', function () {
             return Inertia::render('IndukAdmin/Dashboard');
         })->name('dashboard');
+
+        // Sub-pages
+        Route::get('/lembaga', function () { return Inertia::render('IndukAdmin/Lembaga/Index'); })->name('lembaga.index');
+        Route::get('/berita', function () { return Inertia::render('IndukAdmin/Berita/Index'); })->name('berita.index');
+        Route::get('/info-ppdb', function () { return Inertia::render('IndukAdmin/InfoPPDB/Index'); })->name('info-ppdb.index');
+        Route::get('/alumni', function () { return Inertia::render('IndukAdmin/Alumni/Index'); })->name('alumni.index');
+        Route::get('/fasilitas', function () { return Inertia::render('IndukAdmin/Fasilitas/Index'); })->name('fasilitas.index');
+        Route::get('/tentang', function () { return Inertia::render('IndukAdmin/Tentang/Index'); })->name('tentang.index');
     });
 });
 
 // --- ADMIN LEMBAGA (SCOPED) ---
-Route::prefix('{lembaga_slug}/admin')->name('lembaga.admin.')->group(function () {
+Route::prefix('{lembaga_slug}/admin/console')->name('lembaga.admin.')->group(function () {
     // Login Lembaga
     Route::get('/login', [LembagaAuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('/login', [LembagaAuthenticatedSessionController::class, 'store']);
@@ -40,6 +48,42 @@ Route::prefix('{lembaga_slug}/admin')->name('lembaga.admin.')->group(function ()
                 'lembaga' => $lembaga
             ]);
         })->name('dashboard');
+
+        // Sub-pages (Scoped by Lembaga)
+        Route::get('/berita', function ($lembaga_slug) { 
+            $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
+            return Inertia::render('LembagaAdmin/Berita/Index', ['lembaga' => $lembaga]); 
+        })->name('berita.index');
+        
+        Route::get('/alumni', function ($lembaga_slug) { 
+            $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
+            return Inertia::render('LembagaAdmin/Alumni/Index', ['lembaga' => $lembaga]); 
+        })->name('alumni.index');
+
+        Route::get('/fasilitas', function ($lembaga_slug) { 
+            $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
+            return Inertia::render('LembagaAdmin/Fasilitas/Index', ['lembaga' => $lembaga]); 
+        })->name('fasilitas.index');
+
+        Route::get('/tentang', function ($lembaga_slug) { 
+            $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
+            return Inertia::render('LembagaAdmin/Tentang/Index', ['lembaga' => $lembaga]); 
+        })->name('tentang.index');
+
+        Route::get('/kegiatan', function ($lembaga_slug) { 
+            $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
+            return Inertia::render('LembagaAdmin/Kegiatan/Index', ['lembaga' => $lembaga]); 
+        })->name('kegiatan.index');
+
+        Route::get('/prestasi', function ($lembaga_slug) { 
+            $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
+            return Inertia::render('LembagaAdmin/Prestasi/Index', ['lembaga' => $lembaga]); 
+        })->name('prestasi.index');
+
+        Route::get('/info-ppdb', function ($lembaga_slug) { 
+            $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
+            return Inertia::render('LembagaAdmin/InfoPPDB/Index', ['lembaga' => $lembaga]); 
+        })->name('info-ppdb.index');
     });
 });
 

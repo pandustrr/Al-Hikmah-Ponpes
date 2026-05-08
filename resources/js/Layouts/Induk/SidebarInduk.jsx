@@ -5,13 +5,13 @@ export default function SidebarInduk({ isOpen }) {
     const { url } = usePage();
 
     const menuItems = [
-        { name: 'Dashboard', href: '/admin', icon: '📊' },
-        { name: 'Data Lembaga', href: '/admin/lembaga', icon: '🏫' },
-        { name: 'Berita & Update', href: '/admin/berita', icon: '📰' },
-        { name: 'Info PPDB', href: '/admin/info-ppdb', icon: '📝' },
-        { name: 'Alumni', href: '/admin/alumni', icon: '🎓' },
-        { name: 'Fasilitas', href: '/admin/fasilitas', icon: '🏢' },
-        { name: 'Tentang Yayasan', href: '/admin/tentang', icon: '🏛️' },
+        { name: 'Dashboard', href: route('admin.dashboard'), icon: '📊' },
+        { name: 'Data Lembaga', href: route('admin.lembaga.index'), icon: '🏫' },
+        { name: 'Berita & Update', href: route('admin.berita.index'), icon: '📰' },
+        { name: 'Info PPDB', href: route('admin.info-ppdb.index'), icon: '📝' },
+        { name: 'Alumni', href: route('admin.alumni.index'), icon: '🎓' },
+        { name: 'Fasilitas', href: route('admin.fasilitas.index'), icon: '🏢' },
+        { name: 'Tentang Yayasan', href: route('admin.tentang.index'), icon: '🏛️' },
     ];
 
     return (

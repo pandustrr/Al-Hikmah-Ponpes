@@ -10,25 +10,30 @@ export default function PublicLayout({ children, title, isLembaga = false, navTh
 
     if (isAuth) {
         return (
-            <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-slate-50">
+            <div className="min-h-screen flex flex-col sm:justify-center items-center p-6 bg-slate-50">
                 <Head title={title ? `${title} - Al-Hikmah` : 'Yayasan Al-Hikmah'} />
                 
-                <div className="mb-8">
-                    <Link href="/">
-                        <div className="w-16 h-16 bg-brand-primary text-white flex items-center justify-center font-black text-2xl rounded-[0.25rem] shadow-xl">
-                            AL
-                        </div>
-                    </Link>
-                </div>
+                <div className="w-full sm:max-w-md bg-white shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden rounded-[0.5rem] p-10 flex flex-col">
+                    {/* Logo inside container */}
+                    <div className="flex justify-center mb-8">
+                        <Link href="/">
+                            <div className="w-14 h-14 bg-brand-primary text-white flex items-center justify-center font-black text-xl rounded-[0.25rem] shadow-lg">
+                                AL
+                            </div>
+                        </Link>
+                    </div>
 
-                <div className="w-full sm:max-w-md mt-6 px-10 py-10 bg-white shadow-sm border border-slate-200 overflow-hidden sm:rounded-[0.25rem]">
-                    {children}
-                </div>
+                    {/* Form content */}
+                    <div className="flex-grow">
+                        {children}
+                    </div>
 
-                <div className="mt-8">
-                    <Link href="/" className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-brand-primary transition-all">
-                        ← Kembali ke Beranda
-                    </Link>
+                    {/* Back link inside container */}
+                    <div className="mt-10 pt-6 border-t border-slate-100 text-center">
+                        <Link href="/" className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-brand-primary transition-all inline-flex items-center gap-2">
+                            <span>←</span> Kembali ke Beranda
+                        </Link>
+                    </div>
                 </div>
             </div>
         );
