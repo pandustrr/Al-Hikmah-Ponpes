@@ -42,11 +42,10 @@ export default function Welcome({ lembagas, beritaTerbaru }) {
     return (
         <PublicLayout title="Beranda" navTheme="dark">
             <Hero offsetY={offsetY} />
-            <AboutSummary />
-            <LembagaSection lembagas={lembagas} />
+            <AboutSummary lembagas={lembagas} />
             <FasilitasShortcut />
-            <PpdbCta />
             <LembagaUpdates lembagas={lembagas} />
+            <PpdbCta />
             <BeritaYayasan beritaTerbaru={beritaTerbaru} />
             <UpcomingEvents />
             <AlumniTestimonials />

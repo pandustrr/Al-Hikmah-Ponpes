@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
+import { ArrowRightIcon, ArrowLongRightIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 
 export default function PpdbCta() {
     const requirements = [
@@ -28,9 +29,9 @@ export default function PpdbCta() {
                                 <div className="font-bold text-brand-primary text-sm">April – Juni 2026</div>
                             </div>
                         </div>
-                        <Link href="/pendaftaran" className="btn-primary px-7 md:px-10 py-3.5 md:py-4 text-[10px] font-black uppercase tracking-[0.2em] inline-flex items-center hover:scale-105 transition-all shadow-xl">
+                        <Link href="/pendaftaran" className="btn-primary px-7 md:px-10 py-3.5 md:py-4 text-[10px] font-black uppercase tracking-[0.2em] inline-flex items-center hover:scale-105 transition-all shadow-xl group">
                             Lihat Info Lengkap PPDB
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                            <ArrowLongRightIcon className="h-4 w-4 ml-2 stroke-[3px] group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </div>
                     <div className="reveal-element-right">
@@ -38,8 +39,8 @@ export default function PpdbCta() {
                             <h4 className="text-[10px] font-black uppercase tracking-widest text-white/50 mb-6">Persyaratan Umum</h4>
                             <ul className="space-y-4">
                                 {requirements.map((item, i) => (
-                                    <li key={i} className="flex items-start text-sm">
-                                        <span className="w-5 h-5 bg-brand-secondary/20 rounded-full flex items-center justify-center flex-shrink-0 mr-3 mt-0.5 text-brand-secondary font-black text-[10px]">{i + 1}</span>
+                                    <li key={i} className="flex items-start text-sm group">
+                                        <CheckCircleIcon className="w-5 h-5 text-brand-secondary/50 group-hover:text-brand-secondary transition-colors mr-3 mt-0.5 flex-shrink-0" />
                                         <span className="text-white/80">{item}</span>
                                     </li>
                                 ))}
@@ -49,7 +50,9 @@ export default function PpdbCta() {
                                     <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1">Butuh Bantuan?</p>
                                     <p className="font-bold text-brand-secondary">0812-3456-7890</p>
                                 </div>
-                                <Link href="/kontak" className="text-[10px] font-black text-brand-secondary/70 hover:text-brand-secondary uppercase tracking-widest transition-colors">Hubungi Kami →</Link>
+                                <Link href="/kontak" className="text-[10px] font-black text-brand-secondary/70 hover:text-brand-secondary uppercase tracking-widest transition-colors flex items-center gap-1 group">
+                                    Hubungi Kami <ArrowRightIcon className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                                </Link>
                             </div>
                         </div>
                     </div>

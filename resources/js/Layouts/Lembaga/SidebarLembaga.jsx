@@ -1,18 +1,28 @@
 import React from 'react';
 import { Link, usePage } from '@inertiajs/react';
+import { 
+    ChartBarIcon, 
+    ClipboardDocumentListIcon,
+    NewspaperIcon,
+    MoonIcon,
+    TrophyIcon,
+    UserGroupIcon,
+    BuildingOfficeIcon,
+    InformationCircleIcon
+} from '@heroicons/react/24/outline';
 
 export default function SidebarLembaga({ lembaga, isOpen }) {
     const { url } = usePage();
 
     const menuItems = [
-        { name: 'Dashboard', href: route('lembaga.admin.dashboard', { lembaga_slug: lembaga?.slug }), icon: '📊' },
-        { name: 'Info PPDB', href: route('lembaga.admin.info-ppdb.index', { lembaga_slug: lembaga?.slug }), icon: '📝' },
-        { name: 'Berita & Artikel', href: route('lembaga.admin.berita.index', { lembaga_slug: lembaga?.slug }), icon: '📰' },
-        { name: 'Kegiatan Santri', href: route('lembaga.admin.kegiatan.index', { lembaga_slug: lembaga?.slug }), icon: '🌙' },
-        { name: 'Prestasi', href: route('lembaga.admin.prestasi.index', { lembaga_slug: lembaga?.slug }), icon: '🏆' },
-        { name: 'Alumni', href: route('lembaga.admin.alumni.index', { lembaga_slug: lembaga?.slug }), icon: '🎓' },
-        { name: 'Fasilitas', href: route('lembaga.admin.fasilitas.index', { lembaga_slug: lembaga?.slug }), icon: '🏢' },
-        { name: 'Tentang Sekolah', href: route('lembaga.admin.tentang.index', { lembaga_slug: lembaga?.slug }), icon: '🏫' },
+        { name: 'Dashboard', href: route('lembaga.admin.dashboard', { lembaga_slug: lembaga?.slug }), icon: ChartBarIcon },
+        { name: 'Info PPDB', href: route('lembaga.admin.info-ppdb.index', { lembaga_slug: lembaga?.slug }), icon: ClipboardDocumentListIcon },
+        { name: 'Berita & Artikel', href: route('lembaga.admin.berita.index', { lembaga_slug: lembaga?.slug }), icon: NewspaperIcon },
+        { name: 'Kegiatan Santri', href: route('lembaga.admin.kegiatan.index', { lembaga_slug: lembaga?.slug }), icon: MoonIcon },
+        { name: 'Prestasi', href: route('lembaga.admin.prestasi.index', { lembaga_slug: lembaga?.slug }), icon: TrophyIcon },
+        { name: 'Alumni', href: route('lembaga.admin.alumni.index', { lembaga_slug: lembaga?.slug }), icon: UserGroupIcon },
+        { name: 'Fasilitas', href: route('lembaga.admin.fasilitas.index', { lembaga_slug: lembaga?.slug }), icon: BuildingOfficeIcon },
+        { name: 'Tentang Sekolah', href: route('lembaga.admin.tentang.index', { lembaga_slug: lembaga?.slug }), icon: InformationCircleIcon },
     ];
 
     return (
@@ -32,7 +42,9 @@ export default function SidebarLembaga({ lembaga, isOpen }) {
                             url === item.href ? 'bg-white text-brand-primary shadow-lg' : 'text-white/60 hover:bg-white/10 hover:text-white'
                         }`}
                     >
-                        <span className="text-lg">{item.icon}</span>
+                        <item.icon className={`h-5 w-5 transition-colors ${
+                            url === item.href ? 'text-brand-primary' : 'text-white/40 group-hover:text-white'
+                        }`} />
                         {item.name}
                     </Link>
                 ))}

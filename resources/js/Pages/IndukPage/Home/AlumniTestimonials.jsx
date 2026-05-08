@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
+import { StarIcon } from '@heroicons/react/24/solid';
+import { ArrowLongRightIcon } from '@heroicons/react/24/outline';
 
 export default function AlumniTestimonials() {
     const testimonials = [
@@ -20,11 +22,9 @@ export default function AlumniTestimonials() {
                     </div>
                     <div className="flex flex-col gap-3 shrink-0">
                         <p className="text-brand-accent text-sm max-w-xs">Ribuan lulusan kami tersebar di berbagai bidang profesional dan perguruan tinggi ternama.</p>
-                        <Link href="/alumni" className="text-brand-primary font-black text-[10px] uppercase tracking-widest flex items-center group w-fit">
+                        <Link href="/alumni" className="text-brand-primary font-black text-[10px] uppercase tracking-widest flex items-center group w-fit gap-2">
                             Lihat Semua Alumni
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
+                            <ArrowLongRightIcon className="h-4 w-4 stroke-[3px] group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </div>
                 </div>
@@ -33,7 +33,7 @@ export default function AlumniTestimonials() {
                         <div key={i} className="bg-white rounded-[0.25rem] p-6 border border-brand-light hover:border-brand-primary hover:shadow-md transition-all duration-300 reveal-element-up flex flex-col" style={{ transitionDelay: `${i * 80}ms` }}>
                             <div className="flex gap-0.5 mb-4">
                                 {[...Array(5)].map((_, s) => (
-                                    <svg key={s} className="w-3.5 h-3.5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <StarIcon key={s} className="w-3.5 h-3.5 text-yellow-400" />
                                 ))}
                             </div>
                             <p className="text-brand-accent text-sm italic leading-relaxed flex-grow mb-6">"{alumni.quote}"</p>

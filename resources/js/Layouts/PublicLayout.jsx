@@ -3,6 +3,7 @@ import NavbarInduk from './NavbarInduk';
 import NavbarLembaga from './NavbarLembaga';
 import Footer from './Footer';
 import { Head, usePage, Link } from '@inertiajs/react';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 export default function PublicLayout({ children, title, isLembaga = false, navTheme = 'light', isAuth = false }) {
     const { props } = usePage();
@@ -30,8 +31,8 @@ export default function PublicLayout({ children, title, isLembaga = false, navTh
 
                     {/* Back link inside container */}
                     <div className="mt-10 pt-6 border-t border-slate-100 text-center">
-                        <Link href="/" className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-brand-primary transition-all inline-flex items-center gap-2">
-                            <span>←</span> Kembali ke Beranda
+                        <Link href="/" className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-brand-primary transition-all inline-flex items-center gap-2 group">
+                            <ArrowLeftIcon className="h-3 w-3 transition-transform group-hover:-translate-x-1" /> Kembali ke Beranda
                         </Link>
                     </div>
                 </div>

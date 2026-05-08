@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
+import { MapPinIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 export default function UpcomingEvents() {
     const events = [
@@ -18,8 +19,8 @@ export default function UpcomingEvents() {
                         <h3 className="text-4xl font-black text-brand-primary tracking-tighter uppercase">Event yang Akan Datang</h3>
                         <div className="h-1 w-20 bg-brand-primary mt-4"></div>
                     </div>
-                    <Link href="/kegiatan" className="text-[9px] font-black text-brand-accent hover:text-brand-primary uppercase tracking-widest inline-flex items-center transition-colors whitespace-nowrap shrink-0">
-                        Lihat Semua Event →
+                    <Link href="/kegiatan" className="text-[9px] font-black text-brand-accent hover:text-brand-primary uppercase tracking-widest inline-flex items-center gap-1 transition-colors whitespace-nowrap shrink-0 group">
+                        Lihat Semua Event <ArrowRightIcon className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                     </Link>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -40,10 +41,7 @@ export default function UpcomingEvents() {
                                 <div className="text-[9px] font-black text-brand-accent mb-2 uppercase tracking-widest">{event.lembaga}</div>
                                 <h4 className="font-black text-brand-primary text-sm leading-snug group-hover:text-brand-accent transition-colors line-clamp-2 mb-3 uppercase tracking-tight">{event.title}</h4>
                                 <div className="flex items-center text-[9px] text-brand-accent uppercase tracking-widest">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                    </svg>
+                                    <MapPinIcon className="h-3 w-3 mr-1 flex-shrink-0" />
                                     {event.lokasi}
                                 </div>
                             </div>

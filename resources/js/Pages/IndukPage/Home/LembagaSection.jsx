@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
+import { ArrowLongRightIcon } from '@heroicons/react/24/outline';
 
 export default function LembagaSection({ lembagas }) {
     return (
@@ -25,9 +26,7 @@ export default function LembagaSection({ lembagas }) {
                             </p>
                             <div className="flex items-center text-brand-primary font-black text-[10px] uppercase tracking-widest border-t border-brand-light pt-5">
                                 Lihat Profil Lembaga
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
+                                <ArrowLongRightIcon className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform stroke-[3px]" />
                             </div>
                         </Link>
                     ))}
