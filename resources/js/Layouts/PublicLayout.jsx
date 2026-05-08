@@ -17,8 +17,8 @@ export default function PublicLayout({ children, title, isLembaga = false, navTh
                     {/* Logo inside container */}
                     <div className="flex justify-center mb-8">
                         <Link href="/">
-                            <div className="w-14 h-14 bg-brand-primary text-white flex items-center justify-center font-black text-xl rounded-[0.25rem] shadow-lg">
-                                AL
+                            <div className="px-6 py-4 bg-brand-primary text-white flex items-center justify-center font-black text-sm uppercase tracking-[0.2em] rounded-[0.25rem] shadow-lg leading-none">
+                                Al Hikmah
                             </div>
                         </Link>
                     </div>
