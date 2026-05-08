@@ -23,5 +23,17 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->respond(function ($response, $exception, $request) {
+            if (in_array($response->getStatusCode(), [500, 503, 404, 403])) {
+                $page = $response->getStatusCode() === 503 ? 'HandleError/Maintenance' : 'HandleError/Error';
+                
+                return \Inertia\Inertia::render($page, [
+                    'status' => $response->getStatusCode()
+                ])
+                ->toResponse($request)
+                ->setStatusCode($response->getStatusCode());
+            }
+
+            return $response;
+        });
     })->create();
