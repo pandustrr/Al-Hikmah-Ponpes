@@ -12,7 +12,7 @@ class BeritaController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Berita::query();
+        $query = Berita::with('category');
 
         if ($request->has('kategori')) {
             $query->whereHas('category', function($q) use ($request) {
@@ -29,13 +29,19 @@ class BeritaController extends Controller
 
     public function show($slug)
     {
-        $berita = Berita::where('slug', $slug)->firstOrFail();
+        $berita = Berita::with('category')->where('slug', $slug)->firstOrFail();
 
         return Inertia::render('IndukPage/Berita/Show', [
             'berita' => $berita,
+            'recentBerita' => Berita::with('category')
+                ->where('id', '!=', $berita->id)
+                ->latest()
+                ->take(5)
+                ->get(),
         ]);
     }
 }
+
 
 
 
