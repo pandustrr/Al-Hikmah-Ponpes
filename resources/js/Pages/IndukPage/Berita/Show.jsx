@@ -1,7 +1,7 @@
 import React from 'react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { Link, Head } from '@inertiajs/react';
-import NewsCard from '@/Components/News/NewsCard';
+import NewsCard from './NewsCard';
 
 export default function Show({ berita, recentBerita = [] }) {
     const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/berita/${berita.slug}` : '';
