@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
-import NewsCard from '@/Components/News/NewsCard';
+import NewsCard from '@/Pages/IndukPage/Berita/NewsCard';
 
 export default function BeritaYayasan({ beritaTerbaru }) {
     return (

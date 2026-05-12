@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { Link, router } from '@inertiajs/react';
-import NewsTicker from '@/Components/News/NewsTicker';
-import NewsCard from '@/Components/News/NewsCard';
+import NewsTicker from './NewsTicker';
+import NewsCard from './NewsCard';
 
 export default function Index({ berita, currentCategory, categories }) {
     // Combine "Semua Berita" with dynamic categories from DB
