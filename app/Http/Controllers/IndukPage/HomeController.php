@@ -19,7 +19,7 @@ class HomeController extends Controller
             'kegiatans' => fn($q) => $q->latest()->take(2)
         ])->get();
 
-        $beritaTerbaru = Berita::latest()->take(3)->get();
+        $beritaTerbaru = Berita::with('category')->latest()->take(4)->get();
         
         // Map relations to match frontend expected names
         foreach ($lembagas as $lembaga) {
