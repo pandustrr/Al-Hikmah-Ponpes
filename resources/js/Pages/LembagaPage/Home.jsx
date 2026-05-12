@@ -18,7 +18,7 @@ export default function Show({ lembaga, prestasi, kegiatan }) {
                     {/* Left Side: Info */}
                     <div className="lg:col-span-1">
                         <div className="sticky top-24 space-y-12">
-                            <section>
+                            <section id="tentang">
                                 <h2 className="text-xs font-bold uppercase tracking-widest text-brand-primary mb-4">Tentang Kami</h2>
                                 <p className="text-brand-accent leading-relaxed italic border-l-4 border-brand-light pl-6">
                                     "{lembaga.deskripsi}"
@@ -44,7 +44,7 @@ export default function Show({ lembaga, prestasi, kegiatan }) {
                     {/* Right Side: Tab-like Sections */}
                     <div className="lg:col-span-2 space-y-24">
                         {/* Prestasi Section */}
-                        <section>
+                        <section id="berita">
                             <div className="flex justify-between items-center mb-10 pb-4 border-b-2 border-brand-primary">
                                 <h2 className="text-2xl font-bold text-brand-primary uppercase tracking-tighter">Prestasi {lembaga.slug.toUpperCase()}</h2>
                                 <span className="text-xs font-bold bg-brand-primary text-white px-3 py-1 uppercase tracking-widest">{prestasi.length} Items</span>
@@ -67,7 +67,7 @@ export default function Show({ lembaga, prestasi, kegiatan }) {
                         </section>
 
                         {/* Kegiatan Section */}
-                        <section>
+                        <section id="fasilitas">
                             <div className="flex justify-between items-center mb-10 pb-4 border-b-2 border-brand-primary">
                                 <h2 className="text-2xl font-bold text-brand-primary uppercase tracking-tighter">Kegiatan Santri</h2>
                                 <span className="text-xs font-bold bg-brand-primary text-white px-3 py-1 uppercase tracking-widest">{kegiatan.length} Items</span>
