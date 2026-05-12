@@ -5,7 +5,7 @@ use App\Http\Controllers\LembagaPage\SchoolController;
 use App\Http\Controllers\IndukPage\BeritaController;
 use App\Http\Controllers\IndukPage\FasilitasController;
 use App\Http\Controllers\IndukPage\TentangController;
-use App\Http\Controllers\IndukPage\AlumniController;
+
 use App\Http\Controllers\IndukPage\KontakController;
 use App\Http\Controllers\IndukPage\InfoPPDBController;
 use App\Http\Controllers\LembagaAdmin\Auth\AuthenticatedSessionController as LembagaAuthenticatedSessionController;
@@ -28,7 +28,7 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
         Route::get('/lembaga', function () { return Inertia::render('IndukAdmin/Lembaga/Index'); })->name('lembaga.index');
         Route::get('/berita', function () { return Inertia::render('IndukAdmin/Berita/Index'); })->name('berita.index');
         Route::get('/info-ppdb', function () { return Inertia::render('IndukAdmin/InfoPPDB/Index'); })->name('info-ppdb.index');
-        Route::get('/alumni', function () { return Inertia::render('IndukAdmin/Alumni/Index'); })->name('alumni.index');
+
         Route::get('/fasilitas', function () { return Inertia::render('IndukAdmin/Fasilitas/Index'); })->name('fasilitas.index');
         Route::get('/tentang', function () { return Inertia::render('IndukAdmin/Tentang/Index'); })->name('tentang.index');
     });
@@ -55,10 +55,7 @@ Route::prefix('{lembaga_slug}/admin/console')->name('lembaga.admin.')->group(fun
             return Inertia::render('LembagaAdmin/Berita/Index', ['lembaga' => $lembaga]); 
         })->name('berita.index');
         
-        Route::get('/alumni', function ($lembaga_slug) { 
-            $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
-            return Inertia::render('LembagaAdmin/Alumni/Index', ['lembaga' => $lembaga]); 
-        })->name('alumni.index');
+
 
         Route::get('/fasilitas', function ($lembaga_slug) { 
             $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
@@ -95,7 +92,7 @@ Route::get('/profil', [TentangController::class, 'profil'])->name('profil');
 Route::get('/visi-misi', [TentangController::class, 'visiMisi'])->name('visi-misi');
 Route::get('/sejarah', [TentangController::class, 'sejarah'])->name('sejarah');
 Route::get('/pendaftaran', [InfoPPDBController::class, 'index'])->name('pendaftaran');
-Route::get('/alumni', [AlumniController::class, 'index'])->name('alumni');
+
 Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
 Route::get('/fasilitas', [FasilitasController::class, 'index'])->name('fasilitas.index');
 

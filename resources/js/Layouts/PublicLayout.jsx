@@ -1,6 +1,5 @@
 import React from 'react';
 import NavbarInduk from './NavbarInduk';
-import NavbarLembaga from './NavbarLembaga';
 import Footer from './Footer';
 import { Head, usePage, Link } from '@inertiajs/react';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
@@ -44,11 +43,7 @@ export default function PublicLayout({ children, title, isLembaga = false, navTh
         <div className="min-h-screen flex flex-col bg-white">
             <Head title={title ? `${title} - Al-Hikmah` : 'Yayasan Al-Hikmah'} />
             
-            {isLembaga ? (
-                <NavbarLembaga theme={navTheme} lembaga={lembaga} />
-            ) : (
-                <NavbarInduk navTheme={navTheme} />
-            )}
+            <NavbarInduk navTheme={navTheme} />
             
             <main className="flex-grow">
                 {children}

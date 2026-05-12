@@ -27,7 +27,7 @@ export default function NavbarInduk({ navTheme = 'light' }) {
             { name: 'Visi & Misi', href: '/visi-misi' },
             { name: 'Sejarah', href: '/sejarah' },
         ]},
-        { name: 'Tingkat Pendidikan', href: '#', isLembaga: true },
+        { name: activeLembaga ? activeLembaga.nama : 'Tingkat Pendidikan', href: '#', isLembaga: true },
         { name: 'Berita', href: '#', dropdown: [
             { name: 'Prestasi', href: '/berita?kategori=prestasi' },
             { name: 'Pengumuman', href: '/berita?kategori=pengumuman' },
@@ -36,7 +36,6 @@ export default function NavbarInduk({ navTheme = 'light' }) {
         ]},
         { name: 'Info PPDB', href: '/pendaftaran' },
         { name: 'Fasilitas', href: '/fasilitas' },
-        { name: 'Alumni', href: '/alumni' },
         { name: 'Kontak & Maps', href: '/kontak' },
     ];
 
@@ -79,58 +78,65 @@ export default function NavbarInduk({ navTheme = 'light' }) {
                             <span className={`text-[12px] md:text-[14px] font-black tracking-[0.2em] leading-none mt-1 transition-colors ${
                                 scrolled || navTheme === 'light' ? 'text-brand-accent' : 'text-brand-secondary'
                             }`}>
-                                {activeLembaga ? activeLembaga.slug.toUpperCase() : 'AL-HIKMAH'}
+                                AL-HIKMAH
                             </span>
                         </div>
                     </Link>
 
                     {/* Desktop Navigation */}
                     <div className="hidden xl:flex items-center space-x-0.5">
-                        {links.map((link) => (
-                            <div 
-                                key={link.name} 
-                                className="relative"
-                                onMouseEnter={() => link.dropdown || link.isLembaga ? setActiveDropdown(link.name) : null}
-                                onMouseLeave={() => setActiveDropdown(null)}
-                            >
-                                {link.dropdown || link.isLembaga ? (
-                                    <>
-                                        <button className={linkClass(link.href, activeDropdown === link.name)}>
+                        {links.map((link) => {
+                            const isLembagaActive = link.isLembaga && activeLembaga;
+                            return (
+                                <div 
+                                    key={link.name} 
+                                    className="relative"
+                                    onMouseEnter={() => link.dropdown || link.isLembaga ? setActiveDropdown(link.name) : null}
+                                    onMouseLeave={() => setActiveDropdown(null)}
+                                >
+                                    {link.dropdown || link.isLembaga ? (
+                                        <>
+                                            <button className={linkClass(link.href, activeDropdown === link.name || isLembagaActive)}>
+                                                {link.name}
+                                                <ChevronDownIcon className={`h-3 w-3 transition-transform duration-300 stroke-[3px] ${activeDropdown === link.name ? 'rotate-180' : ''}`} />
+                                            </button>
+                                            
+                                            <div className={`absolute top-full left-0 w-48 bg-brand-secondary border border-brand-light shadow-2xl py-2 transition-all duration-200 origin-top rounded-[0.25rem] ${
+                                                activeDropdown === link.name ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0 pointer-events-none'
+                                            }`}>
+                                                {link.isLembaga ? (
+                                                    allLembagas.map((l) => (
+                                                        <Link 
+                                                            key={l.id} href={`/${l.slug}`} 
+                                                            className={`block px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-colors ${
+                                                                activeLembaga?.id === l.id 
+                                                                    ? 'text-brand-primary bg-white/70 shadow-inner' 
+                                                                    : 'text-brand-accent hover:text-brand-primary hover:bg-white/50'
+                                                            }`}
+                                                        >
+                                                            {l.nama}
+                                                        </Link>
+                                                    ))
+                                                ) : (
+                                                    link.dropdown.map((item) => (
+                                                        <Link 
+                                                            key={item.name} href={item.href} 
+                                                            className="block px-4 py-2 text-[10px] font-bold text-brand-accent hover:text-brand-primary hover:bg-white/50 uppercase tracking-widest"
+                                                        >
+                                                            {item.name}
+                                                        </Link>
+                                                    ))
+                                                )}
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <Link href={link.href} className={linkClass(link.href)}>
                                             {link.name}
-                                            <ChevronDownIcon className={`h-3 w-3 transition-transform duration-300 stroke-[3px] ${activeDropdown === link.name ? 'rotate-180' : ''}`} />
-                                        </button>
-                                        
-                                        <div className={`absolute top-full left-0 w-48 bg-brand-secondary border border-brand-light shadow-2xl py-2 transition-all duration-200 origin-top rounded-[0.25rem] ${
-                                            activeDropdown === link.name ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0 pointer-events-none'
-                                        }`}>
-                                            {link.isLembaga ? (
-                                                allLembagas.map((l) => (
-                                                    <Link 
-                                                        key={l.id} href={`/${l.slug}`} 
-                                                        className="block px-4 py-2 text-[10px] font-bold text-brand-accent hover:text-brand-primary hover:bg-white/50 uppercase tracking-widest"
-                                                    >
-                                                        {l.nama}
-                                                    </Link>
-                                                ))
-                                            ) : (
-                                                link.dropdown.map((item) => (
-                                                    <Link 
-                                                        key={item.name} href={item.href} 
-                                                        className="block px-4 py-2 text-[10px] font-bold text-brand-accent hover:text-brand-primary hover:bg-white/50 uppercase tracking-widest"
-                                                    >
-                                                        {item.name}
-                                                    </Link>
-                                                ))
-                                            )}
-                                        </div>
-                                    </>
-                                ) : (
-                                    <Link href={link.href} className={linkClass(link.href)}>
-                                        {link.name}
-                                    </Link>
-                                )}
-                            </div>
-                        ))}
+                                        </Link>
+                                    )}
+                                </div>
+                            );
+                        })}
 
                         {/* Search Icon */}
                         <button className={`p-2 ml-2 transition-colors ${scrolled || navTheme === 'light' ? 'text-brand-primary hover:text-brand-accent' : 'text-white/80 hover:text-white'}`}>
@@ -161,43 +167,51 @@ export default function NavbarInduk({ navTheme = 'light' }) {
                 isOpen ? 'max-h-screen border-b border-brand-light shadow-2xl' : 'max-h-0'
             }`}>
                 <div className="px-4 pt-2 pb-10 space-y-1 bg-brand-secondary">
-                    {links.map((link) => (
-                        <div key={link.name}>
-                            {link.dropdown || link.isLembaga ? (
-                                <div className="py-2">
-                                    <p className="px-4 py-2 text-[8px] font-bold text-brand-accent/50 uppercase tracking-widest">{link.name}</p>
-                                    <div className="pl-4 space-y-1">
-                                        {link.isLembaga ? (
-                                            allLembagas.map((l) => (
-                                                <Link 
-                                                    key={l.id} href={`/${l.slug}`} onClick={() => setIsOpen(false)}
-                                                    className="block px-4 py-2 text-[10px] font-black uppercase text-brand-primary"
-                                                >
-                                                    {l.nama}
-                                                </Link>
-                                            ))
-                                        ) : (
-                                            link.dropdown.map((item) => (
-                                                <Link 
-                                                    key={item.name} href={item.href} onClick={() => setIsOpen(false)}
-                                                    className="block px-4 py-2 text-[10px] font-black uppercase text-brand-primary"
-                                                >
-                                                    {item.name}
-                                                </Link>
-                                            ))
-                                        )}
+                    {links.map((link) => {
+                        const isLembagaActive = link.isLembaga && activeLembaga;
+                        return (
+                            <div key={link.name}>
+                                {link.dropdown || link.isLembaga ? (
+                                    <div className="py-2">
+                                        <p className={`px-4 py-2 text-[8px] font-bold uppercase tracking-widest ${isLembagaActive ? 'text-brand-primary' : 'text-brand-accent/50'}`}>
+                                            {link.name}
+                                            {isLembagaActive && <span className="ml-2 text-[6px] bg-brand-primary text-white px-1 rounded">ACTIVE</span>}
+                                        </p>
+                                        <div className="pl-4 space-y-1">
+                                            {link.isLembaga ? (
+                                                allLembagas.map((l) => (
+                                                    <Link 
+                                                        key={l.id} href={`/${l.slug}`} onClick={() => setIsOpen(false)}
+                                                        className={`block px-4 py-2 text-[10px] font-black uppercase transition-colors ${
+                                                            activeLembaga?.id === l.id ? 'text-brand-accent bg-brand-light/30 rounded-l-full' : 'text-brand-primary'
+                                                        }`}
+                                                    >
+                                                        {l.nama}
+                                                    </Link>
+                                                ))
+                                            ) : (
+                                                link.dropdown.map((item) => (
+                                                    <Link 
+                                                        key={item.name} href={item.href} onClick={() => setIsOpen(false)}
+                                                        className="block px-4 py-2 text-[10px] font-black uppercase text-brand-primary"
+                                                    >
+                                                        {item.name}
+                                                    </Link>
+                                                ))
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            ) : (
-                                <Link 
-                                    href={link.href} onClick={() => setIsOpen(false)}
-                                    className="block px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-brand-accent hover:bg-white/50"
-                                >
-                                    {link.name}
-                                </Link>
-                            )}
-                        </div>
-                    ))}
+                                ) : (
+                                    <Link 
+                                        href={link.href} onClick={() => setIsOpen(false)}
+                                        className="block px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-brand-accent hover:bg-white/50"
+                                    >
+                                        {link.name}
+                                    </Link>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </nav>
