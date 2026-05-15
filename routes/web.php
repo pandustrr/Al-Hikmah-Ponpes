@@ -26,7 +26,7 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
 
         // Sub-pages
         Route::get('/lembaga', function () { return Inertia::render('IndukAdmin/Lembaga/Index'); })->name('lembaga.index');
-        Route::get('/berita', function () { return Inertia::render('IndukAdmin/Berita/Index'); })->name('berita.index');
+        Route::resource('/berita', \App\Http\Controllers\IndukAdmin\BeritaController::class)->names('berita');
         Route::get('/info-ppdb', function () { return Inertia::render('IndukAdmin/InfoPPDB/Index'); })->name('info-ppdb.index');
 
         Route::get('/fasilitas', function () { return Inertia::render('IndukAdmin/Fasilitas/Index'); })->name('fasilitas.index');

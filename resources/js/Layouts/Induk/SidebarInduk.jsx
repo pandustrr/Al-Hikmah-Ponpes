@@ -18,7 +18,6 @@ export default function SidebarInduk({ isOpen }) {
         { name: 'Data Lembaga', href: route('admin.lembaga.index'), icon: AcademicCapIcon },
         { name: 'Berita & Update', href: route('admin.berita.index'), icon: NewspaperIcon },
         { name: 'Info PPDB', href: route('admin.info-ppdb.index'), icon: ClipboardDocumentListIcon },
-        { name: 'Alumni', href: route('admin.alumni.index'), icon: UserGroupIcon },
         { name: 'Fasilitas', href: route('admin.fasilitas.index'), icon: BuildingOfficeIcon },
         { name: 'Tentang Yayasan', href: route('admin.tentang.index'), icon: InformationCircleIcon },
     ];

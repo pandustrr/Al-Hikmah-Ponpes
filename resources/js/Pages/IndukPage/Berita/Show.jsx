@@ -35,6 +35,8 @@ export default function Show({ berita, recentBerita = [] }) {
                 </div>
             </div>
 
+
+
             <div className="bg-white border-b border-sage-light">
                 <div className="max-w-7xl mx-auto px-4 py-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-brand-accent">
                     <Link href="/" className="hover:text-brand-primary">Beranda</Link>
