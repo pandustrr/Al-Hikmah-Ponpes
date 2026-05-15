@@ -46,6 +46,7 @@ export default function Index({ berita, currentCategory, categories }) {
                 </div>
             </div>
 
+
             {/* Header / Masthead for News */}
             <div className="bg-white pt-10 pb-6 border-b border-sage-light">
                 <div className="max-w-7xl mx-auto px-4 text-center">

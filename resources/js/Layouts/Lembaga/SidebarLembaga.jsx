@@ -20,7 +20,6 @@ export default function SidebarLembaga({ lembaga, isOpen }) {
         { name: 'Berita & Artikel', href: route('lembaga.admin.berita.index', { lembaga_slug: lembaga?.slug }), icon: NewspaperIcon },
         { name: 'Kegiatan Santri', href: route('lembaga.admin.kegiatan.index', { lembaga_slug: lembaga?.slug }), icon: MoonIcon },
         { name: 'Prestasi', href: route('lembaga.admin.prestasi.index', { lembaga_slug: lembaga?.slug }), icon: TrophyIcon },
-        { name: 'Alumni', href: route('lembaga.admin.alumni.index', { lembaga_slug: lembaga?.slug }), icon: UserGroupIcon },
         { name: 'Fasilitas', href: route('lembaga.admin.fasilitas.index', { lembaga_slug: lembaga?.slug }), icon: BuildingOfficeIcon },
         { name: 'Tentang Sekolah', href: route('lembaga.admin.tentang.index', { lembaga_slug: lembaga?.slug }), icon: InformationCircleIcon },
     ];

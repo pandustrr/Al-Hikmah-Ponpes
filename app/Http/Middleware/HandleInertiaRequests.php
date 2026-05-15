@@ -34,8 +34,12 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'lembagas' => \App\Models\Lembaga::all(), // Shared globally for Navbar
-            'beritaCategories' => \App\Models\BeritaCategory::all(), // Shared globally for Navbar
+            'lembagas' => \App\Models\Lembaga::all(),
+            'beritaCategories' => \App\Models\BeritaCategory::all(),
+            'flash' => [
+                'success' => $request->session()->get('success'),
+                'error' => $request->session()->get('error'),
+            ],
         ];
     }
 }
