@@ -1,27 +1,196 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from '@inertiajs/react';
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 
-export default function Hero({ offsetY }) {
+export default function Hero({ offsetY, berita = [] }) {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isAnimating, setIsAnimating] = useState(false);
+    
+    // Fallback data jika berita kosong
+    const sliderBerita = berita.length > 0 ? berita.slice(0, 5) : [
+        { 
+            id: 0, 
+            judul: 'Membangun Masa Depan dengan Adab & Ilmu', 
+            kategori: { name: 'Visi Kami' }, 
+            slug: '#',
+            thumbnail: 'https://images.unsplash.com/photo-1519452575417-564c1401ecc0?auto=format&fit=crop&q=80&w=1000'
+        }
+    ];
+
+    useEffect(() => {
+        if (sliderBerita.length <= 1) return;
+        
+        const timer = setInterval(() => {
+            handleNext();
+        }, 8000);
+
+        return () => clearInterval(timer);
+    }, [currentIndex, sliderBerita.length]);
+
+    const handleNext = () => {
+        setIsAnimating(true);
+        setTimeout(() => {
+            setCurrentIndex((prev) => (prev + 1) % sliderBerita.length);
+            setIsAnimating(false);
+        }, 400);
+    };
+
+    const goToSlide = (index) => {
+        if (index === currentIndex) return;
+        setIsAnimating(true);
+        setTimeout(() => {
+            setCurrentIndex(index);
+            setIsAnimating(false);
+        }, 400);
+    };
+
     return (
-        <section className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-brand-primary">
-            <div className="absolute inset-0">
-                <img
-                    src="https://images.unsplash.com/photo-1519452575417-564c1401ecc0?auto=format&fit=crop&q=80&w=2000"
-                    alt="Yayasan background"
-                    className="w-full h-full object-cover object-center"
-                    style={{ transform: `translateY(${offsetY * 0.3}px)`, opacity: 0.55 }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/50 via-brand-primary/30 to-brand-primary/70"></div>
+        <section className="relative h-[85vh] min-h-[650px] flex items-center overflow-hidden bg-brand-primary">
+            {/* Dynamic Background Image Layer */}
+            {sliderBerita.map((item, index) => (
+                <div 
+                    key={`bg-${item.id}`}
+                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                        index === currentIndex ? 'opacity-40' : 'opacity-0'
+                    }`}
+                >
+                    <img
+                        src={item.thumbnail || 'https://images.unsplash.com/photo-1590076215667-875d4ef2d968?auto=format&fit=crop&q=80&w=2000'}
+                        alt="Background"
+                        className="w-full h-full object-cover object-center scale-110"
+                        style={{ transform: `translateY(${offsetY * 0.15}px)` }}
+                    />
+                </div>
+            ))}
+            
+            {/* Sophisticated Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/40 via-transparent to-brand-primary"></div>
+            <div className="absolute inset-0 bg-black/20"></div>
+
+            <div className="relative z-10 max-w-7xl mx-auto px-4 w-full h-full flex flex-col justify-end lg:grid lg:grid-cols-12 lg:items-center gap-8 lg:gap-12 pb-12 lg:pb-0 pt-20 lg:pt-0">
+                
+                {/* Main Headline (Glassmorphism & Refined) */}
+                <div className="lg:col-span-7 xl:col-span-8 flex flex-col items-center lg:items-start text-center lg:text-left mb-4 lg:mb-0">
+                    <div className={`transition-all duration-700 transform ${isAnimating ? 'opacity-0 translate-y-8' : 'opacity-100 translate-y-0'}`}>
+                        
+                        {/* Glass Card for Content */}
+                        <div className="backdrop-blur-sm bg-white/5 border border-white/10 p-6 md:p-0 md:bg-transparent md:border-0 rounded-2xl mb-6 md:mb-10">
+                            <div className="space-y-4 md:space-y-4">
+                                <div className="flex items-center justify-center lg:justify-start gap-3">
+                                    <span className="h-[1px] w-8 md:w-12 bg-brand-secondary"></span>
+                                    <span className="text-brand-secondary text-[8px] md:text-[11px] font-bold uppercase tracking-[0.5em]">
+                                        {sliderBerita[currentIndex].kategori?.name || 'YPDS Update'}
+                                    </span>
+                                </div>
+                                <h1 className="text-2xl md:text-5xl font-serif font-bold text-white tracking-tight leading-[1.2] max-w-2xl">
+                                    {sliderBerita[currentIndex].judul}
+                                </h1>
+                                <p className="text-white/70 text-[10px] md:text-base font-light max-w-xl line-clamp-2 leading-relaxed mx-auto lg:mx-0">
+                                    {sliderBerita[currentIndex].ringkasan || 'Dapatkan informasi terbaru mengenai perkembangan pendidikan dan kegiatan eksklusif di lingkungan YPDS Al-Hikmah Jember.'}
+                                </p>
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row items-center gap-5 justify-center lg:justify-start mt-8">
+                                <Link 
+                                    href={sliderBerita[currentIndex].slug === '#' ? '#' : `/berita/${sliderBerita[currentIndex].slug}`}
+                                    className="bg-brand-secondary text-brand-primary px-7 md:px-10 py-3.5 md:py-4.5 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] rounded-[0.25rem] flex items-center gap-3 md:gap-4 hover:bg-white transition-all shadow-2xl w-fit group"
+                                >
+                                    Baca Selengkapnya
+                                    <ChevronRightIcon className="w-4 h-4 md:w-5 md:h-5 stroke-[3px] group-hover:translate-x-1 transition-transform" />
+                                </Link>
+
+                                {/* Indicators Integrated closer to Button */}
+                                <div className="flex lg:hidden items-center gap-2.5">
+                                    {sliderBerita.map((_, idx) => (
+                                        <button
+                                            key={`dot-${idx}`}
+                                            onClick={() => goToSlide(idx)}
+                                            className={`transition-all duration-500 rounded-full h-1 ${
+                                                idx === currentIndex ? 'w-8 bg-brand-secondary' : 'w-2 bg-white/20'
+                                            }`}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Thumbnail Gallery Sidebar (Docked Look) */}
+                <div className="lg:col-span-5 xl:col-span-4 flex flex-col gap-4">
+                    <h3 className="text-white/30 text-[9px] font-bold uppercase tracking-[0.4em] mb-1 hidden lg:block">Berita Lainnya</h3>
+                    
+                    <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto pb-6 lg:pb-0 custom-scrollbar snap-x px-4 lg:px-0">
+                        {sliderBerita.map((item, idx) => (
+                            <button
+                                key={`thumb-${item.id}`}
+                                onClick={() => goToSlide(idx)}
+                                className={`group relative flex flex-shrink-0 lg:flex-shrink flex-col lg:flex-row lg:items-center gap-2 lg:gap-4 p-2.5 lg:p-3 rounded-[0.5rem] transition-all duration-500 border snap-center w-[140px] md:w-[160px] lg:w-full ${
+                                    idx === currentIndex 
+                                        ? 'bg-white/20 border-white/30 shadow-2xl scale-[1.02] lg:scale-100' 
+                                        : 'bg-white/5 border-white/5 hover:bg-white/10 opacity-80 hover:opacity-100'
+                                }`}
+                            >
+                                <div className="w-full lg:w-20 h-16 lg:h-14 flex-shrink-0 rounded-[0.3rem] overflow-hidden bg-brand-primary/50">
+                                    <img 
+                                        src={item.thumbnail || 'https://images.unsplash.com/photo-1590076215667-875d4ef2d968?auto=format&fit=crop&q=80&w=200'} 
+                                        alt={item.judul}
+                                        className={`w-full h-full object-cover transition-transform duration-700 ${idx === currentIndex ? 'scale-110' : 'group-hover:scale-110'}`}
+                                    />
+                                </div>
+                                <div className="text-left min-w-0">
+                                    <p className={`text-[7px] lg:text-[9px] font-bold uppercase tracking-widest mb-0.5 ${idx === currentIndex ? 'text-brand-secondary' : 'text-white/40'}`}>
+                                        {item.kategori?.name || 'Berita'}
+                                    </p>
+                                    <h4 className={`text-[9px] lg:text-[10px] font-bold leading-tight line-clamp-2 ${idx === currentIndex ? 'text-white' : 'text-white/70 group-hover:text-white/90'}`}>
+                                        {item.judul}
+                                    </h4>
+                                </div>
+                                {idx === currentIndex && (
+                                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-brand-secondary rounded-l-[0.5rem] hidden lg:block"></div>
+                                )}
+                                {idx === currentIndex && (
+                                    <div className="absolute left-0 right-0 bottom-0 h-0.5 bg-brand-secondary lg:hidden"></div>
+                                )}
+                            </button>
+                        ))}
+                    </div>
+                </div>
             </div>
-            <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 w-full max-w-3xl mx-auto">
-                <h1 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tighter leading-tight animate-fade-in-up">
-                    Membangun Masa Depan <br /> dengan <span className="text-brand-secondary">Adab & Ilmu</span>
-                </h1>
-                <p className="text-sm text-white/80 max-w-xl mx-auto font-light leading-relaxed animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-                    YPDS Al-Hikmah mendidik generasi yang tidak hanya cerdas intelektual, tapi juga kokoh secara spiritual dan beradab.
-                </p>
+
+            {/* Bottom Progress Bar */}
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/5 overflow-hidden">
+                <div 
+                    key={currentIndex}
+                    className="h-full bg-brand-secondary origin-left animate-timer-progress"
+                    style={{ animationDuration: '8000ms' }}
+                ></div>
             </div>
+
+            <style dangerouslySetInnerHTML={{ __html: `
+                @keyframes timer-progress {
+                    from { transform: scaleX(0); }
+                    to { transform: scaleX(1); }
+                }
+                .animate-timer-progress {
+                    animation-name: timer-progress;
+                    animation-timing-function: linear;
+                    animation-fill-mode: forwards;
+                }
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 4px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: rgba(255, 255, 255, 0.05);
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 10px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: rgba(255, 255, 255, 0.2);
+                }
+            `}} />
         </section>
     );
 }
-
-
