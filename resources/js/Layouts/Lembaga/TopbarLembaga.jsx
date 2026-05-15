@@ -15,15 +15,15 @@ export default function TopbarLembaga({ lembaga, onMenuClick }) {
                     >
                         <Bars3Icon className="h-6 w-6" />
                     </button>
-                    <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest hidden sm:block">{lembaga?.nama}</h2>
+                    <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-widest hidden sm:block">{lembaga?.nama}</h2>
                 </div>
                 <div className="flex items-center gap-4 md:gap-6">
                     <div className="flex items-center gap-3">
                         <div className="text-right hidden sm:block">
-                            <p className="text-sm font-black text-slate-900 leading-none">{auth.user.name}</p>
-                            <p className="text-[10px] font-bold text-brand-primary uppercase tracking-widest mt-1">Admin {lembaga?.slug?.toUpperCase()}</p>
+                            <p className="text-sm font-semibold text-slate-900 leading-none">{auth.user.name}</p>
+                            <p className="text-[10px] font-semibold text-brand-primary uppercase tracking-widest mt-1">Admin {lembaga?.slug?.toUpperCase()}</p>
                         </div>
-                        <div className="w-10 h-10 bg-brand-secondary rounded-full flex items-center justify-center text-brand-primary font-black">
+                        <div className="w-10 h-10 bg-brand-secondary rounded-full flex items-center justify-center text-brand-primary font-semibold">
                             {auth.user.username[0].toUpperCase()}
                         </div>
                     </div>

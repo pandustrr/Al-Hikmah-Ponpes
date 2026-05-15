@@ -29,8 +29,8 @@ export default function SidebarLembaga({ lembaga, isOpen }) {
             isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}>
             <div className="p-6 border-b border-white/10">
-                <h2 className="text-xl font-black tracking-tighter uppercase">{lembaga?.slug}</h2>
-                <p className="text-[10px] font-bold text-brand-accent uppercase tracking-widest mt-1">Admin Panel</p>
+                <h2 className="text-xl font-semibold tracking-tighter uppercase">{lembaga?.slug}</h2>
+                <p className="text-[10px] font-semibold text-brand-accent uppercase tracking-widest mt-1">Admin Panel</p>
             </div>
             <nav className="mt-6 px-3">
                 {menuItems.map((item) => (

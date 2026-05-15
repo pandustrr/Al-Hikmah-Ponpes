@@ -78,11 +78,11 @@ export default function Hero({ offsetY, berita = [] }) {
                             <div className="space-y-4 md:space-y-4">
                                 <div className="flex items-center justify-center lg:justify-start gap-3">
                                     <span className="h-[1px] w-8 md:w-12 bg-brand-secondary"></span>
-                                    <span className="text-brand-secondary text-[8px] md:text-[11px] font-bold uppercase tracking-[0.5em]">
+                                    <span className="text-brand-secondary text-[8px] md:text-[11px] font-semibold uppercase tracking-[0.5em]">
                                         {sliderBerita[currentIndex].kategori?.name || 'YPDS Update'}
                                     </span>
                                 </div>
-                                <h1 className="text-2xl md:text-5xl font-serif font-bold text-white tracking-tight leading-[1.2] max-w-2xl">
+                                <h1 className="text-2xl md:text-5xl font-serif font-semibold text-white tracking-tight leading-[1.2] max-w-2xl">
                                     {sliderBerita[currentIndex].judul}
                                 </h1>
                                 <p className="text-white/70 text-[10px] md:text-base font-light max-w-xl line-clamp-2 leading-relaxed mx-auto lg:mx-0">
@@ -93,7 +93,7 @@ export default function Hero({ offsetY, berita = [] }) {
                             <div className="flex flex-col sm:flex-row items-center gap-5 justify-center lg:justify-start mt-8">
                                 <Link 
                                     href={sliderBerita[currentIndex].slug === '#' ? '#' : `/berita/${sliderBerita[currentIndex].slug}`}
-                                    className="bg-brand-secondary text-brand-primary px-7 md:px-10 py-3.5 md:py-4.5 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] rounded-[0.25rem] flex items-center gap-3 md:gap-4 hover:bg-white transition-all shadow-2xl w-fit group"
+                                    className="bg-brand-secondary text-brand-primary px-7 md:px-10 py-3.5 md:py-4.5 text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.2em] rounded-[0.25rem] flex items-center gap-3 md:gap-4 hover:bg-white transition-all shadow-2xl w-fit group"
                                 >
                                     Baca Selengkapnya
                                     <ChevronRightIcon className="w-4 h-4 md:w-5 md:h-5 stroke-[3px] group-hover:translate-x-1 transition-transform" />
@@ -118,7 +118,7 @@ export default function Hero({ offsetY, berita = [] }) {
 
                 {/* Thumbnail Gallery Sidebar (Docked Look) */}
                 <div className="lg:col-span-5 xl:col-span-4 flex flex-col gap-4">
-                    <h3 className="text-white/30 text-[9px] font-bold uppercase tracking-[0.4em] mb-1 hidden lg:block">Berita Lainnya</h3>
+                    <h3 className="text-white/30 text-[9px] font-semibold uppercase tracking-[0.4em] mb-1 hidden lg:block">Berita Lainnya</h3>
                     
                     <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto pb-6 lg:pb-0 custom-scrollbar snap-x px-4 lg:px-0">
                         {sliderBerita.map((item, idx) => (
@@ -139,10 +139,10 @@ export default function Hero({ offsetY, berita = [] }) {
                                     />
                                 </div>
                                 <div className="text-left min-w-0">
-                                    <p className={`text-[7px] lg:text-[9px] font-bold uppercase tracking-widest mb-0.5 ${idx === currentIndex ? 'text-brand-secondary' : 'text-white/40'}`}>
+                                    <p className={`text-[7px] lg:text-[9px] font-semibold uppercase tracking-widest mb-0.5 ${idx === currentIndex ? 'text-brand-secondary' : 'text-white/40'}`}>
                                         {item.kategori?.name || 'Berita'}
                                     </p>
-                                    <h4 className={`text-[9px] lg:text-[10px] font-bold leading-tight line-clamp-2 ${idx === currentIndex ? 'text-white' : 'text-white/70 group-hover:text-white/90'}`}>
+                                    <h4 className={`text-[9px] lg:text-[10px] font-semibold leading-tight line-clamp-2 ${idx === currentIndex ? 'text-white' : 'text-white/70 group-hover:text-white/90'}`}>
                                         {item.judul}
                                     </h4>
                                 </div>

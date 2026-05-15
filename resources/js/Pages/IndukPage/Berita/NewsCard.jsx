@@ -20,14 +20,14 @@ export default function NewsCard({ berita, variant = 'vertical', className = '' 
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
                     <div className="flex items-center gap-3 mb-4">
-                        <span className="bg-brand-primary text-white text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1">
+                        <span className="bg-brand-primary text-white text-[10px] font-semibold uppercase tracking-[0.2em] px-3 py-1">
                             UTAMA
                         </span>
-                        <span className="text-white/70 text-[10px] font-bold uppercase tracking-widest">
+                        <span className="text-white/70 text-[10px] font-semibold uppercase tracking-widest">
                             {formattedDate}
                         </span>
                     </div>
-                    <h2 className="text-2xl md:text-4xl font-black text-white leading-tight group-hover:text-brand-secondary transition-colors line-clamp-2 mb-4">
+                    <h2 className="text-2xl md:text-4xl font-serif font-semibold text-white leading-tight group-hover:text-brand-secondary transition-colors line-clamp-2 mb-4">
                         {berita.judul}
                     </h2>
                     <p className="text-white/80 text-sm md:text-base line-clamp-2 max-w-2xl hidden md:block">
@@ -52,10 +52,10 @@ export default function NewsCard({ berita, variant = 'vertical', className = '' 
                     />
                 </div>
                 <div className="flex-grow">
-                    <div className="text-[10px] font-bold text-brand-accent uppercase tracking-widest mb-1">
+                    <div className="text-[10px] font-semibold text-brand-accent uppercase tracking-widest mb-1">
                         {berita.category?.name || 'Berita'}
                     </div>
-                    <h3 className="text-base font-black text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2 mb-2">
+                    <h3 className="text-base font-semibold text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2 mb-2">
                         {berita.judul}
                     </h3>
                     <div className="text-[10px] font-medium text-brand-accent uppercase tracking-widest">
@@ -80,7 +80,7 @@ export default function NewsCard({ berita, variant = 'vertical', className = '' 
                     />
                 </div>
                 <div>
-                    <h3 className="text-xs font-bold text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2">
+                    <h3 className="text-xs font-semibold text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2">
                         {berita.judul}
                     </h3>
                     <div className="text-[9px] font-medium text-brand-accent mt-1 uppercase">
@@ -104,10 +104,10 @@ export default function NewsCard({ berita, variant = 'vertical', className = '' 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
             </div>
-            <div className="text-[10px] font-bold text-brand-accent uppercase tracking-widest mb-2">
+            <div className="text-[10px] font-semibold text-brand-accent uppercase tracking-widest mb-2">
                 {berita.category?.name || 'Berita'}
             </div>
-            <h3 className="text-lg font-black text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2 mb-2">
+            <h3 className="text-lg font-semibold text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2 mb-2">
                 {berita.judul}
             </h3>
             <div className="text-[10px] font-medium text-brand-accent uppercase tracking-widest">

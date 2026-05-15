@@ -31,8 +31,8 @@ export default function Index({ fasilitas = [] }) {
             {/* Hero */}
             <div className="bg-brand-secondary border-b border-sage-light">
                 <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-                    <h2 className="text-xs font-bold text-brand-accent uppercase tracking-[0.3em] mb-3">Infrastruktur Modern</h2>
-                    <h1 className="text-4xl md:text-5xl font-black text-brand-primary tracking-tighter mb-4 uppercase">Fasilitas Yayasan</h1>
+                    <h2 className="text-xs font-semibold text-brand-accent uppercase tracking-[0.3em] mb-3">Infrastruktur Modern</h2>
+                    <h1 className="text-4xl md:text-5xl font-semibold text-brand-primary tracking-tighter mb-4 uppercase">Fasilitas Yayasan</h1>
                     <div className="h-1 w-16 bg-brand-primary mx-auto mb-4"></div>
                     <p className="text-brand-accent max-w-xl mx-auto">Fasilitas lengkap dan modern untuk mendukung perkembangan intelektual, spiritual, dan jasmani siswa.</p>
                 </div>
@@ -49,8 +49,8 @@ export default function Index({ fasilitas = [] }) {
                             { value: '100%', label: 'Berasrama' },
                         ].map((s, i) => (
                             <div key={i}>
-                                <div className="text-2xl font-black text-brand-secondary">{s.value}</div>
-                                <div className="text-[10px] font-bold text-white/50 uppercase tracking-widest mt-1">{s.label}</div>
+                                <div className="text-2xl font-semibold text-brand-secondary">{s.value}</div>
+                                <div className="text-[10px] font-semibold text-white/50 uppercase tracking-widest mt-1">{s.label}</div>
                             </div>
                         ))}
                     </div>
@@ -74,7 +74,7 @@ export default function Index({ fasilitas = [] }) {
                                 <div className="text-brand-primary mb-4">
                                     {fasilitasIcons['default']}
                                 </div>
-                                <h3 className="text-lg font-black text-brand-primary uppercase tracking-tight mb-3">{f.nama}</h3>
+                                <h3 className="text-lg font-semibold text-brand-primary uppercase tracking-tight mb-3">{f.nama}</h3>
                                 <p className="text-brand-accent text-sm leading-relaxed">{f.deskripsi}</p>
                             </div>
                         </div>

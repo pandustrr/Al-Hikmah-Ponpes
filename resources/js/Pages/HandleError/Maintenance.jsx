@@ -18,7 +18,7 @@ export default function Maintenance() {
                     </div>
                 </div>
 
-                <h1 className="text-2xl font-black text-slate-900 uppercase tracking-tighter mb-4 leading-tight">
+                <h1 className="text-2xl font-semibold text-slate-900 uppercase tracking-tighter mb-4 leading-tight">
                     Sistem Sedang <br /> Diperbarui
                 </h1>
                 
@@ -29,13 +29,13 @@ export default function Maintenance() {
                 </p>
 
                 <div className="bg-slate-50 border border-slate-100 rounded-[0.25rem] py-4 px-6">
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-accent">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-accent">
                         Mohon Tunggu Sejenak
                     </span>
                 </div>
             </div>
 
-            <p className="mt-8 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            <p className="mt-8 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                 &copy; {new Date().getFullYear()} YPDS Al-Hikmah
             </p>
         </div>

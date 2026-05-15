@@ -9,12 +9,12 @@ export default function BeritaYayasan({ beritaTerbaru }) {
             <div className="max-w-7xl mx-auto px-4">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 reveal-element-up">
                     <div>
-                        <h2 className="text-xs font-black text-red-600 uppercase tracking-[0.3em] mb-4">Warta Yayasan</h2>
-                        <h3 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase leading-none">
-                            Informasi <br /> <span className="text-red-600">Terbaru</span>
+                        <h2 className="text-[10px] font-semibold text-brand-gold uppercase tracking-[0.4em] mb-4">Warta Yayasan</h2>
+                        <h3 className="text-4xl md:text-5xl font-serif font-semibold text-brand-primary tracking-tight uppercase leading-none">
+                            Informasi <br /> <span className="italic text-brand-accent">Terbaru</span>
                         </h3>
                     </div>
-                    <Link href="/berita" className="group text-xs font-black text-slate-400 hover:text-red-600 uppercase tracking-[0.2em] transition-all flex items-center gap-2">
+                    <Link href="/berita" className="group text-[10px] font-semibold text-brand-accent hover:text-brand-primary uppercase tracking-[0.2em] transition-all flex items-center gap-2">
                         Lihat Semua Berita 
                         <ChevronRightIcon className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Link>

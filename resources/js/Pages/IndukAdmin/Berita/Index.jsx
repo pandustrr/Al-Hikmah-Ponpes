@@ -39,12 +39,12 @@ export default function Index({ berita, categories }) {
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
                     <div>
-                        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-brand-accent mb-2">Pusat Yayasan</h2>
-                        <h1 className="text-4xl font-black uppercase tracking-tighter text-slate-900 leading-none">Kelola Berita <br /><span className="text-brand-primary">Yayasan & Lembaga</span></h1>
+                        <h2 className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-accent mb-2">Pusat Yayasan</h2>
+                        <h1 className="text-4xl font-semibold uppercase tracking-tighter text-slate-900 leading-none">Kelola Berita <br /><span className="text-brand-primary">Yayasan & Lembaga</span></h1>
                     </div>
                     <Link 
                         href={route('admin.berita.create')}
-                        className="inline-flex items-center gap-2 bg-brand-primary hover:bg-slate-900 text-white text-xs font-black uppercase tracking-widest px-6 py-4 transition-all rounded-[0.25rem] shadow-xl shadow-brand-primary/20"
+                        className="inline-flex items-center gap-2 bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-6 py-4 transition-all rounded-[0.25rem] shadow-xl shadow-brand-primary/20"
                     >
                         <PlusIcon className="h-4 w-4" />
                         Tambah Berita Baru
@@ -55,7 +55,7 @@ export default function Index({ berita, categories }) {
                 <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-2 no-scrollbar border-b border-slate-200">
                     <button 
                         onClick={() => setSelectedCategory('latest')}
-                        className={`px-6 py-4 text-[10px] font-black uppercase tracking-widest transition-all border-b-2 ${
+                        className={`px-6 py-4 text-[10px] font-semibold uppercase tracking-widest transition-all border-b-2 ${
                             selectedCategory === 'latest' 
                             ? 'border-brand-primary text-brand-primary' 
                             : 'border-transparent text-slate-400 hover:text-brand-primary'
@@ -65,7 +65,7 @@ export default function Index({ berita, categories }) {
                     </button>
                     <button 
                         onClick={() => setSelectedCategory('all')}
-                        className={`px-6 py-4 text-[10px] font-black uppercase tracking-widest transition-all border-b-2 ${
+                        className={`px-6 py-4 text-[10px] font-semibold uppercase tracking-widest transition-all border-b-2 ${
                             selectedCategory === 'all' 
                             ? 'border-brand-primary text-brand-primary' 
                             : 'border-transparent text-slate-400 hover:text-brand-primary'
@@ -79,7 +79,7 @@ export default function Index({ berita, categories }) {
                             <button 
                                 key={cat.id}
                                 onClick={() => setSelectedCategory(cat.id.toString())}
-                                className={`px-6 py-4 text-[10px] font-black uppercase tracking-widest transition-all border-b-2 whitespace-nowrap ${
+                                className={`px-6 py-4 text-[10px] font-semibold uppercase tracking-widest transition-all border-b-2 whitespace-nowrap ${
                                     selectedCategory === cat.id.toString() 
                                     ? 'border-brand-primary text-brand-primary' 
                                     : 'border-transparent text-slate-400 hover:text-brand-primary'
@@ -93,7 +93,7 @@ export default function Index({ berita, categories }) {
 
                 {/* Flash Message */}
                 {flash?.success && (
-                    <div className="mb-6 p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 text-sm font-bold uppercase tracking-wider flex items-center justify-between">
+                    <div className="mb-6 p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 text-sm font-semibold uppercase tracking-wider flex items-center justify-between">
                         {flash.success}
                     </div>
                 )}
@@ -104,11 +104,11 @@ export default function Index({ berita, categories }) {
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="bg-slate-50 border-b border-slate-200">
-                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Informasi Berita</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Kategori & Lembaga</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Tanggal</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Aksi</th>
+                                    <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Informasi Berita</th>
+                                    <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Kategori & Lembaga</th>
+                                    <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Status</th>
+                                    <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Tanggal</th>
+                                    <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest text-right">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
@@ -136,18 +136,18 @@ export default function Index({ berita, categories }) {
                                             </td>
                                             <td className="px-6 py-5">
                                                 <div className="space-y-1">
-                                                    <div className="flex items-center gap-1.5 text-[10px] font-black text-slate-900 uppercase tracking-widest">
+                                                    <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-900 uppercase tracking-widest">
                                                         <TagIcon className="h-3 w-3 text-brand-primary" />
                                                         {item.category?.name || 'Uncategorized'}
                                                     </div>
-                                                    <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                                    <div className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                                                         <BuildingOfficeIcon className="h-3 w-3" />
                                                         {item.lembaga?.name || 'Pusat Yayasan'}
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-5">
-                                                <span className={`inline-flex items-center px-2 py-1 rounded-[0.15rem] text-[9px] font-black uppercase tracking-widest ${
+                                                <span className={`inline-flex items-center px-2 py-1 rounded-[0.15rem] text-[9px] font-bold uppercase tracking-widest ${
                                                     item.status === 'published' 
                                                     ? 'bg-emerald-100 text-emerald-700' 
                                                     : 'bg-slate-100 text-slate-500'
@@ -155,7 +155,7 @@ export default function Index({ berita, categories }) {
                                                     {item.status}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-5 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                                            <td className="px-6 py-5 text-[10px] font-semibold text-slate-500 uppercase tracking-widest">
                                                 <div className="flex items-center gap-1.5">
                                                     <CalendarIcon className="h-3 w-3" />
                                                     {new Date(item.tanggal).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' })}
@@ -197,7 +197,7 @@ export default function Index({ berita, categories }) {
                                                     <NewspaperIcon className="h-12 w-12" />
                                                 </div>
                                                 <div className="space-y-1">
-                                                    <p className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Belum Ada Berita</p>
+                                                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em]">Belum Ada Berita</p>
                                                     <p className="text-[10px] text-slate-300 uppercase tracking-widest">Tidak ada berita di kategori ini.</p>
                                                 </div>
                                             </div>
@@ -211,7 +211,7 @@ export default function Index({ berita, categories }) {
 
                 {/* Footer Info */}
                 <div className="mt-8 flex items-center justify-between">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                         Menampilkan {filteredBerita.length} dari {berita.length} Berita
                     </p>
                 </div>

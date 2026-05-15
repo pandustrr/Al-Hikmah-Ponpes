@@ -13,8 +13,8 @@ export default function Sejarah() {
         <PublicLayout title="Sejarah">
             <div className="bg-brand-secondary py-24 border-b border-brand-light">
                 <div className="max-w-7xl mx-auto px-4 text-center">
-                    <h1 className="text-5xl font-black text-brand-primary tracking-tighter mb-4 uppercase">Sejarah Perjalanan</h1>
-                    <p className="text-brand-accent max-w-2xl mx-auto uppercase tracking-widest font-bold">Jejak Langkah Mencerdaskan Bangsa</p>
+                    <h1 className="text-5xl font-semibold text-brand-primary tracking-tighter mb-4 uppercase">Sejarah Perjalanan</h1>
+                    <p className="text-brand-accent max-w-2xl mx-auto uppercase tracking-widest font-semibold">Jejak Langkah Mencerdaskan Bangsa</p>
                 </div>
             </div>
 
@@ -24,8 +24,8 @@ export default function Sejarah() {
                         <div key={i} className={`mb-16 relative ${i % 2 === 0 ? 'md:-left-[420px] text-right' : 'md:left-8'}`}>
                             <div className="absolute top-0 w-8 h-8 bg-brand-primary rounded-full -left-[17px] md:left-auto md:right-[-49px] border-4 border-white shadow-sm"></div>
                             <div className={`bg-brand-secondary p-8 rounded-[0.25rem] border border-brand-light shadow-sm w-full md:w-[400px] inline-block ${i % 2 === 1 ? 'md:ml-4' : ''}`}>
-                                <span className="text-2xl font-black text-brand-primary block mb-2">{item.year}</span>
-                                <h3 className="text-lg font-bold text-brand-primary mb-4 uppercase tracking-tighter">{item.title}</h3>
+                                <span className="text-2xl font-semibold text-brand-primary block mb-2">{item.year}</span>
+                                <h3 className="text-lg font-semibold text-brand-primary mb-4 uppercase tracking-tighter">{item.title}</h3>
                                 <p className="text-sm text-brand-accent leading-relaxed">{item.desc}</p>
                             </div>
                         </div>

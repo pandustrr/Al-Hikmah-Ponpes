@@ -14,7 +14,7 @@ export default function Pendaftaran() {
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-primary to-transparent"></div>
                 </div>
                 <div className="max-w-7xl mx-auto px-4 relative z-10">
-                    <h1 className="text-5xl font-black text-white tracking-tighter mb-4 uppercase">Pendaftaran Santri Baru</h1>
+                    <h1 className="text-5xl font-semibold text-white tracking-tighter mb-4 uppercase">Pendaftaran Santri Baru</h1>
                     <p className="text-brand-secondary font-medium tracking-widest uppercase">Tahun Ajaran 2026/2027</p>
                 </div>
             </div>
@@ -23,7 +23,7 @@ export default function Pendaftaran() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                     <div className="lg:col-span-2 space-y-12">
                         <section>
-                            <h2 className="text-2xl font-bold text-brand-primary mb-6 border-b-2 border-brand-light pb-2">Persyaratan Umum</h2>
+                            <h2 className="text-2xl font-semibold text-brand-primary mb-6 border-b-2 border-brand-light pb-2">Persyaratan Umum</h2>
                             <ul className="list-disc list-inside space-y-4 text-brand-accent">
                                 <li>Fotokopi Kartu Keluarga & Akta Kelahiran</li>
                                 <li>Pas Foto Terbaru ukuran 3x4 (4 lembar)</li>
@@ -34,14 +34,14 @@ export default function Pendaftaran() {
                         </section>
                         
                         <section>
-                            <h2 className="text-2xl font-bold text-brand-primary mb-6 border-b-2 border-brand-light pb-2">Jadwal Seleksi</h2>
+                            <h2 className="text-2xl font-semibold text-brand-primary mb-6 border-b-2 border-brand-light pb-2">Jadwal Seleksi</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="bg-brand-secondary p-6 rounded-[0.25rem] border border-brand-light">
-                                    <h3 className="font-bold mb-2">Gelombang 1</h3>
+                                    <h3 className="font-semibold mb-2">Gelombang 1</h3>
                                     <p className="text-sm text-brand-accent">Januari - Maret 2026</p>
                                 </div>
                                 <div className="bg-brand-secondary p-6 rounded-[0.25rem] border border-brand-light">
-                                    <h3 className="font-bold mb-2">Gelombang 2</h3>
+                                    <h3 className="font-semibold mb-2">Gelombang 2</h3>
                                     <p className="text-sm text-brand-accent">April - Juni 2026</p>
                                 </div>
                             </div>
@@ -50,12 +50,12 @@ export default function Pendaftaran() {
 
                     <div className="lg:col-span-1">
                         <div className="bg-brand-secondary p-8 rounded-[0.25rem] border border-brand-light sticky top-24">
-                            <h2 className="text-xl font-black text-brand-primary mb-6 uppercase">Daftar Sekarang</h2>
+                            <h2 className="text-xl font-semibold text-brand-primary mb-6 uppercase">Daftar Sekarang</h2>
                             <p className="text-sm text-brand-accent mb-8">Mulailah perjalanan pendidikan terbaik putra-putri Anda bersama kami.</p>
-                            <button className="btn-primary w-full py-4 text-xs font-black uppercase tracking-widest shadow-xl">Isi Formulir Online</button>
+                            <button className="btn-primary w-full py-4 text-xs font-semibold uppercase tracking-widest shadow-xl">Isi Formulir Online</button>
                             <div className="mt-8 pt-8 border-t border-brand-light text-center">
-                                <p className="text-xs text-brand-accent font-bold uppercase tracking-widest mb-2">Butuh Bantuan?</p>
-                                <p className="text-brand-primary font-bold">0812-3456-7890</p>
+                                <p className="text-xs text-brand-accent font-semibold uppercase tracking-widest mb-2">Butuh Bantuan?</p>
+                                <p className="text-brand-primary font-semibold">0812-3456-7890</p>
                             </div>
                         </div>
                     </div>
