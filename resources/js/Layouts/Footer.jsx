@@ -6,7 +6,7 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div className="col-span-2">
-                        <h3 className="text-white text-lg font-bold mb-4 tracking-tighter">YPDS AL-HIKMAH</h3>
+                        <h3 className="text-white text-lg font-semibold mb-4 tracking-tighter">YPDS AL-HIKMAH</h3>
                         <p className="text-sm leading-relaxed max-w-md">
                             Mencetak generasi rabbani yang unggul dalam ilmu pengetahuan, kokoh dalam iman, dan mulia dalam akhlak.
                         </p>

@@ -15,11 +15,11 @@ export default function UpcomingEvents() {
             <div className="max-w-7xl mx-auto px-4">
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4 reveal-element-up">
                     <div>
-                        <h2 className="text-xs font-bold text-brand-accent uppercase tracking-[0.3em] mb-2">Agenda Yayasan</h2>
-                        <h3 className="text-4xl font-black text-brand-primary tracking-tighter uppercase">Event yang Akan Datang</h3>
+                        <h2 className="text-xs font-semibold text-brand-accent uppercase tracking-[0.3em] mb-2">Agenda Yayasan</h2>
+                        <h3 className="text-4xl font-semibold text-brand-primary tracking-tighter uppercase">Event yang Akan Datang</h3>
                         <div className="h-1 w-20 bg-brand-primary mt-4"></div>
                     </div>
-                    <Link href="/kegiatan" className="text-[9px] font-black text-brand-accent hover:text-brand-primary uppercase tracking-widest inline-flex items-center gap-1 transition-colors whitespace-nowrap shrink-0 group">
+                    <Link href="/kegiatan" className="text-[9px] font-semibold text-brand-accent hover:text-brand-primary uppercase tracking-widest inline-flex items-center gap-1 transition-colors whitespace-nowrap shrink-0 group">
                         Lihat Semua Event <ArrowRightIcon className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                     </Link>
                 </div>
@@ -33,13 +33,13 @@ export default function UpcomingEvents() {
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
                                 />
                                 <div className="absolute top-3 left-3 bg-brand-primary text-center px-3 py-2 rounded-[0.25rem] shadow-lg">
-                                    <div className="text-xl font-black text-brand-secondary leading-none">{event.date}</div>
-                                    <div className="text-[8px] font-bold text-white/70 uppercase tracking-widest">{event.month}</div>
+                                    <div className="text-xl font-semibold text-brand-secondary leading-none">{event.date}</div>
+                                    <div className="text-[8px] font-semibold text-white/70 uppercase tracking-widest">{event.month}</div>
                                 </div>
                             </div>
                             <div className="p-5 border-x border-b border-brand-secondary group-hover:border-brand-primary transition-colors flex-grow rounded-b-[0.25rem]">
-                                <div className="text-[9px] font-black text-brand-accent mb-2 uppercase tracking-widest">{event.lembaga}</div>
-                                <h4 className="font-black text-brand-primary text-sm leading-snug group-hover:text-brand-accent transition-colors line-clamp-2 mb-3 uppercase tracking-tight">{event.title}</h4>
+                                <div className="text-[9px] font-semibold text-brand-accent mb-2 uppercase tracking-widest">{event.lembaga}</div>
+                                <h4 className="font-semibold text-brand-primary text-sm leading-snug group-hover:text-brand-accent transition-colors line-clamp-2 mb-3 uppercase tracking-tight">{event.title}</h4>
                                 <div className="flex items-center text-[9px] text-brand-accent uppercase tracking-widest">
                                     <MapPinIcon className="h-3 w-3 mr-1 flex-shrink-0" />
                                     {event.lokasi}

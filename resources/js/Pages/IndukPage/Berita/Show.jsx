@@ -17,7 +17,7 @@ export default function Show({ berita, recentBerita = [] }) {
 
             {/* News Top Bar (Tempo Style) */}
             <div className="bg-brand-primary text-white py-1.5 border-b border-white/10 hidden md:block">
-                <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
+                <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-[10px] font-semibold uppercase tracking-widest">
                     <div className="flex items-center gap-4">
                         <span>{new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
                         <span className="text-white/30">|</span>
@@ -36,7 +36,7 @@ export default function Show({ berita, recentBerita = [] }) {
             </div>
 
             <div className="bg-white border-b border-sage-light">
-                <div className="max-w-7xl mx-auto px-4 py-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-brand-accent">
+                <div className="max-w-7xl mx-auto px-4 py-4 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest text-brand-accent">
                     <Link href="/" className="hover:text-brand-primary">Beranda</Link>
                     <span>/</span>
                     <Link href="/berita" className="hover:text-brand-primary">Berita</Link>
@@ -51,20 +51,20 @@ export default function Show({ berita, recentBerita = [] }) {
                     {/* Article Content */}
                     <article className="lg:col-span-8">
                         <div className="mb-8">
-                            <div className="text-xs font-black text-brand-primary uppercase tracking-[0.2em] mb-4">
+                            <div className="text-xs font-semibold text-brand-primary uppercase tracking-[0.2em] mb-4">
                                 {berita.category?.name || 'Berita Utama'}
                             </div>
-                            <h1 className="text-3xl md:text-5xl font-black text-brand-primary leading-tight tracking-tighter mb-6">
+                            <h1 className="text-3xl md:text-5xl font-semibold text-brand-primary leading-tight tracking-tighter mb-6">
                                 {berita.judul}
                             </h1>
                             <div className="flex flex-wrap items-center gap-6 py-6 border-y border-sage-light text-brand-accent">
                                 <div className="flex items-center gap-2">
-                                    <div className="w-8 h-8 rounded-full bg-brand-secondary flex items-center justify-center text-[10px] font-black text-brand-accent">
+                                    <div className="w-8 h-8 rounded-full bg-brand-secondary flex items-center justify-center text-[10px] font-semibold text-brand-accent">
                                         AH
                                     </div>
-                                    <span className="text-xs font-bold text-brand-primary uppercase tracking-widest">Redaksi Al-Hikmah</span>
+                                    <span className="text-xs font-semibold text-brand-primary uppercase tracking-widest">Redaksi Al-Hikmah</span>
                                 </div>
-                                <div className="text-[10px] font-bold uppercase tracking-widest">
+                                <div className="text-[10px] font-semibold uppercase tracking-widest">
                                     {formattedDate}
                                 </div>
                             </div>
@@ -78,7 +78,7 @@ export default function Show({ berita, recentBerita = [] }) {
                             />
                         </div>
 
-                        <div className="prose prose-slate max-w-none prose-headings:font-black prose-headings:tracking-tighter prose-p:text-brand-primary prose-p:leading-relaxed prose-p:text-lg">
+                        <div className="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tighter prose-p:text-brand-primary prose-p:leading-relaxed prose-p:text-lg">
                             <div className="space-y-6 whitespace-pre-wrap font-serif">
                                 {berita.konten}
                             </div>
@@ -87,7 +87,7 @@ export default function Show({ berita, recentBerita = [] }) {
                         {/* Share & Tags */}
                         <div className="mt-16 pt-10 border-t border-sage-light flex flex-col md:flex-row md:items-center justify-between gap-6">
                             <div className="flex items-center gap-2">
-                                <span className="text-[10px] font-black text-brand-accent uppercase tracking-widest">Bagikan:</span>
+                                <span className="text-[10px] font-semibold text-brand-accent uppercase tracking-widest">Bagikan:</span>
                                 <div className="flex items-center gap-2">
                                     <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-full bg-brand-secondary text-brand-accent hover:bg-brand-primary hover:text-white transition-all">
                                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -103,7 +103,7 @@ export default function Show({ berita, recentBerita = [] }) {
                     {/* Sidebar */}
                     <aside className="lg:col-span-4 space-y-12">
                         <div>
-                            <h2 className="text-sm font-black text-brand-primary uppercase tracking-widest border-b-2 border-brand-primary pb-2 mb-6">
+                            <h2 className="text-sm font-semibold text-brand-primary uppercase tracking-widest border-b-2 border-brand-primary pb-2 mb-6">
                                 Berita Terkait
                             </h2>
                             <div className="space-y-2">
@@ -119,9 +119,9 @@ export default function Show({ berita, recentBerita = [] }) {
 
                         <div className="sticky top-24">
                             <div className="bg-brand-primary p-8 text-white rounded-[0.25rem]">
-                                <h3 className="text-xl font-black uppercase tracking-tighter mb-4 leading-tight">Dukung Pendidikan Al-Hikmah</h3>
+                                <h3 className="text-xl font-semibold uppercase tracking-tighter mb-4 leading-tight">Dukung Pendidikan Al-Hikmah</h3>
                                 <p className="text-sm text-brand-secondary/80 mb-6 leading-relaxed">Kontribusi Anda membantu kami memberikan pendidikan berkualitas bagi santri.</p>
-                                <Link href="/kontak" className="inline-block bg-white text-brand-primary text-[10px] font-black uppercase tracking-widest px-6 py-3 hover:bg-brand-secondary transition-colors rounded-[0.25rem]">
+                                <Link href="/kontak" className="inline-block bg-white text-brand-primary text-[10px] font-semibold uppercase tracking-widest px-6 py-3 hover:bg-brand-secondary transition-colors rounded-[0.25rem]">
                                     Donasi Sekarang
                                 </Link>
                             </div>

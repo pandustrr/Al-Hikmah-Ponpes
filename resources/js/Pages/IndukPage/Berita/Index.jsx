@@ -28,7 +28,7 @@ export default function Index({ berita, currentCategory, categories }) {
         <PublicLayout title="Berita & Informasi">
             {/* News Top Bar (Tempo Style) */}
             <div className="bg-brand-primary text-white py-1.5 border-b border-white/10 hidden md:block">
-                <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
+                <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-[10px] font-semibold uppercase tracking-widest">
                     <div className="flex items-center gap-4">
                         <span>{new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
                         <span className="text-white/30">|</span>
@@ -50,12 +50,12 @@ export default function Index({ berita, currentCategory, categories }) {
             <div className="bg-white pt-10 pb-6 border-b border-sage-light">
                 <div className="max-w-7xl mx-auto px-4 text-center">
                     <div className="mb-4">
-                        <span className="bg-brand-primary text-white text-[10px] font-black px-2 py-0.5 tracking-tighter uppercase">Portal Berita</span>
+                        <span className="bg-brand-primary text-white text-[10px] font-semibold px-2 py-0.5 tracking-tighter uppercase">Portal Berita</span>
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-black text-brand-primary tracking-tighter uppercase mb-2">
+                    <h1 className="text-5xl md:text-7xl font-semibold text-brand-primary tracking-tighter uppercase mb-2">
                         <span className="text-brand-accent">Al-Hikmah</span> NEWS
                     </h1>
-                    <p className="text-[10px] font-bold text-brand-accent uppercase tracking-[0.5em] mb-8">
+                    <p className="text-[10px] font-semibold text-brand-accent uppercase tracking-[0.5em] mb-8">
                         Independent • Trustworthy • Educational
                     </p>
                     
@@ -65,7 +65,7 @@ export default function Index({ berita, currentCategory, categories }) {
                             <button
                                 key={cat.slug}
                                 onClick={() => handleFilter(cat.slug)}
-                                className={`px-6 py-4 text-xs font-black uppercase tracking-widest whitespace-nowrap transition-all border-b-2 ${
+                                className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest whitespace-nowrap transition-all border-b-2 ${
                                     (currentCategory || '') === cat.slug 
                                     ? 'border-brand-primary text-brand-primary' 
                                     : 'border-transparent text-brand-accent hover:text-brand-primary'
@@ -92,7 +92,7 @@ export default function Index({ berita, currentCategory, categories }) {
 
                                 {/* Sub Grid / List */}
                                 <div className="space-y-2">
-                                    <h2 className="text-lg font-black text-brand-primary uppercase tracking-widest border-l-4 border-brand-primary pl-4 mb-6">
+                                    <h2 className="text-lg font-semibold text-brand-primary uppercase tracking-widest border-l-4 border-brand-primary pl-4 mb-6">
                                         Berita Lainnya
                                     </h2>
                                     {otherNews.length > 0 ? (
@@ -111,10 +111,10 @@ export default function Index({ berita, currentCategory, categories }) {
                                  {/* Multimedia Section */}
                                  <div className="pt-10 border-t border-sage-light">
                                      <div className="flex items-center justify-between mb-6">
-                                         <h2 className="text-lg font-black text-brand-primary uppercase tracking-widest border-l-4 border-brand-primary pl-4">
+                                         <h2 className="text-lg font-semibold text-brand-primary uppercase tracking-widest border-l-4 border-brand-primary pl-4">
                                              Multimedia Al-Hikmah
                                          </h2>
-                                         <Link href="#" className="text-[10px] font-black text-brand-accent hover:text-brand-primary uppercase tracking-widest transition-colors">Lihat Semua Galeri</Link>
+                                         <Link href="#" className="text-[10px] font-semibold text-brand-accent hover:text-brand-primary uppercase tracking-widest transition-colors">Lihat Semua Galeri</Link>
                                      </div>
                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                          <div className="relative aspect-video bg-brand-secondary overflow-hidden rounded-[0.25rem] group cursor-pointer">
@@ -125,8 +125,8 @@ export default function Index({ berita, currentCategory, categories }) {
                                                  </div>
                                              </div>
                                              <div className="absolute bottom-4 left-4 right-4">
-                                                 <span className="bg-red-600 text-white text-[8px] font-black px-1.5 py-0.5 uppercase tracking-widest mb-2 inline-block">VIDEO</span>
-                                                 <h4 className="text-white font-bold text-sm leading-tight">Profil Singkat Pondok Pesantren Al-Hikmah 2026</h4>
+                                                 <span className="bg-red-600 text-white text-[8px] font-semibold px-1.5 py-0.5 uppercase tracking-widest mb-2 inline-block">VIDEO</span>
+                                                 <h4 className="text-white font-semibold text-sm leading-tight">Profil Singkat Pondok Pesantren Al-Hikmah 2026</h4>
                                              </div>
                                          </div>
                                          <div className="grid grid-cols-2 gap-4">
@@ -152,7 +152,7 @@ export default function Index({ berita, currentCategory, categories }) {
                              </div>
                         ) : (
                             <div className="text-center py-24 bg-brand-secondary border border-dashed border-sage-light rounded-[0.25rem]">
-                                <p className="text-brand-accent font-bold uppercase tracking-widest text-sm">Belum ada berita yang diterbitkan</p>
+                                <p className="text-brand-accent font-semibold uppercase tracking-widest text-sm">Belum ada berita yang diterbitkan</p>
                             </div>
                         )}
                     </div>
@@ -161,17 +161,17 @@ export default function Index({ berita, currentCategory, categories }) {
                     <aside className="lg:col-span-4 space-y-10">
                         {/* Popular News Section */}
                         <div className="bg-brand-secondary p-6 rounded-[0.25rem]">
-                            <h2 className="text-sm font-black text-brand-primary uppercase tracking-widest border-b-2 border-brand-primary pb-2 mb-6">
+                            <h2 className="text-sm font-semibold text-brand-primary uppercase tracking-widest border-b-2 border-brand-primary pb-2 mb-6">
                                 Terpopuler
                             </h2>
                             <div className="space-y-1">
                                 {popularNews.map((item, index) => (
                                     <div key={item.id} className="flex gap-4 group cursor-pointer border-b border-sage-light last:border-0 py-4">
-                                        <span className="text-3xl font-black text-sage-light group-hover:text-brand-primary/20 transition-colors">
+                                        <span className="text-3xl font-semibold text-sage-light group-hover:text-brand-primary/20 transition-colors">
                                             {index + 1}
                                         </span>
                                         <Link href={`/berita/${item.slug}`} className="flex-grow">
-                                            <h3 className="text-xs font-bold text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2">
+                                            <h3 className="text-xs font-semibold text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2">
                                                 {item.judul}
                                             </h3>
                                         </Link>
@@ -182,7 +182,7 @@ export default function Index({ berita, currentCategory, categories }) {
 
                         {/* Newsletter or Ad Mockup */}
                         <div className="bg-brand-primary p-8 text-center text-white rounded-[0.25rem]">
-                            <h3 className="text-lg font-black uppercase tracking-tighter mb-2">Langganan Warta</h3>
+                            <h3 className="text-lg font-semibold uppercase tracking-tighter mb-2">Langganan Warta</h3>
                             <p className="text-xs text-brand-secondary/60 mb-6">Dapatkan berita terbaru langsung di inbox Anda.</p>
                             <div className="flex flex-col gap-2">
                                 <input 
@@ -190,7 +190,7 @@ export default function Index({ berita, currentCategory, categories }) {
                                     placeholder="Alamat Email" 
                                     className="bg-white/10 border-white/20 text-white text-xs px-4 py-3 focus:bg-white/20 transition-all outline-none rounded-[0.25rem]"
                                 />
-                                <button className="bg-brand-accent hover:bg-brand-secondary hover:text-brand-primary text-white text-[10px] font-black uppercase tracking-widest py-3 transition-colors rounded-[0.25rem]">
+                                <button className="bg-brand-accent hover:bg-brand-secondary hover:text-brand-primary text-white text-[10px] font-semibold uppercase tracking-widest py-3 transition-colors rounded-[0.25rem]">
                                     Daftar Sekarang
                                 </button>
                             </div>
@@ -198,7 +198,7 @@ export default function Index({ berita, currentCategory, categories }) {
 
                         {/* Instagram Feed Mockup */}
                         <div>
-                            <h2 className="text-sm font-black text-brand-primary uppercase tracking-widest border-b-2 border-brand-primary pb-2 mb-6">
+                            <h2 className="text-sm font-semibold text-brand-primary uppercase tracking-widest border-b-2 border-brand-primary pb-2 mb-6">
                                 Instagram @alhikmah
                             </h2>
                             <div className="grid grid-cols-3 gap-2">
@@ -212,12 +212,12 @@ export default function Index({ berita, currentCategory, categories }) {
 
                         {/* Popular Tags */}
                         <div>
-                            <h2 className="text-sm font-black text-brand-primary uppercase tracking-widest border-b-2 border-brand-primary pb-2 mb-6">
+                            <h2 className="text-sm font-semibold text-brand-primary uppercase tracking-widest border-b-2 border-brand-primary pb-2 mb-6">
                                 Tag Populer
                             </h2>
                             <div className="flex flex-wrap gap-2">
                                 {['Pondok', 'Prestasi', 'PPDB', 'Pendidikan', 'Islam', 'Santri', 'Kegiatan', 'Ramadhan'].map(tag => (
-                                    <span key={tag} className="px-3 py-1 bg-white border border-sage-light text-[9px] font-bold text-brand-accent uppercase tracking-widest rounded-full hover:border-brand-primary hover:text-brand-primary cursor-pointer transition-all">
+                                    <span key={tag} className="px-3 py-1 bg-white border border-sage-light text-[9px] font-semibold text-brand-accent uppercase tracking-widest rounded-full hover:border-brand-primary hover:text-brand-primary cursor-pointer transition-all">
                                         #{tag}
                                     </span>
                                 ))}

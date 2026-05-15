@@ -8,7 +8,7 @@ export default function Index() {
         <PublicLayout title="Kontak & Maps">
             <div className="bg-brand-primary py-24 text-center">
                 <div className="max-w-7xl mx-auto px-4">
-                    <h1 className="text-5xl font-black text-white tracking-tighter mb-4 uppercase">Kontak & Lokasi</h1>
+                    <h1 className="text-5xl font-semibold text-white tracking-tighter mb-4 uppercase">Kontak & Lokasi</h1>
                     <p className="text-brand-secondary font-medium tracking-widest uppercase">Hubungi Kami Kapan Saja</p>
                 </div>
             </div>

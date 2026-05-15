@@ -21,12 +21,12 @@ export default function Error({ status }) {
         <PublicLayout isAuth={true} title={title}>
             <div className="text-center">
                 <div className="mb-6 flex justify-center">
-                    <div className="text-6xl font-black text-brand-primary opacity-20 tracking-tighter">
+                    <div className="text-6xl font-semibold text-brand-primary opacity-20 tracking-tighter">
                         {status}
                     </div>
                 </div>
                 
-                <h1 className="text-2xl font-black text-slate-900 uppercase tracking-tighter mb-4">
+                <h1 className="text-2xl font-semibold text-slate-900 uppercase tracking-tighter mb-4">
                     {title}
                 </h1>
                 
@@ -36,7 +36,7 @@ export default function Error({ status }) {
 
                 <Link 
                     href="/" 
-                    className="inline-flex items-center gap-2 bg-brand-primary text-white px-8 py-3 text-[10px] font-black uppercase tracking-[0.2em] rounded-[0.25rem] hover:bg-slate-900 transition-all shadow-lg shadow-brand-primary/20"
+                    className="inline-flex items-center gap-2 bg-brand-primary text-white px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] rounded-[0.25rem] hover:bg-slate-900 transition-all shadow-lg shadow-brand-primary/20"
                 >
                     ← Kembali ke Beranda
                 </Link>

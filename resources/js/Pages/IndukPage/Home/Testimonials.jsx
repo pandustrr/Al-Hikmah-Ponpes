@@ -14,8 +14,8 @@ export default function Testimonials() {
             <div className="max-w-7xl mx-auto px-4">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4 reveal-element-up">
                     <div>
-                        <h2 className="text-xs font-bold text-brand-accent uppercase tracking-[0.3em] mb-2">Testimoni</h2>
-                        <h3 className="text-4xl font-black text-brand-primary tracking-tighter uppercase leading-tight">Apa Kata Mereka<br />Tentang Al-Hikmah?</h3>
+                        <h2 className="text-[10px] font-semibold text-brand-accent uppercase tracking-[0.4em] mb-3">Testimoni</h2>
+                        <h3 className="text-4xl font-serif font-semibold text-brand-primary tracking-tight uppercase leading-tight">Apa Kata Mereka<br />Tentang Al-Hikmah?</h3>
                         <div className="h-1 w-20 bg-brand-primary mt-4"></div>
                     </div>
                     <div className="max-w-xs">
@@ -41,8 +41,8 @@ export default function Testimonials() {
                                     />
                                 </div>
                                 <div className="min-w-0">
-                                    <h4 className="font-black text-brand-primary text-sm leading-tight">{testi.name}</h4>
-                                    <p className="text-[10px] text-brand-accent uppercase tracking-widest font-bold mt-0.5">{testi.info}</p>
+                                    <h4 className="font-semibold text-brand-primary text-sm leading-tight">{testi.name}</h4>
+                                    <p className="text-[10px] text-brand-accent uppercase tracking-widest font-semibold mt-0.5">{testi.info}</p>
                                 </div>
                             </div>
                         </div>

@@ -17,7 +17,7 @@ export default function PublicLayout({ children, title, isLembaga = false, navTh
                     {/* Logo inside container */}
                     <div className="flex justify-center mb-8">
                         <Link href="/">
-                            <div className="px-6 py-4 bg-brand-primary text-white flex items-center justify-center font-bold text-sm uppercase tracking-[0.2em] rounded-[0.25rem] shadow-lg leading-none">
+                            <div className="px-6 py-4 bg-brand-primary text-white flex items-center justify-center font-semibold text-sm uppercase tracking-[0.2em] rounded-[0.25rem] shadow-lg leading-none">
                                 Al- Hikmah
                             </div>
                         </Link>
@@ -30,7 +30,7 @@ export default function PublicLayout({ children, title, isLembaga = false, navTh
 
                     {/* Back link inside container */}
                     <div className="mt-10 pt-6 border-t border-slate-100 text-center">
-                        <Link href="/" className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 hover:text-brand-primary transition-all inline-flex items-center gap-2 group">
+                        <Link href="/" className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400 hover:text-brand-primary transition-all inline-flex items-center gap-2 group">
                             <ArrowLeftIcon className="h-3 w-3 transition-transform group-hover:-translate-x-1" /> Kembali ke Beranda
                         </Link>
                     </div>
