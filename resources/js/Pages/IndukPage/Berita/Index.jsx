@@ -79,7 +79,7 @@ export default function Index({ berita, currentCategory, categories }) {
                 </div>
             </div>
 
-            <NewsTicker items={latestNewsForTicker} />
+            <NewsTicker items={latestNewsForTicker} />  
 
             <div className="max-w-7xl mx-auto px-4 py-8">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">

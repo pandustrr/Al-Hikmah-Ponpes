@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import Hero from './Hero';
 import AboutSummary from './AboutSummary';
-import LembagaSection from './LembagaSection';
+
 import FasilitasShortcut from './FasilitasShortcut';
 import PpdbCta from './PpdbCta';
 import LembagaUpdates from './LembagaUpdates';
 import BeritaYayasan from './BeritaYayasan';
 import UpcomingEvents from './UpcomingEvents';
-import AlumniTestimonials from './AlumniTestimonials';
+import Testimonials from './Testimonials';
 
 export default function Welcome({ lembagas, beritaTerbaru }) {
     const [offsetY, setOffsetY] = useState(0);
@@ -41,14 +41,14 @@ export default function Welcome({ lembagas, beritaTerbaru }) {
 
     return (
         <PublicLayout title="Beranda" navTheme="dark">
-            <Hero offsetY={offsetY} />
+            <Hero offsetY={offsetY} berita={beritaTerbaru} />
             <AboutSummary lembagas={lembagas} />
             <FasilitasShortcut />
             <LembagaUpdates lembagas={lembagas} />
             <PpdbCta />
             <BeritaYayasan beritaTerbaru={beritaTerbaru} />
             <UpcomingEvents />
-            <AlumniTestimonials />
+            <Testimonials />
         </PublicLayout>
     );
 }

@@ -27,7 +27,7 @@ export default function SidebarInduk({ isOpen }) {
             isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}>
             <div className="p-6 border-b border-white/10">
-                <h2 className="text-xl font-black tracking-tighter">AL-HIKMAH</h2>
+                <h2 className="text-xl font-serif font-bold tracking-tighter">AL-HIKMAH</h2>
                 <p className="text-[10px] font-bold text-brand-accent uppercase tracking-widest mt-1">Super Admin Panel</p>
             </div>
             <nav className="mt-6 px-3">
