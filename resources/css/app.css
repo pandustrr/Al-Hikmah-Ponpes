@@ -2,15 +2,24 @@
 
 @theme {
   --radius-custom: 0.25rem;
-  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", serif;
 
-  /* Sage & Olive Brand Colors */
-  --color-brand-primary: #4A4E42;    /* Olive Dark — Teks utama & elemen bold */
-  --color-brand-secondary: #EEEEE6;  /* Off White — Background section */
-  --color-brand-accent: #7D8471;     /* Sage Dark — Teks sekunder & border */
-  --color-brand-light: #FFFFFF;      /* Base White — Background dasar */
-  --color-sage-light: #B5BAA9;       /* Sage Light — Border halus & muted */
-  --color-sage-mid: #9EA495;         /* Sage Mid — Ikon & divider */
+  --color-brand-primary: #4A4E42;  
+  --color-brand-secondary: #EEEEE6;  
+  --color-brand-accent: #7D8471;     
+  --color-brand-light: #FFFFFF;      
+  --color-brand-gold: #C5A377;     
+  --color-sage-light: #B5BAA9;       
+  --color-sage-mid: #9EA495;         
+  
+  --shadow-premium: 0 20px 50px -12px rgba(74, 78, 66, 0.15);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.4);
+}
+
+.font-serif {
+    font-family: var(--font-serif);
 }
 
 /* Scroll Reveal Animations */
@@ -71,7 +80,7 @@
     }
 
     h1, h2, h3, h4, h5, h6 {
-        @apply font-semibold tracking-tight text-brand-primary;
+        @apply font-bold tracking-tight text-brand-primary;
     }
 }
 

@@ -21,7 +21,7 @@ export default function AboutSummary({ lembagas = [] }) {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
                     {/* Left & Middle: Combined Content (9 cols) */}
                     <div className="lg:col-span-9 space-y-24">
-                        
+
                         {/* 1. About Summary Sub-Section */}
                         <div className="grid grid-cols-1 lg:grid-cols-9 gap-8 lg:gap-12 items-start">
                             <div className="lg:col-span-4 relative">
