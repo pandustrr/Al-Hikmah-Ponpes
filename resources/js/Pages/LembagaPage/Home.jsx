@@ -9,6 +9,7 @@ import TenagaPendidikSection from './Partials/TenagaPendidikSection';
 import KeunggulanSection from './Partials/KeunggulanSection';
 import BeritaKegiatanSection from './Partials/BeritaKegiatanSection';
 import FasilitasSection from './Partials/FasilitasSection';
+import PpdbSection from './Partials/PpdbSection';
 import CtaSection from './Partials/CtaSection';
 
 export default function Show({ 
@@ -20,7 +21,8 @@ export default function Show({
     announcements = [],
     articles = [],
     pengajars = [],
-    fasilitas = []
+    fasilitas = [],
+    ppdbInfo = null
 }) {
     return (
         <PublicLayout title={lembaga.nama} navTheme="dark" isLembaga={true}>
@@ -33,6 +35,7 @@ export default function Show({
             <TenagaPendidikSection pengajars={pengajars} />
             <KeunggulanSection lembaga={lembaga} />
             <BeritaKegiatanSection beritas={beritas} prestasi={prestasi} />
+            <PpdbSection lembaga={lembaga} ppdbInfo={ppdbInfo} />
             <FasilitasSection lembaga={lembaga} fasilitas={fasilitas} />
             <CtaSection lembaga={lembaga} />
 
