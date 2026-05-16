@@ -19,7 +19,7 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
     Route::get('/', [HomeController::class, 'adminLogin'])->name('login');
     
     // Dashboard Induk (Protected)
-    Route::middleware(['auth', 'verified'])->group(function () {
+    Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', function () {
             return Inertia::render('IndukAdmin/Dashboard');
         })->name('dashboard');
@@ -40,6 +40,8 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
         Route::get('/fasilitas', function () { return Inertia::render('IndukAdmin/Fasilitas/Index'); })->name('fasilitas.index');
         Route::get('/tentang', function () { return Inertia::render('IndukAdmin/Tentang/Index'); })->name('tentang.index');
         Route::get('/kontak', function () { return Inertia::render('IndukAdmin/Kontak/Index'); })->name('kontak.index');
+        Route::get('/settings', [\App\Http\Controllers\IndukAdmin\SiteSettingController::class, 'index'])->name('settings.index');
+        Route::put('/settings', [\App\Http\Controllers\IndukAdmin\SiteSettingController::class, 'update'])->name('settings.update');
     });
 });
 

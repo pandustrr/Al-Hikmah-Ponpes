@@ -20,7 +20,7 @@ export default function Edit({ berita, categories, lembagas }) {
                     <h1 className="text-4xl font-black uppercase tracking-tighter text-slate-900 leading-none">Edit Berita: <span className="text-brand-primary line-clamp-1">{berita.judul}</span></h1>
                 </div>
 
-                <BeritaForm berita={berita} categories={categories} lembagas={lembagas} submitLabel="Simpan Perubahan" />
+                <BeritaForm key={berita.id} berita={berita} categories={categories} lembagas={lembagas} submitLabel="Simpan Perubahan" />
             </div>
         </IndukAdminLayout>
     );

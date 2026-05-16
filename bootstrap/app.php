@@ -15,6 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
             //
         ]);
 
+        // Remove email verification — app uses username auth, no email column in users table
+        $middleware->remove([
+            \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        ]);
+
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
