@@ -33,7 +33,7 @@ class SchoolController extends Controller
                 return $query->where('id', '!=', $stickyBerita->id);
             })
             ->latest()
-            ->take(3)
+            ->take(4)
             ->get();
 
         // Sidebar Content: Announcements (ID 3)
@@ -44,13 +44,19 @@ class SchoolController extends Controller
             ->take(3)
             ->get();
 
-        // Sidebar Content: Articles (ID 4)
+        // Sidebar Content: Sticky Articles only
         $articles = \App\Models\Berita::where('lembaga_id', $lembaga->id)
             ->where('category_id', 4)
             ->where('status', 'published')
+            ->where('is_sticky', true)
             ->latest()
             ->take(3)
             ->get();
+
+        // PPDB Info for this lembaga
+        $ppdbInfo = \App\Models\PpdbInfo::where('lembaga_id', $lembaga->id)
+            ->where('is_active', true)
+            ->first();
 
         // Teachers/Staff
         $pengajars = \App\Models\Pengajar::where('lembaga_id', $lembaga->id)
@@ -63,15 +69,16 @@ class SchoolController extends Controller
             ->get();
 
         return Inertia::render('LembagaPage/Home', [
-            'lembaga' => $lembaga,
-            'prestasi' => $prestasi,
-            'kegiatan' => $kegiatan,
-            'beritas' => $beritas,
-            'stickyBerita' => $stickyBerita,
-            'announcements' => $announcements,
-            'articles' => $articles,
-            'pengajars' => $pengajars,
-            'fasilitas' => $fasilitas
+            'lembaga'     => $lembaga,
+            'prestasi'    => $prestasi,
+            'kegiatan'    => $kegiatan,
+            'beritas'     => $beritas,
+            'stickyBerita'=> $stickyBerita,
+            'announcements'=> $announcements,
+            'articles'    => $articles,
+            'pengajars'   => $pengajars,
+            'fasilitas'   => $fasilitas,
+            'ppdbInfo'    => $ppdbInfo,
         ]);
     }
 }

@@ -129,7 +129,7 @@ export default function ProfilSection({ lembaga, prestasi = [], articles = [] })
                     {hasSidebar && (
                         <div className="lg:col-span-4 space-y-12 lg:sticky lg:top-24 self-start">
                             <NewsSidebarCard items={prestasi} title="Prestasi" type="Prestasi" />
-                            <NewsSidebarCard items={articles} title="Artikel" type="Artikel" />
+                            <NewsSidebarCard items={articles} title="Artikel Pilihan" type="Artikel" />
                         </div>
                     )}
                 </div>

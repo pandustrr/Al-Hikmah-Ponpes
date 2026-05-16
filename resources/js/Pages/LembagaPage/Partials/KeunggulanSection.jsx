@@ -19,8 +19,8 @@ export default function KeunggulanSection({ lembaga }) {
                             <div className="flex items-start gap-4 mb-6">
                                 <PresentationChartLineIcon className="h-6 w-6 text-brand-secondary shrink-0" />
                                 <div>
-                                    <h4 className="text-sm font-bold uppercase tracking-widest mb-3">Struktur Pendidikan</h4>
-                                    <p className="text-xs text-white/60 leading-relaxed whitespace-pre-line">
+                                    <h4 className="text-sm font-bold uppercase tracking-widest mb-3 text-white">Struktur Pendidikan</h4>
+                                    <p className="text-xs text-white/80 leading-relaxed whitespace-pre-line">
                                         {lembaga.struktur_pendidikan || 'Kurikulum yang kami terapkan mengintegrasikan nilai-nilai kepesantrenan dengan standar pendidikan nasional.'}
                                     </p>
                                 </div>
@@ -28,7 +28,7 @@ export default function KeunggulanSection({ lembaga }) {
                             {lembaga.program_tags && (
                                 <div className="grid grid-cols-2 gap-4">
                                     {lembaga.program_tags.split('|').filter(Boolean).map((item, i) => (
-                                        <div key={i} className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-white/40">
+                                        <div key={i} className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-white/80">
                                             <CheckBadgeIcon className="h-3 w-3 text-brand-secondary" /> {item.trim()}
                                         </div>
                                     ))}
@@ -39,10 +39,10 @@ export default function KeunggulanSection({ lembaga }) {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {keunggulanList.map((adv, i) => (
-                            <div key={i} className="group p-6 bg-white/5 border border-white/5 hover:border-brand-secondary/30 transition-all">
+                        <div key={i} className="group p-6 bg-white/5 border border-white/10 hover:border-brand-secondary hover:bg-brand-secondary/10 transition-all duration-300 cursor-default">
                                 <div className="text-brand-secondary text-lg font-bold mb-3 opacity-20 group-hover:opacity-100 transition-opacity">0{i+1}</div>
                                 <h5 className="font-bold uppercase tracking-widest text-[9px] text-white mb-2">{adv}</h5>
-                                <p className="text-[9px] text-white/40 leading-relaxed uppercase tracking-wider">Layanan pendidikan terbaik untuk masa depan santri.</p>
+                                <p className="text-[9px] text-white/70 leading-relaxed uppercase tracking-wider">Layanan pendidikan terbaik untuk masa depan santri.</p>
                             </div>
                         ))}
                     </div>

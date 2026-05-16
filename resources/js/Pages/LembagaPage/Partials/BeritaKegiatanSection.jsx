@@ -3,7 +3,7 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { Link } from '@inertiajs/react';
 
 export default function BeritaKegiatanSection({ beritas = [], prestasi = [] }) {
-    const items = beritas.length > 0 ? beritas : prestasi.slice(0, 3);
+    const items = beritas.length > 0 ? beritas : prestasi.slice(0, 4);
 
     return (
         <section className="py-20 md:py-28 bg-white">
@@ -18,7 +18,7 @@ export default function BeritaKegiatanSection({ beritas = [], prestasi = [] }) {
                     </Link>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     {items.map((p, i) => (
                         <div key={i} className="group flex flex-col h-full border border-slate-100 p-4 hover:shadow-xl transition-all">
                             <div className="aspect-video overflow-hidden mb-6 relative grayscale group-hover:grayscale-0 transition-all duration-700">

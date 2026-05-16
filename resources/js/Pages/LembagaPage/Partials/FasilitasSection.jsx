@@ -23,7 +23,7 @@ export default function FasilitasSection({ lembaga, fasilitas = [] }) {
                     </Link>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {fasilitas.map((f, i) => (
                         <div key={f.id} className="group bg-white border border-slate-200 rounded-[0.25rem] overflow-hidden hover:shadow-2xl hover:shadow-brand-primary/5 transition-all duration-500">
                             <div className="aspect-[4/3] overflow-hidden relative">
@@ -38,9 +38,9 @@ export default function FasilitasSection({ lembaga, fasilitas = [] }) {
                                     </span>
                                 </div>
                             </div>
-                            <div className="p-8">
-                                <h4 className="text-lg font-bold text-slate-900 uppercase tracking-tight mb-3 group-hover:text-brand-primary transition-colors">{f.nama}</h4>
-                                <p className="text-slate-500 text-xs leading-relaxed line-clamp-3 italic">
+                            <div className="p-5">
+                                <h4 className="text-base font-bold text-slate-900 uppercase tracking-tight mb-2 group-hover:text-brand-primary transition-colors">{f.nama}</h4>
+                                <p className="text-slate-500 text-xs leading-relaxed line-clamp-2 italic">
                                     "{f.deskripsi}"
                                 </p>
                             </div>
