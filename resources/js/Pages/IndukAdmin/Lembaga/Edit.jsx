@@ -27,6 +27,11 @@ export default function Edit({ lembaga, pengajars = [] }) {
         deskripsi: lembaga.deskripsi || '',
         summary: lembaga.summary || '',
         running_text: lembaga.running_text || '',
+        jumlah_siswa: lembaga.jumlah_siswa || '',
+        jumlah_pengajar: lembaga.jumlah_pengajar || '',
+        jumlah_fasilitas: lembaga.jumlah_fasilitas || '',
+        akreditasi: lembaga.akreditasi || '',
+        program_tags: lembaga.program_tags || '',
         visi: lembaga.visi || '',
         misi: lembaga.misi || '',
         struktur_pendidikan: lembaga.struktur_pendidikan || '',
@@ -176,6 +181,45 @@ export default function Edit({ lembaga, pengajars = [] }) {
                                             placeholder="Kalimat yang berjalan di bawah statistik..."
                                         ></textarea>
                                     </div>
+                                </div>
+
+                                {/* Stats Section */}
+                                <div>
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <span className="h-[2px] w-5 bg-brand-primary"></span>
+                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Statistik Unit (Ditampilkan di Kartu Angka)</span>
+                                    </div>
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                        <div>
+                                            <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-2">Jumlah Siswa</label>
+                                            <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-sm focus:ring-1 focus:ring-brand-primary outline-none" value={data.jumlah_siswa} onChange={e => setData('jumlah_siswa', e.target.value)} placeholder="320+" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-2">Tenaga Pendidik</label>
+                                            <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-sm focus:ring-1 focus:ring-brand-primary outline-none" value={data.jumlah_pengajar} onChange={e => setData('jumlah_pengajar', e.target.value)} placeholder="24" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-2">Fasilitas Unggulan</label>
+                                            <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-sm focus:ring-1 focus:ring-brand-primary outline-none" value={data.jumlah_fasilitas} onChange={e => setData('jumlah_fasilitas', e.target.value)} placeholder="10+" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-2">Akreditasi</label>
+                                            <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-sm focus:ring-1 focus:ring-brand-primary outline-none" value={data.akreditasi} onChange={e => setData('akreditasi', e.target.value)} placeholder="A" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Program Tags */}
+                                <div>
+                                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Tag Program Unggulan</label>
+                                    <input 
+                                        type="text" 
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                        value={data.program_tags}
+                                        onChange={e => setData('program_tags', e.target.value)}
+                                        placeholder="Kurikulum Merdeka|Tahfidz|Adab & Akhlak|Bilingual"
+                                    />
+                                    <p className="mt-2 text-[9px] text-slate-400 italic">Pisahkan setiap tag dengan tanda | (pipe). Contoh: Kurikulum Merdeka|Tahfidz|Bilingual</p>
                                 </div>
                             </div>
                         </div>

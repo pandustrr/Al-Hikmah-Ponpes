@@ -14,6 +14,12 @@ class LembagaContentSeeder extends Seeder
     {
         $data = [
             'sd' => [
+                'running_text' => 'Selamat Datang di SD Al-Hikmah Ambulu — Mendidik Generasi Berakhlak & Berprestasi — PPDB 2026/2027 Telah Dibuka — Daftar Sekarang!',
+                'jumlah_siswa' => '320+',
+                'jumlah_pengajar' => '24',
+                'jumlah_fasilitas' => '10+',
+                'akreditasi' => 'A',
+                'program_tags' => 'Kurikulum Merdeka|Tahfidz Juz 30|Adab & Akhlak|Full Day School',
                 'summary' => 'Pendidikan tingkat dasar yang mengedepankan pembentukan karakter islami dan pembiasaan adab harian sejak dini dengan metode Full Day School.',
                 'visi' => 'Terwujudnya Generasi yang Berakhlakul Karimah, Cerdas, dan Mandiri berlandaskan Nilai-Nilai Islam Ahlussunnah Wal Jamaah.',
                 'misi' => "1. Menanamkan Akidah Islam yang murni sejak dini.\n2. Membiasakan adab dan akhlak mulia dalam kehidupan sehari-hari.\n3. Menyelenggarakan pendidikan dasar yang kreatif dan inovatif.\n4. Mengembangkan potensi minat dan bakat siswa secara optimal.",
@@ -23,6 +29,12 @@ class LembagaContentSeeder extends Seeder
                 'ikon_url' => 'https://img.icons8.com/bubbles/200/school.png',
             ],
             'smp' => [
+                'running_text' => 'SMP Al-Hikmah Ambulu — Unggul dalam Prestasi, Mulia dalam Akhlak — Pendaftaran Santri Baru 2026/2027 Segera Ditutup — Hubungi Kami!',
+                'jumlah_siswa' => '280+',
+                'jumlah_pengajar' => '22',
+                'jumlah_fasilitas' => '12+',
+                'akreditasi' => 'A',
+                'program_tags' => 'Kelas Bilingual|Madrasah Diniyah|Sains Terapan|Leadership Camp',
                 'summary' => 'Menyiapkan generasi remaja yang tangguh secara intelektual dan spiritual melalui integrasi sains dan ilmu syar\'i dalam lingkungan pesantren.',
                 'visi' => 'Menjadi Lembaga Pendidikan Menengah Pertama yang Unggul dalam Prestasi dan Mulia dalam Budi Pekerti.',
                 'misi' => "1. Meningkatkan kualitas akademik melalui pembelajaran berbasis IT.\n2. Memperdalam pemahaman kitab kuning dan literasi islami.\n3. Membentuk karakter pemimpin yang amanah dan bertanggung jawab.\n4. Menjalin sinergi yang kuat antara sekolah, orang tua, dan masyarakat.",
@@ -32,6 +44,12 @@ class LembagaContentSeeder extends Seeder
                 'ikon_url' => 'https://img.icons8.com/bubbles/200/books.png',
             ],
             'smk' => [
+                'running_text' => 'SMK Al-Hikmah Ambulu — Siap Kerja, Siap Berwirausaha, Siap Berdakwah — Buka Jurusan TKJ, Multimedia & Perbankan Syariah — Daftar Sekarang!',
+                'jumlah_siswa' => '350+',
+                'jumlah_pengajar' => '30',
+                'jumlah_fasilitas' => '15+',
+                'akreditasi' => 'A',
+                'program_tags' => 'TKJ|Multimedia|Perbankan Syariah|PKL Industri',
                 'summary' => 'Pusat keunggulan pendidikan vokasi yang mencetak tenaga ahli profesional dengan tetap memegang teguh nilai-nilai kesantrian dan etika kerja islami.',
                 'visi' => 'Menghasilkan Lulusan yang Kompeten di Bidang Teknologi, Berjiwa Wirausaha, dan Berakhlak Mulia.',
                 'misi' => "1. Menyelenggarakan diklat kejuruan berbasis standar industri.\n2. Menumbuhkan jiwa enterpreneurship melalui Unit Produksi.\n3. Mengintegrasikan etika kerja islami dalam setiap praktikum.\n4. Membangun jaringan kerjasama dengan IDUKA (Industri & Dunia Kerja).",
@@ -41,6 +59,12 @@ class LembagaContentSeeder extends Seeder
                 'ikon_url' => 'https://img.icons8.com/bubbles/200/technical-support.png',
             ],
             'madin' => [
+                'running_text' => 'Madrasah Diniyah Al-Hikmah Ambulu — Mendalami Kitab Salaf, Meneladani Ulama — Kajian Rutin Setiap Hari — Terbuka untuk Umum!',
+                'jumlah_siswa' => '200+',
+                'jumlah_pengajar' => '18',
+                'jumlah_fasilitas' => '8+',
+                'akreditasi' => 'Terdaftar',
+                'program_tags' => 'Kitab Kuning|Nahwu Sharaf|Fiqih|Tahfidz',
                 'summary' => 'Lembaga pendidikan non-formal yang fokus pada pendalaman kitab salaf dan penguatan literasi keagamaan sebagai fondasi utama setiap santri.',
                 'visi' => 'Melestarikan Ajaran Islam Salafush Shalih melalui Kajian Kitab Kuning yang Mendalam.',
                 'misi' => "1. Menyelenggarakan pengajaran kitab kuning secara berjenjang.\n2. Menguatkan literasi Bahasa Arab (Nahwu & Sharaf).\n3. Membentuk pribadi santri yang taat beribadah dan tawadhu.\n4. Menyiapkan kader ulama yang mampu menjawab tantangan zaman.",
