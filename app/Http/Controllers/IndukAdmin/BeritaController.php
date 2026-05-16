@@ -16,8 +16,10 @@ class BeritaController extends Controller
     public function index()
     {
         return Inertia::render('IndukAdmin/Berita/Index', [
-            'berita' => Berita::with(['category', 'lembaga'])->latest()->get(),
+            'berita'     => Berita::with(['category', 'lembaga'])->latest()->get(),
             'categories' => BeritaCategory::all(),
+            'lembagas'   => Lembaga::all(),
+            'settings'   => \App\Models\SiteSetting::all()->groupBy('group'),
         ]);
     }
 
@@ -38,7 +40,7 @@ class BeritaController extends Controller
             'lembaga_id' => 'nullable|exists:lembagas,id',
             'tanggal' => 'required|date',
             'status' => 'required|in:published,draft',
-            'is_sticky' => 'nullable|boolean',
+            'is_multimedia' => 'required|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -48,7 +50,6 @@ class BeritaController extends Controller
         }
 
         $validated['slug'] = Str::slug($validated['judul']) . '-' . Str::random(5);
-        $validated['is_sticky'] = $request->boolean('is_sticky');
 
         Berita::create($validated);
 
@@ -73,7 +74,7 @@ class BeritaController extends Controller
             'lembaga_id' => 'nullable|exists:lembagas,id',
             'tanggal' => 'required|date',
             'status' => 'required|in:published,draft',
-            'is_sticky' => 'nullable|boolean',
+            'is_multimedia' => 'required|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -92,8 +93,6 @@ class BeritaController extends Controller
         if ($request->judul !== $berita->judul) {
             $validated['slug'] = Str::slug($validated['judul']) . '-' . Str::random(5);
         }
-
-        $validated['is_sticky'] = $request->boolean('is_sticky');
 
         $berita->update($validated);
 

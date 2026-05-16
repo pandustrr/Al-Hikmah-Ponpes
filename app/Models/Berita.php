@@ -11,11 +11,11 @@ class Berita extends Model
         'judul', 
         'slug', 
         'konten', 
-        'ringkasan',
         'image_url', 
         'tanggal', 
         'status', 
-        'is_sticky',
+        'is_multimedia',
+        'views',
         'category_id'
     ];
 

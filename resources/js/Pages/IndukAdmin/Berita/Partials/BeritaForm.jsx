@@ -6,6 +6,8 @@ import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
 import SecondaryButton from '@/Components/SecondaryButton';
 import { PhotoIcon } from '@heroicons/react/24/outline';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 export default function BeritaForm({ berita = null, categories, lembagas, submitLabel = 'Simpan Berita' }) {
     const [preview, setPreview] = React.useState(null);
@@ -17,7 +19,7 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
         lembaga_id: berita?.lembaga_id || '',
         tanggal: berita?.tanggal || new Date().toISOString().split('T')[0],
         status: berita?.status || 'published',
-        is_sticky: berita?.is_sticky || false,
+        is_multimedia: !!berita?.is_multimedia || false,
         image: null,
         _method: berita ? 'PUT' : 'POST', // For spoofing PUT with multipart/form-data
     });
@@ -52,13 +54,22 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
 
                     <div>
                         <InputLabel htmlFor="konten" value="Isi Berita" className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
-                        <textarea
-                            id="konten"
-                            value={data.konten}
-                            className="mt-1 block w-full border-slate-200 focus:border-brand-primary focus:ring-brand-primary rounded-[0.25rem] text-sm leading-relaxed text-slate-700 min-h-[300px]"
-                            onChange={(e) => setData('konten', e.target.value)}
-                            required
-                        />
+                        <div className="mt-1 bg-white">
+                            <ReactQuill
+                                theme="snow"
+                                value={data.konten}
+                                onChange={(content) => setData('konten', content)}
+                                className="h-[300px] mb-12"
+                                modules={{
+                                    toolbar: [
+                                        [{ 'header': [1, 2, 3, false] }],
+                                        ['bold', 'italic', 'underline', 'strike'],
+                                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                        ['link', 'clean']
+                                    ],
+                                }}
+                            />
+                        </div>
                         <InputError message={errors.konten} className="mt-2" />
                     </div>
                 </div>
@@ -99,6 +110,21 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                         </div>
                     </div>
 
+                    <div className="flex items-center gap-2 p-4 bg-slate-50 border border-slate-200 rounded-[0.25rem]">
+                        <input
+                            type="checkbox"
+                            id="is_multimedia"
+                            checked={data.is_multimedia}
+                            onChange={(e) => setData('is_multimedia', e.target.checked)}
+                            className="rounded border-slate-300 text-brand-primary focus:ring-brand-primary"
+                        />
+                        <label htmlFor="is_multimedia" className="text-[10px] font-black uppercase tracking-widest text-slate-600">
+                            Tampilkan di Multimedia Al-Hikmah
+                        </label>
+                    </div>
+
+                    <div>
+                        <InputLabel htmlFor="lembaga_id" value="Lembaga (Opsional)" className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
                         <select
                             id="lembaga_id"
                             value={data.lembaga_id}
@@ -107,24 +133,11 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                         >
                             <option value="">Pusat Yayasan (Global)</option>
                             {lembagas.map(lembaga => (
-                                <option key={lembaga.id} value={lembaga.id}>{lembaga.nama}</option>
+                                <option key={lembaga.id} value={lembaga.id}>{lembaga.name}</option>
                             ))}
                         </select>
                         <InputError message={errors.lembaga_id} className="mt-2" />
                         <p className="mt-1 text-[10px] text-slate-400 italic">Biarkan kosong jika berita untuk umum/yayasan.</p>
-                    </div>
-
-                    <div className="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 rounded-[0.25rem]">
-                        <input 
-                            type="checkbox" 
-                            id="is_sticky"
-                            checked={data.is_sticky}
-                            className="w-4 h-4 text-brand-primary border-slate-300 rounded focus:ring-brand-primary"
-                            onChange={(e) => setData('is_sticky', e.target.checked)}
-                        />
-                        <label htmlFor="is_sticky" className="text-[10px] font-black uppercase tracking-widest text-slate-900 cursor-pointer">
-                            Sematkan Berita (Sticky)
-                        </label>
                     </div>
 
                     <div>
@@ -206,6 +219,6 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                     {processing ? 'Memproses...' : submitLabel}
                 </PrimaryButton>
             </div>
-        </form >
+        </form>
     );
 }
