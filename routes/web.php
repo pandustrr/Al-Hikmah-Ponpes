@@ -26,11 +26,15 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
 
         // Sub-pages
         Route::get('/lembaga', function () { return Inertia::render('IndukAdmin/Lembaga/Index'); })->name('lembaga.index');
-        Route::resource('/berita', \App\Http\Controllers\IndukAdmin\BeritaController::class)->names('berita');
+        Route::resource('/berita', \App\Http\Controllers\IndukAdmin\BeritaController::class)->names('berita')->parameters(['berita' => 'berita']);
         Route::get('/info-ppdb', function () { return Inertia::render('IndukAdmin/InfoPPDB/Index'); })->name('info-ppdb.index');
 
         Route::get('/fasilitas', function () { return Inertia::render('IndukAdmin/Fasilitas/Index'); })->name('fasilitas.index');
         Route::get('/tentang', function () { return Inertia::render('IndukAdmin/Tentang/Index'); })->name('tentang.index');
+        
+        // Settings
+        Route::get('/settings', [\App\Http\Controllers\IndukAdmin\SiteSettingController::class, 'index'])->name('settings.index');
+        Route::put('/settings', [\App\Http\Controllers\IndukAdmin\SiteSettingController::class, 'update'])->name('settings.update');
     });
 });
 

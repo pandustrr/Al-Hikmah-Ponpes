@@ -14,6 +14,8 @@ class Berita extends Model
         'image_url', 
         'tanggal', 
         'status', 
+        'is_multimedia',
+        'views',
         'category_id'
     ];
 

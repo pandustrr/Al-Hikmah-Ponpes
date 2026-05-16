@@ -3,8 +3,19 @@ import PublicLayout from '@/Layouts/PublicLayout';
 import { Link, router } from '@inertiajs/react';
 import NewsTicker from './NewsTicker';
 import NewsCard from './NewsCard';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
-export default function Index({ berita, currentCategory, categories }) {
+export default function Index({ berita, multimedia = [], currentCategory, categories, settings = {}, popularNews = [], filters = {} }) {
+    const [search, setSearch] = useState(filters.q || '');
+    
+    const handleSearch = (e) => {
+        e.preventDefault();
+        router.get('/berita', { q: search, kategori: currentCategory }, {
+            preserveState: true,
+            replace: true,
+        });
+    };
+
     // Combine "Semua Berita" with dynamic categories from DB
     const allCategories = [
         { slug: '', name: 'Terkini' },
@@ -22,7 +33,6 @@ export default function Index({ berita, currentCategory, categories }) {
     const featuredNews = berita.length > 0 ? berita[0] : null;
     const otherNews = berita.length > 1 ? berita.slice(1) : [];
     const latestNewsForTicker = berita.slice(0, 5);
-    const popularNews = berita.slice(0, 5); // Fallback for popular if not provided
 
     return (
         <PublicLayout title="Berita & Informasi">
@@ -38,10 +48,10 @@ export default function Index({ berita, currentCategory, categories }) {
                         </span>
                     </div>
                     <div className="flex items-center gap-4">
-                        <a href="#" className="hover:text-brand-secondary transition-colors">Facebook</a>
-                        <a href="#" className="hover:text-brand-secondary transition-colors">Instagram</a>
-                        <a href="#" className="hover:text-brand-secondary transition-colors">Twitter</a>
-                        <a href="#" className="hover:text-brand-secondary transition-colors">YouTube</a>
+                        <a href={settings.social_facebook || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Facebook</a>
+                        <a href={settings.social_instagram || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Instagram</a>
+                        <a href={settings.social_twitter || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Twitter</a>
+                        <a href={settings.social_youtube || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">YouTube</a>
                     </div>
                 </div>
             </div>
@@ -57,8 +67,25 @@ export default function Index({ berita, currentCategory, categories }) {
                         <span className="text-brand-accent">Al-Hikmah</span> NEWS
                     </h1>
                     <p className="text-[10px] font-semibold text-brand-accent uppercase tracking-[0.5em] mb-8">
-                        Independent • Trustworthy • Educational
+                        {settings.news_tagline || 'Independent • Trustworthy • Educational'}
                     </p>
+
+                    {/* Search Bar */}
+                    <div className="max-w-2xl mx-auto mb-10">
+                        <form onSubmit={handleSearch} className="relative group">
+                            <input 
+                                type="text" 
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                placeholder="Cari berita atau informasi..." 
+                                className="w-full bg-slate-50 border-2 border-sage-light focus:border-brand-primary focus:bg-white px-12 py-4 rounded-full text-sm font-medium transition-all outline-none"
+                            />
+                            <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-brand-accent group-focus-within:text-brand-primary transition-colors" />
+                            <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-brand-primary hover:bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest px-6 py-2.5 rounded-full transition-all">
+                                Cari
+                            </button>
+                        </form>
+                    </div>
                     
                     {/* Navigation / Filter */}
                     <div className="flex flex-wrap items-center justify-center border-t border-sage-light mt-4 overflow-x-auto no-scrollbar sticky top-14 bg-white/95 backdrop-blur-md z-40 shadow-sm md:shadow-none">
@@ -118,36 +145,34 @@ export default function Index({ berita, currentCategory, categories }) {
                                          <Link href="#" className="text-[10px] font-semibold text-brand-accent hover:text-brand-primary uppercase tracking-widest transition-colors">Lihat Semua Galeri</Link>
                                      </div>
                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                         <div className="relative aspect-video bg-brand-secondary overflow-hidden rounded-[0.25rem] group cursor-pointer">
-                                             <img src="https://images.unsplash.com/photo-1492538368677-f6e0afe31dcc?auto=format&fit=crop&q=80&w=800" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Video" />
-                                             <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-all">
-                                                 <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
-                                                     <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[12px] border-l-brand-primary border-b-[8px] border-b-transparent ml-1"></div>
+                                         {multimedia.length > 0 ? (
+                                             <>
+                                                 <Link href={`/berita/${multimedia[0].slug}`} className="relative aspect-video bg-brand-secondary overflow-hidden rounded-[0.25rem] group cursor-pointer">
+                                                     <img src={multimedia[0].image_url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Video" />
+                                                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-all">
+                                                         <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
+                                                             <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[12px] border-l-brand-primary border-b-[8px] border-b-transparent ml-1"></div>
+                                                         </div>
+                                                     </div>
+                                                     <div className="absolute bottom-4 left-4 right-4 text-left">
+                                                         <span className="bg-red-600 text-white text-[8px] font-semibold px-1.5 py-0.5 uppercase tracking-widest mb-2 inline-block">MULTIMEDIA</span>
+                                                         <h4 className="text-white font-semibold text-sm leading-tight">{multimedia[0].judul}</h4>
+                                                     </div>
+                                                 </Link>
+                                                 <div className="grid grid-cols-2 gap-4">
+                                                     {multimedia.slice(1, 5).map(item => (
+                                                         <Link key={item.id} href={`/berita/${item.slug}`} className="relative aspect-square bg-brand-secondary overflow-hidden rounded-[0.25rem] group cursor-pointer">
+                                                             <img src={item.image_url} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Foto" />
+                                                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                                         </Link>
+                                                     ))}
                                                  </div>
+                                             </>
+                                         ) : (
+                                             <div className="col-span-2 py-10 text-center text-brand-accent italic border border-dashed border-sage-light">
+                                                 Belum ada konten multimedia.
                                              </div>
-                                             <div className="absolute bottom-4 left-4 right-4">
-                                                 <span className="bg-red-600 text-white text-[8px] font-semibold px-1.5 py-0.5 uppercase tracking-widest mb-2 inline-block">VIDEO</span>
-                                                 <h4 className="text-white font-semibold text-sm leading-tight">Profil Singkat Pondok Pesantren Al-Hikmah 2026</h4>
-                                             </div>
-                                         </div>
-                                         <div className="grid grid-cols-2 gap-4">
-                                             <div className="relative aspect-square bg-brand-secondary overflow-hidden rounded-[0.25rem] group cursor-pointer">
-                                                 <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Foto" />
-                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                             </div>
-                                             <div className="relative aspect-square bg-brand-secondary overflow-hidden rounded-[0.25rem] group cursor-pointer">
-                                                 <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Foto" />
-                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                             </div>
-                                             <div className="relative aspect-square bg-brand-secondary overflow-hidden rounded-[0.25rem] group cursor-pointer">
-                                                 <img src="https://images.unsplash.com/photo-1577896851231-70ef14697593?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Foto" />
-                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                             </div>
-                                             <div className="relative aspect-square bg-brand-secondary overflow-hidden rounded-[0.25rem] group cursor-pointer">
-                                                 <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Foto" />
-                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                             </div>
-                                         </div>
+                                         )}
                                      </div>
                                  </div>
                              </div>
@@ -217,10 +242,14 @@ export default function Index({ berita, currentCategory, categories }) {
                                 Tag Populer
                             </h2>
                             <div className="flex flex-wrap gap-2">
-                                {['Pondok', 'Prestasi', 'PPDB', 'Pendidikan', 'Islam', 'Santri', 'Kegiatan', 'Ramadhan'].map(tag => (
-                                    <span key={tag} className="px-3 py-1 bg-white border border-sage-light text-[9px] font-semibold text-brand-accent uppercase tracking-widest rounded-full hover:border-brand-primary hover:text-brand-primary cursor-pointer transition-all">
-                                        #{tag}
-                                    </span>
+                                {categories.slice(0, 8).map(cat => (
+                                    <button 
+                                        key={cat.id} 
+                                        onClick={() => handleFilter(cat.slug)}
+                                        className="px-3 py-1 bg-white border border-sage-light text-[9px] font-semibold text-brand-accent uppercase tracking-widest rounded-full hover:border-brand-primary hover:text-brand-primary cursor-pointer transition-all"
+                                    >
+                                        #{cat.name}
+                                    </button>
                                 ))}
                             </div>
                         </div>

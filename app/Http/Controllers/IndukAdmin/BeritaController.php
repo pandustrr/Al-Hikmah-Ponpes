@@ -18,6 +18,7 @@ class BeritaController extends Controller
         return Inertia::render('IndukAdmin/Berita/Index', [
             'berita' => Berita::with(['category', 'lembaga'])->latest()->get(),
             'categories' => BeritaCategory::all(),
+            'settings' => \App\Models\SiteSetting::all()->groupBy('group'),
         ]);
     }
 
@@ -38,6 +39,7 @@ class BeritaController extends Controller
             'lembaga_id' => 'nullable|exists:lembagas,id',
             'tanggal' => 'required|date',
             'status' => 'required|in:published,draft',
+            'is_multimedia' => 'required|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -71,6 +73,7 @@ class BeritaController extends Controller
             'lembaga_id' => 'nullable|exists:lembagas,id',
             'tanggal' => 'required|date',
             'status' => 'required|in:published,draft',
+            'is_multimedia' => 'required|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
