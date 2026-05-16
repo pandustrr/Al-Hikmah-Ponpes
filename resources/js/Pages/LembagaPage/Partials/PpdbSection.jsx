@@ -78,7 +78,7 @@ export default function PpdbSection({ lembaga, ppdbInfo }) {
                     <div className="bg-white border border-slate-200 rounded-[0.25rem] shadow-lg overflow-hidden">
 
                         {/* Card Header */}
-                        <div className="bg-brand-primary px-8 py-6">
+                        <div className="bg-brand-primary px-6 py-5 md:px-8 md:py-6">
                             <p className="text-brand-secondary text-[9px] font-black uppercase tracking-[0.3em] mb-1">Informasi Pendaftaran</p>
                             <h3 className="text-white text-lg font-bold uppercase tracking-tight">
                                 PPDB {currentYear}/{currentYear + 1}
@@ -87,7 +87,7 @@ export default function PpdbSection({ lembaga, ppdbInfo }) {
                         </div>
 
                         {/* Card Body */}
-                        <div className="p-8 space-y-6">
+                        <div className="p-6 md:p-8 space-y-6">
 
                             {/* Status */}
                             <div className="flex items-center gap-3">

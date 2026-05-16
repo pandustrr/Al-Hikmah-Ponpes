@@ -18,7 +18,7 @@ export default function BeritaKegiatanSection({ beritas = [], prestasi = [] }) {
                     </Link>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
                     {items.map((p, i) => (
                         <div key={i} className="group flex flex-col h-full border border-slate-100 p-4 hover:shadow-xl transition-all">
                             <div className="aspect-video overflow-hidden mb-6 relative grayscale group-hover:grayscale-0 transition-all duration-700">

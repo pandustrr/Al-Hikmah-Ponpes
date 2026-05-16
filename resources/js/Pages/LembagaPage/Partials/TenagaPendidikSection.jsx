@@ -21,7 +21,7 @@ export default function TenagaPendidikSection({ pengajars = [] }) {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-12">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-12">
                             {pengajars.map((teacher) => (
                                 <div key={teacher.id} className="group">
                                     <div className="aspect-[3/4] rounded-[0.25rem] overflow-hidden mb-6 relative shadow-lg">

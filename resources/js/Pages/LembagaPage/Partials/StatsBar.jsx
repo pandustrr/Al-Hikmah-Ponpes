@@ -21,7 +21,7 @@ export default function StatsBar({ lembaga }) {
         <div className="relative z-20 -mt-10 max-w-7xl mx-auto px-6 md:px-12">
             <div className="grid grid-cols-2 lg:grid-cols-4 bg-white shadow-2xl rounded-[0.25rem] border border-slate-100 divide-x divide-slate-50">
                 {displayStats.map((stat, i) => (
-                    <div key={i} className="p-6 md:p-8 flex items-center gap-4 group">
+                    <div key={i} className="p-4 md:p-8 flex items-center gap-3 group">
                         <div className="w-10 h-10 md:w-12 md:h-12 bg-brand-primary/5 rounded-full flex items-center justify-center shrink-0 group-hover:bg-brand-primary/10 transition-colors">
                             <stat.icon className="h-5 w-5 md:h-6 md:w-6 text-brand-primary" />
                         </div>
