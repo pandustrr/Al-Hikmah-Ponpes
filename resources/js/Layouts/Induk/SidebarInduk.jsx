@@ -29,7 +29,7 @@ export default function SidebarInduk({ isOpen }) {
             isOpen: isLembagaOpen,
             toggle: () => setIsLembagaOpen(!isLembagaOpen),
             subItems: [
-                { name: 'Kelola Master Data', href: route('admin.lembaga.index') },
+                { name: 'Kelola Pendidikan', href: route('admin.lembaga.index') },
                 ...lembagas.map(l => ({
                     name: l.nama,
                     href: route('admin.lembaga.edit', l.id)

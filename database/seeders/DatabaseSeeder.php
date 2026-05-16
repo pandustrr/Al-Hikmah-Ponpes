@@ -95,6 +95,8 @@ class DatabaseSeeder extends Seeder
             BeritaSeeder::class,
             LandingPageSeeder::class,
             PpdbSeeder::class,
+            LembagaContentSeeder::class,
+            RunningTextSeeder::class,
         ]);
     }
 }

@@ -71,7 +71,12 @@ export default function NavbarInduk({ navTheme = 'light' }) {
                 <div className="max-w-[95%] mx-auto px-4">
                     <div className="flex justify-between items-center h-12 md:h-14">
                         {/* Logo */}
-                        <Link href="/" className="flex-shrink-0 flex items-center group">
+                        <Link href="/" className="flex-shrink-0 flex items-center gap-3 group">
+                            {activeLembaga && activeLembaga.ikon_url && (
+                                <div className="h-8 w-8 md:h-10 md:w-10 p-1 bg-white/10 backdrop-blur-sm rounded-lg border border-white/10 shadow-sm flex items-center justify-center transition-all group-hover:scale-105">
+                                    <img src={activeLembaga.ikon_url} alt="Logo Unit" className="w-full h-full object-contain" />
+                                </div>
+                            )}
                             <div className="flex flex-col">
                                 <span className={`text-md md:text-xl font-serif font-semibold tracking-tighter leading-none transition-colors ${
                                     scrolled || navTheme === 'light' ? 'text-brand-primary group-hover:text-brand-accent' : 'text-white'
