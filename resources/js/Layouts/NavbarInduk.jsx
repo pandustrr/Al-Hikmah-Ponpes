@@ -34,7 +34,7 @@ export default function NavbarInduk({ navTheme = 'light' }) {
             { name: 'Artikel', href: '/berita?kategori=artikel' },
             { name: 'Event', href: '/berita?kategori=event' },
         ]},
-        { name: 'Info PPDB', href: '/pendaftaran' },
+        { name: 'Info PPDB', href: '/info-ppdb' },
         { name: 'Fasilitas', href: '/fasilitas' },
         { name: 'Kontak & Maps', href: '/kontak' },
     ];
@@ -241,7 +241,7 @@ export default function NavbarInduk({ navTheme = 'light' }) {
                         <div className="mt-auto p-5 bg-brand-light/20 border-t border-brand-light">
                             <p className="text-[8px] font-semibold text-brand-accent/40 uppercase tracking-[0.3em] mb-3">Informasi Pendaftaran</p>
                             <Link 
-                                href="/pendaftaran" onClick={() => setIsOpen(false)}
+                                href="/info-ppdb" onClick={() => setIsOpen(false)}
                                 className="bg-brand-primary text-white text-center block py-3 text-[9px] font-semibold uppercase tracking-[0.3em] rounded-[0.25rem] shadow-xl hover:bg-brand-accent transition-all"
                             >
                                 Daftar Sekarang

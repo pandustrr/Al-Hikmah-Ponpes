@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('lembaga_id')->nullable()->constrained('lembagas')->onDelete('cascade');
             $table->string('judul');
             $table->string('slug')->unique();
+            $table->text('ringkasan')->nullable();
             $table->text('konten');
             $table->string('image_url')->nullable();
             $table->date('tanggal')->nullable();

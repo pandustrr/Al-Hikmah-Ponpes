@@ -2,13 +2,14 @@ import React from 'react';
 import { Link } from '@inertiajs/react';
 import { MapPinIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
-export default function UpcomingEvents() {
-    const events = [
-        { date: '15', month: 'Mei 2026', title: 'Musabaqah Tilawatil Quran Antar Siswa 2026', lembaga: 'MTS · MA · SMK', lokasi: 'Aula Utama', img: 'https://images.unsplash.com/photo-1585829365234-781f8c4414b8?auto=format&fit=crop&q=80&w=600' },
-        { date: '22', month: 'Mei 2026', title: 'Seminar Nasional Pendidikan Islam Digital', lembaga: 'Seluruh Lembaga', lokasi: 'Gedung Serbaguna', img: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=600' },
-        { date: '01', month: 'Jun 2026', title: 'Wisuda & Haflah Akhirussanah 2026', lembaga: 'MA · SMK', lokasi: 'Lapangan Utama', img: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&q=80&w=600' },
-        { date: '10', month: 'Jun 2026', title: 'Penerimaan Siswa Baru Gelombang 2', lembaga: 'MTS · MA · SMK', lokasi: 'Kantor Pusat', img: 'https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&q=80&w=600' },
-    ];
+export default function UpcomingEvents({ events = [] }) {
+    if (events.length === 0) return null;
+
+    const formatDay = (dateStr) => new Date(dateStr).getDate();
+    const formatMonthYear = (dateStr) => {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('id-ID', { month: 'short', year: 'numeric' });
+    };
 
     return (
         <section className="py-16 bg-white border-b border-brand-light reveal-section">
@@ -25,16 +26,16 @@ export default function UpcomingEvents() {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {events.map((event, i) => (
-                        <Link key={i} href="/kegiatan" className="group card-clean flex flex-col reveal-element-up" style={{ transitionDelay: `${i * 100}ms` }}>
+                        <Link key={event.id} href="/kegiatan" className="group card-clean flex flex-col reveal-element-up" style={{ transitionDelay: `${i * 100}ms` }}>
                             <div className="relative aspect-[16/10] bg-brand-secondary overflow-hidden rounded-t-[0.25rem]">
                                 <img
-                                    src={event.img}
+                                    src={event.image_url}
                                     alt={event.title}
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
                                 />
                                 <div className="absolute top-3 left-3 bg-brand-primary text-center px-3 py-2 rounded-[0.25rem] shadow-lg">
-                                    <div className="text-xl font-semibold text-brand-secondary leading-none">{event.date}</div>
-                                    <div className="text-[8px] font-semibold text-white/70 uppercase tracking-widest">{event.month}</div>
+                                    <div className="text-xl font-semibold text-brand-secondary leading-none">{formatDay(event.date)}</div>
+                                    <div className="text-[8px] font-semibold text-white/70 uppercase tracking-widest">{formatMonthYear(event.date)}</div>
                                 </div>
                             </div>
                             <div className="p-5 border-x border-b border-brand-secondary group-hover:border-brand-primary transition-colors flex-grow rounded-b-[0.25rem]">

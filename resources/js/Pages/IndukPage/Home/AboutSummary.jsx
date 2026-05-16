@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from '@inertiajs/react';
 import { ArrowLongRightIcon } from '@heroicons/react/24/outline';
 
-export default function AboutSummary({ lembagas = [] }) {
+export default function AboutSummary({ lembagas = [], settings = {} }) {
     const announcements = [
         { title: 'Pengumuman Ujian Akhir Semester MTS 2026', date: '06/05/2026' },
         { title: 'Jadwal Libur Idul Adha Seluruh Lembaga', date: '05/05/2026' },
@@ -36,15 +36,15 @@ export default function AboutSummary({ lembagas = [] }) {
                             </div>
                             <div className="lg:col-span-5 space-y-6">
                                 <div>
-                                    <h2 className="text-[10px] font-semibold text-brand-accent uppercase tracking-[0.3em] mb-2">Mengenal Lebih Dekat</h2>
-                                    <h3 className="text-3xl font-semibold text-brand-primary tracking-tighter uppercase leading-none mb-4">YPDS <br /> Al-Hikmah</h3>
+                                    <h2 className="text-[10px] font-semibold text-brand-accent uppercase tracking-[0.3em] mb-2">{settings.about_title_small || 'Mengenal Lebih Dekat'}</h2>
+                                    <h3 className="text-3xl font-semibold text-brand-primary tracking-tighter uppercase leading-none mb-4 whitespace-pre-line">{settings.about_title_large || 'YPDS \n Al-Hikmah'}</h3>
                                     <div className="h-0.5 w-14 bg-brand-primary"></div>
                                 </div>
                                 <p className="text-brand-accent leading-relaxed italic border-l-4 border-brand-primary pl-4 text-sm">
-                                    "YPDS Al-Hikmah adalah lembaga pendidikan Islam yang berdedikasi untuk mencetak generasi cerdas secara intelektual dan kokoh secara spiritual."
+                                    "{settings.about_description_short || 'YPDS Al-Hikmah adalah lembaga pendidikan Islam yang berdedikasi untuk mencetak generasi cerdas secara intelektual dan kokoh secara spiritual.'}"
                                 </p>
                                 <p className="text-brand-primary leading-relaxed text-sm">
-                                    Berdiri di jantung Ambulu, Jember, lembaga kami telah menjadi rumah bagi ribuan siswa yang menyeimbangkan kurikulum modern dengan karakter Islami.
+                                    {settings.about_description || 'Berdiri di jantung Ambulu, Jember, lembaga kami telah menjadi rumah bagi ribuan siswa yang menyeimbangkan kurikulum modern dengan karakter Islami.'}
                                 </p>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="bg-brand-secondary p-5 border border-brand-accent/10 rounded-[0.25rem]">
@@ -71,7 +71,7 @@ export default function AboutSummary({ lembagas = [] }) {
                                     ))}
                                 </div>
                                 <div className="flex flex-wrap gap-4 pt-2">
-                                    <Link href="/pendaftaran" className="btn-primary px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] shadow-lg">Pendaftaran Siswa Baru</Link>
+                                    <Link href="/info-ppdb" className="btn-primary px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] shadow-lg">Pendaftaran Siswa Baru</Link>
                                     <Link href="/profil" className="border-2 border-brand-primary text-brand-primary px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] hover:bg-brand-primary hover:text-white transition-all rounded-[0.25rem]">Profil Lengkap</Link>
                                 </div>
                             </div>

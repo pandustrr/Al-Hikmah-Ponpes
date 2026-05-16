@@ -11,6 +11,7 @@ class Berita extends Model
         'judul', 
         'slug', 
         'konten', 
+        'ringkasan',
         'image_url', 
         'tanggal', 
         'status', 

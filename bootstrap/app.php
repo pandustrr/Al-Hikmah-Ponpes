@@ -12,7 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'lembaga.admin' => \App\Http\Middleware\EnsureLembagaAdmin::class,
+            //
         ]);
 
         $middleware->web(append: [

@@ -10,7 +10,7 @@ import BeritaYayasan from './BeritaYayasan';
 import UpcomingEvents from './UpcomingEvents';
 import Testimonials from './Testimonials';
 
-export default function Welcome({ lembagas, beritaTerbaru }) {
+export default function Welcome({ lembagas, beritaTerbaru, landingSettings, testimonials, upcomingEvents }) {
     const [offsetY, setOffsetY] = useState(0);
     const handleScroll = () => setOffsetY(window.scrollY);
 
@@ -41,14 +41,14 @@ export default function Welcome({ lembagas, beritaTerbaru }) {
 
     return (
         <PublicLayout title="Beranda" navTheme="dark">
-            <Hero offsetY={offsetY} berita={beritaTerbaru} />
-            <AboutSummary lembagas={lembagas} />
+            <Hero offsetY={offsetY} berita={beritaTerbaru} settings={landingSettings} />
+            <AboutSummary lembagas={lembagas} settings={landingSettings} />
             <FasilitasShortcut />
             <LembagaUpdates lembagas={lembagas} />
-            <PpdbCta />
+            <PpdbCta settings={landingSettings} />
             <BeritaYayasan beritaTerbaru={beritaTerbaru} />
-            <UpcomingEvents />
-            <Testimonials />
+            <UpcomingEvents events={upcomingEvents} />
+            <Testimonials testimonials={testimonials} />
         </PublicLayout>
     );
 }

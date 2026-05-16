@@ -90,13 +90,11 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // 4. Create Global News Categories
-        $categories = ['Kegiatan', 'Prestasi', 'Pengumuman'];
-        foreach ($categories as $cat) {
-            BeritaCategory::create([
-                'name' => $cat,
-                'slug' => strtolower($cat),
-            ]);
-        }
+        // 4. Call Detailed Seeders
+        $this->call([
+            BeritaSeeder::class,
+            LandingPageSeeder::class,
+            PpdbSeeder::class,
+        ]);
     }
 }
