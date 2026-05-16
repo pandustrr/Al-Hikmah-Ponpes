@@ -1,13 +1,8 @@
 import React from 'react';
 import { StarIcon } from '@heroicons/react/24/solid';
 
-export default function Testimonials() {
-    const testimonials = [
-        { name: 'H. Sulaiman', info: 'Wali Santri (SMA)', quote: 'Putra kami menjadi jauh lebih mandiri dan taat beribadah sejak mondok di sini. Kurikulumnya sangat seimbang antara umum dan agama.', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200&h=200' },
-        { name: 'Ustadzah Fatimah', info: 'Wali Santri (SMP)', quote: 'Lingkungan yang asri dan aman membuat kami tenang menitipkan anak di YPDS Al-Hikmah. Guru-gurunya sangat perhatian.', img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200&h=200' },
-        { name: 'Abdullah Hakim', info: 'Santri MA', quote: 'Fasilitas laboratorium dan perpustakaannya sangat lengkap, sangat membantu kami yang ingin lanjut ke perguruan tinggi negeri.', img: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=200&h=200' },
-        { name: 'Dra. Hj. Aminah', info: 'Tokoh Masyarakat', quote: 'YPDS Al-Hikmah Jember adalah aset berharga bagi umat. Mencetak generasi yang cerdas dan berakhlakul karimah.', img: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=200&h=200' },
-    ];
+export default function Testimonials({ testimonials = [] }) {
+    if (testimonials.length === 0) return null;
 
     return (
         <section className="py-24 bg-brand-secondary reveal-section">
@@ -35,7 +30,7 @@ export default function Testimonials() {
                             <div className="flex items-center gap-3">
                                 <div className="w-11 h-11 rounded-full overflow-hidden flex-shrink-0 border-2 border-brand-secondary">
                                     <img
-                                        src={testi.img}
+                                        src={testi.image_url}
                                         alt={testi.name}
                                         className="w-full h-full object-cover"
                                     />

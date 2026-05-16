@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alumnis', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lembaga_id')->nullable()->constrained('lembagas')->onDelete('cascade');
-            $table->string('nama');
-            $table->string('tahun_lulus');
-            $table->text('kesan_pesan')->nullable();
-            $table->string('pekerjaan')->nullable();
+            $table->string('title');
+            $table->date('date');
+            $table->string('lembaga')->nullable(); // e.g. "MTS · MA · SMK"
+            $table->string('lokasi')->nullable();
             $table->string('image_url')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('alumnis');
+        Schema::dropIfExists('events');
     }
 };

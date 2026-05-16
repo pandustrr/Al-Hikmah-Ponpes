@@ -14,13 +14,21 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $lembagas = Lembaga::with([
+        $lembagas = \App\Models\Lembaga::with([
             'prestasis' => fn($q) => $q->latest()->take(3),
             'kegiatans' => fn($q) => $q->latest()->take(2)
         ])->get();
 
-        $beritaTerbaru = Berita::with('category')->latest()->take(4)->get();
+        $beritaTerbaru = \App\Models\Berita::with('category')->latest()->take(4)->get();
         
+        $landingSettings = \App\Models\LandingSetting::all()->pluck('value', 'key');
+        $testimonials = \App\Models\Testimonial::where('is_active', true)->get();
+        $upcomingEvents = \App\Models\Event::where('is_active', true)
+            ->where('date', '>=', now())
+            ->orderBy('date', 'asc')
+            ->take(4)
+            ->get();
+
         // Map relations to match frontend expected names
         foreach ($lembagas as $lembaga) {
             $lembaga->latest_prestasi = $lembaga->prestasis;
@@ -30,6 +38,9 @@ class HomeController extends Controller
         return Inertia::render('IndukPage/Home/Index', [
             'lembagas' => $lembagas,
             'beritaTerbaru' => $beritaTerbaru,
+            'landingSettings' => $landingSettings,
+            'testimonials' => $testimonials,
+            'upcomingEvents' => $upcomingEvents,
         ]);
     }
 

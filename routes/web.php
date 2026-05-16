@@ -8,7 +8,7 @@ use App\Http\Controllers\IndukPage\TentangController;
 
 use App\Http\Controllers\IndukPage\KontakController;
 use App\Http\Controllers\IndukPage\InfoPPDBController;
-use App\Http\Controllers\LembagaAdmin\Auth\AuthenticatedSessionController as LembagaAuthenticatedSessionController;
+
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,64 +25,24 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
         })->name('dashboard');
 
         // Sub-pages
-        Route::get('/lembaga', function () { return Inertia::render('IndukAdmin/Lembaga/Index'); })->name('lembaga.index');
+        Route::resource('/lembaga', \App\Http\Controllers\IndukAdmin\LembagaController::class)->names('lembaga');
         Route::resource('/berita', \App\Http\Controllers\IndukAdmin\BeritaController::class)->names('berita');
-        Route::get('/info-ppdb', function () { return Inertia::render('IndukAdmin/InfoPPDB/Index'); })->name('info-ppdb.index');
+        Route::get('/landing', [\App\Http\Controllers\IndukAdmin\LandingController::class, 'index'])->name('landing.index');
+        Route::post('/landing/settings', [\App\Http\Controllers\IndukAdmin\LandingController::class, 'updateSettings'])->name('landing.settings.update');
+        Route::resource('/testimonials', \App\Http\Controllers\IndukAdmin\TestimonialController::class)->names('testimonials');
+        Route::resource('/events', \App\Http\Controllers\IndukAdmin\EventController::class)->names('events');
+        
+        Route::get('/info-ppdb', [\App\Http\Controllers\IndukAdmin\InfoPPDBController::class, 'index'])->name('info-ppdb.index');
+        Route::post('/info-ppdb/info', [\App\Http\Controllers\IndukAdmin\InfoPPDBController::class, 'storeInfo'])->name('ppdb-info.store');
+        Route::put('/info-ppdb/info/{ppdbInfo}', [\App\Http\Controllers\IndukAdmin\InfoPPDBController::class, 'updateInfo'])->name('ppdb-info.update');
 
         Route::get('/fasilitas', function () { return Inertia::render('IndukAdmin/Fasilitas/Index'); })->name('fasilitas.index');
         Route::get('/tentang', function () { return Inertia::render('IndukAdmin/Tentang/Index'); })->name('tentang.index');
+        Route::get('/kontak', function () { return Inertia::render('IndukAdmin/Kontak/Index'); })->name('kontak.index');
     });
 });
 
-// --- ADMIN LEMBAGA (SCOPED) ---
-Route::prefix('{lembaga_slug}/admin/console')->name('lembaga.admin.')->group(function () {
-    // Login Lembaga (Sekarang langsung di /{slug}/admin/console)
-    Route::get('/', [LembagaAuthenticatedSessionController::class, 'create'])->name('login');
-    Route::post('/', [LembagaAuthenticatedSessionController::class, 'store']);
 
-    // Dashboard Lembaga (Protected)
-    Route::middleware(['auth', 'verified', 'lembaga.admin'])->group(function () {
-        Route::get('/dashboard', function ($lembaga_slug) {
-            $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
-            return Inertia::render('LembagaAdmin/Dashboard', [
-                'lembaga' => $lembaga
-            ]);
-        })->name('dashboard');
-
-        // Sub-pages (Scoped by Lembaga)
-        Route::get('/berita', function ($lembaga_slug) { 
-            $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
-            return Inertia::render('LembagaAdmin/Berita/Index', ['lembaga' => $lembaga]); 
-        })->name('berita.index');
-        
-
-
-        Route::get('/fasilitas', function ($lembaga_slug) { 
-            $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
-            return Inertia::render('LembagaAdmin/Fasilitas/Index', ['lembaga' => $lembaga]); 
-        })->name('fasilitas.index');
-
-        Route::get('/tentang', function ($lembaga_slug) { 
-            $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
-            return Inertia::render('LembagaAdmin/Tentang/Index', ['lembaga' => $lembaga]); 
-        })->name('tentang.index');
-
-        Route::get('/kegiatan', function ($lembaga_slug) { 
-            $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
-            return Inertia::render('LembagaAdmin/Kegiatan/Index', ['lembaga' => $lembaga]); 
-        })->name('kegiatan.index');
-
-        Route::get('/prestasi', function ($lembaga_slug) { 
-            $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
-            return Inertia::render('LembagaAdmin/Prestasi/Index', ['lembaga' => $lembaga]); 
-        })->name('prestasi.index');
-
-        Route::get('/info-ppdb', function ($lembaga_slug) { 
-            $lembaga = \App\Models\Lembaga::where('slug', $lembaga_slug)->firstOrFail();
-            return Inertia::render('LembagaAdmin/InfoPPDB/Index', ['lembaga' => $lembaga]); 
-        })->name('info-ppdb.index');
-    });
-});
 
 // --- PUBLIC ROUTES ---
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -91,7 +51,7 @@ Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.sh
 Route::get('/profil', [TentangController::class, 'profil'])->name('profil');
 Route::get('/visi-misi', [TentangController::class, 'visiMisi'])->name('visi-misi');
 Route::get('/sejarah', [TentangController::class, 'sejarah'])->name('sejarah');
-Route::get('/pendaftaran', [InfoPPDBController::class, 'index'])->name('pendaftaran');
+Route::get('/info-ppdb', [InfoPPDBController::class, 'index'])->name('pendaftaran');
 
 Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
 Route::get('/fasilitas', [FasilitasController::class, 'index'])->name('fasilitas.index');

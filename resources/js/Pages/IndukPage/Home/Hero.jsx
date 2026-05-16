@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Link } from '@inertiajs/react';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 
-export default function Hero({ offsetY, berita = [] }) {
+export default function Hero({ offsetY, berita = [], settings = {} }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
     
     // Fallback data jika berita kosong
-    const sliderBerita = berita.length > 0 ? berita.slice(0, 5) : [
+    const sliderBerita = (berita && berita.length > 0) ? berita.slice(0, 5) : [
         { 
-            id: 0, 
+            id: 'fallback-1', 
             judul: 'Membangun Masa Depan dengan Adab & Ilmu', 
-            kategori: { name: 'Visi Kami' }, 
+            category: { name: 'Visi Kami' }, 
             slug: '#',
-            thumbnail: 'https://images.unsplash.com/photo-1519452575417-564c1401ecc0?auto=format&fit=crop&q=80&w=1000'
+            image_url: 'https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=1200'
         }
     ];
 
@@ -47,15 +47,15 @@ export default function Hero({ offsetY, berita = [] }) {
     return (
         <section className="relative h-[85vh] min-h-[650px] flex items-center overflow-hidden bg-brand-primary">
             {/* Dynamic Background Image Layer */}
-            {sliderBerita.map((item, index) => (
+            {sliderBerita.map((item, index) => item && (
                 <div 
-                    key={`bg-${item.id}`}
+                    key={`bg-${item.id || index}`}
                     className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                        index === currentIndex ? 'opacity-40' : 'opacity-0'
+                        index === currentIndex ? 'opacity-100' : 'opacity-0'
                     }`}
                 >
                     <img
-                        src={item.thumbnail || 'https://images.unsplash.com/photo-1590076215667-875d4ef2d968?auto=format&fit=crop&q=80&w=2000'}
+                        src={item.image_url || 'https://picsum.photos/id/1018/1200/800'}
                         alt="Background"
                         className="w-full h-full object-cover object-center scale-110"
                         style={{ transform: `translateY(${offsetY * 0.15}px)` }}
@@ -64,8 +64,7 @@ export default function Hero({ offsetY, berita = [] }) {
             ))}
             
             {/* Sophisticated Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/40 via-transparent to-brand-primary"></div>
-            <div className="absolute inset-0 bg-black/20"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/60 via-transparent to-brand-primary"></div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 w-full h-full flex flex-col justify-end lg:grid lg:grid-cols-12 lg:items-center gap-8 lg:gap-12 pb-12 lg:pb-0 pt-20 lg:pt-0">
                 
@@ -76,11 +75,18 @@ export default function Hero({ offsetY, berita = [] }) {
                         {/* Glass Card for Content */}
                         <div className="backdrop-blur-sm bg-white/5 border border-white/10 p-6 md:p-0 md:bg-transparent md:border-0 rounded-2xl mb-6 md:mb-10">
                             <div className="space-y-4 md:space-y-4">
-                                <div className="flex items-center justify-center lg:justify-start gap-3">
-                                    <span className="h-[1px] w-8 md:w-12 bg-brand-secondary"></span>
-                                    <span className="text-brand-secondary text-[8px] md:text-[11px] font-semibold uppercase tracking-[0.5em]">
-                                        {sliderBerita[currentIndex].kategori?.name || 'YPDS Update'}
-                                    </span>
+                                <div className="space-y-1 mb-2">
+                                    {settings.hero_subtitle && (
+                                        <div className="text-white/40 text-[9px] font-semibold uppercase tracking-[0.4em]">
+                                            {settings.hero_subtitle}
+                                        </div>
+                                    )}
+                                    <div className="flex items-center justify-center lg:justify-start gap-3">
+                                        <span className="h-[1px] w-8 md:w-12 bg-brand-secondary"></span>
+                                        <span className="text-brand-secondary text-[8px] md:text-[11px] font-semibold uppercase tracking-[0.5em]">
+                                            {sliderBerita[currentIndex].category?.name || 'YPDS Update'}
+                                        </span>
+                                    </div>
                                 </div>
                                 <h1 className="text-2xl md:text-5xl font-serif font-semibold text-white tracking-tight leading-[1.2] max-w-2xl">
                                     {sliderBerita[currentIndex].judul}
@@ -133,14 +139,14 @@ export default function Hero({ offsetY, berita = [] }) {
                             >
                                 <div className="w-full lg:w-20 h-16 lg:h-14 flex-shrink-0 rounded-[0.3rem] overflow-hidden bg-brand-primary/50">
                                     <img 
-                                        src={item.thumbnail || 'https://images.unsplash.com/photo-1590076215667-875d4ef2d968?auto=format&fit=crop&q=80&w=200'} 
+                                        src={item.image_url || 'https://images.unsplash.com/photo-1590076215667-875d4ef2d968?auto=format&fit=crop&q=80&w=200'} 
                                         alt={item.judul}
                                         className={`w-full h-full object-cover transition-transform duration-700 ${idx === currentIndex ? 'scale-110' : 'group-hover:scale-110'}`}
                                     />
                                 </div>
                                 <div className="text-left min-w-0">
                                     <p className={`text-[7px] lg:text-[9px] font-semibold uppercase tracking-widest mb-0.5 ${idx === currentIndex ? 'text-brand-secondary' : 'text-white/40'}`}>
-                                        {item.kategori?.name || 'Berita'}
+                                        {item.category?.name || 'Berita'}
                                     </p>
                                     <h4 className={`text-[9px] lg:text-[10px] font-semibold leading-tight line-clamp-2 ${idx === currentIndex ? 'text-white' : 'text-white/70 group-hover:text-white/90'}`}>
                                         {item.judul}

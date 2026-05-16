@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from '@inertiajs/react';
 import { ArrowRightIcon, ArrowLongRightIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 
-export default function PpdbCta() {
+export default function PpdbCta({ settings = {} }) {
     const requirements = [
         'Fotokopi Kartu Keluarga & Akta Kelahiran',
         'Pas Foto Terbaru ukuran 3x4 (4 lembar)',
@@ -17,19 +17,19 @@ export default function PpdbCta() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-center">
                     <div className="reveal-element-left">
                         <h2 className="text-xs font-semibold text-brand-accent uppercase tracking-[0.3em] mb-3">Penerimaan Siswa Baru</h2>
-                        <h3 className="text-3xl md:text-4xl font-semibold text-brand-primary tracking-tighter uppercase mb-5 leading-tight">Info PPDB <br /> 2026/2027</h3>
+                        <h3 className="text-3xl md:text-4xl font-semibold text-brand-primary tracking-tighter uppercase mb-5 leading-tight">{settings.ppdb_cta_title || 'Info PPDB \n 2026/2027'}</h3>
                         <div className="h-1 w-20 bg-brand-primary mb-6"></div>
                         <div className="grid grid-cols-2 gap-3 mb-6">
                             <div className="bg-white p-4 md:p-6 border border-brand-accent/20 rounded-[0.25rem]">
                                 <div className="text-[10px] font-semibold text-brand-accent uppercase tracking-widest mb-1">Gelombang 1</div>
-                                <div className="font-semibold text-brand-primary text-sm">Januari – Maret 2026</div>
+                                <div className="font-semibold text-brand-primary text-sm">{settings.ppdb_wave_1 || 'Januari – Maret 2026'}</div>
                             </div>
                             <div className="bg-white p-4 md:p-6 border border-brand-accent/20 rounded-[0.25rem]">
                                 <div className="text-[10px] font-semibold text-brand-accent uppercase tracking-widest mb-1">Gelombang 2</div>
-                                <div className="font-semibold text-brand-primary text-sm">April – Juni 2026</div>
+                                <div className="font-semibold text-brand-primary text-sm">{settings.ppdb_wave_2 || 'April – Juni 2026'}</div>
                             </div>
                         </div>
-                        <Link href="/pendaftaran" className="btn-primary px-7 md:px-10 py-3.5 md:py-4 text-[10px] font-semibold uppercase tracking-[0.2em] inline-flex items-center hover:scale-105 transition-all shadow-xl group">
+                        <Link href="/info-ppdb" className="btn-primary px-7 md:px-10 py-3.5 md:py-4 text-[10px] font-semibold uppercase tracking-[0.2em] inline-flex items-center hover:scale-105 transition-all shadow-xl group">
                             Lihat Info Lengkap PPDB
                             <ArrowLongRightIcon className="h-4 w-4 ml-2 stroke-[3px] group-hover:translate-x-1 transition-transform" />
                         </Link>
