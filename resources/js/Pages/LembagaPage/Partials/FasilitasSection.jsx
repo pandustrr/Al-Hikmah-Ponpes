@@ -23,7 +23,7 @@ export default function FasilitasSection({ lembaga, fasilitas = [] }) {
                     </Link>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                     {fasilitas.map((f, i) => (
                         <div key={f.id} className="group bg-white border border-slate-200 rounded-[0.25rem] overflow-hidden hover:shadow-2xl hover:shadow-brand-primary/5 transition-all duration-500">
                             <div className="aspect-[4/3] overflow-hidden relative">

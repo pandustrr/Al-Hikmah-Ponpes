@@ -18,7 +18,7 @@ export default function StickyNewsHighlight({ stickyBerita }) {
                             Pengumuman Utama
                         </div>
                     </div>
-                    <div className="md:w-1/2 p-10 md:p-16 flex flex-col justify-center">
+                    <div className="md:w-1/2 p-6 md:p-16 flex flex-col justify-center">
                         <div className="text-brand-secondary text-[9px] font-bold uppercase tracking-[0.4em] mb-4">Penting & Terbaru</div>
                         <h2 className="text-2xl md:text-4xl font-serif font-semibold tracking-tight mb-6 leading-tight">
                             {stickyBerita.judul}
