@@ -17,6 +17,7 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
         lembaga_id: berita?.lembaga_id || '',
         tanggal: berita?.tanggal || new Date().toISOString().split('T')[0],
         status: berita?.status || 'published',
+        is_sticky: berita?.is_sticky || false,
         image: null,
         _method: berita ? 'PUT' : 'POST', // For spoofing PUT with multipart/form-data
     });
@@ -98,8 +99,6 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                         </div>
                     </div>
 
-                    <div>
-                        <InputLabel htmlFor="lembaga_id" value="Lembaga (Opsional)" className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
                         <select
                             id="lembaga_id"
                             value={data.lembaga_id}
@@ -108,11 +107,24 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                         >
                             <option value="">Pusat Yayasan (Global)</option>
                             {lembagas.map(lembaga => (
-                                <option key={lembaga.id} value={lembaga.id}>{lembaga.name}</option>
+                                <option key={lembaga.id} value={lembaga.id}>{lembaga.nama}</option>
                             ))}
                         </select>
                         <InputError message={errors.lembaga_id} className="mt-2" />
                         <p className="mt-1 text-[10px] text-slate-400 italic">Biarkan kosong jika berita untuk umum/yayasan.</p>
+                    </div>
+
+                    <div className="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 rounded-[0.25rem]">
+                        <input 
+                            type="checkbox" 
+                            id="is_sticky"
+                            checked={data.is_sticky}
+                            className="w-4 h-4 text-brand-primary border-slate-300 rounded focus:ring-brand-primary"
+                            onChange={(e) => setData('is_sticky', e.target.checked)}
+                        />
+                        <label htmlFor="is_sticky" className="text-[10px] font-black uppercase tracking-widest text-slate-900 cursor-pointer">
+                            Sematkan Berita (Sticky)
+                        </label>
                     </div>
 
                     <div>
@@ -194,6 +206,6 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                     {processing ? 'Memproses...' : submitLabel}
                 </PrimaryButton>
             </div>
-        </form>
+        </form >
     );
 }

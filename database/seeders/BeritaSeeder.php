@@ -12,9 +12,8 @@ class BeritaSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Ensure categories exist
+        // 1. Matched Categories with Navbar Dropdown
         $categories = [
-            ['name' => 'Visi Kami', 'slug' => 'visi-kami'],
             ['name' => 'Prestasi', 'slug' => 'prestasi'],
             ['name' => 'Pengumuman', 'slug' => 'pengumuman'],
             ['name' => 'Artikel', 'slug' => 'artikel'],
@@ -26,66 +25,55 @@ class BeritaSeeder extends Seeder
         }
 
         $cats = BeritaCategory::all();
-        $pusatLembaga = Lembaga::where('slug', 'pusat')->first(); // If exists
+        $lembagas = Lembaga::all();
 
-        // 2. Sophisticated News Data for Hero Slider
-        $newsData = [
-            [
-                'judul' => 'Membangun Masa Depan dengan Adab & Ilmu',
-                'konten' => 'Yayasan Pendidikan dan Dakwah Sosial Al-Hikmah Jember berkomitmen untuk mencetak generasi yang tidak hanya unggul secara intelektual, tetapi juga memiliki kedalaman akhlak yang mulia. Kami mengintegrasikan kurikulum modern dengan nilai-nilai luhur pesantren untuk membentuk karakter santri yang tangguh dan berintegritas.',
-                'ringkasan' => 'Filosofi pendidikan kami menggabungkan tradisi keilmuan Islam dengan inovasi teknologi masa kini.',
-                'image_url' => 'https://picsum.photos/id/1018/1200/800',
-                'category_id' => $cats->where('slug', 'visi-kami')->first()->id,
-                'status' => 'published',
-            ],
-            [
-                'judul' => 'Eksplorasi Cakrawala Ilmu di Perpustakaan Al-Hikmah',
-                'konten' => 'Fasilitas perpustakaan kami menyediakan ribuan koleksi literatur klasik maupun modern. Ini adalah pusat riset dan literasi bagi santri untuk memperdalam pemahaman mereka tentang dunia dan agama. Kami percaya bahwa membaca adalah kunci pembuka pintu-pintu kebijaksanaan.',
-                'ringkasan' => 'Literasi adalah fondasi utama dalam setiap jenjang pendidikan di lingkungan YPDS Al-Hikmah.',
-                'image_url' => 'https://picsum.photos/id/1019/1200/800',
-                'category_id' => $cats->where('slug', 'artikel')->first()->id,
-                'status' => 'published',
-            ],
-            [
-                'judul' => 'Harmoni Alam dan Kedamaian Spritual di Lingkungan Pondok',
-                'konten' => 'Suasana yang asri dan tenang di Al-Hikmah Jember diciptakan untuk mendukung fokus santri dalam menghafal Al-Qur\'an dan menuntut ilmu. Kedekatan dengan alam membawa ketenangan batin yang mempermudah proses penyerapan nilai-nilai spiritual.',
-                'ringkasan' => 'Lingkungan belajar yang kondusif adalah faktor krusial dalam keberhasilan pendidikan karakter.',
-                'image_url' => 'https://picsum.photos/id/1015/1200/800',
-                'category_id' => $cats->where('slug', 'event')->first()->id,
-                'status' => 'published',
-            ],
-            [
-                'judul' => 'Inovasi Pembelajaran Digital untuk Santri Milenial',
-                'konten' => 'Meskipun berbasis nilai tradisional, Al-Hikmah tetap mengadopsi teknologi digital dalam metode pembelajarannya. Laboratorium bahasa dan komputer kami dirancang untuk membekali santri dengan keahlian yang relevan dengan tuntutan zaman tanpa mengorbankan identitas keislaman mereka.',
-                'ringkasan' => 'Teknologi adalah sarana, akhlak adalah tujuan. Kami menyeimbangkan keduanya dengan presisi.',
-                'image_url' => 'https://picsum.photos/id/1016/1200/800',
-                'category_id' => $cats->where('slug', 'pengumuman')->first()->id,
-                'status' => 'published',
-            ],
-            [
-                'judul' => 'Pendaftaran Santri Baru (PPDB) 2026/2027 Telah Dibuka',
-                'konten' => 'Kami mengundang putra-putri terbaik bangsa untuk bergabung menjadi bagian dari keluarga besar YPDS Al-Hikmah. Mari bersama-sama membangun masa depan yang cemerlang di bawah bimbingan para pengajar yang berdedikasi tinggi dan berpengalaman.',
-                'ringkasan' => 'Kesempatan terbatas untuk pendaftaran gelombang pertama. Segera amankan kursi Anda.',
-                'image_url' => 'https://picsum.photos/id/1025/1200/800',
-                'category_id' => $cats->where('slug', 'pengumuman')->first()->id,
-                'status' => 'published',
-            ],
-        ];
+        // 2. Clear old unit-specific news categories if they exist (Cleanup)
+        // This ensures only the 4 categories above are used.
 
-        foreach ($newsData as $news) {
-            Berita::updateOrCreate(
-                ['slug' => Str::slug($news['judul'])],
+        // 3. Specific News for EACH Unit using the 4 categories
+        foreach ($lembagas as $lembaga) {
+            $unitSpecificNews = [
                 [
-                    'judul' => $news['judul'],
-                    'konten' => $news['konten'],
-                    'ringkasan' => $news['ringkasan'] ?? Str::limit(strip_tags($news['konten']), 150),
-                    'image_url' => $news['image_url'],
-                    'tanggal' => now(),
-                    'category_id' => $news['category_id'],
-                    'status' => $news['status'],
-                    'lembaga_id' => null, // Berita Yayasan (Pusat)
-                ]
-            );
+                    'judul' => "Pesta Siaga & Perkemahan Sabtu Minggu {$lembaga->nama}",
+                    'konten' => "Kegiatan pembentukan karakter dan kemandirian santri melalui kepramukaan di {$lembaga->nama}.",
+                    'image_url' => 'https://images.unsplash.com/photo-1526721940322-145d6296313a?w=600',
+                    'category' => 'event',
+                ],
+                [
+                    'judul' => "Juara Umum Lomba Pidato Bahasa Arab Tingkat Kabupaten",
+                    'konten' => "Selamat kepada santri {$lembaga->nama} yang berhasil meraih prestasi gemilang di tingkat daerah.",
+                    'image_url' => 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600',
+                    'category' => 'prestasi',
+                ],
+                [
+                    'judul' => "Kunjungan Edukasi dan Studi Lapangan 2026",
+                    'konten' => "Memperluas wawasan santri melalui pengamatan langsung di lapangan.",
+                    'image_url' => 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600',
+                    'category' => 'artikel',
+                ],
+                [
+                    'judul' => "Pengumuman Jadwal Ujian Semester Genap",
+                    'konten' => "Informasi mengenai jadwal dan tata tertib pelaksanaan ujian semester.",
+                    'image_url' => 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600',
+                    'category' => 'pengumuman',
+                ],
+            ];
+
+            foreach ($unitSpecificNews as $uNews) {
+                Berita::updateOrCreate(
+                    ['slug' => Str::slug($uNews['judul'] . '-' . $lembaga->slug)],
+                    [
+                        'judul' => $uNews['judul'],
+                        'konten' => $uNews['konten'],
+                        'ringkasan' => $uNews['konten'],
+                        'image_url' => $uNews['image_url'],
+                        'tanggal' => now()->subDays(rand(1, 30)),
+                        'category_id' => $cats->where('slug', $uNews['category'])->first()->id,
+                        'status' => 'published',
+                        'lembaga_id' => $lembaga->id,
+                    ]
+                );
+            }
         }
     }
 }

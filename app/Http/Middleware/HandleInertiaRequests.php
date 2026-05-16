@@ -34,7 +34,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'lembagas' => \App\Models\Lembaga::all(),
+            'lembagas' => \App\Models\Lembaga::orderBy('id', 'asc')->get(),
             'beritaCategories' => \App\Models\BeritaCategory::all(),
             'flash' => [
                 'success' => $request->session()->get('success'),

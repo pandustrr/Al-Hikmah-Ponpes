@@ -18,20 +18,60 @@ class SchoolController extends Controller
         
         $prestasi = Prestasi::where('lembaga_id', $lembaga->id)->latest()->get();
         $kegiatan = Kegiatan::where('lembaga_id', $lembaga->id)->latest()->get();
+        
+        // Sticky News
+        $stickyBerita = \App\Models\Berita::where('lembaga_id', $lembaga->id)
+            ->where('status', 'published')
+            ->where('is_sticky', true)
+            ->latest()
+            ->first();
+
+        // Regular News (excluding sticky if exists)
+        $beritas = \App\Models\Berita::where('lembaga_id', $lembaga->id)
+            ->where('status', 'published')
+            ->when($stickyBerita, function($query) use ($stickyBerita) {
+                return $query->where('id', '!=', $stickyBerita->id);
+            })
+            ->latest()
+            ->take(3)
+            ->get();
+
+        // Sidebar Content: Announcements (ID 3)
+        $announcements = \App\Models\Berita::where('lembaga_id', $lembaga->id)
+            ->where('category_id', 3)
+            ->where('status', 'published')
+            ->latest()
+            ->take(3)
+            ->get();
+
+        // Sidebar Content: Articles (ID 4)
+        $articles = \App\Models\Berita::where('lembaga_id', $lembaga->id)
+            ->where('category_id', 4)
+            ->where('status', 'published')
+            ->latest()
+            ->take(3)
+            ->get();
+
+        // Teachers/Staff
+        $pengajars = \App\Models\Pengajar::where('lembaga_id', $lembaga->id)
+            ->orderBy('urutan')
+            ->get();
+
+        // Facilities
+        $fasilitas = \App\Models\Fasilitas::where('lembaga_id', $lembaga->id)
+            ->latest()
+            ->get();
 
         return Inertia::render('LembagaPage/Home', [
             'lembaga' => $lembaga,
             'prestasi' => $prestasi,
             'kegiatan' => $kegiatan,
-        ]);
-    }
-
-    public function adminLogin($lembaga_slug)
-    {
-        $lembaga = Lembaga::where('slug', $lembaga_slug)->firstOrFail();
-
-        return Inertia::render('LembagaAdmin/Auth/Login', [
-            'lembaga' => $lembaga
+            'beritas' => $beritas,
+            'stickyBerita' => $stickyBerita,
+            'announcements' => $announcements,
+            'articles' => $articles,
+            'pengajars' => $pengajars,
+            'fasilitas' => $fasilitas
         ]);
     }
 }

@@ -13,14 +13,15 @@ class LembagaController extends Controller
     public function index()
     {
         return Inertia::render('IndukAdmin/Lembaga/Index', [
-            'lembagas' => Lembaga::latest()->get()
+            'lembagas' => Lembaga::orderBy('id', 'asc')->get()
         ]);
     }
 
     public function edit(Lembaga $lembaga)
     {
         return Inertia::render('IndukAdmin/Lembaga/Edit', [
-            'lembaga' => $lembaga
+            'lembaga' => $lembaga,
+            'pengajars' => \App\Models\Pengajar::where('lembaga_id', $lembaga->id)->orderBy('urutan')->get()
         ]);
     }
 
@@ -31,6 +32,7 @@ class LembagaController extends Controller
             'slug' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string',
             'summary' => 'nullable|string',
+            'running_text' => 'nullable|string',
             'visi' => 'nullable|string',
             'misi' => 'nullable|string',
             'struktur_pendidikan' => 'nullable|string',
@@ -73,6 +75,7 @@ class LembagaController extends Controller
             'slug' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'summary' => 'nullable|string',
+            'running_text' => 'nullable|string',
             'visi' => 'nullable|string',
             'misi' => 'nullable|string',
             'struktur_pendidikan' => 'nullable|string',

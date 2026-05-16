@@ -11,6 +11,7 @@ class Lembaga extends Model
         'slug', 
         'deskripsi', 
         'summary',
+        'running_text',
         'visi', 
         'misi', 
         'struktur_pendidikan',

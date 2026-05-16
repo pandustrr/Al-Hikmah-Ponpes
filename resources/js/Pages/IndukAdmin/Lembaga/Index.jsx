@@ -20,6 +20,7 @@ export default function Index({ lembagas = [] }) {
         nama: '',
         slug: '',
         summary: '',
+        running_text: '',
         image: null,
         ikon: null,
         image_url: '',
@@ -59,6 +60,7 @@ export default function Index({ lembagas = [] }) {
             nama: lembaga.nama,
             slug: lembaga.slug || '',
             summary: lembaga.summary || '',
+            running_text: lembaga.running_text || '',
             image: null,
             ikon: null,
             image_url: lembaga.image_url || '',
@@ -94,14 +96,14 @@ export default function Index({ lembagas = [] }) {
     };
 
     return (
-        <IndukAdminLayout title="Master Data Lembaga">
+        <IndukAdminLayout title="Kelola Pendidikan">
             <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
                 
                 {/* Header */}
                 <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div>
                         <h2 className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-accent mb-2">Pusat Manajemen Unit</h2>
-                        <h1 className="text-4xl font-semibold uppercase tracking-tighter text-slate-900 leading-none">Master Data <br /><span className="text-brand-primary">Tingkat Pendidikan</span></h1>
+                        <h1 className="text-4xl font-semibold uppercase tracking-tighter text-slate-900 leading-none">Kelola Pendidikan <br /><span className="text-brand-primary">Tingkat Pendidikan</span></h1>
                         <p className="mt-4 text-[11px] text-slate-400 uppercase tracking-widest font-bold flex items-center gap-2">
                             <InformationCircleIcon className="h-4 w-4" /> Tambah & Edit info dasar unit di sini
                         </p>
@@ -177,7 +179,7 @@ export default function Index({ lembagas = [] }) {
                     <div className="bg-white w-full max-w-2xl rounded-[0.25rem] shadow-2xl overflow-hidden">
                         <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                             <div>
-                                <h3 className="font-bold uppercase tracking-widest text-slate-900">{editingLembaga ? 'Update Master Data Unit' : 'Tambah Unit Pendidikan'}</h3>
+                                <h3 className="font-bold uppercase tracking-widest text-slate-900">{editingLembaga ? 'Update Data Unit' : 'Tambah Unit Pendidikan'}</h3>
                                 <p className="text-[9px] text-slate-400 uppercase tracking-widest mt-1">Konfigurasi Identitas Utama Lembaga</p>
                             </div>
                             <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-900 transition-colors p-2 text-2xl leading-none">&times;</button>
@@ -218,6 +220,16 @@ export default function Index({ lembagas = [] }) {
                                         onChange={e => setData('summary', e.target.value)}
                                     ></textarea>
                                 </div>
+                                <div className="md:col-span-2">
+                                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Running Text (Pengumuman Berjalan)</label>
+                                    <input 
+                                        type="text"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                        placeholder="Contoh: Pendaftaran Santri Baru Telah Dibuka! Hubungi Admin untuk Informasi Lebih Lanjut..."
+                                        value={data.running_text}
+                                        onChange={e => setData('running_text', e.target.value)}
+                                    />
+                                </div>
                                 
                                 <div className="md:col-span-1">
                                     <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Banner Hero (16:9)</label>
@@ -252,7 +264,7 @@ export default function Index({ lembagas = [] }) {
                             <div className="pt-6 border-t border-slate-100 flex justify-end gap-4 pb-4">
                                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors">Batal</button>
                                 <button type="submit" disabled={processing} className="bg-brand-primary text-white py-3 px-12 text-[10px] font-bold uppercase tracking-widest rounded-[0.25rem] hover:bg-slate-900 transition-all shadow-xl shadow-brand-primary/20 disabled:opacity-50">
-                                    {processing ? 'Menyimpan...' : (editingLembaga ? 'Update Master' : 'Tambah Master')}
+                                    {processing ? 'Menyimpan...' : (editingLembaga ? 'Update Data' : 'Tambah Data')}
                                 </button>
                             </div>
                         </form>

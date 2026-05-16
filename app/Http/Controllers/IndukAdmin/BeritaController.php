@@ -38,6 +38,7 @@ class BeritaController extends Controller
             'lembaga_id' => 'nullable|exists:lembagas,id',
             'tanggal' => 'required|date',
             'status' => 'required|in:published,draft',
+            'is_sticky' => 'nullable|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -47,6 +48,7 @@ class BeritaController extends Controller
         }
 
         $validated['slug'] = Str::slug($validated['judul']) . '-' . Str::random(5);
+        $validated['is_sticky'] = $request->boolean('is_sticky');
 
         Berita::create($validated);
 
@@ -71,6 +73,7 @@ class BeritaController extends Controller
             'lembaga_id' => 'nullable|exists:lembagas,id',
             'tanggal' => 'required|date',
             'status' => 'required|in:published,draft',
+            'is_sticky' => 'nullable|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -89,6 +92,8 @@ class BeritaController extends Controller
         if ($request->judul !== $berita->judul) {
             $validated['slug'] = Str::slug($validated['judul']) . '-' . Str::random(5);
         }
+
+        $validated['is_sticky'] = $request->boolean('is_sticky');
 
         $berita->update($validated);
 

@@ -74,6 +74,21 @@
     animation: fadeInUp 0.8s ease-out forwards;
 }
 
+@keyframes ticker {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+.animate-ticker {
+    animation: ticker 60s linear infinite;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.animate-ticker:hover {
+    animation-play-state: paused;
+}
+
 @layer base {
     body {
         @apply antialiased text-brand-primary bg-brand-light;
