@@ -1,15 +1,19 @@
 import React from 'react';
-import { Link } from '@inertiajs/react';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import { Link } from '@inertiajs/react';
 
-export default function FasilitasUnit({ lembaga, fasilitas }) {
+export default function FasilitasSection({ lembaga, fasilitas = [] }) {
+    if (!fasilitas || fasilitas.length === 0) return null;
+
     return (
         <section className="py-24 bg-slate-50 border-y border-slate-100">
             <div className="max-w-7xl mx-auto px-6 md:px-12">
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
                     <div className="max-w-2xl">
                         <h2 className="text-brand-primary text-[10px] font-bold uppercase tracking-[0.4em] mb-4">Infrastruktur & Sarana</h2>
-                        <h3 className="text-3xl md:text-5xl font-serif font-semibold text-slate-900 tracking-tight leading-none uppercase">Fasilitas <span className="text-brand-primary">Unggulan</span></h3>
+                        <h3 className="text-3xl md:text-5xl font-serif font-semibold text-slate-900 tracking-tight leading-none uppercase">
+                            Fasilitas <span className="text-brand-primary">Unggulan</span>
+                        </h3>
                         <p className="mt-6 text-slate-500 text-sm md:text-base leading-relaxed">
                             Kami menyediakan lingkungan belajar yang aman dan lengkap untuk menunjang tumbuh kembang santri secara optimal di <span className="font-bold text-slate-700">{lembaga.nama}</span>.
                         </p>

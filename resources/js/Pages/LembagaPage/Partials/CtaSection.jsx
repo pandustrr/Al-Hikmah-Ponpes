@@ -1,13 +1,15 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
 
-export default function CTAUnit({ lembaga }) {
+export default function CtaSection({ lembaga }) {
     return (
         <section className="py-16 max-w-7xl mx-auto px-6 md:px-12">
             <div className="bg-brand-primary rounded-[0.25rem] p-10 md:p-16 text-center relative overflow-hidden">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/az-subtle.png')] opacity-10"></div>
                 <div className="relative z-10 max-w-xl mx-auto">
-                    <h3 className="text-white text-2xl md:text-3xl font-serif font-semibold tracking-tight mb-4">Mulai Perjalanan Pendidikan di <span className="text-brand-secondary">{lembaga.nama}</span></h3>
+                    <h3 className="text-white text-2xl md:text-3xl font-serif font-semibold tracking-tight mb-4">
+                        Mulai Perjalanan Pendidikan di <span className="text-brand-secondary">{lembaga.nama}</span>
+                    </h3>
                     <p className="text-white/60 text-xs md:text-sm mb-8 leading-relaxed">
                         Pendaftaran gelombang saat ini masih dibuka. Pastikan putra-putri Anda mendapatkan lingkungan belajar yang sesuai dengan tuntunan.
                     </p>
