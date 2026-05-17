@@ -26,6 +26,7 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
 
         // Sub-pages
         Route::resource('/lembaga', \App\Http\Controllers\IndukAdmin\LembagaController::class)->names('lembaga');
+        Route::get('/berita/settings', [\App\Http\Controllers\IndukAdmin\BeritaController::class, 'settings'])->name('berita.settings');
         Route::resource('/berita', \App\Http\Controllers\IndukAdmin\BeritaController::class)->names('berita');
         Route::get('/landing', [\App\Http\Controllers\IndukAdmin\LandingController::class, 'index'])->name('landing.index');
         Route::post('/landing/settings', [\App\Http\Controllers\IndukAdmin\LandingController::class, 'updateSettings'])->name('landing.settings.update');
@@ -58,6 +59,8 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
         // Settings
         Route::get('/settings', [\App\Http\Controllers\IndukAdmin\SiteSettingController::class, 'index'])->name('settings.index');
         Route::put('/settings', [\App\Http\Controllers\IndukAdmin\SiteSettingController::class, 'update'])->name('settings.update');
+        Route::put('/settings/account', [\App\Http\Controllers\IndukAdmin\SiteSettingController::class, 'updateAccount'])->name('settings.account.update');
+        Route::post('/settings/login-bg', [\App\Http\Controllers\IndukAdmin\SiteSettingController::class, 'updateLoginBg'])->name('settings.login-bg.update');
     });
 });
 

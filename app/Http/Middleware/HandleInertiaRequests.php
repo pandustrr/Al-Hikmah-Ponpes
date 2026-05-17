@@ -34,6 +34,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'loginBg' => \App\Models\SiteSetting::get('login_bg', 'https://images.unsplash.com/photo-1540959733332-eab4deceeaf7?w=1600'),
             'lembagas' => \App\Models\Lembaga::orderBy('id', 'asc')->get(),
             'beritaCategories' => \App\Models\BeritaCategory::all(),
             'flash' => [

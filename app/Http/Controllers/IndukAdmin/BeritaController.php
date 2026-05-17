@@ -19,7 +19,7 @@ class BeritaController extends Controller
             'berita'     => Berita::with(['category', 'lembaga'])->latest()->get(),
             'categories' => BeritaCategory::all(),
             'lembagas'   => Lembaga::all(),
-            'settings'   => \App\Models\SiteSetting::all()->groupBy('group'),
+            'newsHeroBg' => \App\Models\SiteSetting::where('key', 'news_hero_bg')->first(),
         ]);
     }
 
@@ -113,5 +113,13 @@ class BeritaController extends Controller
         $berita->delete();
 
         return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus.');
+    }
+
+    public function settings()
+    {
+        return Inertia::render('IndukAdmin/Berita/Settings', [
+            'settings' => \App\Models\SiteSetting::whereIn('group', ['portal_berita', 'sosial_media'])->get()->groupBy('group'),
+            'authUser' => \Illuminate\Support\Facades\Auth::user(),
+        ]);
     }
 }
