@@ -152,16 +152,25 @@ export default function Index({ ppdbInfos = [], lembagas = [], faqs = [], settin
                                             </div>
 
                                             {/* Primary Register CTA Button */}
-                                            {info.is_open && info.registration_link ? (
-                                                <a 
-                                                    href={info.registration_link} 
-                                                    target="_blank" 
-                                                    rel="noopener noreferrer"
-                                                    className="w-full bg-brand-primary text-white py-4 rounded-[0.25rem] text-[9px] font-black uppercase tracking-[0.3em] flex items-center justify-center gap-2 hover:bg-slate-900 transition-all shadow-xl shadow-brand-primary/10 group/btn"
-                                                >
-                                                    Isi Formulir Online ({info.lembaga.slug.toUpperCase()})
-                                                    <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                                                </a>
+                                            {info.is_open ? (
+                                                info.registration_link && info.is_link_active ? (
+                                                    <a 
+                                                        href={info.registration_link} 
+                                                        target="_blank" 
+                                                        rel="noopener noreferrer"
+                                                        className="w-full bg-brand-primary text-white py-4 rounded-[0.25rem] text-[9px] font-black uppercase tracking-[0.3em] flex items-center justify-center gap-2 hover:bg-slate-900 transition-all shadow-xl shadow-brand-primary/10 group/btn"
+                                                    >
+                                                        Isi Formulir Online ({info.lembaga.slug.toUpperCase()})
+                                                        <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                                                    </a>
+                                                ) : (
+                                                    <button 
+                                                        disabled
+                                                        className="w-full bg-slate-100 text-slate-400 py-4 rounded-[0.25rem] text-[9px] font-black uppercase tracking-[0.3em] flex items-center justify-center cursor-not-allowed border border-slate-200"
+                                                    >
+                                                        Formulir Online Belum Tersedia
+                                                    </button>
+                                                )
                                             ) : (
                                                 <button 
                                                     disabled

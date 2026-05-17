@@ -56,6 +56,7 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
         registration_link: ppdbInfo?.registration_link || '',
         is_active:         ppdbInfo?.is_active         ?? true,
         is_open:           ppdbInfo?.is_open           ?? true,
+        is_link_active:     ppdbInfo?.is_link_active     ?? true,
     });
 
     const addContact = () => {
@@ -569,6 +570,32 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                             >
                                                 <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all duration-300 ${
                                                     ppdbForm.data.is_open ? 'left-7' : 'left-1'
+                                                }`} />
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* Toggle: Link Formulir Online */}
+                                    <div className="flex items-center justify-between py-4 border-b border-slate-100">
+                                        <div>
+                                            <p className="text-sm font-bold text-slate-800">Formulir Online</p>
+                                            <p className="text-[10px] text-slate-400 mt-0.5">Tampilkan atau sembunyikan tombol pendaftaran online</p>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <span className={`text-[10px] font-bold uppercase tracking-widest ${
+                                                ppdbForm.data.is_link_active ? 'text-emerald-500' : 'text-red-400'
+                                            }`}>
+                                                {ppdbForm.data.is_link_active ? 'Aktif' : 'Non-Aktif'}
+                                            </span>
+                                            <button
+                                                type="button"
+                                                onClick={() => ppdbForm.setData('is_link_active', !ppdbForm.data.is_link_active)}
+                                                className={`w-12 h-6 rounded-full transition-colors duration-300 relative ${
+                                                    ppdbForm.data.is_link_active ? 'bg-emerald-500' : 'bg-slate-200'
+                                                }`}
+                                            >
+                                                <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all duration-300 ${
+                                                    ppdbForm.data.is_link_active ? 'left-7' : 'left-1'
                                                 }`} />
                                             </button>
                                         </div>

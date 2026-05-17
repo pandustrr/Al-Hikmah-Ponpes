@@ -33,6 +33,7 @@ class InfoPPDBController extends Controller
             'registration_link' => 'nullable|string|max:500',
             'is_active' => 'required|boolean',
             'is_open' => 'required|boolean',
+            'is_link_active' => 'required|boolean',
         ]);
 
         PpdbInfo::updateOrCreate(
@@ -54,6 +55,7 @@ class InfoPPDBController extends Controller
             'registration_link' => 'nullable|string|max:500',
             'is_active' => 'required|boolean',
             'is_open' => 'required|boolean',
+            'is_link_active' => 'required|boolean',
         ]);
 
         $ppdbInfo->update($validated);

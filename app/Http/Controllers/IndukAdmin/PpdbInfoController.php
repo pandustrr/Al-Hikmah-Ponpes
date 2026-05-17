@@ -19,6 +19,7 @@ class PpdbInfoController extends Controller
             'registration_link' => 'nullable|string|max:500',
             'is_active'         => 'boolean',
             'is_open'           => 'boolean',
+            'is_link_active'    => 'boolean',
         ]);
 
         PpdbInfo::updateOrCreate(

@@ -50,7 +50,7 @@ export default function PpdbSection({ lembaga, ppdbInfo }) {
                         )}
 
                         <div className="flex flex-col sm:flex-row flex-wrap gap-3">
-                            {ppdbInfo.registration_link && (
+                            {ppdbInfo.registration_link && ppdbInfo.is_link_active && (
                                 <a
                                     href={ppdbInfo.registration_link}
                                     target="_blank"
@@ -135,7 +135,7 @@ export default function PpdbSection({ lembaga, ppdbInfo }) {
                             )}
 
                             {/* Registration Link */}
-                            {ppdbInfo.registration_link && (
+                            {ppdbInfo.registration_link && ppdbInfo.is_link_active && (
                                 <div className="flex items-start gap-4">
                                     <div className="w-9 h-9 rounded-full bg-brand-primary/5 flex items-center justify-center shrink-0">
                                         <LinkIcon className="h-4 w-4 text-brand-primary" />
@@ -157,7 +157,7 @@ export default function PpdbSection({ lembaga, ppdbInfo }) {
                             <div className="h-px bg-slate-100"></div>
 
                             {/* CTA Footer */}
-                            {ppdbInfo.registration_link && (
+                            {ppdbInfo.registration_link && ppdbInfo.is_link_active && (
                                 <a
                                     href={ppdbInfo.registration_link}
                                     target="_blank"

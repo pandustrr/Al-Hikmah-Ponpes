@@ -33,6 +33,7 @@ export default function Index({ ppdbInfos = [], lembagas = [], faqs = [], settin
         registration_link: '',
         is_active: true,
         is_open: true,
+        is_link_active: true,
     });
 
     // Form for FAQ
@@ -75,6 +76,7 @@ export default function Index({ ppdbInfos = [], lembagas = [], faqs = [], settin
             registration_link: info.registration_link || '',
             is_active: info.is_active ?? true,
             is_open: info.is_open ?? true,
+            is_link_active: info.is_link_active ?? true,
         });
         setIsInfoModalOpen(true);
     };
@@ -540,7 +542,7 @@ export default function Index({ ppdbInfos = [], lembagas = [], faqs = [], settin
                         <form onSubmit={handleInfoSubmit} className="p-8 space-y-6 overflow-y-auto flex-1">
                             
                             {/* Toggle Row */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 border border-slate-100 p-4 rounded">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50 border border-slate-100 p-4 rounded">
                                 {/* Toggle: Aktifkan PPDB */}
                                 <div className="flex items-center justify-between">
                                     <div>
@@ -581,6 +583,32 @@ export default function Index({ ppdbInfos = [], lembagas = [], faqs = [], settin
                                         >
                                             <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-300 ${
                                                 infoForm.data.is_open ? 'left-5.5' : 'left-0.5'
+                                            }`} />
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Toggle: Link Formulir Online */}
+                                <div className="flex items-center justify-between border-t md:border-t-0 md:border-l border-slate-200 pt-4 md:pt-0 md:pl-6">
+                                    <div>
+                                        <p className="text-xs font-bold text-slate-800">Formulir Online</p>
+                                        <p className="text-[9px] text-slate-400 mt-0.5">Aktifkan tombol daftar</p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className={`text-[9px] font-bold uppercase tracking-widest ${
+                                            infoForm.data.is_link_active ? 'text-emerald-500' : 'text-red-400'
+                                        }`}>
+                                            {infoForm.data.is_link_active ? 'Aktif' : 'Non-Aktif'}
+                                        </span>
+                                        <button
+                                            type="button"
+                                            onClick={() => infoForm.setData('is_link_active', !infoForm.data.is_link_active)}
+                                            className={`w-10 h-5 rounded-full transition-colors duration-300 relative ${
+                                                infoForm.data.is_link_active ? 'bg-emerald-500' : 'bg-slate-200'
+                                            }`}
+                                        >
+                                            <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-300 ${
+                                                infoForm.data.is_link_active ? 'left-5.5' : 'left-0.5'
                                             }`} />
                                         </button>
                                     </div>
