@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { 
     BeakerIcon, 
     HomeIcon, 
     BuildingLibraryIcon, 
-    Square2StackIcon 
+    Square2StackIcon,
+    ChevronRightIcon,
+    PhotoIcon
 } from '@heroicons/react/24/outline';
+import ImageGalleryModal from '@/Components/ImageGalleryModal';
 
 const fasilitasIcons = {
     'laboratorium': <BeakerIcon className="w-8 h-8" />,
@@ -23,18 +26,46 @@ const fallbackFasilitas = [
     { id: 6, nama: 'Aula Serbaguna', deskripsi: 'Ruang serbaguna berkapasitas besar untuk kegiatan seminar, wisuda, dan acara khusus.', img: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=600' },
 ];
 
-export default function Index({ fasilitas = [] }) {
+export default function Index({ fasilitas = [], lembagas = [] }) {
     const data = fasilitas.length > 0 ? fasilitas : fallbackFasilitas;
+    const [activeLembaga, setActiveLembaga] = useState('all');
+    const [activeFacility, setActiveFacility] = useState(null);
+
+    // Filter data berdasarkan lembaga yang aktif
+    const filteredData = activeLembaga === 'all' 
+        ? data 
+        : data.filter(f => f.lembaga_id === parseInt(activeLembaga));
 
     return (
-        <PublicLayout title="Fasilitas">
+        <PublicLayout title="Fasilitas" navTheme="dark">
             {/* Hero */}
-            <div className="bg-brand-secondary border-b border-sage-light">
-                <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-                    <h2 className="text-xs font-semibold text-brand-accent uppercase tracking-[0.3em] mb-3">Infrastruktur Modern</h2>
-                    <h1 className="text-4xl md:text-5xl font-semibold text-brand-primary tracking-tighter mb-4 uppercase">Fasilitas Yayasan</h1>
-                    <div className="h-1 w-16 bg-brand-primary mx-auto mb-4"></div>
-                    <p className="text-brand-accent max-w-xl mx-auto">Fasilitas lengkap dan modern untuk mendukung perkembangan intelektual, spiritual, dan jasmani siswa.</p>
+            <div className="relative min-h-[50vh] flex items-center pt-32 pb-24 overflow-hidden bg-brand-primary">
+                {/* Background Layer with Overlay grid */}
+                <div className="absolute inset-0 z-0">
+                    <img 
+                        src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1600" 
+                        alt="Hero BG" 
+                        className="w-full h-full object-cover opacity-25 scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/80 via-brand-primary to-brand-primary"></div>
+                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/az-subtle.png')] opacity-10"></div>
+                </div>
+
+                <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
+                    <div className="max-w-3xl">
+                        <div className="inline-flex items-center gap-2 mb-6">
+                            <span className="h-[2px] w-8 bg-brand-secondary"></span>
+                            <span className="text-brand-secondary text-[10px] font-black uppercase tracking-[0.4em]">
+                                Infrastruktur Modern
+                            </span>
+                        </div>
+                        <h1 className="text-4xl md:text-6xl font-serif font-semibold text-white tracking-tight uppercase leading-[1.1] mb-8">
+                            Fasilitas Yayasan
+                        </h1>
+                        <p className="text-sm md:text-base text-white/70 leading-relaxed font-light">
+                            Fasilitas lengkap dan modern untuk mendukung perkembangan intelektual, spiritual, dan jasmani santri Yayasan Pendidikan dan Dakwah Sosial Al-Hikmah Jember.
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -59,28 +90,109 @@ export default function Index({ fasilitas = [] }) {
 
             {/* Grid */}
             <div className="max-w-7xl mx-auto px-4 py-16">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {data.map((f, i) => (
-                        <div key={f.id || i} className="group card-clean bg-white overflow-hidden">
-                            <div className="aspect-video overflow-hidden bg-brand-secondary">
-                                <img
-                                    src={f.img || f.image_url || `https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=600&sig=${i}`}
-                                    alt={f.nama}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                    onError={(e) => { e.target.onerror = null; e.target.src = "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=600"; }}
-                                />
-                            </div>
-                            <div className="p-7">
-                                <div className="text-brand-primary mb-4">
-                                    {fasilitasIcons['default']}
-                                </div>
-                                <h3 className="text-lg font-semibold text-brand-primary uppercase tracking-tight mb-3">{f.nama}</h3>
-                                <p className="text-brand-accent text-sm leading-relaxed">{f.deskripsi}</p>
-                            </div>
-                        </div>
+                
+                {/* Filter Tabs */}
+                <div className="flex flex-wrap justify-center gap-2 mb-12">
+                    <button
+                        onClick={() => setActiveLembaga('all')}
+                        className={`px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${
+                            activeLembaga === 'all'
+                            ? 'bg-brand-primary text-white shadow-lg'
+                            : 'bg-white text-slate-500 border border-slate-200 hover:border-brand-primary hover:text-brand-primary'
+                        }`}
+                    >
+                        Semua Fasilitas
+                    </button>
+                    {lembagas.map(lembaga => (
+                        <button
+                            key={lembaga.id}
+                            onClick={() => setActiveLembaga(lembaga.id.toString())}
+                            className={`px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${
+                                activeLembaga === lembaga.id.toString()
+                                ? 'bg-brand-primary text-white shadow-lg'
+                                : 'bg-white text-slate-500 border border-slate-200 hover:border-brand-primary hover:text-brand-primary'
+                            }`}
+                        >
+                            {lembaga.nama}
+                        </button>
                     ))}
                 </div>
+
+                {filteredData.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {filteredData.map((f, i) => {
+                            const totalPhotos = 1 + (f.galeris?.length || 0);
+
+                            return (
+                                <div 
+                                    key={f.id || i} 
+                                    onClick={() => setActiveFacility(f)}
+                                    className="group bg-white border border-slate-200 rounded-[0.25rem] overflow-hidden hover:shadow-2xl hover:shadow-brand-primary/5 transition-all duration-500 cursor-pointer flex flex-col justify-between relative"
+                                >
+                                    <div className="aspect-[4/3] overflow-hidden relative bg-slate-100">
+                                        <img 
+                                            src={f.img || f.image_url || `https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=600&sig=${i}`} 
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" 
+                                            alt={f.nama} 
+                                            onError={(e) => { e.target.onerror = null; e.target.src = "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=600"; }}
+                                        />
+                                        
+                                        {/* Category Badge */}
+                                        <div className="absolute top-4 left-4 z-10">
+                                            <span className="bg-brand-primary/95 backdrop-blur-sm text-white text-[8px] font-bold uppercase tracking-widest px-3 py-1.5 shadow-lg">
+                                                {f.kategori || 'Sarana'}
+                                            </span>
+                                        </div>
+
+                                        {/* Unit Badge (moved to top-right to match style but keep info) */}
+                                        <div className="absolute top-4 right-4 z-10">
+                                            <span className="bg-brand-accent/95 backdrop-blur-sm text-white text-[8px] font-bold uppercase tracking-widest px-3 py-1.5 shadow-lg">
+                                                {f.lembaga?.nama || 'Pusat Yayasan'}
+                                            </span>
+                                        </div>
+
+                                        {/* Photos Count Badge */}
+                                        <div className="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-sm px-2.5 py-1.5 rounded-[0.25rem] flex items-center gap-1.5 text-white shadow-lg z-10">
+                                            <PhotoIcon className="h-3.5 w-3.5 text-brand-primary" />
+                                            <span className="text-[9px] font-bold font-mono">{totalPhotos} Foto</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="p-5 flex-1 flex flex-col justify-between">
+                                        <div>
+                                            <h4 className="text-base font-bold text-slate-900 uppercase tracking-tight mb-2 group-hover:text-brand-primary transition-colors line-clamp-1">{f.nama}</h4>
+                                            <p className="text-slate-500 text-xs leading-relaxed line-clamp-3 italic">
+                                                "{f.deskripsi}"
+                                            </p>
+                                        </div>
+
+                                        <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+                                            <span className="text-[8px] font-black text-brand-primary uppercase tracking-widest group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                                                Lihat Detail <ChevronRightIcon className="h-2 w-2" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <div className="text-center py-20 bg-slate-50 border border-dashed border-slate-200 rounded-[0.25rem]">
+                        <p className="text-slate-400 font-semibold uppercase tracking-widest text-sm">Belum ada fasilitas di unit ini.</p>
+                    </div>
+                )}
             </div>
+
+            {/* LIGHTBOX SLIDER MODAL */}
+            <ImageGalleryModal 
+                isOpen={!!activeFacility}
+                onClose={() => setActiveFacility(null)}
+                title={activeFacility?.nama}
+                category={activeFacility?.kategori}
+                description={activeFacility?.deskripsi}
+                mainImage={activeFacility?.image_url || activeFacility?.img}
+                images={activeFacility?.galeris || []}
+            />
         </PublicLayout>
     );
 }

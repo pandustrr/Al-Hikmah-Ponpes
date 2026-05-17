@@ -4,11 +4,24 @@ namespace App\Http\Controllers\IndukAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fasilitas;
+use App\Models\Lembaga;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
 
 class FasilitasAdminController extends Controller
 {
+    public function index()
+    {
+        $fasilitas = Fasilitas::with(['lembaga', 'galeris'])->get();
+        $lembagas = Lembaga::select('id', 'nama', 'slug')->get();
+
+        return Inertia::render('IndukAdmin/Fasilitas/Index', [
+            'fasilitas' => $fasilitas,
+            'lembagas' => $lembagas,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
