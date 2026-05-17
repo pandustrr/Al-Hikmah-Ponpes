@@ -269,21 +269,7 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                             </div>
                         </div>
 
-                        {/* Newsletter or Ad Mockup */}
-                        <div className="bg-brand-primary p-8 text-center text-white rounded-[0.25rem]">
-                            <h3 className="text-lg font-semibold uppercase tracking-tighter mb-2">{settings.news_newsletter_title || 'Langganan Warta'}</h3>
-                            <p className="text-xs text-brand-secondary/60 mb-6">{settings.news_newsletter_desc || 'Dapatkan berita terbaru langsung di inbox Anda.'}</p>
-                            <div className="flex flex-col gap-2">
-                                <input
-                                    type="email"
-                                    placeholder="Alamat Email"
-                                    className="bg-white/10 border-white/20 text-white text-xs px-4 py-3 focus:bg-white/20 transition-all outline-none rounded-[0.25rem]"
-                                />
-                                <button className="bg-brand-accent hover:bg-brand-secondary hover:text-brand-primary text-white text-[10px] font-semibold uppercase tracking-widest py-3 transition-colors rounded-[0.25rem]">
-                                    Daftar Sekarang
-                                </button>
-                            </div>
-                        </div>
+
 
                         {/* Instagram Feed Mockup */}
                         <div>

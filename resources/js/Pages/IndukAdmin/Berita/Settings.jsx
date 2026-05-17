@@ -46,13 +46,12 @@ export default function Settings({ settings }) {
     const [imagePreview, setImagePreview] = React.useState(newsHeroBgSetting?.value || '');
 
     // Group 1: Informasi Dasar Portal
-    const portalBasicKeys = ['news_portal_title', 'news_portal_badge', 'portal_tagline', 'portal_deskripsi', 'portal_email_kontak', 'news_search_placeholder'];
+    const portalBasicKeys = ['news_portal_title', 'news_portal_badge', 'portal_tagline', 'portal_deskripsi', 'news_search_placeholder'];
     // Group 2: Judul Bagian Halaman Berita
     const portalSectionKeys = ['news_other_title', 'news_multimedia_title', 'news_popular_title', 'news_tags_title'];
-    // Group 3: Langganan & Integrasi
-    const integrationKeys = ['news_newsletter_title', 'news_newsletter_desc', 'news_ig_title'];
-    // Group 4: Sosial Media
-    const socialKeys = ['sosmed_instagram', 'sosmed_facebook', 'sosmed_youtube', 'sosmed_tiktok', 'sosmed_whatsapp'];
+    // Group 3: Integrasi
+    const integrationKeys = ['news_ig_title'];
+
 
     return (
         <IndukAdminLayout title="Pengaturan Portal Berita">
@@ -196,50 +195,15 @@ export default function Settings({ settings }) {
                         </div>
                     </div>
 
-                    {/* Section 3: Warta & Integrasi Feed */}
+                    {/* Section 3: Integrasi Feed */}
                     <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6">
                         <div className="flex items-center gap-2 mb-4">
                             <span className="h-[2px] w-5 bg-brand-primary"></span>
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Langganan Warta & Integrasi Instagram</span>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Integrasi Instagram</span>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {integrationKeys.map(key => {
-                                const s = getSettingByKey(key);
-                                if (!s) return null;
-                                return (
-                                    <div key={s.id} className={s.key === 'news_newsletter_desc' ? 'md:col-span-2' : ''}>
-                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{s.label}</label>
-                                        {s.type === 'textarea' || s.key === 'news_newsletter_desc' ? (
-                                            <textarea
-                                                rows="2"
-                                                className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[80px]"
-                                                value={s.value}
-                                                onChange={(e) => handleFieldChange(s.id, e.target.value)}
-                                            />
-                                        ) : (
-                                            <input
-                                                type="text"
-                                                className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
-                                                value={s.value}
-                                                onChange={(e) => handleFieldChange(s.id, e.target.value)}
-                                            />
-                                        )}
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-                    {/* Section 4: Sosial Media */}
-                    <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6">
-                        <div className="flex items-center gap-2 mb-4">
-                            <span className="h-[2px] w-5 bg-brand-primary"></span>
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tautan Sosial Media Resmi</span>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {socialKeys.map(key => {
                                 const s = getSettingByKey(key);
                                 if (!s) return null;
                                 return (
@@ -249,7 +213,6 @@ export default function Settings({ settings }) {
                                             type="text"
                                             className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
                                             value={s.value}
-                                            placeholder={s.key === 'sosmed_whatsapp' ? '6281234567890' : 'https://...'}
                                             onChange={(e) => handleFieldChange(s.id, e.target.value)}
                                         />
                                     </div>
@@ -257,6 +220,8 @@ export default function Settings({ settings }) {
                             })}
                         </div>
                     </div>
+
+
 
                     {/* Action Button */}
                     <div className="mt-8 flex justify-end">

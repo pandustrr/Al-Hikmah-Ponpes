@@ -118,7 +118,7 @@ class BeritaController extends Controller
     public function settings()
     {
         return Inertia::render('IndukAdmin/Berita/Settings', [
-            'settings' => \App\Models\SiteSetting::whereIn('group', ['portal_berita', 'sosial_media'])->get()->groupBy('group'),
+            'settings' => \App\Models\SiteSetting::whereIn('group', ['portal_berita'])->get()->groupBy('group'),
             'authUser' => \Illuminate\Support\Facades\Auth::user(),
         ]);
     }
