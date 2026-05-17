@@ -1,9 +1,0 @@
-import{j as e,H as r,L as s}from"./app-MSwLMJPe.js";import{I as i}from"./IndukAdminLayout-fMGolEsD.js";import n from"./BeritaForm-C72E_qbE.js";import{F as m}from"./ArrowLeftIcon-DyT0_7fB.js";import"./NewspaperIcon-CkZSyg9G.js";import"./AcademicCapIcon-BMLQ2flc.js";import"./Cog6ToothIcon-CvxCBzfz.js";import"./ChevronDownIcon-C2aX3c_h.js";import"./PhotoIcon-Cvu8xlcC.js";import"./CheckCircleIcon-CYfXudbh.js";function j({categories:a,lembagas:t}){return e.jsxs(i,{title:"Tambah Berita",children:[e.jsx(r,{title:"Buat Berita Baru"}),e.jsxs("div",{className:"max-w-6xl mx-auto pt-6 pb-16 px-4 sm:px-6 lg:px-8",children:[e.jsx("div",{className:"mb-6 flex items-center justify-between",children:e.jsxs(s,{href:route("admin.berita.index"),className:"text-[10px] font-bold text-slate-400 hover:text-brand-primary uppercase tracking-widest flex items-center gap-2 transition-colors",children:[e.jsx(m,{className:"h-3 w-3"})," Kembali ke Kelola Berita"]})}),e.jsxs("div",{className:"mb-8",children:[e.jsx("h2",{className:"text-[10px] font-bold text-brand-accent uppercase tracking-[0.4em] mb-3",children:"Editor Berita Portal"}),e.jsxs("h1",{className:"text-4xl font-semibold text-slate-900 tracking-tighter uppercase leading-none",children:["Buat Berita ",e.jsx("br",{}),e.jsx("span",{className:"text-brand-primary",children:"Baru"})]})]}),e.jsx("div",{className:"animate-fade-in",children:e.jsx(n,{categories:a,lembagas:t,submitLabel:"Publikasikan Berita"})})]}),e.jsx("style",{dangerouslySetInnerHTML:{__html:`
-                .animate-fade-in {
-                    animation: fadeIn 0.4s ease-out forwards;
-                }
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(10px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-            `}})]})}export{j as default};

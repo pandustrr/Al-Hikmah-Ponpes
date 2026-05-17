@@ -21,7 +21,7 @@ export default function IndukAdminLayout({ children, title }) {
             <SidebarInduk isOpen={isSidebarOpen} />
             <TopbarInduk onMenuClick={() => setIsSidebarOpen(true)} />
 
-            <main className={`transition-all duration-300 pt-20 ${isSidebarOpen ? 'lg:pl-64' : 'lg:pl-64'}`}>
+            <main className={`transition-all duration-300 pt-14 ${isSidebarOpen ? 'lg:pl-56' : 'lg:pl-56'}`}>
                 <div className="p-4 md:p-8">
                     {children}
                 </div>
