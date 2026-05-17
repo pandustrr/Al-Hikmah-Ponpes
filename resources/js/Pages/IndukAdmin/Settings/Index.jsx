@@ -1,5 +1,5 @@
 import React from 'react';
-import IndukLayout from '@/Layouts/Induk/IndukLayout';
+import IndukAdminLayout from '@/Layouts/Induk/IndukAdminLayout';
 import { Head, useForm } from '@inertiajs/react';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
@@ -32,7 +32,7 @@ export default function Index({ settings }) {
     };
 
     return (
-        <IndukLayout>
+        <IndukAdminLayout>
             <Head title="Pengaturan Situs" />
 
             <div className="py-12">
@@ -82,6 +82,6 @@ export default function Index({ settings }) {
                     </div>
                 </div>
             </div>
-        </IndukLayout>
+        </IndukAdminLayout>
     );
 }

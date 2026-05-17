@@ -1,472 +1,490 @@
 {
-  "_AcademicCapIcon-tYpstjiI.js": {
-    "file": "assets/AcademicCapIcon-tYpstjiI.js",
+  "_AcademicCapIcon-Dso0-oSH.js": {
+    "file": "assets/AcademicCapIcon-Dso0-oSH.js",
     "name": "AcademicCapIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_ArrowLeftIcon-CcJkknk7.js": {
-    "file": "assets/ArrowLeftIcon-CcJkknk7.js",
+  "_ArrowLeftIcon-Bgl-Amo-.js": {
+    "file": "assets/ArrowLeftIcon-Bgl-Amo-.js",
     "name": "ArrowLeftIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_ArrowLongRightIcon-BlsnRrDf.js": {
-    "file": "assets/ArrowLongRightIcon-BlsnRrDf.js",
+  "_ArrowLongRightIcon-CHQEjexb.js": {
+    "file": "assets/ArrowLongRightIcon-CHQEjexb.js",
     "name": "ArrowLongRightIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_ArrowRightIcon-DSRdsfd-.js": {
-    "file": "assets/ArrowRightIcon-DSRdsfd-.js",
+  "_ArrowRightIcon-CkwPxp5H.js": {
+    "file": "assets/ArrowRightIcon-CkwPxp5H.js",
     "name": "ArrowRightIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_ArrowTopRightOnSquareIcon-BRsKNm1B.js": {
-    "file": "assets/ArrowTopRightOnSquareIcon-BRsKNm1B.js",
+  "_ArrowTopRightOnSquareIcon-BXHmcmQy.js": {
+    "file": "assets/ArrowTopRightOnSquareIcon-BXHmcmQy.js",
     "name": "ArrowTopRightOnSquareIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_CheckBadgeIcon-DS7_dZAB.js": {
-    "file": "assets/CheckBadgeIcon-DS7_dZAB.js",
+  "_CheckBadgeIcon-CF8ZXn7g.js": {
+    "file": "assets/CheckBadgeIcon-CF8ZXn7g.js",
     "name": "CheckBadgeIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_CheckCircleIcon-DaceoVhk.js": {
-    "file": "assets/CheckCircleIcon-DaceoVhk.js",
+  "_CheckCircleIcon-D_jRNeZe.js": {
+    "file": "assets/CheckCircleIcon-D_jRNeZe.js",
     "name": "CheckCircleIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_ChevronDownIcon-BhPtIsZL.js": {
-    "file": "assets/ChevronDownIcon-BhPtIsZL.js",
+  "_ChevronDownIcon-lW1G8TXr.js": {
+    "file": "assets/ChevronDownIcon-lW1G8TXr.js",
     "name": "ChevronDownIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_ChevronRightIcon-ODadGkY9.js": {
-    "file": "assets/ChevronRightIcon-ODadGkY9.js",
+  "_ChevronRightIcon-B00dCMLY.js": {
+    "file": "assets/ChevronRightIcon-B00dCMLY.js",
     "name": "ChevronRightIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_Cog6ToothIcon-DyhHWGfX.js": {
-    "file": "assets/Cog6ToothIcon-DyhHWGfX.js",
+  "_Cog6ToothIcon-D3uV1JXg.js": {
+    "file": "assets/Cog6ToothIcon-D3uV1JXg.js",
     "name": "Cog6ToothIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_IndukAdminLayout-BU5NV1TE.js": {
-    "file": "assets/IndukAdminLayout-BU5NV1TE.js",
+  "_ImageGalleryModal-D-P7g-ki.js": {
+    "file": "assets/ImageGalleryModal-D-P7g-ki.js",
+    "name": "ImageGalleryModal",
+    "imports": [
+      "resources/js/app.jsx",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ChevronRightIcon-B00dCMLY.js"
+    ]
+  },
+  "_IndukAdminLayout-Ba3Upog5.js": {
+    "file": "assets/IndukAdminLayout-Ba3Upog5.js",
     "name": "IndukAdminLayout",
     "imports": [
       "resources/js/app.jsx",
-      "_NewspaperIcon-yp6S5GFg.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_PhoneIcon-EAmhw6um.js",
-      "_ChevronDownIcon-BhPtIsZL.js"
+      "_NewspaperIcon-BJtw9go-.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_ChevronDownIcon-lW1G8TXr.js"
     ]
   },
-  "_InputError-cGHTQxMV.js": {
-    "file": "assets/InputError-cGHTQxMV.js",
+  "_InputError-Cq0iczOv.js": {
+    "file": "assets/InputError-Cq0iczOv.js",
     "name": "InputError",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_InputLabel-KYtbAG1q.js": {
-    "file": "assets/InputLabel-KYtbAG1q.js",
+  "_InputLabel-CdHscUa5.js": {
+    "file": "assets/InputLabel-CdHscUa5.js",
     "name": "InputLabel",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_NewspaperIcon-yp6S5GFg.js": {
-    "file": "assets/NewspaperIcon-yp6S5GFg.js",
+  "_NewspaperIcon-BJtw9go-.js": {
+    "file": "assets/NewspaperIcon-BJtw9go-.js",
     "name": "NewspaperIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_PhoneIcon-EAmhw6um.js": {
-    "file": "assets/PhoneIcon-EAmhw6um.js",
-    "name": "PhoneIcon",
-    "imports": [
-      "resources/js/app.jsx"
-    ]
-  },
-  "_PhotoIcon-CkKwzoX0.js": {
-    "file": "assets/PhotoIcon-CkKwzoX0.js",
+  "_PhotoIcon-Dc7ha-W3.js": {
+    "file": "assets/PhotoIcon-Dc7ha-W3.js",
     "name": "PhotoIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_PlusIcon-DVuLNasO.js": {
-    "file": "assets/PlusIcon-DVuLNasO.js",
+  "_PlusIcon-Df8X7mSN.js": {
+    "file": "assets/PlusIcon-Df8X7mSN.js",
     "name": "PlusIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_PublicLayout-EDA8fWp-.js": {
-    "file": "assets/PublicLayout-EDA8fWp-.js",
+  "_PublicLayout-BxScMp5H.js": {
+    "file": "assets/PublicLayout-BxScMp5H.js",
     "name": "PublicLayout",
     "imports": [
       "resources/js/app.jsx",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_ArrowLeftIcon-CcJkknk7.js"
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js"
     ]
   },
-  "_SparklesIcon-B-K3wkvy.js": {
-    "file": "assets/SparklesIcon-B-K3wkvy.js",
+  "_SparklesIcon-C9ORMe3o.js": {
+    "file": "assets/SparklesIcon-C9ORMe3o.js",
     "name": "SparklesIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_TextInput-KLyNCfr6.js": {
-    "file": "assets/TextInput-KLyNCfr6.js",
+  "_TextInput-RGqzMp4H.js": {
+    "file": "assets/TextInput-RGqzMp4H.js",
     "name": "TextInput",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_TrashIcon-BNnDGB5q.js": {
-    "file": "assets/TrashIcon-BNnDGB5q.js",
+  "_TrashIcon-6l1isLy1.js": {
+    "file": "assets/TrashIcon-6l1isLy1.js",
     "name": "TrashIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
-  "_UserGroupIcon-BJXFKa1Q.js": {
-    "file": "assets/UserGroupIcon-BJXFKa1Q.js",
+  "_UserGroupIcon-Gpa50A-C.js": {
+    "file": "assets/UserGroupIcon-Gpa50A-C.js",
     "name": "UserGroupIcon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
+  "_XMarkIcon-a2chm0oD.js": {
+    "file": "assets/XMarkIcon-a2chm0oD.js",
+    "name": "XMarkIcon",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
   "resources/js/Pages/HandleError/Error.jsx": {
-    "file": "assets/Error-CrzLF0VH.js",
+    "file": "assets/Error-fuTqEOlc.js",
     "name": "Error",
     "src": "resources/js/Pages/HandleError/Error.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_PublicLayout-EDA8fWp-.js",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_ArrowLeftIcon-CcJkknk7.js"
+      "_PublicLayout-BxScMp5H.js",
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js"
     ]
   },
   "resources/js/Pages/HandleError/Maintenance.jsx": {
-    "file": "assets/Maintenance-B4KbGvmF.js",
+    "file": "assets/Maintenance-C6NIFDzC.js",
     "name": "Maintenance",
     "src": "resources/js/Pages/HandleError/Maintenance.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_Cog6ToothIcon-DyhHWGfX.js"
+      "_Cog6ToothIcon-D3uV1JXg.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/Alumni/Index.jsx": {
-    "file": "assets/Index-DbQ7_dof.js",
+    "file": "assets/Index-ClkDYJ1i.js",
     "name": "Index",
     "src": "resources/js/Pages/IndukAdmin/Alumni/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_IndukAdminLayout-BU5NV1TE.js",
-      "_NewspaperIcon-yp6S5GFg.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_PhoneIcon-EAmhw6um.js",
-      "_ChevronDownIcon-BhPtIsZL.js"
+      "_IndukAdminLayout-Ba3Upog5.js",
+      "_NewspaperIcon-BJtw9go-.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_ChevronDownIcon-lW1G8TXr.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/Auth/ForgotPassword.jsx": {
-    "file": "assets/ForgotPassword-B8PD8jYd.js",
+    "file": "assets/ForgotPassword-BFOTJ7bC.js",
     "name": "ForgotPassword",
     "src": "resources/js/Pages/IndukAdmin/Auth/ForgotPassword.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_InputError-cGHTQxMV.js",
-      "_TextInput-KLyNCfr6.js",
-      "_PublicLayout-EDA8fWp-.js",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_ArrowLeftIcon-CcJkknk7.js"
+      "_InputError-Cq0iczOv.js",
+      "_TextInput-RGqzMp4H.js",
+      "_PublicLayout-BxScMp5H.js",
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/Auth/Login.jsx": {
-    "file": "assets/Login-CP2ODpX7.js",
+    "file": "assets/Login-DCWqdMyX.js",
     "name": "Login",
     "src": "resources/js/Pages/IndukAdmin/Auth/Login.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_PublicLayout-EDA8fWp-.js",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_ArrowLeftIcon-CcJkknk7.js"
+      "_PublicLayout-BxScMp5H.js",
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/Auth/ResetPassword.jsx": {
-    "file": "assets/ResetPassword-WRY6voKz.js",
+    "file": "assets/ResetPassword-BeQ7jF9_.js",
     "name": "ResetPassword",
     "src": "resources/js/Pages/IndukAdmin/Auth/ResetPassword.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_InputError-cGHTQxMV.js",
-      "_InputLabel-KYtbAG1q.js",
-      "_TextInput-KLyNCfr6.js",
-      "_PublicLayout-EDA8fWp-.js",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_ArrowLeftIcon-CcJkknk7.js"
+      "_InputError-Cq0iczOv.js",
+      "_InputLabel-CdHscUa5.js",
+      "_TextInput-RGqzMp4H.js",
+      "_PublicLayout-BxScMp5H.js",
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/Berita/Create.jsx": {
-    "file": "assets/Create-UsN9G8gW.js",
+    "file": "assets/Create-B4DbBXPz.js",
     "name": "Create",
     "src": "resources/js/Pages/IndukAdmin/Berita/Create.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_IndukAdminLayout-BU5NV1TE.js",
+      "_IndukAdminLayout-Ba3Upog5.js",
       "resources/js/Pages/IndukAdmin/Berita/Partials/BeritaForm.jsx",
-      "_ArrowLeftIcon-CcJkknk7.js",
-      "_NewspaperIcon-yp6S5GFg.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_PhoneIcon-EAmhw6um.js",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_TextInput-KLyNCfr6.js",
-      "_InputLabel-KYtbAG1q.js",
-      "_InputError-cGHTQxMV.js",
-      "_PhotoIcon-CkKwzoX0.js"
+      "_ArrowLeftIcon-Bgl-Amo-.js",
+      "_NewspaperIcon-BJtw9go-.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_TextInput-RGqzMp4H.js",
+      "_InputLabel-CdHscUa5.js",
+      "_InputError-Cq0iczOv.js",
+      "_PhotoIcon-Dc7ha-W3.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/Berita/Edit.jsx": {
-    "file": "assets/Edit-D91a33s1.js",
+    "file": "assets/Edit-CKTnLYlt.js",
     "name": "Edit",
     "src": "resources/js/Pages/IndukAdmin/Berita/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_IndukAdminLayout-BU5NV1TE.js",
+      "_IndukAdminLayout-Ba3Upog5.js",
       "resources/js/Pages/IndukAdmin/Berita/Partials/BeritaForm.jsx",
-      "_ArrowLeftIcon-CcJkknk7.js",
-      "_NewspaperIcon-yp6S5GFg.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_PhoneIcon-EAmhw6um.js",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_TextInput-KLyNCfr6.js",
-      "_InputLabel-KYtbAG1q.js",
-      "_InputError-cGHTQxMV.js",
-      "_PhotoIcon-CkKwzoX0.js"
+      "_ArrowLeftIcon-Bgl-Amo-.js",
+      "_NewspaperIcon-BJtw9go-.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_TextInput-RGqzMp4H.js",
+      "_InputLabel-CdHscUa5.js",
+      "_InputError-Cq0iczOv.js",
+      "_PhotoIcon-Dc7ha-W3.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/Berita/Index.jsx": {
-    "file": "assets/Index-CQ3fRI2R.js",
+    "file": "assets/Index-B8rwrWyq.js",
     "name": "Index",
     "src": "resources/js/Pages/IndukAdmin/Berita/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_IndukAdminLayout-BU5NV1TE.js",
-      "_TextInput-KLyNCfr6.js",
-      "_InputLabel-KYtbAG1q.js",
-      "_PlusIcon-DVuLNasO.js",
-      "_Cog6ToothIcon-DyhHWGfX.js",
-      "_NewspaperIcon-yp6S5GFg.js",
-      "_TrashIcon-BNnDGB5q.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_PhoneIcon-EAmhw6um.js",
-      "_ChevronDownIcon-BhPtIsZL.js"
+      "_IndukAdminLayout-Ba3Upog5.js",
+      "_TextInput-RGqzMp4H.js",
+      "_InputLabel-CdHscUa5.js",
+      "_PlusIcon-Df8X7mSN.js",
+      "_Cog6ToothIcon-D3uV1JXg.js",
+      "_NewspaperIcon-BJtw9go-.js",
+      "_TrashIcon-6l1isLy1.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_ChevronDownIcon-lW1G8TXr.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/Berita/LembagaIndex.jsx": {
-    "file": "assets/LembagaIndex-BWywmupN.js",
+    "file": "assets/LembagaIndex-BJQT87a9.js",
     "name": "LembagaIndex",
     "src": "resources/js/Pages/IndukAdmin/Berita/LembagaIndex.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_NewspaperIcon-yp6S5GFg.js"
+      "_NewspaperIcon-BJtw9go-.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/Berita/Partials/BeritaForm.jsx": {
-    "file": "assets/BeritaForm-nLzKUVUp.js",
+    "file": "assets/BeritaForm-DDETpPux.js",
     "name": "BeritaForm",
     "src": "resources/js/Pages/IndukAdmin/Berita/Partials/BeritaForm.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_TextInput-KLyNCfr6.js",
-      "_InputLabel-KYtbAG1q.js",
-      "_InputError-cGHTQxMV.js",
-      "_PhotoIcon-CkKwzoX0.js"
+      "_TextInput-RGqzMp4H.js",
+      "_InputLabel-CdHscUa5.js",
+      "_InputError-Cq0iczOv.js",
+      "_PhotoIcon-Dc7ha-W3.js"
     ],
     "css": [
       "assets/BeritaForm-7oN3-GhD.css"
     ]
   },
   "resources/js/Pages/IndukAdmin/Dashboard.jsx": {
-    "file": "assets/Dashboard-Ps31R6cZ.js",
+    "file": "assets/Dashboard-4TpMy3mz.js",
     "name": "Dashboard",
     "src": "resources/js/Pages/IndukAdmin/Dashboard.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_IndukAdminLayout-BU5NV1TE.js",
-      "_NewspaperIcon-yp6S5GFg.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_PhoneIcon-EAmhw6um.js",
-      "_ChevronDownIcon-BhPtIsZL.js"
+      "_IndukAdminLayout-Ba3Upog5.js",
+      "_NewspaperIcon-BJtw9go-.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_ChevronDownIcon-lW1G8TXr.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/Fasilitas/Index.jsx": {
-    "file": "assets/Index-buqCLI8c.js",
+    "file": "assets/Index-BbZ9BJJM.js",
     "name": "Index",
     "src": "resources/js/Pages/IndukAdmin/Fasilitas/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_IndukAdminLayout-BU5NV1TE.js",
-      "_NewspaperIcon-yp6S5GFg.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_PhoneIcon-EAmhw6um.js",
-      "_ChevronDownIcon-BhPtIsZL.js"
+      "_IndukAdminLayout-Ba3Upog5.js",
+      "_NewspaperIcon-BJtw9go-.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_ChevronDownIcon-lW1G8TXr.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/InfoPPDB/Index.jsx": {
-    "file": "assets/Index-BW5Gd3nx.js",
+    "file": "assets/Index-DSNvEERw.js",
     "name": "Index",
     "src": "resources/js/Pages/IndukAdmin/InfoPPDB/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_IndukAdminLayout-BU5NV1TE.js",
-      "_PlusIcon-DVuLNasO.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_PhoneIcon-EAmhw6um.js",
-      "_TrashIcon-BNnDGB5q.js",
-      "_CheckCircleIcon-DaceoVhk.js",
-      "_NewspaperIcon-yp6S5GFg.js",
-      "_ChevronDownIcon-BhPtIsZL.js"
+      "_IndukAdminLayout-Ba3Upog5.js",
+      "_PlusIcon-Df8X7mSN.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_TrashIcon-6l1isLy1.js",
+      "_CheckCircleIcon-D_jRNeZe.js",
+      "_PhotoIcon-Dc7ha-W3.js",
+      "_NewspaperIcon-BJtw9go-.js",
+      "_ChevronDownIcon-lW1G8TXr.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/Kontak/Index.jsx": {
-    "file": "assets/Index-Dj5mNvCt.js",
+    "file": "assets/Index-dLiouYi9.js",
     "name": "Index",
     "src": "resources/js/Pages/IndukAdmin/Kontak/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_IndukAdminLayout-BU5NV1TE.js",
-      "_NewspaperIcon-yp6S5GFg.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_PhoneIcon-EAmhw6um.js",
-      "_ChevronDownIcon-BhPtIsZL.js"
+      "_IndukAdminLayout-Ba3Upog5.js",
+      "_NewspaperIcon-BJtw9go-.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_ChevronDownIcon-lW1G8TXr.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/Landing/Index.jsx": {
-    "file": "assets/Index-BWd5SA8P.js",
+    "file": "assets/Index-dUlxzywD.js",
     "name": "Index",
     "src": "resources/js/Pages/IndukAdmin/Landing/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_IndukAdminLayout-BU5NV1TE.js",
-      "_Cog6ToothIcon-DyhHWGfX.js",
-      "_PlusIcon-DVuLNasO.js",
-      "_TrashIcon-BNnDGB5q.js",
-      "_NewspaperIcon-yp6S5GFg.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_PhoneIcon-EAmhw6um.js",
-      "_ChevronDownIcon-BhPtIsZL.js"
+      "_IndukAdminLayout-Ba3Upog5.js",
+      "_Cog6ToothIcon-D3uV1JXg.js",
+      "_PlusIcon-Df8X7mSN.js",
+      "_TrashIcon-6l1isLy1.js",
+      "_NewspaperIcon-BJtw9go-.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_ChevronDownIcon-lW1G8TXr.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/Lembaga/Edit.jsx": {
-    "file": "assets/Edit-CSUL_cy9.js",
+    "file": "assets/Edit-NC5Qd8SR.js",
     "name": "Edit",
     "src": "resources/js/Pages/IndukAdmin/Lembaga/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_IndukAdminLayout-BU5NV1TE.js",
-      "_ArrowLeftIcon-CcJkknk7.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_PhotoIcon-CkKwzoX0.js",
-      "_SparklesIcon-B-K3wkvy.js",
-      "_UserGroupIcon-BJXFKa1Q.js",
-      "_NewspaperIcon-yp6S5GFg.js",
-      "_ArrowRightIcon-DSRdsfd-.js",
-      "_TrashIcon-BNnDGB5q.js",
-      "_CheckCircleIcon-DaceoVhk.js",
-      "_PhoneIcon-EAmhw6um.js",
-      "_ChevronDownIcon-BhPtIsZL.js"
+      "_IndukAdminLayout-Ba3Upog5.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_PhotoIcon-Dc7ha-W3.js",
+      "_SparklesIcon-C9ORMe3o.js",
+      "_NewspaperIcon-BJtw9go-.js",
+      "_UserGroupIcon-Gpa50A-C.js",
+      "_TrashIcon-6l1isLy1.js",
+      "_CheckCircleIcon-D_jRNeZe.js",
+      "_ArrowRightIcon-CkwPxp5H.js",
+      "_ChevronDownIcon-lW1G8TXr.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/Lembaga/Index.jsx": {
-    "file": "assets/Index-bIIib-Ip.js",
+    "file": "assets/Index-BD7X1cRK.js",
     "name": "Index",
     "src": "resources/js/Pages/IndukAdmin/Lembaga/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_IndukAdminLayout-BU5NV1TE.js",
-      "_NewspaperIcon-yp6S5GFg.js",
-      "_PlusIcon-DVuLNasO.js",
-      "_TrashIcon-BNnDGB5q.js",
-      "_ArrowRightIcon-DSRdsfd-.js",
-      "_PhotoIcon-CkKwzoX0.js",
-      "_SparklesIcon-B-K3wkvy.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_PhoneIcon-EAmhw6um.js",
-      "_ChevronDownIcon-BhPtIsZL.js"
+      "_IndukAdminLayout-Ba3Upog5.js",
+      "_NewspaperIcon-BJtw9go-.js",
+      "_PlusIcon-Df8X7mSN.js",
+      "_TrashIcon-6l1isLy1.js",
+      "_ArrowRightIcon-CkwPxp5H.js",
+      "_PhotoIcon-Dc7ha-W3.js",
+      "_SparklesIcon-C9ORMe3o.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_ChevronDownIcon-lW1G8TXr.js"
+    ]
+  },
+  "resources/js/Pages/IndukAdmin/Settings/Index.jsx": {
+    "file": "assets/Index-CCYuHx5k.js",
+    "name": "Index",
+    "src": "resources/js/Pages/IndukAdmin/Settings/Index.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_IndukAdminLayout-Ba3Upog5.js",
+      "_InputLabel-CdHscUa5.js",
+      "_TextInput-RGqzMp4H.js",
+      "_NewspaperIcon-BJtw9go-.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_ChevronDownIcon-lW1G8TXr.js"
     ]
   },
   "resources/js/Pages/IndukAdmin/Tentang/Index.jsx": {
-    "file": "assets/Index-UZZGsVCq.js",
+    "file": "assets/Index-DE2jCCeI.js",
     "name": "Index",
     "src": "resources/js/Pages/IndukAdmin/Tentang/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_IndukAdminLayout-BU5NV1TE.js",
-      "_NewspaperIcon-yp6S5GFg.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_PhoneIcon-EAmhw6um.js",
-      "_ChevronDownIcon-BhPtIsZL.js"
+      "_IndukAdminLayout-Ba3Upog5.js",
+      "_NewspaperIcon-BJtw9go-.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_ChevronDownIcon-lW1G8TXr.js"
     ]
   },
   "resources/js/Pages/IndukPage/Berita/Index.jsx": {
-    "file": "assets/Index-CBZniITi.js",
+    "file": "assets/Index-20219QPc.js",
     "name": "Index",
     "src": "resources/js/Pages/IndukPage/Berita/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_PublicLayout-EDA8fWp-.js",
+      "_PublicLayout-BxScMp5H.js",
       "resources/js/Pages/IndukPage/Berita/NewsTicker.jsx",
       "resources/js/Pages/IndukPage/Berita/NewsCard.jsx",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_ArrowLeftIcon-CcJkknk7.js"
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js"
     ]
   },
   "resources/js/Pages/IndukPage/Berita/NewsCard.jsx": {
-    "file": "assets/NewsCard-D4hX_VNK.js",
+    "file": "assets/NewsCard-CADh4JWe.js",
     "name": "NewsCard",
     "src": "resources/js/Pages/IndukPage/Berita/NewsCard.jsx",
     "isDynamicEntry": true,
@@ -475,7 +493,7 @@
     ]
   },
   "resources/js/Pages/IndukPage/Berita/NewsTicker.jsx": {
-    "file": "assets/NewsTicker-DHFoIvXS.js",
+    "file": "assets/NewsTicker-CBLvH5B_.js",
     "name": "NewsTicker",
     "src": "resources/js/Pages/IndukPage/Berita/NewsTicker.jsx",
     "isDynamicEntry": true,
@@ -484,53 +502,55 @@
     ]
   },
   "resources/js/Pages/IndukPage/Berita/Show.jsx": {
-    "file": "assets/Show-Bx_uJV9j.js",
+    "file": "assets/Show-rTgq8Nva.js",
     "name": "Show",
     "src": "resources/js/Pages/IndukPage/Berita/Show.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_PublicLayout-EDA8fWp-.js",
+      "_PublicLayout-BxScMp5H.js",
       "resources/js/Pages/IndukPage/Berita/NewsCard.jsx",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_ArrowLeftIcon-CcJkknk7.js"
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js"
     ]
   },
   "resources/js/Pages/IndukPage/Fasilitas/Index.jsx": {
-    "file": "assets/Index-BmuoBOh5.js",
+    "file": "assets/Index-BTzHJbay.js",
     "name": "Index",
     "src": "resources/js/Pages/IndukPage/Fasilitas/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_PublicLayout-EDA8fWp-.js",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_ArrowLeftIcon-CcJkknk7.js"
+      "_PublicLayout-BxScMp5H.js",
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js"
     ]
   },
   "resources/js/Pages/IndukPage/Home/AboutSummary.jsx": {
-    "file": "assets/AboutSummary-fsp2Boea.js",
+    "file": "assets/AboutSummary-Bng_x6Pg.js",
     "name": "AboutSummary",
     "src": "resources/js/Pages/IndukPage/Home/AboutSummary.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_ArrowLongRightIcon-BlsnRrDf.js"
+      "_ArrowLongRightIcon-CHQEjexb.js"
     ]
   },
   "resources/js/Pages/IndukPage/Home/BeritaYayasan.jsx": {
-    "file": "assets/BeritaYayasan-Bd86ojFh.js",
+    "file": "assets/BeritaYayasan-lHt-v-NB.js",
     "name": "BeritaYayasan",
     "src": "resources/js/Pages/IndukPage/Home/BeritaYayasan.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
       "resources/js/Pages/IndukPage/Berita/NewsCard.jsx",
-      "_ChevronRightIcon-ODadGkY9.js"
+      "_ChevronRightIcon-B00dCMLY.js"
     ]
   },
   "resources/js/Pages/IndukPage/Home/FasilitasShortcut.jsx": {
-    "file": "assets/FasilitasShortcut-CnWnWPi0.js",
+    "file": "assets/FasilitasShortcut-BFapQKHu.js",
     "name": "FasilitasShortcut",
     "src": "resources/js/Pages/IndukPage/Home/FasilitasShortcut.jsx",
     "isDynamicEntry": true,
@@ -539,23 +559,23 @@
     ]
   },
   "resources/js/Pages/IndukPage/Home/Hero.jsx": {
-    "file": "assets/Hero-CCbm2BF8.js",
+    "file": "assets/Hero-DqpKa3o2.js",
     "name": "Hero",
     "src": "resources/js/Pages/IndukPage/Home/Hero.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_ChevronRightIcon-ODadGkY9.js"
+      "_ChevronRightIcon-B00dCMLY.js"
     ]
   },
   "resources/js/Pages/IndukPage/Home/Index.jsx": {
-    "file": "assets/Index-DrAdPB8E.js",
+    "file": "assets/Index-l4vJirCo.js",
     "name": "Index",
     "src": "resources/js/Pages/IndukPage/Home/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_PublicLayout-EDA8fWp-.js",
+      "_PublicLayout-BxScMp5H.js",
       "resources/js/Pages/IndukPage/Home/Hero.jsx",
       "resources/js/Pages/IndukPage/Home/AboutSummary.jsx",
       "resources/js/Pages/IndukPage/Home/FasilitasShortcut.jsx",
@@ -564,49 +584,50 @@
       "resources/js/Pages/IndukPage/Home/BeritaYayasan.jsx",
       "resources/js/Pages/IndukPage/Home/UpcomingEvents.jsx",
       "resources/js/Pages/IndukPage/Home/Testimonials.jsx",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_ArrowLeftIcon-CcJkknk7.js",
-      "_ChevronRightIcon-ODadGkY9.js",
-      "_ArrowLongRightIcon-BlsnRrDf.js",
-      "_CheckCircleIcon-DaceoVhk.js",
-      "_ArrowRightIcon-DSRdsfd-.js",
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js",
+      "_ChevronRightIcon-B00dCMLY.js",
+      "_ArrowLongRightIcon-CHQEjexb.js",
+      "_CheckCircleIcon-D_jRNeZe.js",
+      "_ArrowRightIcon-CkwPxp5H.js",
       "resources/js/Pages/IndukPage/Berita/NewsCard.jsx"
     ]
   },
   "resources/js/Pages/IndukPage/Home/LembagaSection.jsx": {
-    "file": "assets/LembagaSection-D4uUn01t.js",
+    "file": "assets/LembagaSection-CA8A-rpn.js",
     "name": "LembagaSection",
     "src": "resources/js/Pages/IndukPage/Home/LembagaSection.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_ArrowLongRightIcon-BlsnRrDf.js"
+      "_ArrowLongRightIcon-CHQEjexb.js"
     ]
   },
   "resources/js/Pages/IndukPage/Home/LembagaUpdates.jsx": {
-    "file": "assets/LembagaUpdates-ducm8dDS.js",
+    "file": "assets/LembagaUpdates-DkYdTKTa.js",
     "name": "LembagaUpdates",
     "src": "resources/js/Pages/IndukPage/Home/LembagaUpdates.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_ArrowRightIcon-DSRdsfd-.js"
+      "_ArrowRightIcon-CkwPxp5H.js"
     ]
   },
   "resources/js/Pages/IndukPage/Home/PpdbCta.jsx": {
-    "file": "assets/PpdbCta-CIl4RIy0.js",
+    "file": "assets/PpdbCta-C3PJih99.js",
     "name": "PpdbCta",
     "src": "resources/js/Pages/IndukPage/Home/PpdbCta.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_ArrowLongRightIcon-BlsnRrDf.js",
-      "_CheckCircleIcon-DaceoVhk.js",
-      "_ArrowRightIcon-DSRdsfd-.js"
+      "_ArrowLongRightIcon-CHQEjexb.js",
+      "_CheckCircleIcon-D_jRNeZe.js",
+      "_ArrowRightIcon-CkwPxp5H.js"
     ]
   },
   "resources/js/Pages/IndukPage/Home/Testimonials.jsx": {
-    "file": "assets/Testimonials-Dm9PPq-C.js",
+    "file": "assets/Testimonials-DylmHNAf.js",
     "name": "Testimonials",
     "src": "resources/js/Pages/IndukPage/Home/Testimonials.jsx",
     "isDynamicEntry": true,
@@ -615,31 +636,32 @@
     ]
   },
   "resources/js/Pages/IndukPage/Home/UpcomingEvents.jsx": {
-    "file": "assets/UpcomingEvents-CMVrwirf.js",
+    "file": "assets/UpcomingEvents-D8GgwpW0.js",
     "name": "UpcomingEvents",
     "src": "resources/js/Pages/IndukPage/Home/UpcomingEvents.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_ArrowRightIcon-DSRdsfd-.js"
+      "_ArrowRightIcon-CkwPxp5H.js"
     ]
   },
   "resources/js/Pages/IndukPage/InfoPPDB/Index.jsx": {
-    "file": "assets/Index-DEoq2g7B.js",
+    "file": "assets/Index-xra8oyQE.js",
     "name": "Index",
     "src": "resources/js/Pages/IndukPage/InfoPPDB/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_PublicLayout-EDA8fWp-.js",
-      "_PhoneIcon-EAmhw6um.js",
-      "_ArrowTopRightOnSquareIcon-BRsKNm1B.js",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_ArrowLeftIcon-CcJkknk7.js"
+      "_PublicLayout-BxScMp5H.js",
+      "_ArrowTopRightOnSquareIcon-BXHmcmQy.js",
+      "_ArrowRightIcon-CkwPxp5H.js",
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js"
     ]
   },
   "resources/js/Pages/IndukPage/Kontak/ContactInfo.jsx": {
-    "file": "assets/ContactInfo-CD_sESQo.js",
+    "file": "assets/ContactInfo-DaeX94pZ.js",
     "name": "ContactInfo",
     "src": "resources/js/Pages/IndukPage/Kontak/ContactInfo.jsx",
     "isDynamicEntry": true,
@@ -648,74 +670,78 @@
     ]
   },
   "resources/js/Pages/IndukPage/Kontak/Index.jsx": {
-    "file": "assets/Index-DxzZ9QTw.js",
+    "file": "assets/Index-C-Ng4AD0.js",
     "name": "Index",
     "src": "resources/js/Pages/IndukPage/Kontak/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_PublicLayout-EDA8fWp-.js",
+      "_PublicLayout-BxScMp5H.js",
       "resources/js/Pages/IndukPage/Kontak/ContactInfo.jsx",
       "resources/js/Pages/IndukPage/Kontak/MapSection.jsx",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_ArrowLeftIcon-CcJkknk7.js",
-      "_ArrowTopRightOnSquareIcon-BRsKNm1B.js"
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js",
+      "_ArrowTopRightOnSquareIcon-BXHmcmQy.js"
     ]
   },
   "resources/js/Pages/IndukPage/Kontak/MapSection.jsx": {
-    "file": "assets/MapSection-LUKggcRf.js",
+    "file": "assets/MapSection-CE3Hxp47.js",
     "name": "MapSection",
     "src": "resources/js/Pages/IndukPage/Kontak/MapSection.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_ArrowTopRightOnSquareIcon-BRsKNm1B.js"
+      "_ArrowTopRightOnSquareIcon-BXHmcmQy.js"
     ]
   },
   "resources/js/Pages/IndukPage/Tentang/Profil.jsx": {
-    "file": "assets/Profil-9MdfdnGP.js",
+    "file": "assets/Profil-S_o-ghMl.js",
     "name": "Profil",
     "src": "resources/js/Pages/IndukPage/Tentang/Profil.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_PublicLayout-EDA8fWp-.js",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_ArrowLeftIcon-CcJkknk7.js"
+      "_PublicLayout-BxScMp5H.js",
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js"
     ]
   },
   "resources/js/Pages/IndukPage/Tentang/Sejarah.jsx": {
-    "file": "assets/Sejarah-Bxgzsz0x.js",
+    "file": "assets/Sejarah-DMiFb4i6.js",
     "name": "Sejarah",
     "src": "resources/js/Pages/IndukPage/Tentang/Sejarah.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_PublicLayout-EDA8fWp-.js",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_ArrowLeftIcon-CcJkknk7.js"
+      "_PublicLayout-BxScMp5H.js",
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js"
     ]
   },
   "resources/js/Pages/IndukPage/Tentang/VisiMisi.jsx": {
-    "file": "assets/VisiMisi-CdF3yOBZ.js",
+    "file": "assets/VisiMisi-BVQyyIoC.js",
     "name": "VisiMisi",
     "src": "resources/js/Pages/IndukPage/Tentang/VisiMisi.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_PublicLayout-EDA8fWp-.js",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_ArrowLeftIcon-CcJkknk7.js"
+      "_PublicLayout-BxScMp5H.js",
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js"
     ]
   },
   "resources/js/Pages/LembagaPage/Home.jsx": {
-    "file": "assets/Home-gtsR_yhw.js",
+    "file": "assets/Home-yV0WgGrm.js",
     "name": "Home",
     "src": "resources/js/Pages/LembagaPage/Home.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_PublicLayout-EDA8fWp-.js",
+      "_PublicLayout-BxScMp5H.js",
       "resources/js/Pages/LembagaPage/Partials/HeroSection.jsx",
       "resources/js/Pages/LembagaPage/Partials/StatsBar.jsx",
       "resources/js/Pages/LembagaPage/Partials/RunningTextBanner.jsx",
@@ -727,30 +753,32 @@
       "resources/js/Pages/LembagaPage/Partials/FasilitasSection.jsx",
       "resources/js/Pages/LembagaPage/Partials/PpdbSection.jsx",
       "resources/js/Pages/LembagaPage/Partials/CtaSection.jsx",
-      "_ChevronDownIcon-BhPtIsZL.js",
-      "_ArrowLeftIcon-CcJkknk7.js",
-      "_ArrowRightIcon-DSRdsfd-.js",
-      "_ChevronRightIcon-ODadGkY9.js",
-      "_UserGroupIcon-BJXFKa1Q.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_CheckBadgeIcon-DS7_dZAB.js",
-      "_SparklesIcon-B-K3wkvy.js",
-      "_CheckCircleIcon-DaceoVhk.js",
-      "_PhoneIcon-EAmhw6um.js"
+      "_ChevronDownIcon-lW1G8TXr.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ArrowLeftIcon-Bgl-Amo-.js",
+      "_ArrowRightIcon-CkwPxp5H.js",
+      "_ChevronRightIcon-B00dCMLY.js",
+      "_UserGroupIcon-Gpa50A-C.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_CheckBadgeIcon-CF8ZXn7g.js",
+      "_SparklesIcon-C9ORMe3o.js",
+      "_CheckCircleIcon-D_jRNeZe.js",
+      "_ImageGalleryModal-D-P7g-ki.js",
+      "_PhotoIcon-Dc7ha-W3.js"
     ]
   },
   "resources/js/Pages/LembagaPage/Partials/BeritaKegiatanSection.jsx": {
-    "file": "assets/BeritaKegiatanSection-DDhomCUU.js",
+    "file": "assets/BeritaKegiatanSection-CedSabNn.js",
     "name": "BeritaKegiatanSection",
     "src": "resources/js/Pages/LembagaPage/Partials/BeritaKegiatanSection.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_ArrowRightIcon-DSRdsfd-.js"
+      "_ArrowRightIcon-CkwPxp5H.js"
     ]
   },
   "resources/js/Pages/LembagaPage/Partials/CtaSection.jsx": {
-    "file": "assets/CtaSection-BmE7j-lD.js",
+    "file": "assets/CtaSection-DrryHbkU.js",
     "name": "CtaSection",
     "src": "resources/js/Pages/LembagaPage/Partials/CtaSection.jsx",
     "isDynamicEntry": true,
@@ -759,62 +787,76 @@
     ]
   },
   "resources/js/Pages/LembagaPage/Partials/FasilitasSection.jsx": {
-    "file": "assets/FasilitasSection-Co1FsPOd.js",
+    "file": "assets/FasilitasSection-Dv4IcPsi.js",
     "name": "FasilitasSection",
     "src": "resources/js/Pages/LembagaPage/Partials/FasilitasSection.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_ChevronRightIcon-ODadGkY9.js"
+      "_ImageGalleryModal-D-P7g-ki.js",
+      "_ChevronRightIcon-B00dCMLY.js",
+      "_PhotoIcon-Dc7ha-W3.js",
+      "_XMarkIcon-a2chm0oD.js"
+    ]
+  },
+  "resources/js/Pages/LembagaPage/Partials/GaleriSection.jsx": {
+    "file": "assets/GaleriSection-wkyjCo83.js",
+    "name": "GaleriSection",
+    "src": "resources/js/Pages/LembagaPage/Partials/GaleriSection.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_ImageGalleryModal-D-P7g-ki.js",
+      "_XMarkIcon-a2chm0oD.js",
+      "_ChevronRightIcon-B00dCMLY.js"
     ]
   },
   "resources/js/Pages/LembagaPage/Partials/HeroSection.jsx": {
-    "file": "assets/HeroSection-BJCJ1qfk.js",
+    "file": "assets/HeroSection-BNvzol7M.js",
     "name": "HeroSection",
     "src": "resources/js/Pages/LembagaPage/Partials/HeroSection.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_ArrowRightIcon-DSRdsfd-.js",
-      "_ChevronRightIcon-ODadGkY9.js"
+      "_ArrowRightIcon-CkwPxp5H.js",
+      "_ChevronRightIcon-B00dCMLY.js"
     ]
   },
   "resources/js/Pages/LembagaPage/Partials/KeunggulanSection.jsx": {
-    "file": "assets/KeunggulanSection-D93HS3Nx.js",
+    "file": "assets/KeunggulanSection-pxYZ2-t1.js",
     "name": "KeunggulanSection",
     "src": "resources/js/Pages/LembagaPage/Partials/KeunggulanSection.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_CheckBadgeIcon-DS7_dZAB.js"
+      "_CheckBadgeIcon-CF8ZXn7g.js"
     ]
   },
   "resources/js/Pages/LembagaPage/Partials/PpdbSection.jsx": {
-    "file": "assets/PpdbSection-CwsAtsJq.js",
+    "file": "assets/PpdbSection-D7NnywOH.js",
     "name": "PpdbSection",
     "src": "resources/js/Pages/LembagaPage/Partials/PpdbSection.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_CheckCircleIcon-DaceoVhk.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_ArrowRightIcon-DSRdsfd-.js",
-      "_PhoneIcon-EAmhw6um.js"
+      "_CheckCircleIcon-D_jRNeZe.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_ArrowRightIcon-CkwPxp5H.js"
     ]
   },
   "resources/js/Pages/LembagaPage/Partials/ProfilSection.jsx": {
-    "file": "assets/ProfilSection-DOw7tRp5.js",
+    "file": "assets/ProfilSection-qzSghBk3.js",
     "name": "ProfilSection",
     "src": "resources/js/Pages/LembagaPage/Partials/ProfilSection.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_SparklesIcon-B-K3wkvy.js",
-      "_CheckCircleIcon-DaceoVhk.js"
+      "_SparklesIcon-C9ORMe3o.js",
+      "_CheckCircleIcon-D_jRNeZe.js"
     ]
   },
   "resources/js/Pages/LembagaPage/Partials/RunningTextBanner.jsx": {
-    "file": "assets/RunningTextBanner-DeyxLyin.js",
+    "file": "assets/RunningTextBanner-6_9MNzB3.js",
     "name": "RunningTextBanner",
     "src": "resources/js/Pages/LembagaPage/Partials/RunningTextBanner.jsx",
     "isDynamicEntry": true,
@@ -823,29 +865,29 @@
     ]
   },
   "resources/js/Pages/LembagaPage/Partials/StatsBar.jsx": {
-    "file": "assets/StatsBar-DIzJ2RRc.js",
+    "file": "assets/StatsBar-Bf074KrY.js",
     "name": "StatsBar",
     "src": "resources/js/Pages/LembagaPage/Partials/StatsBar.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_UserGroupIcon-BJXFKa1Q.js",
-      "_AcademicCapIcon-tYpstjiI.js",
-      "_CheckBadgeIcon-DS7_dZAB.js"
+      "_UserGroupIcon-Gpa50A-C.js",
+      "_AcademicCapIcon-Dso0-oSH.js",
+      "_CheckBadgeIcon-CF8ZXn7g.js"
     ]
   },
   "resources/js/Pages/LembagaPage/Partials/StickyNewsHighlight.jsx": {
-    "file": "assets/StickyNewsHighlight-CSK3cKf-.js",
+    "file": "assets/StickyNewsHighlight-FhgKk5XZ.js",
     "name": "StickyNewsHighlight",
     "src": "resources/js/Pages/LembagaPage/Partials/StickyNewsHighlight.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_ArrowRightIcon-DSRdsfd-.js"
+      "_ArrowRightIcon-CkwPxp5H.js"
     ]
   },
   "resources/js/Pages/LembagaPage/Partials/TenagaPendidikSection.jsx": {
-    "file": "assets/TenagaPendidikSection-LIth7hnC.js",
+    "file": "assets/TenagaPendidikSection-DEjJVWij.js",
     "name": "TenagaPendidikSection",
     "src": "resources/js/Pages/LembagaPage/Partials/TenagaPendidikSection.jsx",
     "isDynamicEntry": true,
@@ -854,7 +896,7 @@
     ]
   },
   "resources/js/app.jsx": {
-    "file": "assets/app-Cxm46CQR.js",
+    "file": "assets/app-C9uwPzOz.js",
     "name": "app",
     "src": "resources/js/app.jsx",
     "isEntry": true,
@@ -877,6 +919,7 @@
       "resources/js/Pages/IndukAdmin/Landing/Index.jsx",
       "resources/js/Pages/IndukAdmin/Lembaga/Edit.jsx",
       "resources/js/Pages/IndukAdmin/Lembaga/Index.jsx",
+      "resources/js/Pages/IndukAdmin/Settings/Index.jsx",
       "resources/js/Pages/IndukAdmin/Tentang/Index.jsx",
       "resources/js/Pages/IndukPage/Berita/Index.jsx",
       "resources/js/Pages/IndukPage/Berita/NewsCard.jsx",
@@ -904,6 +947,7 @@
       "resources/js/Pages/LembagaPage/Partials/BeritaKegiatanSection.jsx",
       "resources/js/Pages/LembagaPage/Partials/CtaSection.jsx",
       "resources/js/Pages/LembagaPage/Partials/FasilitasSection.jsx",
+      "resources/js/Pages/LembagaPage/Partials/GaleriSection.jsx",
       "resources/js/Pages/LembagaPage/Partials/HeroSection.jsx",
       "resources/js/Pages/LembagaPage/Partials/KeunggulanSection.jsx",
       "resources/js/Pages/LembagaPage/Partials/PpdbSection.jsx",
@@ -914,7 +958,7 @@
       "resources/js/Pages/LembagaPage/Partials/TenagaPendidikSection.jsx"
     ],
     "css": [
-      "assets/app-DgL94L9P.css"
+      "assets/app-CpKOP2Nt.css"
     ]
   }
 }

@@ -19,9 +19,6 @@ export default function Login({ status, canResetPassword }) {
     return (
         <PublicLayout isAuth={true} title="Login Admin Yayasan">
             <div className="text-center mb-8">
-                <div className="inline-block px-3 py-1 bg-indigo-50 border border-indigo-100 mb-4">
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-indigo-600">Super Admin Access</span>
-                </div>
                 <h3 className="text-2xl font-semibold text-slate-900 tracking-tighter uppercase leading-tight">Yayasan Al-Hikmah</h3>
                 <p className="mt-2 text-[11px] text-slate-400 uppercase font-semibold tracking-widest">Portal Pusat Yayasan</p>
             </div>

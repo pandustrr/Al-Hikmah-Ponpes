@@ -20,8 +20,10 @@ class LembagaController extends Controller
     public function edit(Lembaga $lembaga)
     {
         return Inertia::render('IndukAdmin/Lembaga/Edit', [
-            'lembaga' => $lembaga,
-            'pengajars' => \App\Models\Pengajar::where('lembaga_id', $lembaga->id)->orderBy('urutan')->get()
+            'lembaga'   => $lembaga,
+            'pengajars' => \App\Models\Pengajar::where('lembaga_id', $lembaga->id)->orderBy('urutan')->get(),
+            'ppdbInfo'  => \App\Models\PpdbInfo::where('lembaga_id', $lembaga->id)->first(),
+            'fasilitas' => \App\Models\Fasilitas::where('lembaga_id', $lembaga->id)->with('galeris')->latest()->get(),
         ]);
     }
 
