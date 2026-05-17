@@ -14,6 +14,14 @@ class BeritaController extends Controller
     {
         $query = Berita::with('category');
 
+        // Search feature
+        if ($request->q) {
+            $query->where(function($q) use ($request) {
+                $q->where('judul', 'like', "%{$request->q}%")
+                  ->orWhere('konten', 'like', "%{$request->q}%");
+            });
+        }
+
         if ($request->has('kategori')) {
             $query->whereHas('category', function($q) use ($request) {
                 $q->where('slug', $request->kategori);
@@ -23,13 +31,18 @@ class BeritaController extends Controller
         return Inertia::render('IndukPage/Berita/Index', [
             'berita' => $query->latest()->get(),
             'currentCategory' => $request->kategori,
-            'categories' => \App\Models\BeritaCategory::all(),
+            'categories' => \App\Models\BeritaCategory::withCount('beritas')->get(),
+            'popularNews' => Berita::orderBy('views', 'desc')->take(5)->get(),
+            'filters' => $request->only(['q']),
         ]);
     }
 
     public function show($slug)
     {
         $berita = Berita::with('category')->where('slug', $slug)->firstOrFail();
+
+        // Increment view counter
+        $berita->increment('views');
 
         return Inertia::render('IndukPage/Berita/Show', [
             'berita' => $berita,

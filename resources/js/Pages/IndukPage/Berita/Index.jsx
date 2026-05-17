@@ -3,8 +3,10 @@ import PublicLayout from '@/Layouts/PublicLayout';
 import { Link, router } from '@inertiajs/react';
 import NewsTicker from './NewsTicker';
 import NewsCard from './NewsCard';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
-export default function Index({ berita, currentCategory, categories }) {
+export default function Index({ berita, currentCategory, categories, popularNews = [], filters = {} }) {
+    const [searchQuery, setSearchQuery] = useState(filters.q || '');
     // Combine "Semua Berita" with dynamic categories from DB
     const allCategories = [
         { slug: '', name: 'Terkini' },
@@ -18,11 +20,19 @@ export default function Index({ berita, currentCategory, categories }) {
         });
     };
 
+    const handleSearch = (e) => {
+        e.preventDefault();
+        router.get('/berita', { q: searchQuery, kategori: currentCategory }, {
+            preserveState: true,
+            replace: true,
+        });
+    };
+
     // Split berita into featured and others
     const featuredNews = berita.length > 0 ? berita[0] : null;
     const otherNews = berita.length > 1 ? berita.slice(1) : [];
     const latestNewsForTicker = berita.slice(0, 5);
-    const popularNews = berita.slice(0, 5); // Fallback for popular if not provided
+    // popularNews is now passed from props correctly sorted by views
 
     return (
         <PublicLayout title="Berita & Informasi">
@@ -62,19 +72,35 @@ export default function Index({ berita, currentCategory, categories }) {
                     
                     {/* Navigation / Filter */}
                     <div className="flex flex-wrap items-center justify-center border-t border-sage-light mt-4 overflow-x-auto no-scrollbar sticky top-14 bg-white/95 backdrop-blur-md z-40 shadow-sm md:shadow-none">
-                        {allCategories.map(cat => (
-                            <button
-                                key={cat.slug}
-                                onClick={() => handleFilter(cat.slug)}
-                                className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest whitespace-nowrap transition-all border-b-2 ${
-                                    (currentCategory || '') === cat.slug 
-                                    ? 'border-brand-primary text-brand-primary' 
-                                    : 'border-transparent text-brand-accent hover:text-brand-primary'
-                                }`}
-                            >
-                                {cat.name}
-                            </button>
-                        ))}
+                        <div className="flex-grow flex justify-center">
+                            {allCategories.map(cat => (
+                                <button
+                                    key={cat.slug}
+                                    onClick={() => handleFilter(cat.slug)}
+                                    className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest whitespace-nowrap transition-all border-b-2 ${
+                                        (currentCategory || '') === cat.slug 
+                                        ? 'border-brand-primary text-brand-primary' 
+                                        : 'border-transparent text-brand-accent hover:text-brand-primary'
+                                    }`}
+                                >
+                                    {cat.name} {cat.beritas_count > 0 && <span className="ml-1 text-[10px] opacity-50">({cat.beritas_count})</span>}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Search Bar */}
+                        <div className="px-4 py-2 border-l border-sage-light hidden lg:block">
+                            <form onSubmit={handleSearch} className="relative group">
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    placeholder="Cari berita..."
+                                    className="bg-brand-secondary/50 border-none rounded-full py-1.5 pl-8 pr-4 text-xs font-semibold text-brand-primary focus:ring-1 focus:ring-brand-primary w-48 transition-all group-hover:w-64"
+                                />
+                                <MagnifyingGlassIcon className="w-4 h-4 text-brand-accent absolute left-2.5 top-1/2 -translate-y-1/2" />
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

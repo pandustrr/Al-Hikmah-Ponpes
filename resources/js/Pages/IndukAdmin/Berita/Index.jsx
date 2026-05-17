@@ -194,7 +194,8 @@ export default function Index({ berita, categories, settings }) {
                                     <tr className="bg-slate-50 border-b border-slate-200">
                                         <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Informasi Berita</th>
                                         <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Kategori & Lembaga</th>
-                                        <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Status</th>
+                                        <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Popularitas</th>
+                                        <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest text-center">Status</th>
                                         <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Tanggal</th>
                                         <th className="px-6 py-4 text-[10px] font-semibold text-slate-400 uppercase tracking-widest text-right">Aksi</th>
                                     </tr>
@@ -216,12 +217,13 @@ export default function Index({ berita, categories, settings }) {
                                                             <h3 className="text-sm font-bold text-slate-900 line-clamp-1 group-hover:text-brand-primary transition-colors">
                                                                 {item.judul}
                                                             </h3>
-                                                            <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider mt-1">
+                                                            <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider mt-1 flex items-center gap-2">
                                                                 Slug: {item.slug}
+                                                                {item.is_sticky && <span className="bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded text-[8px] font-black">STICKY</span>}
                                                             </p>
                                                         </div>
                                                     </div>
-                                                </td>
+                                                 </td>
                                                 <td className="px-6 py-5">
                                                     <div className="space-y-1">
                                                         <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-900 uppercase tracking-widest">
@@ -235,6 +237,12 @@ export default function Index({ berita, categories, settings }) {
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-5">
+                                                    <div className="flex items-center gap-2 text-[10px] font-bold text-slate-600 uppercase tracking-widest">
+                                                        <EyeIcon className="h-3 w-3 text-slate-400" />
+                                                        {item.views || 0} Views
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-5 text-center">
                                                     <span className={`inline-flex items-center px-2 py-1 rounded-[0.15rem] text-[9px] font-bold uppercase tracking-widest ${
                                                         item.status === 'published' 
                                                         ? 'bg-emerald-100 text-emerald-700' 
