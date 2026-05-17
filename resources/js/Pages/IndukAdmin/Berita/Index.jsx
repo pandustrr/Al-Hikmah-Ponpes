@@ -31,21 +31,23 @@ export default function Index({ berita, categories, settings }) {
         });
     }
 
-    const { data: settingsData, setData: setSettingsData, put: putSettings, processing: settingsProcessing } = useForm({
+    const { data: settingsData, setData: setSettingsData, post: postSettings, processing: settingsProcessing } = useForm({
+        _method: 'put',
         settings: initialSettings
     });
 
-    const handleSettingsChange = (id, value) => {
+    const handleSettingsChange = (id, value, isFile = false) => {
         const newSettings = settingsData.settings.map(s => 
-            s.id === id ? { ...s, value } : s
+            s.id === id ? { ...s, value: isFile ? value : value } : s
         );
         setSettingsData('settings', newSettings);
     };
 
     const handleSettingsSubmit = (e) => {
         e.preventDefault();
-        putSettings(route('admin.settings.update'), {
+        postSettings(route('admin.settings.update'), {
             preserveScroll: true,
+            forceFormData: true,
         });
     };
 
@@ -161,13 +163,30 @@ export default function Index({ berita, categories, settings }) {
                                                 return (
                                                     <div key={s.id}>
                                                         <InputLabel htmlFor={s.key} value={s.label} className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
-                                                        <TextInput
-                                                            id={s.key}
-                                                            type="text"
-                                                            className="mt-1 block w-full border-slate-200 focus:border-brand-primary focus:ring-brand-primary rounded-[0.25rem] text-sm font-bold"
-                                                            value={formItem?.value || ''}
-                                                            onChange={(e) => handleSettingsChange(s.id, e.target.value)}
-                                                        />
+                                                        {s.type === 'image' ? (
+                                                            <div>
+                                                                {typeof formItem?.value === 'string' && formItem?.value !== '' && !formItem?.value?.name && (
+                                                                    <div className="mb-2">
+                                                                        <img src={formItem.value} alt={s.label} className="h-20 w-auto rounded border border-slate-200" />
+                                                                    </div>
+                                                                )}
+                                                                <input
+                                                                    id={s.key}
+                                                                    type="file"
+                                                                    accept="image/*"
+                                                                    className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-primary/10 file:text-brand-primary hover:file:bg-brand-primary/20 transition-all cursor-pointer"
+                                                                    onChange={(e) => handleSettingsChange(s.id, e.target.files[0], true)}
+                                                                />
+                                                            </div>
+                                                        ) : (
+                                                            <TextInput
+                                                                id={s.key}
+                                                                type={s.type || 'text'}
+                                                                className="mt-1 block w-full border-slate-200 focus:border-brand-primary focus:ring-brand-primary rounded-[0.25rem] text-sm font-bold"
+                                                                value={formItem?.value || ''}
+                                                                onChange={(e) => handleSettingsChange(s.id, e.target.value)}
+                                                            />
+                                                        )}
                                                     </div>
                                                 );
                                             })}

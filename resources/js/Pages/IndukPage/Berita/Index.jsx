@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { Link, router } from '@inertiajs/react';
 import NewsTicker from './NewsTicker';
@@ -28,10 +28,22 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
         });
     };
 
-    // Split berita into featured and others
-    const featuredNews = berita.length > 0 ? berita[0] : null;
-    const otherNews = berita.length > 1 ? berita.slice(1) : [];
+    const featuredNewsList = berita.slice(0, 5);
+    const otherNews = berita.slice(featuredNewsList.length);
     const latestNewsForTicker = berita.slice(0, 5);
+    
+    // Slider state
+    const [currentSlide, setCurrentSlide] = useState(0);
+
+    useEffect(() => {
+        if (featuredNewsList.length > 1) {
+            const timer = setInterval(() => {
+                setCurrentSlide((prev) => (prev + 1) % featuredNewsList.length);
+            }, 5000);
+            return () => clearInterval(timer);
+        }
+    }, [featuredNewsList.length]);
+
     // popularNews is now passed from props correctly sorted by views
 
     return (
@@ -58,16 +70,25 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
 
 
             {/* Header / Masthead for News */}
-            <div className="bg-white pt-10 pb-6 border-b border-sage-light">
+            <div 
+                className="bg-white pt-10 pb-6 border-b border-sage-light bg-cover bg-center bg-no-repeat relative"
+                style={settings.news_hero_bg ? {
+                    backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.98)), url('${settings.news_hero_bg}')`
+                } : {}}
+            >
                 <div className="max-w-7xl mx-auto px-4 text-center">
                     <div className="mb-4">
-                        <span className="bg-brand-primary text-white text-[10px] font-semibold px-2 py-0.5 tracking-tighter uppercase">Portal Berita</span>
+                        <span className="bg-brand-primary text-white text-[10px] font-semibold px-2 py-0.5 tracking-tighter uppercase">{settings.news_portal_badge || 'Portal Berita'}</span>
                     </div>
                     <h1 className="text-5xl md:text-7xl font-semibold text-brand-primary tracking-tighter uppercase mb-2">
-                        <span className="text-brand-accent">Al-Hikmah</span> NEWS
+                        {settings.news_portal_title ? (
+                            <span dangerouslySetInnerHTML={{ __html: settings.news_portal_title.replace('Al-Hikmah', '<span class="text-brand-accent">Al-Hikmah</span>') }} />
+                        ) : (
+                            <><span className="text-brand-accent">Al-Hikmah</span> NEWS</>
+                        )}
                     </h1>
                     <p className="text-[10px] font-semibold text-brand-accent uppercase tracking-[0.5em] mb-8">
-                        {settings.news_tagline || 'Independent • Trustworthy • Educational'}
+                        {settings.portal_tagline || 'Independent • Trustworthy • Educational'}
                     </p>
 
                     {/* Search Bar */}
@@ -77,7 +98,7 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                                 type="text" 
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                placeholder="Cari berita atau informasi..." 
+                                placeholder={settings.news_search_placeholder || "Cari berita atau informasi..."} 
                                 className="w-full bg-slate-50 border-2 border-sage-light focus:border-brand-primary focus:bg-white px-12 py-4 rounded-full text-sm font-medium transition-all outline-none"
                             />
                             <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-brand-accent group-focus-within:text-brand-primary transition-colors" />
@@ -129,15 +150,42 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                     
                     {/* Main Content Area */}
                     <div className="lg:col-span-8">
-                        {featuredNews ? (
+                        {featuredNewsList.length > 0 ? (
                             <div className="space-y-10">
-                                {/* Featured Hero */}
-                                <NewsCard berita={featuredNews} variant="featured" className="rounded-[0.25rem]" />
+                                {/* Featured Hero Slider */}
+                                <div className="relative aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden rounded-[0.25rem] group/slider">
+                                    {featuredNewsList.map((item, index) => (
+                                        <div 
+                                            key={item.id}
+                                            className={`absolute inset-0 transition-opacity duration-1000 ${
+                                                index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                                            }`}
+                                        >
+                                            <NewsCard berita={item} variant="featured" className="h-full w-full" />
+                                        </div>
+                                    ))}
+                                    
+                                    {/* Slider Indicators */}
+                                    {featuredNewsList.length > 1 && (
+                                        <div className="absolute bottom-6 right-6 z-20 flex gap-2 opacity-0 group-hover/slider:opacity-100 transition-opacity duration-300">
+                                            {featuredNewsList.map((_, index) => (
+                                                <button
+                                                    key={index}
+                                                    onClick={() => setCurrentSlide(index)}
+                                                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                                                        index === currentSlide ? 'bg-brand-secondary w-6' : 'bg-white/50 w-2 hover:bg-white'
+                                                    }`}
+                                                    aria-label={`Go to slide ${index + 1}`}
+                                                />
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
 
                                 {/* Sub Grid / List */}
                                 <div className="space-y-2">
                                     <h2 className="text-lg font-semibold text-brand-primary uppercase tracking-widest border-l-4 border-brand-primary pl-4 mb-6">
-                                        Berita Lainnya
+                                        {settings.news_other_title || 'Berita Lainnya'}
                                     </h2>
                                     {otherNews.length > 0 ? (
                                         <div className="divide-y divide-sage-light">
@@ -156,7 +204,7 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                                  <div className="pt-10 border-t border-sage-light">
                                      <div className="flex items-center justify-between mb-6">
                                          <h2 className="text-lg font-semibold text-brand-primary uppercase tracking-widest border-l-4 border-brand-primary pl-4">
-                                             Multimedia Al-Hikmah
+                                             {settings.news_multimedia_title || 'Multimedia Al-Hikmah'}
                                          </h2>
                                          <Link href="#" className="text-[10px] font-semibold text-brand-accent hover:text-brand-primary uppercase tracking-widest transition-colors">Lihat Semua Galeri</Link>
                                      </div>
@@ -204,7 +252,7 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                         {/* Popular News Section */}
                         <div className="bg-brand-secondary p-6 rounded-[0.25rem]">
                             <h2 className="text-sm font-semibold text-brand-primary uppercase tracking-widest border-b-2 border-brand-primary pb-2 mb-6">
-                                Terpopuler
+                                {settings.news_popular_title || 'Terpopuler'}
                             </h2>
                             <div className="space-y-1">
                                 {popularNews.map((item, index) => (
@@ -224,8 +272,8 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
 
                         {/* Newsletter or Ad Mockup */}
                         <div className="bg-brand-primary p-8 text-center text-white rounded-[0.25rem]">
-                            <h3 className="text-lg font-semibold uppercase tracking-tighter mb-2">Langganan Warta</h3>
-                            <p className="text-xs text-brand-secondary/60 mb-6">Dapatkan berita terbaru langsung di inbox Anda.</p>
+                            <h3 className="text-lg font-semibold uppercase tracking-tighter mb-2">{settings.news_newsletter_title || 'Langganan Warta'}</h3>
+                            <p className="text-xs text-brand-secondary/60 mb-6">{settings.news_newsletter_desc || 'Dapatkan berita terbaru langsung di inbox Anda.'}</p>
                             <div className="flex flex-col gap-2">
                                 <input 
                                     type="email" 
@@ -241,7 +289,7 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                         {/* Instagram Feed Mockup */}
                         <div>
                             <h2 className="text-sm font-semibold text-brand-primary uppercase tracking-widest border-b-2 border-brand-primary pb-2 mb-6">
-                                Instagram @alhikmah
+                                {settings.news_ig_title || 'Instagram @alhikmah'}
                             </h2>
                             <div className="grid grid-cols-3 gap-2">
                                 {[1,2,3,4,5,6].map(i => (
@@ -255,7 +303,7 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                         {/* Popular Tags */}
                         <div>
                             <h2 className="text-sm font-semibold text-brand-primary uppercase tracking-widest border-b-2 border-brand-primary pb-2 mb-6">
-                                Tag Populer
+                                {settings.news_tags_title || 'Tag Populer'}
                             </h2>
                             <div className="flex flex-wrap gap-2">
                                 {categories.slice(0, 8).map(cat => (

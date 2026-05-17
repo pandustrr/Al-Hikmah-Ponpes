@@ -53,13 +53,10 @@ class BeritaController extends Controller
     {
         $berita = Berita::with('category')->where('slug', $slug)->firstOrFail();
         
-        // Increment views
-        $berita->increment('views');
-        
-        $settings = \App\Models\SiteSetting::all()->pluck('value', 'key');
-
         // Increment view counter
         $berita->increment('views');
+
+        $settings = \App\Models\SiteSetting::all()->pluck('value', 'key');
 
         return Inertia::render('IndukPage/Berita/Show', [
             'berita' => $berita,

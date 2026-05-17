@@ -32,6 +32,85 @@ class SiteSettingSeeder extends Seeder
                 'group' => 'portal_berita',
                 'type'  => 'text',
             ],
+            // Pengaturan Teks Tampilan Berita
+            [
+                'key'   => 'news_hero_bg',
+                'label' => 'Gambar Background Header (Upload)',
+                'value' => '', // Default kosong, akan pakai warna solid
+                'group' => 'portal_berita',
+                'type'  => 'image',
+            ],
+            [
+                'key'   => 'news_portal_badge',
+                'label' => 'Badge Teks (Kecil di Atas)',
+                'value' => 'Portal Berita',
+                'group' => 'portal_berita',
+                'type'  => 'text',
+            ],
+            [
+                'key'   => 'news_portal_title',
+                'label' => 'Judul Utama Portal',
+                'value' => 'Al-Hikmah NEWS',
+                'group' => 'portal_berita',
+                'type'  => 'text',
+            ],
+            [
+                'key'   => 'news_search_placeholder',
+                'label' => 'Teks Placeholder Pencarian',
+                'value' => 'Cari berita atau informasi...',
+                'group' => 'portal_berita',
+                'type'  => 'text',
+            ],
+            [
+                'key'   => 'news_other_title',
+                'label' => 'Judul Bagian Berita Lainnya',
+                'value' => 'Berita Lainnya',
+                'group' => 'portal_berita',
+                'type'  => 'text',
+            ],
+            [
+                'key'   => 'news_multimedia_title',
+                'label' => 'Judul Bagian Multimedia',
+                'value' => 'Multimedia Al-Hikmah',
+                'group' => 'portal_berita',
+                'type'  => 'text',
+            ],
+            [
+                'key'   => 'news_popular_title',
+                'label' => 'Judul Sidebar Terpopuler',
+                'value' => 'Terpopuler',
+                'group' => 'portal_berita',
+                'type'  => 'text',
+            ],
+            [
+                'key'   => 'news_newsletter_title',
+                'label' => 'Judul Langganan Email',
+                'value' => 'Langganan Warta',
+                'group' => 'portal_berita',
+                'type'  => 'text',
+            ],
+            [
+                'key'   => 'news_newsletter_desc',
+                'label' => 'Deskripsi Langganan Email',
+                'value' => 'Dapatkan berita terbaru langsung di inbox Anda.',
+                'group' => 'portal_berita',
+                'type'  => 'textarea',
+            ],
+            [
+                'key'   => 'news_ig_title',
+                'label' => 'Judul Feed Instagram',
+                'value' => 'Instagram @alhikmah',
+                'group' => 'portal_berita',
+                'type'  => 'text',
+            ],
+            [
+                'key'   => 'news_tags_title',
+                'label' => 'Judul Tag Populer',
+                'value' => 'Tag Populer',
+                'group' => 'portal_berita',
+                'type'  => 'text',
+            ],
+
 
             // Sosial Media
             [
