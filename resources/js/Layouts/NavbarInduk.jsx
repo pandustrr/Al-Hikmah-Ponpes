@@ -23,9 +23,9 @@ export default function NavbarInduk({ navTheme = 'light' }) {
     const links = [
         { name: 'Beranda', href: '/' },
         { name: 'Tentang', href: '#', dropdown: [
-            { name: 'Profil', href: '/profil' },
-            { name: 'Visi & Misi', href: '/visi-misi' },
-            { name: 'Sejarah', href: '/sejarah' },
+            { name: 'Profil', href: '/profil#profil' },
+            { name: 'Visi & Misi', href: '/profil#visi-misi' },
+            { name: 'Sejarah', href: '/profil#sejarah' },
         ]},
         { name: activeLembaga ? activeLembaga.nama : 'Tingkat Pendidikan', href: '#', isLembaga: true },
         { name: 'Berita', href: '#', dropdown: [
