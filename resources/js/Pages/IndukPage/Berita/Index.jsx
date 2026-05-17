@@ -31,7 +31,7 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
     const featuredNewsList = berita.slice(0, 5);
     const otherNews = berita.slice(featuredNewsList.length);
     const latestNewsForTicker = berita.slice(0, 5);
-    
+
     // Slider state
     const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -70,7 +70,7 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
 
 
             {/* Header / Masthead for News */}
-            <div 
+            <div
                 className="bg-white pt-10 pb-6 border-b border-sage-light bg-cover bg-center bg-no-repeat relative"
                 style={settings.news_hero_bg ? {
                     backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.98)), url('${settings.news_hero_bg}')`
@@ -94,11 +94,11 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                     {/* Search Bar */}
                     <div className="max-w-2xl mx-auto mb-10">
                         <form onSubmit={handleSearch} className="relative group">
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                placeholder={settings.news_search_placeholder || "Cari berita atau informasi..."} 
+                                placeholder={settings.news_search_placeholder || "Cari berita atau informasi..."}
                                 className="w-full bg-slate-50 border-2 border-sage-light focus:border-brand-primary focus:bg-white px-12 py-4 rounded-full text-sm font-medium transition-all outline-none"
                             />
                             <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-brand-accent group-focus-within:text-brand-primary transition-colors" />
@@ -107,24 +107,18 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                             </button>
                         </form>
                     </div>
-                </div>
 
-                {/* NewsTicker (TERKINI scrolling marquee) placed di atas pemilihan kategori */}
-                <NewsTicker items={latestNewsForTicker} />
-
-                {/* Category Selection / Navigation */}
-                <div className="max-w-7xl mx-auto px-4 text-center">
+                    {/* Navigation / Filter */}
                     <div className="flex flex-wrap items-center justify-center border-t border-sage-light mt-4 overflow-x-auto no-scrollbar sticky top-14 bg-white/95 backdrop-blur-md z-40 shadow-sm md:shadow-none">
                         <div className="flex-grow flex justify-center">
                             {allCategories.map(cat => (
                                 <button
                                     key={cat.slug}
                                     onClick={() => handleFilter(cat.slug)}
-                                    className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest whitespace-nowrap transition-all border-b-2 ${
-                                        (currentCategory || '') === cat.slug 
-                                        ? 'border-brand-primary text-brand-primary' 
-                                        : 'border-transparent text-brand-accent hover:text-brand-primary'
-                                    }`}
+                                    className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest whitespace-nowrap transition-all border-b-2 ${(currentCategory || '') === cat.slug
+                                            ? 'border-brand-primary text-brand-primary'
+                                            : 'border-transparent text-brand-accent hover:text-brand-primary'
+                                        }`}
                                 >
                                     {cat.name} {cat.beritas_count > 0 && <span className="ml-1 text-[10px] opacity-50">({cat.beritas_count})</span>}
                                 </button>
@@ -148,9 +142,11 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                 </div>
             </div>
 
+            <NewsTicker items={latestNewsForTicker} />
+
             <div className="max-w-7xl mx-auto px-4 py-8">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                    
+
                     {/* Main Content Area */}
                     <div className="lg:col-span-8">
                         {featuredNewsList.length > 0 ? (
@@ -158,16 +154,15 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                                 {/* Featured Hero Slider */}
                                 <div className="relative aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden rounded-[0.25rem] group/slider">
                                     {featuredNewsList.map((item, index) => (
-                                        <div 
+                                        <div
                                             key={item.id}
-                                            className={`absolute inset-0 transition-opacity duration-1000 ${
-                                                index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                                            }`}
+                                            className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                                                }`}
                                         >
                                             <NewsCard berita={item} variant="featured" className="h-full w-full" />
                                         </div>
                                     ))}
-                                    
+
                                     {/* Slider Indicators */}
                                     {featuredNewsList.length > 1 && (
                                         <div className="absolute bottom-6 right-6 z-20 flex gap-2 opacity-0 group-hover/slider:opacity-100 transition-opacity duration-300">
@@ -175,9 +170,8 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                                                 <button
                                                     key={index}
                                                     onClick={() => setCurrentSlide(index)}
-                                                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                                                        index === currentSlide ? 'bg-brand-secondary w-6' : 'bg-white/50 w-2 hover:bg-white'
-                                                    }`}
+                                                    className={`h-1.5 rounded-full transition-all duration-300 ${index === currentSlide ? 'bg-brand-secondary w-6' : 'bg-white/50 w-2 hover:bg-white'
+                                                        }`}
                                                     aria-label={`Go to slide ${index + 1}`}
                                                 />
                                             ))}
@@ -196,53 +190,53 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                                                 <NewsCard key={item.id} berita={item} variant="horizontal" />
                                             ))}
                                         </div>
-                                     ) : (
-                                         <div className="py-10 text-center text-brand-accent italic">
-                                             Belum ada berita lainnya.
-                                         </div>
-                                     )}
-                                 </div>
+                                    ) : (
+                                        <div className="py-10 text-center text-brand-accent italic">
+                                            Belum ada berita lainnya.
+                                        </div>
+                                    )}
+                                </div>
 
-                                 {/* Multimedia Section */}
-                                 <div className="pt-10 border-t border-sage-light">
-                                     <div className="flex items-center justify-between mb-6">
-                                         <h2 className="text-lg font-semibold text-brand-primary uppercase tracking-widest border-l-4 border-brand-primary pl-4">
-                                             {settings.news_multimedia_title || 'Multimedia Al-Hikmah'}
-                                         </h2>
-                                         <Link href="#" className="text-[10px] font-semibold text-brand-accent hover:text-brand-primary uppercase tracking-widest transition-colors">Lihat Semua Galeri</Link>
-                                     </div>
-                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                         {multimedia.length > 0 ? (
-                                             <>
-                                                 <Link href={`/berita/${multimedia[0].slug}`} className="relative aspect-video bg-brand-secondary overflow-hidden rounded-[0.25rem] group cursor-pointer">
-                                                     <img src={multimedia[0].image_url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Video" />
-                                                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-all">
-                                                         <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
-                                                             <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[12px] border-l-brand-primary border-b-[8px] border-b-transparent ml-1"></div>
-                                                         </div>
-                                                     </div>
-                                                     <div className="absolute bottom-4 left-4 right-4 text-left">
-                                                         <span className="bg-red-600 text-white text-[8px] font-semibold px-1.5 py-0.5 uppercase tracking-widest mb-2 inline-block">MULTIMEDIA</span>
-                                                         <h4 className="text-white font-semibold text-sm leading-tight">{multimedia[0].judul}</h4>
-                                                     </div>
-                                                 </Link>
-                                                 <div className="grid grid-cols-2 gap-4">
-                                                     {multimedia.slice(1, 5).map(item => (
-                                                         <Link key={item.id} href={`/berita/${item.slug}`} className="relative aspect-square bg-brand-secondary overflow-hidden rounded-[0.25rem] group cursor-pointer">
-                                                             <img src={item.image_url} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Foto" />
-                                                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                                         </Link>
-                                                     ))}
-                                                 </div>
-                                             </>
-                                         ) : (
-                                             <div className="col-span-2 py-10 text-center text-brand-accent italic border border-dashed border-sage-light">
-                                                 Belum ada konten multimedia.
-                                             </div>
-                                         )}
-                                     </div>
-                                 </div>
-                             </div>
+                                {/* Multimedia Section */}
+                                <div className="pt-10 border-t border-sage-light">
+                                    <div className="flex items-center justify-between mb-6">
+                                        <h2 className="text-lg font-semibold text-brand-primary uppercase tracking-widest border-l-4 border-brand-primary pl-4">
+                                            {settings.news_multimedia_title || 'Multimedia Al-Hikmah'}
+                                        </h2>
+                                        <Link href="#" className="text-[10px] font-semibold text-brand-accent hover:text-brand-primary uppercase tracking-widest transition-colors">Lihat Semua Galeri</Link>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {multimedia.length > 0 ? (
+                                            <>
+                                                <Link href={`/berita/${multimedia[0].slug}`} className="relative aspect-video bg-brand-secondary overflow-hidden rounded-[0.25rem] group cursor-pointer">
+                                                    <img src={multimedia[0].image_url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Video" />
+                                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-all">
+                                                        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
+                                                            <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[12px] border-l-brand-primary border-b-[8px] border-b-transparent ml-1"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="absolute bottom-4 left-4 right-4 text-left">
+                                                        <span className="bg-red-600 text-white text-[8px] font-semibold px-1.5 py-0.5 uppercase tracking-widest mb-2 inline-block">MULTIMEDIA</span>
+                                                        <h4 className="text-white font-semibold text-sm leading-tight">{multimedia[0].judul}</h4>
+                                                    </div>
+                                                </Link>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    {multimedia.slice(1, 5).map(item => (
+                                                        <Link key={item.id} href={`/berita/${item.slug}`} className="relative aspect-square bg-brand-secondary overflow-hidden rounded-[0.25rem] group cursor-pointer">
+                                                            <img src={item.image_url} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Foto" />
+                                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <div className="col-span-2 py-10 text-center text-brand-accent italic border border-dashed border-sage-light">
+                                                Belum ada konten multimedia.
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
                         ) : (
                             <div className="text-center py-24 bg-brand-secondary border border-dashed border-sage-light rounded-[0.25rem]">
                                 <p className="text-brand-accent font-semibold uppercase tracking-widest text-sm">Belum ada berita yang diterbitkan</p>
@@ -278,9 +272,9 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                             <h3 className="text-lg font-semibold uppercase tracking-tighter mb-2">{settings.news_newsletter_title || 'Langganan Warta'}</h3>
                             <p className="text-xs text-brand-secondary/60 mb-6">{settings.news_newsletter_desc || 'Dapatkan berita terbaru langsung di inbox Anda.'}</p>
                             <div className="flex flex-col gap-2">
-                                <input 
-                                    type="email" 
-                                    placeholder="Alamat Email" 
+                                <input
+                                    type="email"
+                                    placeholder="Alamat Email"
                                     className="bg-white/10 border-white/20 text-white text-xs px-4 py-3 focus:bg-white/20 transition-all outline-none rounded-[0.25rem]"
                                 />
                                 <button className="bg-brand-accent hover:bg-brand-secondary hover:text-brand-primary text-white text-[10px] font-semibold uppercase tracking-widest py-3 transition-colors rounded-[0.25rem]">
@@ -295,7 +289,7 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                                 {settings.news_ig_title || 'Instagram @alhikmah'}
                             </h2>
                             <div className="grid grid-cols-3 gap-2">
-                                {[1,2,3,4,5,6].map(i => (
+                                {[1, 2, 3, 4, 5, 6].map(i => (
                                     <div key={i} className="aspect-square bg-brand-secondary overflow-hidden rounded-[0.1rem] hover:opacity-80 transition-opacity cursor-pointer">
                                         <img src={`https://images.unsplash.com/photo-${1500000000000 + i}?auto=format&fit=crop&q=60&w=200&h=200`} className="w-full h-full object-cover" alt="IG" />
                                     </div>
@@ -310,8 +304,8 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                             </h2>
                             <div className="flex flex-wrap gap-2">
                                 {categories.slice(0, 8).map(cat => (
-                                    <button 
-                                        key={cat.id} 
+                                    <button
+                                        key={cat.id}
                                         onClick={() => handleFilter(cat.slug)}
                                         className="px-3 py-1 bg-white border border-sage-light text-[9px] font-semibold text-brand-accent uppercase tracking-widest rounded-full hover:border-brand-primary hover:text-brand-primary cursor-pointer transition-all"
                                     >
@@ -325,7 +319,8 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                 </div>
             </div>
 
-            <style dangerouslySetInnerHTML={{ __html: `
+            <style dangerouslySetInnerHTML={{
+                __html: `
                 .no-scrollbar::-webkit-scrollbar {
                     display: none;
                 }
