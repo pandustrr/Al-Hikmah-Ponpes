@@ -7,8 +7,13 @@ export default function PpdbSection({ lembaga, ppdbInfo }) {
     const waNumber = ppdbInfo.contact_number?.replace(/\D/g, '');
     const currentYear = new Date().getFullYear();
 
+    // Normalize: use contact_persons if available, otherwise fallback from contact_number
+    const contacts = (ppdbInfo.contact_persons && ppdbInfo.contact_persons.length > 0)
+        ? ppdbInfo.contact_persons
+        : (ppdbInfo.contact_number ? [{ name: 'Kontak PPDB', number: ppdbInfo.contact_number }] : []);
+
     return (
-        <section className="py-20 md:py-24 bg-[#FBFBF9] border-t border-slate-100">
+        <section id="ppdb" className="py-20 md:py-24 bg-[#FBFBF9] border-t border-slate-100">
             <div className="max-w-7xl mx-auto px-6 md:px-12">
 
                 {/* Section label */}
@@ -32,22 +37,19 @@ export default function PpdbSection({ lembaga, ppdbInfo }) {
                             </p>
                         )}
 
-                        {/* Checklist highlights */}
-                        <ul className="space-y-3 mb-10">
-                            {[
-                                'Lingkungan belajar islami & modern',
-                                'Tenaga pendidik berpengalaman & bersertifikasi',
-                                'Kurikulum terintegrasi nilai pesantren',
-                                'Fasilitas lengkap & representatif',
-                            ].map((item, i) => (
-                                <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
-                                    <CheckCircleIcon className="h-4 w-4 text-brand-primary mt-0.5 shrink-0" />
-                                    {item}
-                                </li>
-                            ))}
-                        </ul>
+                        {/* Checklist highlights from lembaga.keunggulan */}
+                        {lembaga.keunggulan && (
+                            <ul className="space-y-3 mb-10">
+                                {lembaga.keunggulan.split('\n').filter(Boolean).slice(0, 4).map((item, i) => (
+                                    <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
+                                        <CheckCircleIcon className="h-4 w-4 text-brand-primary mt-0.5 shrink-0" />
+                                        {item.trim()}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
 
-                        <div className="flex flex-col sm:flex-row gap-3">
+                        <div className="flex flex-col sm:flex-row flex-wrap gap-3">
                             {ppdbInfo.registration_link && (
                                 <a
                                     href={ppdbInfo.registration_link}
@@ -60,17 +62,19 @@ export default function PpdbSection({ lembaga, ppdbInfo }) {
                                     <ArrowRightIcon className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
                                 </a>
                             )}
-                            {waNumber && (
+                            {/* Multi-contacts as WA buttons */}
+                            {contacts.map((c, i) => (
                                 <a
-                                    href={`https://wa.me/${waNumber}`}
+                                    key={i}
+                                    href={`https://wa.me/${c.number.replace(/\D/g, '')}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 border border-slate-200 hover:border-brand-primary bg-white text-slate-700 hover:text-brand-primary text-[10px] font-black uppercase tracking-[0.25em] px-8 py-4 transition-all rounded-[0.25rem]"
+                                    className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe5d] text-white text-[10px] font-black uppercase tracking-[0.2em] px-5 py-4 transition-all rounded-[0.25rem] shadow-md"
                                 >
-                                    <PhoneIcon className="h-4 w-4" />
-                                    Hubungi Kami
+                                    <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2 22l5.098-1.338A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.522 2 11.999 2zm0 18c-1.66 0-3.205-.438-4.54-1.205l-.323-.192-3.023.793.807-2.958-.212-.343A7.97 7.97 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
+                                    {c.name || 'Chat WhatsApp'}
                                 </a>
-                            )}
+                            ))}
                         </div>
                     </div>
 
@@ -91,29 +95,42 @@ export default function PpdbSection({ lembaga, ppdbInfo }) {
 
                             {/* Status */}
                             <div className="flex items-center gap-3">
-                                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
-                                <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Pendaftaran Sedang Dibuka</span>
+                                {ppdbInfo.is_open ? (
+                                    <>
+                                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Pendaftaran Sedang Dibuka</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span className="w-2.5 h-2.5 rounded-full bg-red-400 shrink-0"></span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-red-500">Pendaftaran Sudah Ditutup</span>
+                                    </>
+                                )}
                             </div>
 
                             <div className="h-px bg-slate-100"></div>
 
-                            {/* Contact */}
-                            {ppdbInfo.contact_number && (
-                                <div className="flex items-start gap-4">
-                                    <div className="w-9 h-9 rounded-full bg-brand-primary/5 flex items-center justify-center shrink-0">
-                                        <PhoneIcon className="h-4 w-4 text-brand-primary" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-1">Kontak / WhatsApp</p>
+                            {/* Contact — Multi */}
+                            {contacts.length > 0 && (
+                                <div className="space-y-2">
+                                    <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-3">Kontak / WhatsApp</p>
+                                    {contacts.map((c, i) => (
                                         <a
-                                            href={`https://wa.me/${waNumber}`}
+                                            key={i}
+                                            href={`https://wa.me/${c.number.replace(/\D/g, '')}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="text-sm font-bold text-slate-800 hover:text-brand-primary transition-colors"
+                                            className="flex items-center gap-3 p-3 rounded bg-[#25D366]/5 hover:bg-[#25D366]/10 border border-[#25D366]/20 transition-all group"
                                         >
-                                            {ppdbInfo.contact_number}
+                                            <div className="w-8 h-8 rounded-full bg-[#25D366] flex items-center justify-center shrink-0">
+                                                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2 22l5.098-1.338A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.522 2 11.999 2zm0 18c-1.66 0-3.205-.438-4.54-1.205l-.323-.192-3.023.793.807-2.958-.212-.343A7.97 7.97 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/></svg>
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400">{c.name}</p>
+                                                <p className="text-sm font-bold text-slate-800 group-hover:text-[#25D366] transition-colors">{c.number}</p>
+                                            </div>
                                         </a>
-                                    </div>
+                                    ))}
                                 </div>
                             )}
 

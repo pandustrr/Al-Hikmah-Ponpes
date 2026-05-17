@@ -21,7 +21,7 @@ export default function BeritaKegiatanSection({ beritas = [], prestasi = [] }) {
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
                     {items.map((p, i) => (
                         <div key={i} className="group flex flex-col h-full border border-slate-100 p-4 hover:shadow-xl transition-all">
-                            <div className="aspect-video overflow-hidden mb-6 relative grayscale group-hover:grayscale-0 transition-all duration-700">
+                            <div className="aspect-video overflow-hidden mb-6 relative transition-all duration-700">
                                 <img 
                                     src={p.image_url || `https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=600&sig=${p.id}`} 
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 

@@ -37,7 +37,7 @@ export default function Show({
             <BeritaKegiatanSection beritas={beritas} prestasi={prestasi} />
             <PpdbSection lembaga={lembaga} ppdbInfo={ppdbInfo} />
             <FasilitasSection lembaga={lembaga} fasilitas={fasilitas} />
-            <CtaSection lembaga={lembaga} />
+            <CtaSection lembaga={lembaga} ppdbInfo={ppdbInfo} />
 
             <style dangerouslySetInnerHTML={{ __html: `
                 @keyframes fade-in-up {

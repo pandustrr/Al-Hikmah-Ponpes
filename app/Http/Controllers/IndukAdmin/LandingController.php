@@ -28,7 +28,10 @@ class LandingController extends Controller
             $path = $file->store('settings', 'public');
             LandingSetting::updateOrCreate(
                 ['key' => $key],
-                ['value' => '/storage/' . $path]
+                [
+                    'value' => '/storage/' . $path,
+                    'group' => str_starts_with($key, 'ppdb_') ? 'ppdb' : 'landing'
+                ]
             );
         }
 
@@ -38,7 +41,10 @@ class LandingController extends Controller
             
             LandingSetting::updateOrCreate(
                 ['key' => $key],
-                ['value' => $value]
+                [
+                    'value' => $value,
+                    'group' => str_starts_with($key, 'ppdb_') ? 'ppdb' : 'landing'
+                ]
             );
         }
 

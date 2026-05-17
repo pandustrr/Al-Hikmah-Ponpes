@@ -36,6 +36,20 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
         Route::get('/info-ppdb', [\App\Http\Controllers\IndukAdmin\InfoPPDBController::class, 'index'])->name('info-ppdb.index');
         Route::post('/info-ppdb/info', [\App\Http\Controllers\IndukAdmin\InfoPPDBController::class, 'storeInfo'])->name('ppdb-info.store');
         Route::put('/info-ppdb/info/{ppdbInfo}', [\App\Http\Controllers\IndukAdmin\InfoPPDBController::class, 'updateInfo'])->name('ppdb-info.update');
+        Route::post('/info-ppdb/faq', [\App\Http\Controllers\IndukAdmin\InfoPPDBController::class, 'storeFaq'])->name('ppdb-faq.store');
+        Route::put('/info-ppdb/faq/{faq}', [\App\Http\Controllers\IndukAdmin\InfoPPDBController::class, 'updateFaq'])->name('ppdb-faq.update');
+        Route::delete('/info-ppdb/faq/{faq}', [\App\Http\Controllers\IndukAdmin\InfoPPDBController::class, 'destroyFaq'])->name('ppdb-faq.destroy');
+        Route::put('/lembaga/{lembagaId}/ppdb', [\App\Http\Controllers\IndukAdmin\PpdbInfoController::class, 'upsert'])->name('lembaga.ppdb.upsert');
+
+        // Fasilitas CRUD (per lembaga, dari halaman edit lembaga)
+        Route::post('/fasilitas', [\App\Http\Controllers\IndukAdmin\FasilitasAdminController::class, 'store'])->name('admin.fasilitas.store');
+        Route::post('/fasilitas/{fasilitas}', [\App\Http\Controllers\IndukAdmin\FasilitasAdminController::class, 'update'])->name('admin.fasilitas.update');
+        Route::delete('/fasilitas/{fasilitas}', [\App\Http\Controllers\IndukAdmin\FasilitasAdminController::class, 'destroy'])->name('admin.fasilitas.destroy');
+
+        // Galeri CRUD (per lembaga, dari halaman edit lembaga)
+        Route::post('/galeri', [\App\Http\Controllers\IndukAdmin\GaleriAdminController::class, 'store'])->name('admin.galeri.store');
+        Route::post('/galeri/{galeri}', [\App\Http\Controllers\IndukAdmin\GaleriAdminController::class, 'update'])->name('admin.galeri.update');
+        Route::delete('/galeri/{galeri}', [\App\Http\Controllers\IndukAdmin\GaleriAdminController::class, 'destroy'])->name('admin.galeri.destroy');
 
         Route::get('/fasilitas', function () { return Inertia::render('IndukAdmin/Fasilitas/Index'); })->name('fasilitas.index');
         Route::get('/tentang', function () { return Inertia::render('IndukAdmin/Tentang/Index'); })->name('tentang.index');

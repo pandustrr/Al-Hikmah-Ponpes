@@ -27,8 +27,12 @@ class InfoPPDBController extends Controller
             'lembaga_id' => 'required|exists:lembagas,id',
             'description' => 'nullable|string',
             'contact_number' => 'nullable|string|max:255',
-            'registration_link' => 'nullable|string|max:255',
+            'contact_persons' => 'nullable|array',
+            'contact_persons.*.name' => 'required|string|max:100',
+            'contact_persons.*.number' => 'required|string|max:30',
+            'registration_link' => 'nullable|string|max:500',
             'is_active' => 'required|boolean',
+            'is_open' => 'required|boolean',
         ]);
 
         PpdbInfo::updateOrCreate(
@@ -44,12 +48,54 @@ class InfoPPDBController extends Controller
         $validated = $request->validate([
             'description' => 'nullable|string',
             'contact_number' => 'nullable|string|max:255',
-            'registration_link' => 'nullable|string|max:255',
+            'contact_persons' => 'nullable|array',
+            'contact_persons.*.name' => 'required|string|max:100',
+            'contact_persons.*.number' => 'required|string|max:30',
+            'registration_link' => 'nullable|string|max:500',
             'is_active' => 'required|boolean',
+            'is_open' => 'required|boolean',
         ]);
 
         $ppdbInfo->update($validated);
 
         return back()->with('success', 'Informasi PPDB berhasil diperbarui.');
     }
+
+    public function storeFaq(Request $request)
+    {
+        $validated = $request->validate([
+            'lembaga_id' => 'nullable|exists:lembagas,id',
+            'question' => 'required|string',
+            'answer' => 'required|string',
+            'order' => 'nullable|integer',
+            'is_active' => 'required|boolean',
+        ]);
+
+        Faq::create($validated);
+
+        return back()->with('success', 'FAQ berhasil ditambahkan.');
+    }
+
+    public function updateFaq(Request $request, Faq $faq)
+    {
+        $validated = $request->validate([
+            'lembaga_id' => 'nullable|exists:lembagas,id',
+            'question' => 'required|string',
+            'answer' => 'required|string',
+            'order' => 'nullable|integer',
+            'is_active' => 'required|boolean',
+        ]);
+
+        $faq->update($validated);
+
+        return back()->with('success', 'FAQ berhasil diperbarui.');
+    }
+
+    public function destroyFaq(Faq $faq)
+    {
+        $faq->delete();
+
+        return back()->with('success', 'FAQ berhasil dihapus.');
+    }
 }
+

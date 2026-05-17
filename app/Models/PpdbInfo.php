@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class PpdbInfo extends Model
 {
-    protected $fillable = ['lembaga_id', 'description', 'contact_number', 'registration_link', 'banner_url', 'is_active'];
+    protected $fillable = ['lembaga_id', 'description', 'contact_number', 'contact_persons', 'registration_link', 'banner_url', 'is_active', 'is_open'];
+
+    protected $casts = [
+        'contact_persons' => 'array',
+        'is_active'       => 'boolean',
+        'is_open'         => 'boolean',
+    ];
 
     public function lembaga()
     {

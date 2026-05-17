@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fasilitas extends Model
 {
-    protected $fillable = ['nama', 'deskripsi', 'image_url'];
+    protected $fillable = ['lembaga_id', 'nama', 'kategori', 'deskripsi', 'image_url'];
+
+    public function lembaga() {
+        return $this->belongsTo(Lembaga::class);
+    }
+
+    public function galeris() {
+        return $this->hasMany(Galeri::class);
+    }
 }

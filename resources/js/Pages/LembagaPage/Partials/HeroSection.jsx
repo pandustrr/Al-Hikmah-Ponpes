@@ -38,12 +38,12 @@ export default function HeroSection({ lembaga }) {
                     </p>
                     
                     <div className="flex flex-col sm:flex-row items-center gap-5 animate-fade-in-up delay-300">
-                        <Link 
-                            href="/info-ppdb"
+                        <a 
+                            href="#ppdb"
                             className="bg-brand-secondary text-brand-primary text-[10px] font-bold uppercase tracking-widest px-8 py-4 rounded-[0.25rem] hover:bg-white transition-all flex items-center gap-3 shadow-2xl"
                         >
                             Daftar Sekarang <ArrowRightIcon className="h-4 w-4" />
-                        </Link>
+                        </a>
                         <a 
                             href="#profil"
                             className="text-white/60 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors flex items-center gap-2 group"

@@ -65,6 +65,7 @@ class SchoolController extends Controller
 
         // Facilities
         $fasilitas = \App\Models\Fasilitas::where('lembaga_id', $lembaga->id)
+            ->with('galeris')
             ->latest()
             ->get();
 
