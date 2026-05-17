@@ -115,10 +115,10 @@ export default function Dashboard({ stats, recent_berita = [], recent_lembaga = 
                             <SparklesIcon className="h-5 w-5 text-brand-gold animate-bounce" />
                             <span className="text-[9px] font-black uppercase tracking-[0.3em] text-brand-gold">Yayasan Al-Hikmah Ambulu</span>
                         </div>
-                        <h3 className="text-2xl md:text-3xl font-serif font-semibold tracking-tight leading-tight">
+                        <h3 className="text-2xl md:text-3xl font-serif font-semibold tracking-tight leading-tight text-white">
                             Selamat Datang Kembali di Pusat Kendali Yayasan
                         </h3>
-                        <p className="text-slate-200/90 text-xs md:text-sm leading-relaxed">
+                        <p className="text-slate-100 text-xs md:text-sm leading-relaxed opacity-95">
                             Di sini Anda dapat mengelola seluruh data lembaga pendidikan di bawah naungan pondok pesantren, mempublikasikan kabar berita terkini, mengonfigurasi pengaturan SEO sosial media, dan memantau program pendaftaran santri baru (PPDB) terintegrasi.
                         </p>
                         <div className="pt-2 flex flex-wrap gap-3">
