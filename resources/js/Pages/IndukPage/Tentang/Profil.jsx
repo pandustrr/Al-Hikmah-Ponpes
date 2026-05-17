@@ -2,23 +2,34 @@ import React from 'react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import { BookOpenIcon, HomeModernIcon, CheckBadgeIcon } from '@heroicons/react/24/outline';
 
-export default function Profil() {
-    const timeline = [
+export default function Profil({ settings = {} }) {
+    const defaultTimeline = [
         { year: '1995', title: 'Peletakan Batu Pertama', desc: 'YPDS Al-Hikmah didirikan dengan modal semangat dan tekad untuk memajukan pendidikan di wilayah Jember Selatan. Bangunan pertama berupa madrasah sederhana.' },
         { year: '2005', title: 'Pengembangan Fasilitas', desc: 'Merespon minat masyarakat yang tinggi, dilakukan pembangunan asrama putra dan putri serta gedung laboratorium terpadu untuk mendukung sains.' },
         { year: '2015', title: 'Akreditasi A', desc: 'Seluruh jenjang pendidikan di bawah naungan YPDS Al-Hikmah meraih predikat Akreditasi A, membuktikan komitmen pada kualitas mutu pengajaran.' },
         { year: '2023', title: 'Digitalisasi Pesantren', desc: 'Implementasi sistem administrasi dan pembelajaran berbasis digital secara menyeluruh, bersiap menghadapi tantangan era modern.' },
     ];
 
+    const defaultMisi = [
+        'Menyelenggarakan pendidikan berbasis adab dan akhlak mulia sesuai nilai-nilai Islam.',
+        'Mengembangkan potensi intelektual siswa melalui kurikulum yang integratif dan komprehensif.',
+        'Membekali siswa dengan keterampilan abad 21, kemandirian, dan jiwa kewirausahaan.',
+        'Membangun lingkungan yayasan yang modern, bersih, aman, dan asri.',
+        'Menjalin kemitraan strategis dengan berbagai lembaga pendidikan tingkat nasional dan internasional.'
+    ];
+
+    const timeline = settings.profil_sejarah_timeline && settings.profil_sejarah_timeline.length > 0 ? settings.profil_sejarah_timeline : defaultTimeline;
+    const misiList = settings.profil_misi_list && settings.profil_misi_list.length > 0 ? settings.profil_misi_list : defaultMisi;
+
     return (
         <PublicLayout title="Profil & Tentang Kami" navTheme="dark">
             
-            {/* HERO SECTION - CONSISTENT WITH INFO PPDB */}
+            {/* HERO SECTION */}
             <div className="relative min-h-[50vh] flex items-center pt-32 pb-24 overflow-hidden bg-brand-primary">
                 {/* Background Layer with Overlay grid */}
                 <div className="absolute inset-0 z-0">
                     <img 
-                        src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600" 
+                        src={settings.profil_hero_bg || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600'} 
                         alt="Hero BG" 
                         className="w-full h-full object-cover opacity-25 scale-105"
                     />
@@ -26,26 +37,60 @@ export default function Profil() {
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/az-subtle.png')] opacity-10"></div>
                 </div>
 
-                <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full text-center md:text-left">
+                <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
                     <div className="max-w-3xl">
-                        <div className="inline-flex items-center justify-center md:justify-start gap-2 mb-6 w-full md:w-auto">
+                        <div className="inline-flex items-center gap-2 mb-6">
                             <span className="h-[2px] w-8 bg-brand-secondary"></span>
                             <span className="text-brand-secondary text-[10px] font-black uppercase tracking-[0.4em]">
-                                Mengenal Lebih Dekat
+                                {settings.profil_hero_tagline || 'Mengenal Lebih Dekat'}
                             </span>
-                            <span className="h-[2px] w-8 bg-brand-secondary md:hidden"></span>
                         </div>
                         <h1 className="text-4xl md:text-6xl font-serif font-semibold text-white tracking-tight uppercase leading-[1.1] mb-8">
-                            PROFIL YPDS AL-HIKMAH
+                            {settings.profil_hero_title || 'PROFIL YPDS AL-HIKMAH'}
                         </h1>
-                        <p className="text-sm md:text-base text-white/70 leading-relaxed font-light">
-                            Membangun Adab dan Ilmu Sejak Dini. YPDS Al-Hikmah adalah lembaga pendidikan Islam terpadu yang berdedikasi untuk mencetak generasi yang cerdas secara intelektual dan kokoh secara spiritual di Jember.
+                        <p className="text-sm md:text-base text-white/70 leading-relaxed font-light mb-10">
+                            {settings.profil_hero_desc || 'Membangun Adab dan Ilmu Sejak Dini. YPDS Al-Hikmah adalah lembaga pendidikan Islam terpadu yang berdedikasi untuk mencetak generasi yang cerdas secara intelektual dan kokoh secara spiritual di Jember.'}
                         </p>
+
+                        {/* Hero Action Buttons */}
+                        <div className="flex flex-wrap items-center gap-4">
+                            <a 
+                                href="#sejarah" 
+                                className="px-6 py-3.5 bg-brand-secondary text-brand-primary text-[10px] font-black uppercase tracking-widest rounded hover:bg-white hover:scale-105 transition-all shadow-xl"
+                            >
+                                {settings.profil_hero_btn1 || 'Sejarah Lembaga'}
+                            </a>
+                            <a 
+                                href="#visi-misi" 
+                                className="px-6 py-3.5 bg-white/10 text-white text-[10px] font-black uppercase tracking-widest border border-white/20 rounded hover:bg-white/20 transition-all backdrop-blur-sm"
+                            >
+                                {settings.profil_hero_btn2 || 'Visi & Misi'}
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* PROFIL SECTION - CONSISTENT WITH FASILITAS */}
+            {/* STATS BAR (Matches Fasilitas Structure) */}
+            <div className="bg-brand-primary py-8 border-t border-white/10 relative z-10 shadow-xl">
+                <div className="max-w-7xl mx-auto px-6 md:px-12">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 text-center divide-x divide-white/10">
+                        {[
+                            { value: settings.profil_stat1_value || '25+', label: settings.profil_stat1_label || 'Tahun Mengabdi' },
+                            { value: settings.profil_stat2_value || '4', label: settings.profil_stat2_label || 'Unit Pendidikan' },
+                            { value: settings.profil_stat3_value || '1500+', label: settings.profil_stat3_label || 'Santri Aktif' },
+                            { value: settings.profil_stat4_value || 'Ribuan', label: settings.profil_stat4_label || 'Alumni Tersebar' },
+                        ].map((s, i) => (
+                            <div key={i} className="flex flex-col items-center justify-center">
+                                <div className="text-2xl md:text-3xl font-serif font-bold text-brand-secondary mb-1">{s.value}</div>
+                                <div className="text-[9px] md:text-[10px] font-semibold text-white/60 uppercase tracking-[0.2em]">{s.label}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* PROFIL SECTION */}
             <section id="profil" className="py-24 bg-[#FBFBF9] scroll-mt-20 border-b border-slate-100">
                 <div className="max-w-7xl mx-auto px-6 md:px-12">
                     
@@ -56,15 +101,15 @@ export default function Profil() {
                                 <BookOpenIcon className="h-6 w-6 text-brand-primary" />
                             </div>
                             <span className="text-[10px] font-bold text-brand-primary uppercase tracking-[0.3em] block">
-                                Tentang Kami
+                                {settings.profil_tentang_tagline || 'Tentang Kami'}
                             </span>
                             <h2 className="text-3xl md:text-4xl font-serif font-semibold text-slate-900 tracking-tight uppercase leading-[1.25]">
-                                Harmoni Tradisi & Inovasi Modern
+                                {settings.profil_tentang_title || 'Harmoni Tradisi & Inovasi Modern'}
                             </h2>
                             <div className="w-12 h-1 bg-brand-primary mt-4 rounded-full"></div>
                             
                             <p className="text-slate-600 text-sm leading-relaxed pt-2">
-                                Berdiri di jantung Ambulu, Jember, lembaga kami telah menjadi rumah bagi ribuan siswa untuk menimba ilmu. Kami percaya bahwa pendidikan terbaik adalah yang menyeimbangkan antara kurikulum modern dan nilai-nilai luhur Islami.
+                                {settings.profil_tentang_desc || 'Berdiri di jantung Ambulu, Jember, lembaga kami telah menjadi rumah bagi ribuan siswa untuk menimba ilmu. Kami percaya bahwa pendidikan terbaik adalah yang menyeimbangkan antara kurikulum modern dan nilai-nilai luhur Islami.'}
                             </p>
                             
                             <div className="pt-4 space-y-4">
@@ -99,8 +144,8 @@ export default function Profil() {
                             {/* Main Image Container */}
                             <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-slate-900 rounded-[0.25rem] shadow-xl border border-slate-200/60">
                                 <img 
-                                    src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=1000" 
-                                    alt="Siswa Al-Hikmah" 
+                                    src={settings.profil_image || 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=1000'} 
+                                    alt="Profil" 
                                     className="w-full h-full object-cover opacity-90"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
@@ -108,7 +153,9 @@ export default function Profil() {
                                 {/* Info Box */}
                                 <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur border border-white/20 p-4 rounded-[0.25rem] flex items-center gap-4 shadow-lg">
                                     <div className="w-12 h-12 bg-brand-primary text-white flex flex-col items-center justify-center rounded-[0.25rem] shrink-0">
-                                        <span className="text-lg font-black leading-none">25+</span>
+                                        <span className="text-lg font-black leading-none">
+                                            {settings.profil_tentang_years || '25+'}
+                                        </span>
                                     </div>
                                     <div>
                                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Pengalaman Kami</span>
@@ -125,8 +172,12 @@ export default function Profil() {
             <section id="visi-misi" className="py-24 bg-white scroll-mt-20">
                 <div className="max-w-7xl mx-auto px-6 md:px-12">
                     <div className="text-center max-w-2xl mx-auto mb-20">
-                        <span className="text-[10px] font-bold text-brand-primary uppercase tracking-[0.3em] mb-3 block">Arah & Tujuan</span>
-                        <h2 className="text-3xl md:text-4xl font-serif font-semibold text-slate-900 tracking-tight uppercase">Visi & Misi Lembaga</h2>
+                        <span className="text-[10px] font-bold text-brand-primary uppercase tracking-[0.3em] mb-3 block">
+                            {settings.profil_visi_tagline || 'Arah & Tujuan'}
+                        </span>
+                        <h2 className="text-3xl md:text-4xl font-serif font-semibold text-slate-900 tracking-tight uppercase">
+                            {settings.profil_visi_title || 'Visi & Misi Lembaga'}
+                        </h2>
                         <div className="w-12 h-1 bg-brand-primary mx-auto mt-6 rounded-full"></div>
                     </div>
 
@@ -137,7 +188,7 @@ export default function Profil() {
                             <div className="relative z-10 h-full flex flex-col justify-center">
                                 <h3 className="text-[10px] font-black text-brand-secondary uppercase tracking-[0.4em] mb-6">Visi Utama</h3>
                                 <p className="text-2xl md:text-3xl font-serif font-semibold leading-relaxed italic">
-                                    "Menjadi lembaga pendidikan Islam terkemuka yang melahirkan generasi beradab, berilmu, dan bermanfaat bagi semesta alam."
+                                    "{settings.profil_visi_text || 'Menjadi lembaga pendidikan Islam terkemuka yang melahirkan generasi beradab, berilmu, dan bermanfaat bagi semesta alam.'}"
                                 </p>
                             </div>
                             <div className="absolute -bottom-6 -right-6 text-[180px] font-serif font-black text-white/5 leading-none select-none">"</div>
@@ -147,13 +198,7 @@ export default function Profil() {
                         <div className="flex flex-col justify-center">
                             <h3 className="text-lg font-bold text-slate-900 uppercase tracking-tight mb-8 border-b-2 border-brand-primary w-fit pb-2">Misi Kami</h3>
                             <ul className="space-y-6">
-                                {[
-                                    'Menyelenggarakan pendidikan berbasis adab dan akhlak mulia sesuai nilai-nilai Islam.',
-                                    'Mengembangkan potensi intelektual siswa melalui kurikulum yang integratif dan komprehensif.',
-                                    'Membekali siswa dengan keterampilan abad 21, kemandirian, dan jiwa kewirausahaan.',
-                                    'Membangun lingkungan yayasan yang modern, bersih, aman, dan asri.',
-                                    'Menjalin kemitraan strategis dengan berbagai lembaga pendidikan tingkat nasional dan internasional.'
-                                ].map((misi, i) => (
+                                {misiList.map((misi, i) => (
                                     <li key={i} className="flex items-start gap-4 group">
                                         <div className="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 text-brand-primary flex items-center justify-center font-bold text-xs shrink-0 group-hover:bg-brand-primary group-hover:text-white transition-colors">
                                             {i + 1}
@@ -174,9 +219,15 @@ export default function Profil() {
                 <div className="max-w-7xl mx-auto px-6 md:px-12">
                     
                     <div className="text-center max-w-2xl mx-auto mb-20">
-                        <span className="text-[10px] font-bold text-brand-primary uppercase tracking-[0.3em] mb-3 block">Sejarah Perjalanan</span>
-                        <h2 className="text-3xl md:text-4xl font-serif font-semibold text-slate-900 tracking-tight uppercase">Jejak Langkah</h2>
-                        <p className="text-slate-500 text-xs mt-4 leading-relaxed uppercase tracking-wider">Membangun Peradaban Sejak 1995</p>
+                        <span className="text-[10px] font-bold text-brand-primary uppercase tracking-[0.3em] mb-3 block">
+                            {settings.profil_sejarah_tagline || 'Sejarah Perjalanan'}
+                        </span>
+                        <h2 className="text-3xl md:text-4xl font-serif font-semibold text-slate-900 tracking-tight uppercase">
+                            {settings.profil_sejarah_title || 'Jejak Langkah'}
+                        </h2>
+                        <p className="text-slate-500 text-xs mt-4 leading-relaxed uppercase tracking-wider">
+                            {settings.profil_sejarah_desc || 'Membangun Peradaban Sejak 1995'}
+                        </p>
                         <div className="w-12 h-1 bg-brand-primary mx-auto mt-6 rounded-full"></div>
                     </div>
 
