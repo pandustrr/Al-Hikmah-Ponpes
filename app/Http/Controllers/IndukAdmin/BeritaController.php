@@ -35,12 +35,14 @@ class BeritaController extends Controller
     {
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
+            'ringkasan' => 'nullable|string',
             'konten' => 'required|string',
             'category_id' => 'required|exists:berita_categories,id',
             'lembaga_id' => 'nullable|exists:lembagas,id',
             'tanggal' => 'required|date',
             'status' => 'required|in:published,draft',
             'is_multimedia' => 'required|boolean',
+            'is_sticky' => 'required|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -69,12 +71,14 @@ class BeritaController extends Controller
     {
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
+            'ringkasan' => 'nullable|string',
             'konten' => 'required|string',
             'category_id' => 'required|exists:berita_categories,id',
             'lembaga_id' => 'nullable|exists:lembagas,id',
             'tanggal' => 'required|date',
             'status' => 'required|in:published,draft',
             'is_multimedia' => 'required|boolean',
+            'is_sticky' => 'required|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 

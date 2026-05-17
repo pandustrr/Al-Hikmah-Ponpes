@@ -14,12 +14,14 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
 
     const { data, setData, post, processing, errors, progress } = useForm({
         judul: berita?.judul || '',
+        ringkasan: berita?.ringkasan || '',
         konten: berita?.konten || '',
         category_id: berita?.category_id || '',
         lembaga_id: berita?.lembaga_id || '',
         tanggal: berita?.tanggal || new Date().toISOString().split('T')[0],
         status: berita?.status || 'published',
         is_multimedia: !!berita?.is_multimedia || false,
+        is_sticky: !!berita?.is_sticky || false,
         image: null,
         _method: berita ? 'PUT' : 'POST', // For spoofing PUT with multipart/form-data
     });
@@ -50,6 +52,17 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                             required
                         />
                         <InputError message={errors.judul} className="mt-2" />
+                    </div>
+
+                    <div>
+                        <InputLabel htmlFor="ringkasan" value="Ringkasan Berita (Singkat)" className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
+                        <textarea
+                            id="ringkasan"
+                            value={data.ringkasan}
+                            className="mt-1 block w-full border-slate-200 focus:border-brand-primary focus:ring-brand-primary rounded-[0.25rem] text-xs leading-relaxed text-slate-700 min-h-[80px]"
+                            onChange={(e) => setData('ringkasan', e.target.value)}
+                        />
+                        <InputError message={errors.ringkasan} className="mt-2" />
                     </div>
 
                     <div>
@@ -122,6 +135,20 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                             Tampilkan di Multimedia Al-Hikmah
                         </label>
                     </div>
+
+                    <div className="flex items-center gap-3 p-4 bg-amber-50 border border-amber-100 rounded-[0.25rem]">
+                        <input 
+                            type="checkbox" 
+                            id="is_sticky"
+                            checked={data.is_sticky}
+                            className="w-4 h-4 text-brand-primary border-slate-300 rounded focus:ring-brand-primary"
+                            onChange={(e) => setData('is_sticky', e.target.checked)}
+                        />
+                        <label htmlFor="is_sticky" className="text-[10px] font-black uppercase tracking-widest text-brand-primary cursor-pointer">
+                            Sematkan Berita (Sticky News)
+                        </label>
+                    </div>
+
 
                     <div>
                         <InputLabel htmlFor="lembaga_id" value="Lembaga (Opsional)" className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
