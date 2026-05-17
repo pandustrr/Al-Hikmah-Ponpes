@@ -149,6 +149,7 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                         </label>
                     </div>
 
+
                     <div>
                         <InputLabel htmlFor="lembaga_id" value="Lembaga (Opsional)" className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
                         <select

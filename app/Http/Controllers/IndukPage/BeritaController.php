@@ -12,7 +12,7 @@ class BeritaController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Berita::with('category');
+        $query = Berita::with('category')->where('status', 'published');
 
         // Search feature
         if ($request->q) {
@@ -28,11 +28,23 @@ class BeritaController extends Controller
             });
         }
 
+        if ($request->has('q')) {
+            $search = $request->q;
+            $query->where(function($q) use ($search) {
+                $q->where('judul', 'like', "%{$search}%")
+                  ->orWhere('konten', 'like', "%{$search}%");
+            });
+        }
+
+        $settings = \App\Models\SiteSetting::all()->pluck('value', 'key');
+        
         return Inertia::render('IndukPage/Berita/Index', [
             'berita' => $query->latest()->get(),
+            'popularNews' => Berita::where('status', 'published')->orderBy('views', 'desc')->take(5)->get(),
+            'multimedia' => Berita::where('is_multimedia', true)->where('status', 'published')->latest()->take(5)->get(),
             'currentCategory' => $request->kategori,
-            'categories' => \App\Models\BeritaCategory::withCount('beritas')->get(),
-            'popularNews' => Berita::orderBy('views', 'desc')->take(5)->get(),
+            'categories' => \App\Models\BeritaCategory::withCount('beritas')->orderBy('beritas_count', 'desc')->get(),
+            'settings' => $settings,
             'filters' => $request->only(['q']),
         ]);
     }
@@ -40,6 +52,11 @@ class BeritaController extends Controller
     public function show($slug)
     {
         $berita = Berita::with('category')->where('slug', $slug)->firstOrFail();
+        
+        // Increment views
+        $berita->increment('views');
+        
+        $settings = \App\Models\SiteSetting::all()->pluck('value', 'key');
 
         // Increment view counter
         $berita->increment('views');
@@ -48,9 +65,11 @@ class BeritaController extends Controller
             'berita' => $berita,
             'recentBerita' => Berita::with('category')
                 ->where('id', '!=', $berita->id)
+                ->where('status', 'published')
                 ->latest()
                 ->take(5)
                 ->get(),
+            'settings' => $settings,
         ]);
     }
 }
