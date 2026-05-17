@@ -8,11 +8,14 @@ export default function Show({ berita, recentBerita = [], settings = {} }) {
     const formattedDate = berita.created_at 
         ? new Date(berita.created_at).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) 
         : '';
+    const cleanDescription = berita.konten 
+        ? berita.konten.replace(/<[^>]*>/g, '').substring(0, 155) + '...' 
+        : '';
 
     return (
         <PublicLayout title={berita.judul}>
             <Head>
-                <meta name="description" content={berita.konten?.substring(0, 160)} />
+                <meta name="description" content={cleanDescription} />
             </Head>
 
             {/* News Top Bar (Tempo Style) */}

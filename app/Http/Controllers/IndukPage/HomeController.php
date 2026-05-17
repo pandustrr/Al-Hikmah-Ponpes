@@ -48,4 +48,75 @@ class HomeController extends Controller
     {
         return Inertia::render('IndukAdmin/Auth/Login');
     }
+
+    /**
+     * Generate dynamic XML sitemap for search engine bots.
+     */
+    public function sitemap()
+    {
+        $urls = [];
+        $baseUrl = url('/');
+
+        // 1. Static Pages
+        $staticPages = [
+            '' => ['priority' => '1.0', 'changefreq' => 'daily'],
+            'profil' => ['priority' => '0.8', 'changefreq' => 'monthly'],
+            'info-ppdb' => ['priority' => '0.9', 'changefreq' => 'weekly'],
+            'kontak' => ['priority' => '0.7', 'changefreq' => 'monthly'],
+            'fasilitas' => ['priority' => '0.7', 'changefreq' => 'monthly'],
+            'berita' => ['priority' => '0.8', 'changefreq' => 'daily'],
+        ];
+
+        foreach ($staticPages as $path => $meta) {
+            $urls[] = [
+                'loc' => $path === '' ? $baseUrl : "{$baseUrl}/{$path}",
+                'lastmod' => now()->startOfDay()->toAtomString(),
+                'changefreq' => $meta['changefreq'],
+                'priority' => $meta['priority']
+            ];
+        }
+
+        // 2. Dynamic School (Lembaga) Pages
+        $lembagas = \App\Models\Lembaga::all();
+        foreach ($lembagas as $l) {
+            if ($l->slug) {
+                $urls[] = [
+                    'loc' => "{$baseUrl}/" . ltrim($l->slug, '/'),
+                    'lastmod' => $l->updated_at ? $l->updated_at->toAtomString() : now()->toAtomString(),
+                    'changefreq' => 'weekly',
+                    'priority' => '0.9'
+                ];
+            }
+        }
+
+        // 3. Dynamic News (Berita) Pages
+        $beritas = \App\Models\Berita::latest()->get();
+        foreach ($beritas as $b) {
+            if ($b->slug) {
+                $urls[] = [
+                    'loc' => "{$baseUrl}/berita/" . ltrim($b->slug, '/'),
+                    'lastmod' => $b->updated_at ? $b->updated_at->toAtomString() : now()->toAtomString(),
+                    'changefreq' => 'weekly',
+                    'priority' => '0.8'
+                ];
+            }
+        }
+
+        // Generate XML Content
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>';
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+        
+        foreach ($urls as $url) {
+            $xml .= '<url>';
+            $xml .= '<loc>' . htmlspecialchars($url['loc']) . '</loc>';
+            $xml .= '<lastmod>' . $url['lastmod'] . '</lastmod>';
+            $xml .= '<changefreq>' . $url['changefreq'] . '</changefreq>';
+            $xml .= '<priority>' . $url['priority'] . '</priority>';
+            $xml .= '</url>';
+        }
+        
+        $xml .= '</urlset>';
+
+        return response($xml, 200)->header('Content-Type', 'text/xml');
+    }
 }
