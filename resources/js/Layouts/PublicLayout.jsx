@@ -9,16 +9,26 @@ export default function PublicLayout({ children, title, isLembaga = false, navTh
     const lembaga = props.lembaga || null;
 
     if (isAuth) {
+        const loginBg = props.loginBg || 'https://images.unsplash.com/photo-1540959733332-eab4deceeaf7?w=1600';
         return (
-            <div className="min-h-screen flex flex-col sm:justify-center items-center p-6 bg-slate-50">
+            <div 
+                className="min-h-screen flex flex-col sm:justify-center items-center p-6 bg-cover bg-center relative"
+                style={{ backgroundImage: `url(${loginBg})` }}
+            >
+                {/* Dark overlay with premium backdrop-blur */}
+                <div className="absolute inset-0 bg-brand-primary/80 backdrop-blur-[2px] z-0"></div>
+
                 <Head title={title ? `${title} - Al-Hikmah` : 'Yayasan Al-Hikmah'} />
-                
-                <div className="w-full sm:max-w-md bg-white shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden rounded-[0.5rem] p-10 flex flex-col">
+
+                <div className="w-full sm:max-w-md bg-white/95 backdrop-blur shadow-2xl border border-white/20 overflow-hidden rounded-[0.5rem] p-10 flex flex-col relative z-10">
                     {/* Logo inside container */}
                     <div className="flex justify-center mb-8">
                         <Link href="/">
-                            <div className="px-6 py-4 bg-brand-primary text-white flex items-center justify-center font-semibold text-sm uppercase tracking-[0.2em] rounded-[0.25rem] shadow-lg leading-none">
-                                Al- Hikmah
+                            <div className="flex flex-col items-center gap-3 group">
+                                <div className="h-16 w-16 p-2 bg-brand-primary/5 rounded-full border border-brand-primary/20 shadow-sm flex items-center justify-center transition-all group-hover:scale-105">
+                                    <img src="/logo.png" alt="Logo YPDS Al-Hikmah" className="max-w-full max-h-full object-contain" />
+                                </div>
+                                <span className="text-xs font-bold text-brand-primary uppercase tracking-[0.2em] group-hover:text-brand-accent transition-colors">YPDS AL-HIKMAH</span>
                             </div>
                         </Link>
                     </div>
@@ -42,9 +52,9 @@ export default function PublicLayout({ children, title, isLembaga = false, navTh
     return (
         <div className="min-h-screen flex flex-col bg-white">
             <Head title={title ? `${title} - Al-Hikmah` : 'Yayasan Al-Hikmah'} />
-            
+
             <NavbarInduk navTheme={navTheme} />
-            
+
             <main className="flex-grow">
                 {children}
             </main>

@@ -1,11 +1,6 @@
 import React from 'react';
 import { useForm } from '@inertiajs/react';
-import TextInput from '@/Components/TextInput';
-import InputLabel from '@/Components/InputLabel';
-import InputError from '@/Components/InputError';
-import PrimaryButton from '@/Components/PrimaryButton';
-import SecondaryButton from '@/Components/SecondaryButton';
-import { PhotoIcon } from '@heroicons/react/24/outline';
+import { PhotoIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
@@ -36,38 +31,41 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-8 bg-white p-8 border border-slate-200 rounded-[0.25rem] shadow-sm">
+        <form onSubmit={handleSubmit} className="space-y-8 bg-white border border-slate-200 rounded-[0.25rem] p-8 shadow-sm">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
                 {/* Left Column: Main Info */}
                 <div className="space-y-6">
                     <div>
-                        <InputLabel htmlFor="judul" value="Judul Berita" className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
-                        <TextInput
-                            id="judul"
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Judul Berita</label>
+                        <input
                             type="text"
                             value={data.judul}
-                            className="mt-1 block w-full border-slate-200 focus:border-brand-primary focus:ring-brand-primary rounded-[0.25rem] text-sm font-bold text-slate-900"
+                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-sm focus:ring-1 focus:ring-brand-primary outline-none font-bold text-slate-900"
                             onChange={(e) => setData('judul', e.target.value)}
                             required
                         />
-                        <InputError message={errors.judul} className="mt-2" />
+                        {errors.judul && (
+                            <p className="text-[10px] text-red-500 italic mt-1">{errors.judul}</p>
+                        )}
                     </div>
 
                     <div>
-                        <InputLabel htmlFor="ringkasan" value="Ringkasan Berita (Singkat)" className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Ringkasan Berita (Singkat)</label>
                         <textarea
-                            id="ringkasan"
                             value={data.ringkasan}
-                            className="mt-1 block w-full border-slate-200 focus:border-brand-primary focus:ring-brand-primary rounded-[0.25rem] text-xs leading-relaxed text-slate-700 min-h-[80px]"
+                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[100px] text-slate-700 leading-relaxed"
                             onChange={(e) => setData('ringkasan', e.target.value)}
+                            placeholder="Tulis ringkasan singkat berita..."
                         />
-                        <InputError message={errors.ringkasan} className="mt-2" />
+                        {errors.ringkasan && (
+                            <p className="text-[10px] text-red-500 italic mt-1">{errors.ringkasan}</p>
+                        )}
                     </div>
 
                     <div>
-                        <InputLabel htmlFor="konten" value="Isi Berita" className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
-                        <div className="mt-1 bg-white">
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Isi Berita Lengkap</label>
+                        <div className="mt-1 bg-white border border-slate-200 rounded-[0.25rem] overflow-hidden">
                             <ReactQuill
                                 theme="snow"
                                 value={data.konten}
@@ -83,7 +81,9 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                                 }}
                             />
                         </div>
-                        <InputError message={errors.konten} className="mt-2" />
+                        {errors.konten && (
+                            <p className="text-[10px] text-red-500 italic mt-1">{errors.konten}</p>
+                        )}
                     </div>
                 </div>
 
@@ -91,11 +91,10 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                 <div className="space-y-6">
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <InputLabel htmlFor="category_id" value="Kategori" className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
+                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Kategori</label>
                             <select
-                                id="category_id"
                                 value={data.category_id}
-                                className="mt-1 block w-full border-slate-200 focus:border-brand-primary focus:ring-brand-primary rounded-[0.25rem] text-xs font-bold text-slate-900"
+                                className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-sm focus:ring-1 focus:ring-brand-primary outline-none font-semibold text-slate-700"
                                 onChange={(e) => setData('category_id', e.target.value)}
                                 required
                             >
@@ -104,58 +103,71 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                                     <option key={cat.id} value={cat.id}>{cat.name}</option>
                                 ))}
                             </select>
-                            <InputError message={errors.category_id} className="mt-2" />
+                            {errors.category_id && (
+                                <p className="text-[10px] text-red-500 italic mt-1">{errors.category_id}</p>
+                            )}
                         </div>
 
                         <div>
-                            <InputLabel htmlFor="status" value="Status" className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
+                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Status</label>
                             <select
-                                id="status"
                                 value={data.status}
-                                className="mt-1 block w-full border-slate-200 focus:border-brand-primary focus:ring-brand-primary rounded-[0.25rem] text-xs font-bold text-slate-900"
+                                className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-sm focus:ring-1 focus:ring-brand-primary outline-none font-semibold text-slate-700"
                                 onChange={(e) => setData('status', e.target.value)}
                                 required
                             >
                                 <option value="published">Published</option>
                                 <option value="draft">Draft</option>
                             </select>
-                            <InputError message={errors.status} className="mt-2" />
+                            {errors.status && (
+                                <p className="text-[10px] text-red-500 italic mt-1">{errors.status}</p>
+                            )}
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-2 p-4 bg-slate-50 border border-slate-200 rounded-[0.25rem]">
-                        <input
-                            type="checkbox"
-                            id="is_multimedia"
-                            checked={data.is_multimedia}
-                            onChange={(e) => setData('is_multimedia', e.target.checked)}
-                            className="rounded border-slate-300 text-brand-primary focus:ring-brand-primary"
-                        />
-                        <label htmlFor="is_multimedia" className="text-[10px] font-black uppercase tracking-widest text-slate-600">
-                            Tampilkan di Multimedia Al-Hikmah
-                        </label>
+                    {/* Toggle: Tampilkan di Multimedia */}
+                    <div className="flex items-center justify-between py-4 border-b border-slate-100">
+                        <div>
+                            <p className="text-sm font-bold text-slate-800">Tampilkan di Multimedia</p>
+                            <p className="text-[10px] text-slate-400 mt-0.5">Tampilkan berita ini di section multimedia Al-Hikmah</p>
+                        </div>
+                        <button
+                            type="button"
+                            onClick={() => setData('is_multimedia', !data.is_multimedia)}
+                            className={`w-12 h-6 rounded-full transition-colors duration-300 relative ${
+                                data.is_multimedia ? 'bg-brand-primary' : 'bg-slate-200'
+                            }`}
+                        >
+                            <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all duration-300 ${
+                                data.is_multimedia ? 'left-7' : 'left-1'
+                            }`} />
+                        </button>
                     </div>
 
-                    <div className="flex items-center gap-3 p-4 bg-amber-50 border border-amber-100 rounded-[0.25rem]">
-                        <input 
-                            type="checkbox" 
-                            id="is_sticky"
-                            checked={data.is_sticky}
-                            className="w-4 h-4 text-brand-primary border-slate-300 rounded focus:ring-brand-primary"
-                            onChange={(e) => setData('is_sticky', e.target.checked)}
-                        />
-                        <label htmlFor="is_sticky" className="text-[10px] font-black uppercase tracking-widest text-brand-primary cursor-pointer">
-                            Sematkan Berita (Sticky News)
-                        </label>
+                    {/* Toggle: Sematkan Berita (Sticky News) */}
+                    <div className="flex items-center justify-between py-4 border-b border-slate-100">
+                        <div>
+                            <p className="text-sm font-bold text-slate-800">Sematkan Berita (Sticky News)</p>
+                            <p className="text-[10px] text-slate-400 mt-0.5">Sematkan berita ini di posisi teratas halaman utama</p>
+                        </div>
+                        <button
+                            type="button"
+                            onClick={() => setData('is_sticky', !data.is_sticky)}
+                            className={`w-12 h-6 rounded-full transition-colors duration-300 relative ${
+                                data.is_sticky ? 'bg-brand-primary' : 'bg-slate-200'
+                            }`}
+                        >
+                            <span className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all duration-300 ${
+                                data.is_sticky ? 'left-7' : 'left-1'
+                            }`} />
+                        </button>
                     </div>
-
 
                     <div>
-                        <InputLabel htmlFor="lembaga_id" value="Lembaga (Opsional)" className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Lembaga (Opsional)</label>
                         <select
-                            id="lembaga_id"
                             value={data.lembaga_id}
-                            className="mt-1 block w-full border-slate-200 focus:border-brand-primary focus:ring-brand-primary rounded-[0.25rem] text-xs font-bold text-slate-900"
+                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-sm focus:ring-1 focus:ring-brand-primary outline-none font-semibold text-slate-700"
                             onChange={(e) => setData('lembaga_id', e.target.value)}
                         >
                             <option value="">Pusat Yayasan (Global)</option>
@@ -163,88 +175,79 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                                 <option key={lembaga.id} value={lembaga.id}>{lembaga.name}</option>
                             ))}
                         </select>
-                        <InputError message={errors.lembaga_id} className="mt-2" />
-                        <p className="mt-1 text-[10px] text-slate-400 italic">Biarkan kosong jika berita untuk umum/yayasan.</p>
+                        <p className="mt-2 text-[9px] text-slate-400 italic">Biarkan kosong jika berita untuk umum/yayasan.</p>
+                        {errors.lembaga_id && (
+                            <p className="text-[10px] text-red-500 italic mt-1">{errors.lembaga_id}</p>
+                        )}
                     </div>
 
                     <div>
-                        <InputLabel htmlFor="tanggal" value="Tanggal Publikasi" className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
-                        <TextInput
-                            id="tanggal"
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Tanggal Publikasi</label>
+                        <input
                             type="date"
                             value={data.tanggal}
-                            className="mt-1 block w-full border-slate-200 focus:border-brand-primary focus:ring-brand-primary rounded-[0.25rem] text-xs font-bold text-slate-900"
+                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-sm focus:ring-1 focus:ring-brand-primary outline-none font-semibold text-slate-700"
                             onChange={(e) => setData('tanggal', e.target.value)}
                             required
                         />
-                        <InputError message={errors.tanggal} className="mt-2" />
+                        {errors.tanggal && (
+                            <p className="text-[10px] text-red-500 italic mt-1">{errors.tanggal}</p>
+                        )}
                     </div>
 
                     <div>
-                        <InputLabel value="Gambar Utama" className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
-                        <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-200 border-dashed rounded-[0.25rem] hover:border-brand-primary transition-colors cursor-pointer relative group">
-                            <div className="space-y-1 text-center">
-                                <PhotoIcon className="mx-auto h-12 w-12 text-slate-300 group-hover:text-brand-primary transition-colors" />
-                                <div className="flex text-xs text-slate-600">
-                                    <label htmlFor="image" className="relative cursor-pointer bg-white rounded-md font-black text-brand-primary hover:text-slate-900 transition-colors">
-                                        <span>Upload file gambar</span>
-                                        <input 
-                                            id="image" 
-                                            name="image" 
-                                            type="file" 
-                                            className="sr-only" 
-                                            onChange={(e) => {
-                                                const file = e.target.files[0];
-                                                setData('image', file);
-                                                if (file) {
-                                                    setPreview(URL.createObjectURL(file));
-                                                }
-                                            }}
-                                        />
-                                    </label>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Gambar Utama Berita</label>
+                        <div className="relative aspect-video bg-slate-50 rounded-[0.25rem] overflow-hidden border border-slate-200 group">
+                            {preview || berita?.image_url ? (
+                                <img src={preview || berita.image_url} className="w-full h-full object-cover" alt="Preview Gambar Berita" />
+                            ) : (
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                    <PhotoIcon className="h-10 w-10 mb-2" />
+                                    <span className="text-[10px] font-bold uppercase tracking-widest">Pilih Gambar Utama</span>
                                 </div>
-                                <p className="text-[10px] text-slate-400 uppercase tracking-widest">PNG, JPG, GIF sampai 2MB</p>
-                                {preview && (
-                                   <div className="mt-4">
-                                       <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-2">Pratinjau Gambar:</p>
-                                       <img src={preview} alt="Preview" className="h-32 w-full object-cover rounded-[0.25rem] border-2 border-emerald-500" />
-                                   </div>
-                                )}
-                                {!preview && data.image && (
-                                    <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mt-2">File Terpilih: {data.image.name}</p>
-                                )}
+                            )}
+                            <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em] border border-white/40 px-4 py-2 cursor-pointer">Ganti Gambar</span>
                             </div>
+                            <input 
+                                type="file" 
+                                accept="image/*"
+                                className="absolute inset-0 opacity-0 cursor-pointer" 
+                                onChange={e => {
+                                    const file = e.target.files[0];
+                                    setData('image', file);
+                                    if (file) {
+                                        setPreview(URL.createObjectURL(file));
+                                    }
+                                }}
+                            />
                         </div>
-                        {berita?.image_url && !preview && (
-                            <div className="mt-4">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Gambar Saat Ini:</p>
-                                <img src={berita.image_url} alt="" className="h-32 w-full object-cover rounded-[0.25rem] border border-slate-200" />
-                            </div>
-                        )}
-                        <InputError message={errors.image} className="mt-2" />
-                        {progress && (
-                            <progress value={progress.percentage} max="100" className="w-full h-1 mt-2">
-                                {progress.percentage}%
-                            </progress>
+                        <p className="mt-2 text-[9px] text-slate-400 italic">PNG, JPG, JPEG, WEBP sampai 2MB</p>
+                        {errors.image && (
+                            <p className="text-[10px] text-red-500 italic mt-1">{errors.image}</p>
                         )}
                     </div>
                 </div>
             </div>
 
-            <div className="flex items-center justify-end gap-4 pt-8 border-t border-slate-100">
-                <SecondaryButton 
+            {/* Action Buttons Footer */}
+            <div className="mt-8 flex justify-end gap-3 bg-slate-50 p-6 border-t border-slate-100 rounded-b-[0.25rem] -mx-8 -mb-8">
+                <button 
                     type="button" 
                     onClick={() => window.history.back()}
-                    className="text-xs font-black uppercase tracking-widest px-6 py-4 rounded-[0.25rem] border-slate-200"
+                    className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-bold uppercase tracking-widest rounded-[0.25rem] transition-colors"
                 >
                     Batal
-                </SecondaryButton>
-                <PrimaryButton 
+                </button>
+                <button 
+                    type="submit" 
                     disabled={processing}
-                    className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-black uppercase tracking-widest px-10 py-4 transition-all rounded-[0.25rem] shadow-xl shadow-brand-primary/20"
+                    className="bg-brand-primary text-white py-3 px-12 text-[10px] font-bold uppercase tracking-[0.2em] rounded-[0.25rem] hover:bg-slate-900 transition-all shadow-xl shadow-brand-primary/20 flex items-center gap-3"
                 >
-                    {processing ? 'Memproses...' : submitLabel}
-                </PrimaryButton>
+                    {processing ? 'Sedang Menyimpan...' : (
+                        <>{submitLabel} <CheckCircleIcon className="h-4 w-4" /></>
+                    )}
+                </button>
             </div>
         </form>
     );

@@ -48,26 +48,28 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
 
     return (
         <PublicLayout title="Berita & Informasi">
-            {/* News Top Bar (Tempo Style) */}
-            <div className="bg-brand-primary text-white py-1.5 border-b border-white/10 hidden md:block">
-                <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-[10px] font-semibold uppercase tracking-widest">
-                    <div className="flex items-center gap-4">
-                        <span>{new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                        <span className="text-white/30">|</span>
-                        <span className="text-brand-secondary animate-pulse flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 bg-brand-secondary rounded-full"></span>
-                            Live Update
-                        </span>
-                    </div>
-                    <div className="flex items-center gap-4">
-                        <a href={settings.social_facebook || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Facebook</a>
-                        <a href={settings.social_instagram || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Instagram</a>
-                        <a href={settings.social_twitter || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Twitter</a>
-                        <a href={settings.social_youtube || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">YouTube</a>
+            {/* Wrapper to offset the fixed navbar height so the top bar is not covered or too close */}
+            <div className="pt-20 md:pt-24">
+                {/* News Top Bar (Tempo Style) - Diaktifkan di mobile secara responsif dengan penyesuaian posisi */}
+                <div className="bg-brand-primary text-white py-2 border-b border-white/10">
+                    <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 text-[9px] md:text-[10px] font-semibold uppercase tracking-widest text-center sm:text-left">
+                        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 sm:gap-4">
+                            <span>{new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                            <span className="text-white/30">|</span>
+                            <span className="text-brand-secondary animate-pulse flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 bg-brand-secondary rounded-full"></span>
+                                Live Update
+                            </span>
+                        </div>
+                        <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
+                            <a href={settings.social_facebook || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Facebook</a>
+                            <a href={settings.social_instagram || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Instagram</a>
+                            <a href={settings.social_twitter || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Twitter</a>
+                            <a href={settings.social_youtube || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">YouTube</a>
+                        </div>
                     </div>
                 </div>
             </div>
-
 
             {/* Header / Masthead for News */}
             <div

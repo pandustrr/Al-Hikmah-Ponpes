@@ -9,13 +9,15 @@ import {
     BuildingOfficeIcon, 
     InformationCircleIcon,
     PhoneIcon,
-    ChevronDownIcon
+    ChevronDownIcon,
+    Cog6ToothIcon
 } from '@heroicons/react/24/outline';
 
 export default function SidebarInduk({ isOpen }) {
     const { url, props } = usePage();
     const lembagas = props.lembagas || [];
     const [isLembagaOpen, setIsLembagaOpen] = useState(url.includes('/lembaga'));
+    const [isBeritaOpen, setIsBeritaOpen] = useState(url.includes('/berita'));
 
     const menuItems = [
         { name: 'Dashboard', href: route('admin.dashboard'), icon: ChartBarIcon },
@@ -36,10 +38,22 @@ export default function SidebarInduk({ isOpen }) {
                 }))
             ]
         },
-        { name: 'Berita', href: route('admin.berita.index'), icon: NewspaperIcon },
+        { 
+            name: 'Berita', 
+            href: route('admin.berita.index'), 
+            icon: NewspaperIcon,
+            hasSub: true,
+            isOpen: isBeritaOpen,
+            toggle: () => setIsBeritaOpen(!isBeritaOpen),
+            subItems: [
+                { name: 'Kelola Berita', href: route('admin.berita.index') },
+                { name: 'Pengaturan Portal', href: route('admin.berita.settings') }
+            ]
+        },
         { name: 'Info PPDB', href: route('admin.info-ppdb.index'), icon: ClipboardDocumentListIcon },
         { name: 'Fasilitas', href: route('admin.fasilitas.index'), icon: BuildingOfficeIcon },
         { name: 'Kontak', href: route('admin.kontak.index'), icon: PhoneIcon },
+        { name: 'Pengaturan', href: route('admin.settings.index'), icon: Cog6ToothIcon },
     ];
 
     return (
@@ -58,7 +72,9 @@ export default function SidebarInduk({ isOpen }) {
                                 <button
                                     onClick={item.toggle}
                                     className={`w-full flex items-center justify-between px-4 py-3 rounded-[0.25rem] text-sm font-medium transition-all ${
-                                        url.includes('/lembaga') ? 'bg-white/10 text-white' : 'text-white/60 hover:bg-white/5 hover:text-white'
+                                        (item.name === 'Tingkat Pendidikan' && url.includes('/lembaga')) || (item.name === 'Berita' && url.includes('/berita')) 
+                                        ? 'bg-white/10 text-white' 
+                                        : 'text-white/60 hover:bg-white/5 hover:text-white'
                                     }`}
                                 >
                                     <div className="flex items-center gap-3">

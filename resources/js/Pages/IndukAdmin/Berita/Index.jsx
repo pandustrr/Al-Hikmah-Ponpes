@@ -17,39 +17,9 @@ import {
     Cog6ToothIcon
 } from '@heroicons/react/24/outline';
 
-export default function Index({ berita, categories, settings }) {
+export default function Index({ berita, categories, newsHeroBg }) {
     const { flash } = usePage().props;
     const [selectedCategory, setSelectedCategory] = useState('latest');
-
-    // Flatten settings for form state
-    const initialSettings = [];
-    if (settings) {
-        Object.values(settings).forEach(group => {
-            group.forEach(s => {
-                initialSettings.push({ id: s.id, key: s.key, value: s.value || '', label: s.label, group: s.group });
-            });
-        });
-    }
-
-    const { data: settingsData, setData: setSettingsData, post: postSettings, processing: settingsProcessing } = useForm({
-        _method: 'put',
-        settings: initialSettings
-    });
-
-    const handleSettingsChange = (id, value, isFile = false) => {
-        const newSettings = settingsData.settings.map(s => 
-            s.id === id ? { ...s, value: isFile ? value : value } : s
-        );
-        setSettingsData('settings', newSettings);
-    };
-
-    const handleSettingsSubmit = (e) => {
-        e.preventDefault();
-        postSettings(route('admin.settings.update'), {
-            preserveScroll: true,
-            forceFormData: true,
-        });
-    };
 
     const handleDelete = (id) => {
         if (confirm('Apakah Anda yakin ingin menghapus berita ini?')) {
@@ -84,6 +54,8 @@ export default function Index({ berita, categories, settings }) {
                         Tambah Berita Baru
                     </Link>
                 </div>
+
+
 
                 {/* Category Tabs */}
                 <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-2 no-scrollbar border-b border-slate-200">
@@ -123,18 +95,6 @@ export default function Index({ berita, categories, settings }) {
                             </button>
                         );
                     })}
-                    <div className="flex-grow"></div>
-                    <button 
-                        onClick={() => setSelectedCategory('settings')}
-                        className={`px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em] transition-all border-b-2 flex items-center gap-2 ${
-                            selectedCategory === 'settings' 
-                            ? 'border-brand-primary text-brand-primary bg-brand-secondary/30' 
-                            : 'border-transparent text-brand-accent hover:text-brand-primary'
-                        }`}
-                    >
-                        <Cog6ToothIcon className="h-4 w-4" />
-                        Pengaturan Page
-                    </button>
                 </div>
 
                 {/* Flash Message */}
@@ -144,69 +104,8 @@ export default function Index({ berita, categories, settings }) {
                     </div>
                 )}
 
-                {selectedCategory === 'settings' ? (
-                    /* Settings Section */
-                    <div className="bg-white border border-slate-200 rounded-[0.25rem] overflow-hidden shadow-sm p-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                        <div className="max-w-4xl">
-                            <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter mb-8 border-b-4 border-brand-primary inline-block">
-                                Pengaturan Portal Berita
-                            </h2>
-                            <form onSubmit={handleSettingsSubmit} className="space-y-10">
-                                {settings && Object.entries(settings).map(([group, groupSettings]) => (
-                                    <div key={group} className="space-y-6">
-                                        <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-primary bg-brand-secondary/50 px-4 py-2 rounded inline-block">
-                                            Grup: {group}
-                                        </h3>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
-                                            {groupSettings.map((s) => {
-                                                const formItem = settingsData.settings.find(item => item.id === s.id);
-                                                return (
-                                                    <div key={s.id}>
-                                                        <InputLabel htmlFor={s.key} value={s.label} className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2" />
-                                                        {s.type === 'image' ? (
-                                                            <div>
-                                                                {typeof formItem?.value === 'string' && formItem?.value !== '' && !formItem?.value?.name && (
-                                                                    <div className="mb-2">
-                                                                        <img src={formItem.value} alt={s.label} className="h-20 w-auto rounded border border-slate-200" />
-                                                                    </div>
-                                                                )}
-                                                                <input
-                                                                    id={s.key}
-                                                                    type="file"
-                                                                    accept="image/*"
-                                                                    className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-primary/10 file:text-brand-primary hover:file:bg-brand-primary/20 transition-all cursor-pointer"
-                                                                    onChange={(e) => handleSettingsChange(s.id, e.target.files[0], true)}
-                                                                />
-                                                            </div>
-                                                        ) : (
-                                                            <TextInput
-                                                                id={s.key}
-                                                                type={s.type || 'text'}
-                                                                className="mt-1 block w-full border-slate-200 focus:border-brand-primary focus:ring-brand-primary rounded-[0.25rem] text-sm font-bold"
-                                                                value={formItem?.value || ''}
-                                                                onChange={(e) => handleSettingsChange(s.id, e.target.value)}
-                                                            />
-                                                        )}
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                ))}
-                                <div className="flex items-center justify-end pt-8 border-t border-slate-100">
-                                    <PrimaryButton 
-                                        disabled={settingsProcessing}
-                                        className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-black uppercase tracking-widest px-10 py-4 transition-all rounded-[0.25rem] shadow-xl shadow-brand-primary/20"
-                                    >
-                                        {settingsProcessing ? 'Menyimpan...' : 'Simpan Pengaturan'}
-                                    </PrimaryButton>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                ) : (
-                    /* Table Section */
-                    <div className="bg-white border border-slate-200 rounded-[0.25rem] overflow-hidden shadow-sm">
+                {/* Table Section */}
+                <div className="bg-white border border-slate-200 rounded-[0.25rem] overflow-hidden shadow-sm">
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
                                 <thead>
@@ -323,16 +222,13 @@ export default function Index({ berita, categories, settings }) {
                             </table>
                         </div>
                     </div>
-                )}
 
-                {selectedCategory !== 'settings' && (
-                    /* Footer Info */
+                    {/* Footer Info */}
                     <div className="mt-8 flex items-center justify-between">
                         <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
                             Menampilkan {filteredBerita.length} dari {berita.length} Berita
                         </p>
                     </div>
-                )}
             </div>
         </IndukAdminLayout>
     );
