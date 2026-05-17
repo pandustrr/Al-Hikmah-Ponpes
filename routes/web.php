@@ -54,6 +54,8 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
         Route::get('/fasilitas', function () { return Inertia::render('IndukAdmin/Fasilitas/Index'); })->name('fasilitas.index');
         Route::get('/tentang', function () { return Inertia::render('IndukAdmin/Tentang/Index'); })->name('tentang.index');
         Route::get('/kontak', function () { return Inertia::render('IndukAdmin/Kontak/Index'); })->name('kontak.index');
+        
+        // Settings
         Route::get('/settings', [\App\Http\Controllers\IndukAdmin\SiteSettingController::class, 'index'])->name('settings.index');
         Route::put('/settings', [\App\Http\Controllers\IndukAdmin\SiteSettingController::class, 'update'])->name('settings.update');
     });

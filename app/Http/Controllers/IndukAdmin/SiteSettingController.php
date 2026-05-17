@@ -21,11 +21,21 @@ class SiteSettingController extends Controller
         $validated = $request->validate([
             'settings' => 'required|array',
             'settings.*.id' => 'required|exists:site_settings,id',
-            'settings.*.value' => 'nullable|string',
+            // value bisa string atau file
         ]);
 
-        foreach ($validated['settings'] as $item) {
-            SiteSetting::where('id', $item['id'])->update(['value' => $item['value']]);
+        foreach ($request->input('settings', []) as $index => $item) {
+            $setting = SiteSetting::find($item['id']);
+            
+            if ($request->hasFile("settings.$index.value")) {
+                $file = $request->file("settings.$index.value");
+                $path = $file->store('settings', 'public');
+                $setting->update(['value' => \Illuminate\Support\Facades\Storage::url($path)]);
+            } else if (isset($item['value']) && is_string($item['value'])) {
+                // Jangan timpa dengan string kosong jika sebelumnya adalah gambar dan user tidak mengubahnya
+                // Tetapi jika form sengaja mengirim string kosong, kita update.
+                $setting->update(['value' => $item['value']]);
+            }
         }
 
         return redirect()->back()->with('success', 'Pengaturan berhasil diperbarui.');

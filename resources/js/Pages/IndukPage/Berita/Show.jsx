@@ -3,7 +3,7 @@ import PublicLayout from '@/Layouts/PublicLayout';
 import { Link, Head } from '@inertiajs/react';
 import NewsCard from './NewsCard';
 
-export default function Show({ berita, recentBerita = [] }) {
+export default function Show({ berita, recentBerita = [], settings = {} }) {
     const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/berita/${berita.slug}` : '';
     const formattedDate = berita.created_at 
         ? new Date(berita.created_at).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) 
@@ -27,10 +27,10 @@ export default function Show({ berita, recentBerita = [] }) {
                         </span>
                     </div>
                     <div className="flex items-center gap-4">
-                        <a href="#" className="hover:text-brand-secondary transition-colors">Facebook</a>
-                        <a href="#" className="hover:text-brand-secondary transition-colors">Instagram</a>
-                        <a href="#" className="hover:text-brand-secondary transition-colors">Twitter</a>
-                        <a href="#" className="hover:text-brand-secondary transition-colors">YouTube</a>
+                        <a href={settings.social_facebook || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Facebook</a>
+                        <a href={settings.social_instagram || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Instagram</a>
+                        <a href={settings.social_twitter || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Twitter</a>
+                        <a href={settings.social_youtube || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">YouTube</a>
                     </div>
                 </div>
             </div>
@@ -80,10 +80,11 @@ export default function Show({ berita, recentBerita = [] }) {
                             />
                         </div>
 
-                        <div className="prose prose-slate max-w-none prose-headings:font-semibold prose-headings:tracking-tighter prose-p:text-brand-primary prose-p:leading-relaxed prose-p:text-lg">
-                            <div className="space-y-6 whitespace-pre-wrap font-serif">
-                                {berita.konten}
-                            </div>
+                        <div className="prose prose-slate max-w-none mb-12">
+                            <div 
+                                dangerouslySetInnerHTML={{ __html: berita.konten }} 
+                                className="text-brand-primary leading-relaxed text-lg font-serif space-y-6"
+                            />
                         </div>
 
                         {/* Share & Tags */}
