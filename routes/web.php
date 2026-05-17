@@ -77,6 +77,9 @@ Route::get('/info-ppdb', [InfoPPDBController::class, 'index'])->name('pendaftara
 Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
 Route::get('/fasilitas', [FasilitasController::class, 'index'])->name('fasilitas.index');
 
+// Automatic Sitemap for Google Indexing
+Route::get('/sitemap.xml', [HomeController::class, 'sitemap'])->name('sitemap');
+
 // Dynamic Institution Page (MUST BE LAST)
 Route::get('/{slug}', [SchoolController::class, 'show'])->name('lembaga.show');
 

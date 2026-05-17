@@ -152,60 +152,151 @@ export default function Index({ settings, authUser }) {
                     
                     {/* TAB 1: PENGATURAN UMUM */}
                     {activeTab === 'general' && (
-                        <form onSubmit={handleGeneralSubmit} className="space-y-8">
-                            {Object.entries(settings)
-                                .filter(([group]) => group === 'seo')
-                                .map(([group, groupSettings]) => {
-                                    const labelInfo = groupLabels[group] || { title: group, icon: Cog6ToothIcon };
-                                    return (
-                                        <div key={group} className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6">
-                                            <div className="flex items-center gap-2 mb-4">
-                                                <span className="h-[2px] w-5 bg-brand-primary"></span>
-                                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{labelInfo.title}</span>
-                                            </div>
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                            {/* Left Side: SEO Edit Form */}
+                            <form onSubmit={handleGeneralSubmit} className="lg:col-span-7 space-y-6">
+                                {Object.entries(settings)
+                                    .filter(([group]) => group === 'seo')
+                                    .map(([group, groupSettings]) => {
+                                        const labelInfo = groupLabels[group] || { title: group, icon: Cog6ToothIcon };
+                                        return (
+                                            <div key={group} className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6">
+                                                <div className="flex items-center gap-2 mb-4">
+                                                    <span className="h-[2px] w-5 bg-brand-primary"></span>
+                                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{labelInfo.title}</span>
+                                                </div>
 
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                {groupSettings.map((s) => {
-                                                    const formItem = generalForm.data.settings.find(item => item.id === s.id);
-                                                    if (!formItem) return null;
-                                                    return (
-                                                        <div key={s.id} className={s.type === 'textarea' ? 'md:col-span-2' : ''}>
-                                                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{s.label}</label>
-                                                            {s.type === 'textarea' ? (
-                                                                <textarea
-                                                                    rows="3"
-                                                                    className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[100px]"
-                                                                    value={formItem.value}
-                                                                    onChange={(e) => handleGeneralChange(s.id, e.target.value)}
-                                                                />
-                                                            ) : (
-                                                                <input
-                                                                    type="text"
-                                                                    className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
-                                                                    value={typeof formItem.value === 'string' ? formItem.value : ''}
-                                                                    onChange={(e) => handleGeneralChange(s.id, e.target.value)}
-                                                                />
-                                                            )}
-                                                        </div>
-                                                    );
-                                                })}
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                    {groupSettings.map((s) => {
+                                                        const formItem = generalForm.data.settings.find(item => item.id === s.id);
+                                                        if (!formItem) return null;
+                                                        return (
+                                                            <div key={s.id} className={s.type === 'textarea' ? 'md:col-span-2' : ''}>
+                                                                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{s.label}</label>
+                                                                {s.type === 'textarea' ? (
+                                                                    <textarea
+                                                                        rows="3"
+                                                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[100px]"
+                                                                        value={formItem.value}
+                                                                        onChange={(e) => handleGeneralChange(s.id, e.target.value)}
+                                                                    />
+                                                                ) : (
+                                                                    <input
+                                                                        type="text"
+                                                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                                                        value={typeof formItem.value === 'string' ? formItem.value : ''}
+                                                                        onChange={(e) => handleGeneralChange(s.id, e.target.value)}
+                                                                    />
+                                                                )}
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+
+                                <div className="flex justify-end">
+                                    <button 
+                                        type="submit" 
+                                        disabled={generalForm.processing}
+                                        className="w-full sm:w-auto bg-brand-primary text-white py-4 px-12 text-[10px] font-bold uppercase tracking-[0.2em] rounded-[0.25rem] hover:bg-slate-900 transition-all shadow-xl shadow-brand-primary/20 flex items-center justify-center gap-3"
+                                    >
+                                        {generalForm.processing ? 'Sedang Menyimpan...' : (
+                                            <>Simpan Pengaturan SEO <CheckCircleIcon className="h-4 w-4" /></>
+                                        )}
+                                    </button>
+                                </div>
+                            </form>
+
+                            {/* Right Side: Real-Time SEO Live Debugger & Previewer */}
+                            <div className="lg:col-span-5 space-y-6">
+                                <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6">
+                                    <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                                        <div className="flex items-center gap-2">
+                                            <span className="h-[2px] w-5 bg-brand-primary"></span>
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">SEO Preview & Debugger</span>
+                                        </div>
+                                        <a 
+                                            href="/sitemap.xml" 
+                                            target="_blank" 
+                                            className="text-[9px] font-black uppercase tracking-wider text-brand-primary hover:underline transition-colors flex items-center gap-1.5"
+                                        >
+                                            Buka Sitemap.xml ↗
+                                        </a>
+                                    </div>
+
+                                    {/* 1. Google Search Mockup */}
+                                    <div className="space-y-3">
+                                        <h4 className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Pratinjau Hasil Pencarian Google</h4>
+                                        <div className="bg-[#f8f9fa] border border-[#dadce0] rounded-[8px] p-5 shadow-sm space-y-1.5 font-sans">
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-[26px] h-[26px] bg-white border border-[#dadce0] rounded-full flex items-center justify-center text-[10px] text-brand-primary font-black">
+                                                    AH
+                                                </div>
+                                                <div className="flex flex-col text-[12px] leading-tight">
+                                                    <span className="text-[#202124] font-medium truncate max-w-[200px]">Yayasan Al-Hikmah Ambulu</span>
+                                                    <span className="text-[#5f6368] text-[10px] truncate max-w-[200px]">https://alhikmahambulu.sch.id</span>
+                                                </div>
+                                            </div>
+                                            <h3 className="text-[#1a0dab] hover:underline text-[18px] leading-tight font-medium cursor-pointer">
+                                                Yayasan Al-Hikmah Ambulu - Portal & Informasi
+                                            </h3>
+                                            <p className="text-[#4d5156] text-[13px] leading-relaxed line-clamp-2">
+                                                {generalForm.data.settings.find(s => s.key === 'seo_meta_description')?.value || 'Portal berita resmi Yayasan Al-Hikmah Ambulu. Dapatkan informasi terbaru seputar pendidikan, prestasi, dan kegiatan santri.'}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* 2. WhatsApp Share Mockup */}
+                                    <div className="space-y-3">
+                                        <h4 className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Pratinjau Bagikan Link di WhatsApp</h4>
+                                        <div className="bg-[#DCF8C6]/20 border border-[#DCF8C6]/50 rounded-[10px] p-4 max-w-[340px] shadow-sm font-sans space-y-2">
+                                            <div className="bg-[#f0f0f0] rounded-[8px] overflow-hidden border border-slate-200">
+                                                <div className="aspect-[16/9] bg-brand-secondary flex items-center justify-center text-[10px] text-brand-accent/50 uppercase tracking-[0.2em] font-bold relative">
+                                                    <img 
+                                                        src="https://images.unsplash.com/photo-1540959733332-eab4deceeaf7?w=600" 
+                                                        className="absolute inset-0 w-full h-full object-cover opacity-90" 
+                                                        alt="WhatsApp preview card cover image"
+                                                    />
+                                                    <div className="absolute inset-0 bg-brand-primary/10"></div>
+                                                </div>
+                                                <div className="p-3 bg-[#e9ebec]">
+                                                    <h5 className="text-[12px] font-bold text-[#1e293b] leading-snug truncate">
+                                                        Yayasan Al-Hikmah Ambulu - Portal & Informasi
+                                                    </h5>
+                                                    <p className="text-[10px] text-[#64748b] leading-relaxed line-clamp-2 mt-0.5">
+                                                        {generalForm.data.settings.find(s => s.key === 'seo_meta_description')?.value || 'Portal berita resmi Yayasan Al-Hikmah Ambulu. Dapatkan informasi terbaru seputar pendidikan, prestasi, dan kegiatan santri.'}
+                                                    </p>
+                                                    <span className="text-[9px] text-[#94a3b8] uppercase tracking-wider mt-1 block">
+                                                        alhikmahambulu.sch.id
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    );
-                                })}
+                                    </div>
 
-                            <div className="mt-8 flex justify-end">
-                                <button 
-                                    type="submit" 
-                                    disabled={generalForm.processing}
-                                    className="bg-brand-primary text-white py-4 px-12 text-[10px] font-bold uppercase tracking-[0.2em] rounded-[0.25rem] hover:bg-slate-900 transition-all shadow-xl shadow-brand-primary/20 flex items-center gap-3"
-                                >
-                                    {generalForm.processing ? 'Sedang Menyimpan...' : (
-                                        <>Simpan Pengaturan SEO <CheckCircleIcon className="h-4 w-4" /></>
-                                    )}
-                                </button>
+                                    {/* 3. Schema JSON-LD Structured Data Validator */}
+                                    <div className="space-y-3">
+                                        <h4 className="text-[9px] font-black text-slate-400 uppercase tracking-widest">JSON-LD Structured Data Schema</h4>
+                                        <div className="bg-[#0f172a] rounded-[0.25rem] p-4 text-[10px] font-mono text-emerald-400 overflow-x-auto max-h-[160px] border border-slate-800">
+                                            <pre>{JSON.stringify({
+                                                "@context": "https://schema.org",
+                                                "@type": "EducationalOrganization",
+                                                "name": "Yayasan Al-Hikmah Ambulu",
+                                                "url": "https://alhikmahambulu.sch.id",
+                                                "logo": "https://alhikmahambulu.sch.id/logo.png",
+                                                "subOrganization": [
+                                                    { "@type": "School", "name": "SD NU 22 Full Day" },
+                                                    { "@type": "School", "name": "SMP Unggulan Al-Hikmah" },
+                                                    { "@type": "School", "name": "SMK Al-Hikmah Ambulu" }
+                                                ]
+                                            }, null, 2)}</pre>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </form>
+                        </div>
                     )}
 
                     {/* TAB 2: PORTAL LOGIN CUSTOMIZATION */}
