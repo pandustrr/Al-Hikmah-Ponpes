@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import IndukAdminLayout from '@/Layouts/Induk/IndukAdminLayout';
-import { useForm, router } from '@inertiajs/react';
+import { useForm, router, usePage, Head } from '@inertiajs/react';
 import { 
     AcademicCapIcon, 
     ChatBubbleBottomCenterTextIcon, 
@@ -13,9 +13,50 @@ import {
     PhoneIcon,
     PhotoIcon
 } from '@heroicons/react/24/outline';
+import Toast from '@/Components/Toast';
+import ConfirmationModal from '@/Components/ConfirmationModal';
 
 export default function Index({ ppdbInfos = [], lembagas = [], faqs = [], settings = {} }) {
-    const [activeTab, setActiveTab] = useState('settings');
+    const { flash } = usePage().props;
+    const [activeTab, setActiveTab] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('activePPDBTab') || 'settings';
+        }
+        return 'settings';
+    });
+
+    const handleSetActiveTab = (tab) => {
+        setActiveTab(tab);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('activePPDBTab', tab);
+        }
+    };
+
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastType, setToastType] = useState('success');
+
+    // Monitor flash messages
+    useEffect(() => {
+        if (flash?.success) {
+            setToastMessage(flash.success);
+            setToastType('success');
+            setShowToast(true);
+        } else if (flash?.error) {
+            setToastMessage(flash.error);
+            setToastType('error');
+            setShowToast(true);
+        }
+    }, [flash]);
+
+    // Confirmation Modal State
+    const [confirmModal, setConfirmModal] = useState({
+        show: false,
+        title: '',
+        message: '',
+        type: 'danger',
+        onConfirm: null
+    });
 
     // State for Modals/Forms
     const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
@@ -133,14 +174,47 @@ export default function Index({ ppdbInfos = [], lembagas = [], faqs = [], settin
     };
 
     const handleDeleteFaq = (faq) => {
-        if (confirm('Apakah Anda yakin ingin menghapus FAQ ini?')) {
-            router.delete(route('admin.ppdb-faq.destroy', faq.id));
-        }
+        setConfirmModal({
+            show: true,
+            title: 'Hapus Pertanyaan FAQ?',
+            message: 'Apakah Anda yakin ingin menghapus pertanyaan FAQ ini? Tindakan ini bersifat permanen.',
+            type: 'danger',
+            confirmText: 'Ya, Hapus FAQ',
+            onConfirm: () => {
+                router.delete(route('admin.ppdb-faq.destroy', faq.id), {
+                    onSuccess: () => {
+                        setConfirmModal(prev => ({ ...prev, show: false }));
+                        setToastMessage('FAQ berhasil dihapus secara permanen.');
+                        setToastType('warning');
+                        setShowToast(true);
+                    }
+                });
+            }
+        });
     };
 
 
     return (
         <IndukAdminLayout title="Kelola PPDB">
+            <Head title="Kelola PPDB & FAQ" />
+
+            <Toast 
+                show={showToast}
+                message={toastMessage}
+                type={toastType}
+                onClose={() => setShowToast(false)}
+            />
+
+            <ConfirmationModal
+                show={confirmModal.show}
+                title={confirmModal.title}
+                message={confirmModal.message}
+                type={confirmModal.type}
+                confirmText={confirmModal.confirmText}
+                onConfirm={confirmModal.onConfirm}
+                onCancel={() => setConfirmModal(prev => ({ ...prev, show: false }))}
+            />
+
             <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
                 
                 {/* Header */}
@@ -163,7 +237,7 @@ export default function Index({ ppdbInfos = [], lembagas = [], faqs = [], settin
                 {/* Tabs */}
                 <div className="flex items-center gap-2 mb-8 border-b border-slate-200">
                     <button 
-                        onClick={() => setActiveTab('settings')}
+                        onClick={() => handleSetActiveTab('settings')}
                         className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 ${
                             activeTab === 'settings' 
                             ? 'border-brand-primary text-brand-primary' 
@@ -174,7 +248,7 @@ export default function Index({ ppdbInfos = [], lembagas = [], faqs = [], settin
                         Background
                     </button>
                     <button 
-                        onClick={() => setActiveTab('units')}
+                        onClick={() => handleSetActiveTab('units')}
                         className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 ${
                             activeTab === 'units' 
                             ? 'border-brand-primary text-brand-primary' 
@@ -185,7 +259,7 @@ export default function Index({ ppdbInfos = [], lembagas = [], faqs = [], settin
                         Info Unit Pendidikan
                     </button>
                     <button 
-                        onClick={() => setActiveTab('faqs')}
+                        onClick={() => handleSetActiveTab('faqs')}
                         className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 ${
                             activeTab === 'faqs' 
                             ? 'border-brand-primary text-brand-primary' 
@@ -196,7 +270,7 @@ export default function Index({ ppdbInfos = [], lembagas = [], faqs = [], settin
                         Manajemen FAQ
                     </button>
                     <button 
-                        onClick={() => setActiveTab('help')}
+                        onClick={() => handleSetActiveTab('help')}
                         className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 ${
                             activeTab === 'help' 
                             ? 'border-brand-primary text-brand-primary' 

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import IndukAdminLayout from '@/Layouts/Induk/IndukAdminLayout';
 import { Head, useForm, usePage } from '@inertiajs/react';
 import { 
     PhoneIcon, 
     CheckCircleIcon
 } from '@heroicons/react/24/outline';
+import Toast from '@/Components/Toast';
+import ConfirmationModal from '@/Components/ConfirmationModal';
 
 export default function Index({ settings }) {
     const { flash } = usePage().props;
@@ -24,6 +26,32 @@ export default function Index({ settings }) {
         settings: initialSettings
     });
 
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastType, setToastType] = useState('success');
+
+    // Monitor flash messages
+    useEffect(() => {
+        if (flash?.success) {
+            setToastMessage(flash.success);
+            setToastType('success');
+            setShowToast(true);
+        } else if (flash?.error) {
+            setToastMessage(flash.error);
+            setToastType('error');
+            setShowToast(true);
+        }
+    }, [flash]);
+
+    // Confirmation Modal State (Ready for future actions)
+    const [confirmModal, setConfirmModal] = useState({
+        show: false,
+        title: '',
+        message: '',
+        type: 'danger',
+        onConfirm: null
+    });
+
     const handleFieldChange = (id, value) => {
         const newSettings = form.data.settings.map(s => 
             s.id === id ? { ...s, value } : s
@@ -35,7 +63,12 @@ export default function Index({ settings }) {
         e.preventDefault();
         form.post(route('admin.settings.update'), {
             preserveScroll: true,
-            forceFormData: true
+            forceFormData: true,
+            onSuccess: () => {
+                setToastMessage('Pengaturan kontak & sosial media berhasil disimpan.');
+                setToastType('success');
+                setShowToast(true);
+            }
         });
     };
 
@@ -47,34 +80,39 @@ export default function Index({ settings }) {
     return (
         <IndukAdminLayout title="Kelola Kontak & Sosial Media">
             <Head title="Kelola Kontak & Sosial Media" />
+
+            {/* Premium Reusable Notification Component */}
+            <Toast 
+                show={showToast}
+                message={toastMessage}
+                type={toastType}
+                onClose={() => setShowToast(false)}
+            />
+
+            {/* Premium Reusable Confirmation Dialog Component */}
+            <ConfirmationModal
+                show={confirmModal.show}
+                title={confirmModal.title}
+                message={confirmModal.message}
+                type={confirmModal.type}
+                confirmText={confirmModal.confirmText}
+                onConfirm={confirmModal.onConfirm}
+                onCancel={() => setConfirmModal(prev => ({ ...prev, show: false }))}
+            />
             
-            <div className="max-w-6xl mx-auto pt-6 pb-16 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-6xl mx-auto pt-6 pb-16 px-4 sm:px-6 lg:px-8 space-y-8">
                 
-                <div className="mb-6 flex items-center justify-between">
-                    <div></div>
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-brand-primary/5 rounded flex items-center justify-center">
-                            <PhoneIcon className="h-4 w-4 text-brand-primary" />
-                        </div>
-                        <h2 className="text-sm font-bold text-slate-900 uppercase tracking-tight">Kelola Kontak</h2>
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-100 pb-6">
+                    <div>
+                        <h2 className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-accent mb-2">Pusat Yayasan</h2>
+                        <h1 className="text-3xl font-semibold uppercase tracking-tighter text-slate-900 leading-none">Kelola Kontak <br /><span className="text-brand-primary">& Sosial Media</span></h1>
                     </div>
                 </div>
-
-                <div className="mb-8">
-                    <h2 className="text-[10px] font-bold text-brand-accent uppercase tracking-[0.4em] mb-3">Pusat Yayasan</h2>
-                    <h1 className="text-4xl font-semibold text-slate-900 tracking-tighter uppercase leading-none">Kelola Kontak <br /><span className="text-brand-primary">& Sosial Media</span></h1>
-                </div>
-
-                {flash?.success && (
-                    <div className="mb-8 p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 text-xs font-black uppercase tracking-widest flex items-center justify-between rounded-[0.15rem]">
-                        <span>{flash.success}</span>
-                    </div>
-                )}
 
                 <form onSubmit={handleSubmit} className="space-y-8 animate-fade-in">
                     
                     {/* Section 1: Kontak Dasar */}
-                    <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6">
+                    <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6 shadow-sm">
                         <div className="flex items-center gap-2 mb-4">
                             <span className="h-[2px] w-5 bg-brand-primary"></span>
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Kontak Dasar</span>
@@ -100,7 +138,7 @@ export default function Index({ settings }) {
                     </div>
 
                     {/* Section 2: Sosial Media */}
-                    <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6">
+                    <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6 shadow-sm">
                         <div className="flex items-center gap-2 mb-4">
                             <span className="h-[2px] w-5 bg-brand-primary"></span>
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tautan Sosial Media Resmi</span>
@@ -139,16 +177,6 @@ export default function Index({ settings }) {
                     </div>
                 </form>
             </div>
-            
-            <style dangerouslySetInnerHTML={{ __html: `
-                .animate-fade-in {
-                    animation: fadeIn 0.4s ease-out forwards;
-                }
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(10px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-            `}} />
         </IndukAdminLayout>
     );
 }

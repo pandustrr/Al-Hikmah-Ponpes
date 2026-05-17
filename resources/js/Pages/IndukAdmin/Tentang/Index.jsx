@@ -1,15 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import IndukAdminLayout from '@/Layouts/Induk/IndukAdminLayout';
-import { useForm, usePage } from '@inertiajs/react';
+import { useForm, usePage, Head } from '@inertiajs/react';
 import { 
     PhotoIcon, 
     PlusIcon, 
     TrashIcon, 
-    CheckCircleIcon 
+    SparklesIcon
 } from '@heroicons/react/24/outline';
+import Toast from '@/Components/Toast';
+import ConfirmationModal from '@/Components/ConfirmationModal';
 
 export default function Index({ settings = {} }) {
     const { flash } = usePage().props;
+
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastType, setToastType] = useState('success');
+
+    // Monitor flash messages
+    useEffect(() => {
+        if (flash.success) {
+            setToastMessage(flash.success);
+            setToastType('success');
+            setShowToast(true);
+        } else if (flash.error) {
+            setToastMessage(flash.error);
+            setToastType('error');
+            setShowToast(true);
+        }
+    }, [flash]);
+
+    // Modal Confirmation State
+    const [confirmModal, setConfirmModal] = useState({
+        show: false,
+        title: '',
+        message: '',
+        type: 'danger',
+        onConfirm: null
+    });
 
     const { data, setData, post, processing, errors } = useForm({
         // Hero Section
@@ -53,17 +81,27 @@ export default function Index({ settings = {} }) {
         ],
     });
 
-    const [activeTab, setActiveTab] = useState('hero');
+    const [activeTab, setActiveTab] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('tentang_active_tab') || 'hero';
+        }
+        return 'hero';
+    });
 
     const submit = (e) => {
         e.preventDefault();
         post(route('admin.tentang.update'), {
             preserveScroll: true,
             forceFormData: true,
+            onSuccess: () => {
+                setToastMessage('Pengaturan profil berhasil diperbarui!');
+                setToastType('success');
+                setShowToast(true);
+            }
         });
     };
 
-    // Helper for handling dynamic array fields
+    // Helper for handling dynamic array fields (Misi)
     const handleMisiChange = (index, value) => {
         const newMisi = [...data.profil_misi_list];
         newMisi[index] = value;
@@ -72,13 +110,30 @@ export default function Index({ settings = {} }) {
 
     const addMisi = () => {
         setData('profil_misi_list', [...data.profil_misi_list, '']);
+        setToastMessage('Butir misi baru ditambahkan ke daftar sementara.');
+        setToastType('info');
+        setShowToast(true);
     };
 
-    const removeMisi = (index) => {
-        const newMisi = data.profil_misi_list.filter((_, i) => i !== index);
-        setData('profil_misi_list', newMisi);
+    const triggerRemoveMisi = (index) => {
+        setConfirmModal({
+            show: true,
+            title: 'Hapus Butir Misi?',
+            message: 'Apakah Anda yakin ingin menghapus butir misi ini? Perubahan baru akan tersimpan permanen setelah Anda mengklik tombol "Simpan Perubahan" di bawah.',
+            type: 'danger',
+            confirmText: 'Ya, Hapus Sementara',
+            onConfirm: () => {
+                const newMisi = data.profil_misi_list.filter((_, i) => i !== index);
+                setData('profil_misi_list', newMisi);
+                setConfirmModal(prev => ({ ...prev, show: false }));
+                setToastMessage('Butir misi berhasil dihapus dari daftar sementara.');
+                setToastType('warning');
+                setShowToast(true);
+            }
+        });
     };
 
+    // Helper for handling dynamic array fields (Sejarah)
     const handleTimelineChange = (index, field, value) => {
         const newTimeline = [...data.profil_sejarah_timeline];
         newTimeline[index][field] = value;
@@ -87,11 +142,27 @@ export default function Index({ settings = {} }) {
 
     const addTimeline = () => {
         setData('profil_sejarah_timeline', [...data.profil_sejarah_timeline, { year: '', title: '', desc: '' }]);
+        setToastMessage('Momen sejarah baru ditambahkan ke linimasa sementara.');
+        setToastType('info');
+        setShowToast(true);
     };
 
-    const removeTimeline = (index) => {
-        const newTimeline = data.profil_sejarah_timeline.filter((_, i) => i !== index);
-        setData('profil_sejarah_timeline', newTimeline);
+    const triggerRemoveTimeline = (index) => {
+        setConfirmModal({
+            show: true,
+            title: 'Hapus Momen Sejarah?',
+            message: 'Apakah Anda yakin ingin menghapus momen sejarah ini? Perubahan baru akan tersimpan secara permanen setelah Anda mengklik tombol "Simpan Perubahan" di bawah.',
+            type: 'danger',
+            confirmText: 'Ya, Hapus Sementara',
+            onConfirm: () => {
+                const newTimeline = data.profil_sejarah_timeline.filter((_, i) => i !== index);
+                setData('profil_sejarah_timeline', newTimeline);
+                setConfirmModal(prev => ({ ...prev, show: false }));
+                setToastMessage('Momen sejarah berhasil dihapus dari linimasa sementara.');
+                setToastType('warning');
+                setShowToast(true);
+            }
+        });
     };
 
     const tabs = [
@@ -101,32 +172,58 @@ export default function Index({ settings = {} }) {
         { id: 'sejarah', name: 'Sejarah Lembaga' },
     ];
 
+    // Standard high-end luxury earthy form style classes
+    const labelStyle = "block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2";
+    const inputStyle = "w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-[0.25rem] py-2.5 px-3.5 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary/20 hover:border-slate-300 transition-all outline-none placeholder-slate-400 font-semibold";
+    const textareaStyle = "w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-[0.25rem] py-2.5 px-3.5 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary/20 hover:border-slate-300 transition-all outline-none placeholder-slate-400 font-semibold leading-relaxed";
+
     return (
         <IndukAdminLayout title="Pengaturan Profil">
-            <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-                
-                {flash.success && (
-                    <div className="mb-6 bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-[0.25rem] flex items-center gap-3">
-                        <CheckCircleIcon className="w-5 h-5" />
-                        <span className="text-sm font-medium">{flash.success}</span>
-                    </div>
-                )}
+            <Head title="Pengaturan Profil & Tentang Kami" />
 
-                <div className="mb-8">
-                    <h2 className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-accent mb-2">Pusat Yayasan</h2>
-                    <h1 className="text-3xl font-semibold uppercase tracking-tighter text-slate-900">Pengaturan Profil</h1>
+            {/* Reusable Premium Toast Component */}
+            <Toast 
+                show={showToast}
+                message={toastMessage}
+                type={toastType}
+                onClose={() => setShowToast(false)}
+            />
+
+            {/* Reusable Premium Confirmation Modal Component */}
+            <ConfirmationModal
+                show={confirmModal.show}
+                title={confirmModal.title}
+                message={confirmModal.message}
+                type={confirmModal.type}
+                confirmText={confirmModal.confirmText}
+                onConfirm={confirmModal.onConfirm}
+                onCancel={() => setConfirmModal(prev => ({ ...prev, show: false }))}
+            />
+
+            <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8 animate-fade-in">
+                
+                {/* Header */}
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-100 pb-6">
+                    <div>
+                        <h2 className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-accent mb-2">Pusat Yayasan</h2>
+                        <h1 className="text-3xl font-semibold uppercase tracking-tighter text-slate-900 leading-none">Pengaturan <br /><span className="text-brand-primary">Profil & Tentang</span></h1>
+                    </div>
                 </div>
 
                 <div className="bg-white rounded-[0.25rem] border border-slate-200 shadow-sm overflow-hidden">
-                    {/* Tabs */}
-                    <div className="border-b border-slate-200 bg-slate-50 flex overflow-x-auto">
+                    {/* Modern Pill Shaped Tabs */}
+                    <div className="border-b border-slate-200 bg-slate-50/50 p-3 flex gap-2 overflow-x-auto">
                         {tabs.map(tab => (
                             <button
                                 key={tab.id}
-                                onClick={() => setActiveTab(tab.id)}
-                                className={`px-6 py-4 text-xs font-bold uppercase tracking-widest whitespace-nowrap transition-colors ${
+                                type="button"
+                                onClick={() => {
+                                    setActiveTab(tab.id);
+                                    localStorage.setItem('tentang_active_tab', tab.id);
+                                }}
+                                className={`px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all rounded-[0.25rem] ${
                                     activeTab === tab.id 
-                                        ? 'bg-white text-brand-primary border-t-2 border-t-brand-primary border-x border-x-slate-200 -mb-px' 
+                                        ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/10' 
                                         : 'text-slate-500 hover:text-brand-primary hover:bg-slate-100'
                                 }`}
                             >
@@ -139,72 +236,121 @@ export default function Index({ settings = {} }) {
                     <form onSubmit={submit} className="p-6 md:p-8">
                         
                         {/* HERO TAB */}
-                        <div className={activeTab === 'hero' ? 'block' : 'hidden'}>
-                            <h3 className="text-lg font-serif font-bold text-slate-900 mb-6 uppercase tracking-tight">Bagian Hero Atas</h3>
-                            
-                            <div className="space-y-6">
-                                <div>
-                                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Latar Belakang Hero (Gambar)</label>
-                                    <div className="flex items-center gap-6">
-                                        <div className="w-32 h-20 bg-slate-100 border border-slate-200 rounded-[0.25rem] overflow-hidden flex items-center justify-center shrink-0">
-                                            {settings.profil_hero_bg ? (
-                                                <img src={settings.profil_hero_bg} alt="Hero" className="w-full h-full object-cover" />
-                                            ) : (
-                                                <PhotoIcon className="w-8 h-8 text-slate-300" />
-                                            )}
+                        <div className={activeTab === 'hero' ? 'block space-y-8 animate-fade-in' : 'hidden'}>
+                            <div>
+                                <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest border-b border-slate-100 pb-3 mb-6">Bagian Banner Hero</h3>
+                                
+                                <div className="space-y-6">
+                                    <div>
+                                        <label className={labelStyle}>Latar Belakang Hero (Gambar Banner)</label>
+                                        <div className="flex flex-col sm:flex-row sm:items-center gap-6 p-4 border border-slate-100 rounded-[0.25rem] bg-slate-50/50">
+                                            <div className="w-36 h-20 bg-slate-100 border border-slate-200 rounded-[0.25rem] overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
+                                                {settings.profil_hero_bg ? (
+                                                    <img src={settings.profil_hero_bg} alt="Hero Background" className="w-full h-full object-cover" />
+                                                ) : (
+                                                    <PhotoIcon className="w-8 h-8 text-slate-300" />
+                                                )}
+                                            </div>
+                                            <div className="space-y-2 flex-grow">
+                                                <input
+                                                    type="file"
+                                                    onChange={e => setData('hero_bg_file', e.target.files[0])}
+                                                    className="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-[0.25rem] file:border file:border-slate-200 file:text-[9px] file:font-bold file:uppercase file:tracking-widest file:bg-white file:text-slate-600 hover:file:bg-brand-primary hover:file:text-white hover:file:border-brand-primary file:transition-all cursor-pointer"
+                                                    accept="image/*"
+                                                />
+                                                <p className="text-[9px] text-slate-400 uppercase tracking-wider font-semibold">Format: JPG/PNG, Max: 2MB. Rekomendasi: 1920x1080px.</p>
+                                            </div>
                                         </div>
-                                        <input
-                                            type="file"
-                                            onChange={e => setData('hero_bg_file', e.target.files[0])}
-                                            className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-[0.25rem] file:border-0 file:text-xs file:font-semibold file:bg-brand-primary/10 file:text-brand-primary hover:file:bg-brand-primary/20 transition-colors"
-                                            accept="image/*"
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="space-y-1.5">
+                                            <label className={labelStyle}>Tagline (Teks Emas Kecil)</label>
+                                            <input 
+                                                type="text" 
+                                                value={data.profil_hero_tagline} 
+                                                onChange={e => setData('profil_hero_tagline', e.target.value)} 
+                                                className={inputStyle} 
+                                                placeholder="Mengenal Lebih Dekat"
+                                            />
+                                            {errors.profil_hero_tagline && <span className="text-[10px] text-rose-500 font-semibold">{errors.profil_hero_tagline}</span>}
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className={labelStyle}>Judul Utama Banner</label>
+                                            <input 
+                                                type="text" 
+                                                value={data.profil_hero_title} 
+                                                onChange={e => setData('profil_hero_title', e.target.value)} 
+                                                className={inputStyle} 
+                                                placeholder="PROFIL YPDS AL-HIKMAH"
+                                            />
+                                            {errors.profil_hero_title && <span className="text-[10px] text-rose-500 font-semibold">{errors.profil_hero_title}</span>}
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-1.5">
+                                        <label className={labelStyle}>Deskripsi Singkat Banner</label>
+                                        <textarea 
+                                            rows={3} 
+                                            value={data.profil_hero_desc} 
+                                            onChange={e => setData('profil_hero_desc', e.target.value)} 
+                                            className={textareaStyle}
+                                            placeholder="Deskripsikan profil singkat yayasan di sini..."
                                         />
+                                        {errors.profil_hero_desc && <span className="text-[10px] text-rose-500 font-semibold">{errors.profil_hero_desc}</span>}
                                     </div>
-                                    <p className="text-[10px] text-slate-400 mt-2">Format: JPG/PNG, Max: 2MB. Resolusi ideal: 1920x1080px.</p>
-                                </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Tagline (Teks Kecil)</label>
-                                        <input type="text" value={data.profil_hero_tagline} onChange={e => setData('profil_hero_tagline', e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary shadow-sm" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Judul Utama</label>
-                                        <input type="text" value={data.profil_hero_title} onChange={e => setData('profil_hero_title', e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary shadow-sm" />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Deskripsi Singkat</label>
-                                    <textarea rows={3} value={data.profil_hero_desc} onChange={e => setData('profil_hero_desc', e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary shadow-sm"></textarea>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Teks Tombol 1</label>
-                                        <input type="text" value={data.profil_hero_btn1} onChange={e => setData('profil_hero_btn1', e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary shadow-sm" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Teks Tombol 2</label>
-                                        <input type="text" value={data.profil_hero_btn2} onChange={e => setData('profil_hero_btn2', e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary shadow-sm" />
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="space-y-1.5">
+                                            <label className={labelStyle}>Teks Tombol Kiri (Button 1)</label>
+                                            <input 
+                                                type="text" 
+                                                value={data.profil_hero_btn1} 
+                                                onChange={e => setData('profil_hero_btn1', e.target.value)} 
+                                                className={inputStyle} 
+                                            />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className={labelStyle}>Teks Tombol Kanan (Button 2)</label>
+                                            <input 
+                                                type="text" 
+                                                value={data.profil_hero_btn2} 
+                                                onChange={e => setData('profil_hero_btn2', e.target.value)} 
+                                                className={inputStyle} 
+                                            />
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <hr className="border-slate-100 my-8" />
-                                <h3 className="text-lg font-serif font-bold text-slate-900 mb-6 uppercase tracking-tight">Statistik Bar</h3>
-
-                                <div className="grid grid-cols-2 gap-6">
+                            <div>
+                                <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest border-b border-slate-100 pb-3 mb-6">Nilai Statistik Yayasan</h3>
+                                
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     {[1, 2, 3, 4].map(num => (
-                                        <div key={num} className="bg-slate-50 p-4 border border-slate-100 rounded-[0.25rem]">
-                                            <h4 className="text-[10px] font-bold text-brand-primary uppercase tracking-widest mb-4">Statistik {num}</h4>
-                                            <div className="space-y-4">
+                                        <div key={num} className="bg-slate-50/50 p-5 border border-slate-200 rounded-[0.25rem] space-y-4">
+                                            <div className="flex items-center gap-2 border-b border-slate-100 pb-2">
+                                                <span className="w-1.5 h-1.5 bg-brand-gold rounded-full"></span>
+                                                <h4 className="text-[10px] font-bold text-slate-700 uppercase tracking-wider">Metrik Statistik {num}</h4>
+                                            </div>
+                                            <div className="space-y-3">
                                                 <div>
-                                                    <label className="block text-[10px] font-bold text-slate-500 mb-1">Nilai (misal: 25+)</label>
-                                                    <input type="text" value={data[`profil_stat${num}_value`]} onChange={e => setData(`profil_stat${num}_value`, e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary" />
+                                                    <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Nilai Angka (contoh: 25+ / 1500+)</label>
+                                                    <input 
+                                                        type="text" 
+                                                        value={data[`profil_stat${num}_value`]} 
+                                                        onChange={e => setData(`profil_stat${num}_value`, e.target.value)} 
+                                                        className={inputStyle} 
+                                                    />
                                                 </div>
                                                 <div>
-                                                    <label className="block text-[10px] font-bold text-slate-500 mb-1">Label (misal: Tahun Mengabdi)</label>
-                                                    <input type="text" value={data[`profil_stat${num}_label`]} onChange={e => setData(`profil_stat${num}_label`, e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary" />
+                                                    <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Keterangan Label (contoh: Santri Mengabdi)</label>
+                                                    <input 
+                                                        type="text" 
+                                                        value={data[`profil_stat${num}_label`]} 
+                                                        onChange={e => setData(`profil_stat${num}_label`, e.target.value)} 
+                                                        className={inputStyle} 
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -214,85 +360,125 @@ export default function Index({ settings = {} }) {
                         </div>
 
                         {/* TENTANG KAMI TAB */}
-                        <div className={activeTab === 'tentang' ? 'block' : 'hidden'}>
-                            <h3 className="text-lg font-serif font-bold text-slate-900 mb-6 uppercase tracking-tight">Bagian Tentang Kami</h3>
+                        <div className={activeTab === 'tentang' ? 'block space-y-6 animate-fade-in' : 'hidden'}>
+                            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest border-b border-slate-100 pb-3 mb-6">Harmoni Profil Lembaga</h3>
                             
                             <div className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Tagline Atas</label>
-                                        <input type="text" value={data.profil_tentang_tagline} onChange={e => setData('profil_tentang_tagline', e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary shadow-sm" />
+                                    <div className="space-y-1.5">
+                                        <label className={labelStyle}>Tagline Atas Tentang Kami</label>
+                                        <input 
+                                            type="text" 
+                                            value={data.profil_tentang_tagline} 
+                                            onChange={e => setData('profil_tentang_tagline', e.target.value)} 
+                                            className={inputStyle} 
+                                        />
                                     </div>
-                                    <div>
-                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Judul Bagian</label>
-                                        <input type="text" value={data.profil_tentang_title} onChange={e => setData('profil_tentang_title', e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary shadow-sm" />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Paragraf Deskripsi</label>
-                                    <textarea rows={5} value={data.profil_tentang_desc} onChange={e => setData('profil_tentang_desc', e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary shadow-sm"></textarea>
-                                </div>
-
-                                <div>
-                                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Gambar Samping</label>
-                                    <div className="flex items-center gap-6">
-                                        <div className="w-24 h-32 bg-slate-100 border border-slate-200 rounded-[0.25rem] overflow-hidden flex items-center justify-center shrink-0">
-                                            {settings.profil_image ? (
-                                                <img src={settings.profil_image} alt="Profil" className="w-full h-full object-cover" />
-                                            ) : (
-                                                <PhotoIcon className="w-8 h-8 text-slate-300" />
-                                            )}
-                                        </div>
-                                        <input
-                                            type="file"
-                                            onChange={e => setData('profil_image_file', e.target.files[0])}
-                                            className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-[0.25rem] file:border-0 file:text-xs file:font-semibold file:bg-brand-primary/10 file:text-brand-primary hover:file:bg-brand-primary/20 transition-colors"
-                                            accept="image/*"
+                                    <div className="space-y-1.5">
+                                        <label className={labelStyle}>Judul Utama Tentang Kami</label>
+                                        <input 
+                                            type="text" 
+                                            value={data.profil_tentang_title} 
+                                            onChange={e => setData('profil_tentang_title', e.target.value)} 
+                                            className={inputStyle} 
                                         />
                                     </div>
                                 </div>
 
+                                <div className="space-y-1.5">
+                                    <label className={labelStyle}>Paragraf Utama Profil Lengkap</label>
+                                    <textarea 
+                                        rows={6} 
+                                        value={data.profil_tentang_desc} 
+                                        onChange={e => setData('profil_tentang_desc', e.target.value)} 
+                                        className={textareaStyle}
+                                        placeholder="Tuliskan cerita komprehensif profil yayasan..."
+                                    />
+                                </div>
+
                                 <div>
-                                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Badge Tahun (Tampil di Gambar)</label>
-                                    <input type="text" value={data.profil_tentang_years} onChange={e => setData('profil_tentang_years', e.target.value)} className="w-64 rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary shadow-sm" />
+                                    <label className={labelStyle}>Gambar Pendukung Profil Samping</label>
+                                    <div className="flex flex-col sm:flex-row sm:items-center gap-6 p-4 border border-slate-100 rounded-[0.25rem] bg-slate-50/50">
+                                        <div className="w-24 h-32 bg-slate-100 border border-slate-200 rounded-[0.25rem] overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
+                                            {settings.profil_image ? (
+                                                <img src={settings.profil_image} alt="Profil Image" className="w-full h-full object-cover" />
+                                            ) : (
+                                                <PhotoIcon className="w-8 h-8 text-slate-300" />
+                                            )}
+                                        </div>
+                                        <div className="space-y-2 flex-grow">
+                                            <input
+                                                type="file"
+                                                onChange={e => setData('profil_image_file', e.target.files[0])}
+                                                className="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-[0.25rem] file:border file:border-slate-200 file:text-[9px] file:font-bold file:uppercase file:tracking-widest file:bg-white file:text-slate-600 hover:file:bg-brand-primary hover:file:text-white hover:file:border-brand-primary file:transition-all cursor-pointer"
+                                                accept="image/*"
+                                            />
+                                            <p className="text-[9px] text-slate-400 uppercase tracking-wider font-semibold">Resolusi potret vertikal sangat direkomendasikan.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-1.5">
+                                    <label className={labelStyle}>Badge Tahun Pengalaman (Tampil melayang di gambar)</label>
+                                    <input 
+                                        type="text" 
+                                        value={data.profil_tentang_years} 
+                                        onChange={e => setData('profil_tentang_years', e.target.value)} 
+                                        className={`${inputStyle} max-w-xs`} 
+                                        placeholder="misal: 25+ Tahun"
+                                    />
                                 </div>
                             </div>
                         </div>
 
                         {/* VISI MISI TAB */}
-                        <div className={activeTab === 'visimisi' ? 'block' : 'hidden'}>
-                            <h3 className="text-lg font-serif font-bold text-slate-900 mb-6 uppercase tracking-tight">Visi & Misi</h3>
+                        <div className={activeTab === 'visimisi' ? 'block space-y-8 animate-fade-in' : 'hidden'}>
+                            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest border-b border-slate-100 pb-3 mb-6">Pernyataan Visi & Misi Yayasan</h3>
                             
-                            <div className="space-y-8">
-                                <div>
-                                    <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-primary mb-2">Teks Visi Utama</label>
-                                    <textarea rows={4} value={data.profil_visi_text} onChange={e => setData('profil_visi_text', e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary shadow-sm text-lg font-serif"></textarea>
+                            <div className="space-y-6">
+                                <div className="space-y-1.5">
+                                    <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-primary mb-2">Pernyataan Visi Utama</label>
+                                    <textarea 
+                                        rows={4} 
+                                        value={data.profil_visi_text} 
+                                        onChange={e => setData('profil_visi_text', e.target.value)} 
+                                        className="w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-[0.25rem] py-3.5 px-4 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary/20 hover:border-slate-300 transition-all outline-none font-serif leading-relaxed italic font-semibold"
+                                        placeholder="Menjadi yayasan..."
+                                    />
                                 </div>
 
-                                <div>
-                                    <div className="flex items-center justify-between mb-4">
-                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-primary">Daftar Misi</label>
-                                        <button type="button" onClick={addMisi} className="flex items-center gap-1.5 text-[10px] font-bold text-white bg-brand-primary px-3 py-1.5 rounded-[0.25rem] hover:bg-slate-900 transition-colors">
-                                            <PlusIcon className="w-3 h-3" /> Tambah Misi
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-primary">Daftar Misi Operasional</label>
+                                        <button 
+                                            type="button" 
+                                            onClick={addMisi} 
+                                            className="inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-brand-primary bg-brand-primary/5 hover:bg-brand-primary hover:text-white border border-brand-primary/15 py-2 px-3 rounded-[0.25rem] transition-all"
+                                        >
+                                            <PlusIcon className="w-3.5 h-3.5" /> Tambah Misi Baru
                                         </button>
                                     </div>
                                     
                                     <div className="space-y-3">
                                         {data.profil_misi_list.map((misi, index) => (
-                                            <div key={index} className="flex items-start gap-3 bg-slate-50 p-3 rounded-[0.25rem] border border-slate-100">
-                                                <div className="w-6 h-6 rounded bg-brand-primary/10 text-brand-primary flex flex-col items-center justify-center font-bold text-xs shrink-0 mt-1">
+                                            <div key={index} className="flex items-start gap-3 bg-slate-50/50 p-4 rounded-[0.25rem] border border-slate-200 group hover:border-slate-300 transition-all">
+                                                <div className="w-6 h-6 rounded-full bg-brand-primary/10 text-brand-primary flex flex-col items-center justify-center font-bold text-[10px] shrink-0 mt-1 shadow-sm">
                                                     {index + 1}
                                                 </div>
                                                 <textarea 
                                                     rows={2} 
                                                     value={misi} 
                                                     onChange={(e) => handleMisiChange(index, e.target.value)} 
-                                                    className="w-full rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary shadow-sm"
-                                                    placeholder="Tuliskan misi..."
-                                                ></textarea>
-                                                <button type="button" onClick={() => removeMisi(index)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors mt-1">
-                                                    <TrashIcon className="w-5 h-5" />
+                                                    className={textareaStyle}
+                                                    placeholder="Tuliskan misi operasional secara konkret..."
+                                                />
+                                                <button 
+                                                    type="button" 
+                                                    onClick={() => triggerRemoveMisi(index)} 
+                                                    className="p-2.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors mt-0.5 shrink-0"
+                                                    title="Hapus Misi"
+                                                >
+                                                    <TrashIcon className="w-4 h-4" />
                                                 </button>
                                             </div>
                                         ))}
@@ -302,54 +488,81 @@ export default function Index({ settings = {} }) {
                         </div>
 
                         {/* SEJARAH TAB */}
-                        <div className={activeTab === 'sejarah' ? 'block' : 'hidden'}>
-                            <h3 className="text-lg font-serif font-bold text-slate-900 mb-6 uppercase tracking-tight">Sejarah Perjalanan</h3>
+                        <div className={activeTab === 'sejarah' ? 'block space-y-8 animate-fade-in' : 'hidden'}>
+                            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest border-b border-slate-100 pb-3 mb-6">Linimasa Jejak Langkah</h3>
                             
-                            <div className="space-y-8">
+                            <div className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    <div>
-                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Tagline</label>
-                                        <input type="text" value={data.profil_sejarah_tagline} onChange={e => setData('profil_sejarah_tagline', e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary shadow-sm" />
+                                    <div className="space-y-1.5">
+                                        <label className={labelStyle}>Tagline Sejarah</label>
+                                        <input type="text" value={data.profil_sejarah_tagline} onChange={e => setData('profil_sejarah_tagline', e.target.value)} className={inputStyle} />
                                     </div>
-                                    <div>
-                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Judul Utama</label>
-                                        <input type="text" value={data.profil_sejarah_title} onChange={e => setData('profil_sejarah_title', e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary shadow-sm" />
+                                    <div className="space-y-1.5">
+                                        <label className={labelStyle}>Judul Sejarah</label>
+                                        <input type="text" value={data.profil_sejarah_title} onChange={e => setData('profil_sejarah_title', e.target.value)} className={inputStyle} />
                                     </div>
-                                    <div>
-                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Deskripsi Singkat</label>
-                                        <input type="text" value={data.profil_sejarah_desc} onChange={e => setData('profil_sejarah_desc', e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm focus:border-brand-primary focus:ring-brand-primary shadow-sm" />
+                                    <div className="space-y-1.5">
+                                        <label className={labelStyle}>Deskripsi Sejarah Singkat</label>
+                                        <input type="text" value={data.profil_sejarah_desc} onChange={e => setData('profil_sejarah_desc', e.target.value)} className={inputStyle} />
                                     </div>
                                 </div>
 
-                                <div>
-                                    <div className="flex items-center justify-between mb-4">
-                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-primary">Garis Waktu (Timeline)</label>
-                                        <button type="button" onClick={addTimeline} className="flex items-center gap-1.5 text-[10px] font-bold text-white bg-brand-primary px-3 py-1.5 rounded-[0.25rem] hover:bg-slate-900 transition-colors">
-                                            <PlusIcon className="w-3 h-3" /> Tambah Momen
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-primary">Poin Linimasa Perjalanan</label>
+                                        <button 
+                                            type="button" 
+                                            onClick={addTimeline} 
+                                            className="inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-brand-primary bg-brand-primary/5 hover:bg-brand-primary hover:text-white border border-brand-primary/15 py-2 px-3 rounded-[0.25rem] transition-all"
+                                        >
+                                            <PlusIcon className="w-3.5 h-3.5" /> Tambah Momen Sejarah
                                         </button>
                                     </div>
                                     
                                     <div className="space-y-4">
                                         {data.profil_sejarah_timeline.map((item, index) => (
-                                            <div key={index} className="flex items-start gap-4 bg-slate-50 p-4 rounded-[0.25rem] border border-slate-200">
+                                            <div key={index} className="flex items-start gap-4 bg-slate-50/50 p-5 rounded-[0.25rem] border border-slate-200 group hover:border-slate-300 transition-all">
                                                 <div className="flex-1 space-y-4">
                                                     <div className="grid grid-cols-4 gap-4">
-                                                        <div className="col-span-1">
-                                                            <label className="block text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">Tahun</label>
-                                                            <input type="text" value={item.year} onChange={(e) => handleTimelineChange(index, 'year', e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm" placeholder="Misal: 1995" />
+                                                        <div className="col-span-1 space-y-1.5">
+                                                            <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest">Tahun</label>
+                                                            <input 
+                                                                type="text" 
+                                                                value={item.year} 
+                                                                onChange={(e) => handleTimelineChange(index, 'year', e.target.value)} 
+                                                                className={inputStyle} 
+                                                                placeholder="Mulai: 1995" 
+                                                            />
                                                         </div>
-                                                        <div className="col-span-3">
-                                                            <label className="block text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">Judul Momen</label>
-                                                            <input type="text" value={item.title} onChange={(e) => handleTimelineChange(index, 'title', e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm" placeholder="Peletakan Batu Pertama" />
+                                                        <div className="col-span-3 space-y-1.5">
+                                                            <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest">Judul Momen Sejarah</label>
+                                                            <input 
+                                                                type="text" 
+                                                                value={item.title} 
+                                                                onChange={(e) => handleTimelineChange(index, 'title', e.target.value)} 
+                                                                className={inputStyle} 
+                                                                placeholder="Peletakan Batu Pertama" 
+                                                            />
                                                         </div>
                                                     </div>
-                                                    <div>
-                                                        <label className="block text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">Deskripsi Momen</label>
-                                                        <textarea rows={2} value={item.desc} onChange={(e) => handleTimelineChange(index, 'desc', e.target.value)} className="w-full rounded-[0.25rem] border-slate-300 text-sm"></textarea>
+                                                    <div className="space-y-1.5">
+                                                        <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest">Penjelasan Ringkas Momen</label>
+                                                        <textarea 
+                                                            rows={2} 
+                                                            value={item.desc} 
+                                                            onChange={(e) => handleTimelineChange(index, 'desc', e.target.value)} 
+                                                            className={textareaStyle}
+                                                            placeholder="Jelaskan secara ringkas peristiwa sejarah ini..."
+                                                        />
                                                     </div>
                                                 </div>
-                                                <button type="button" onClick={() => removeTimeline(index)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors mt-6">
-                                                    <TrashIcon className="w-5 h-5" />
+                                                <button 
+                                                    type="button" 
+                                                    onClick={() => triggerRemoveTimeline(index)} 
+                                                    className="p-2.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors mt-6 shrink-0"
+                                                    title="Hapus Momen"
+                                                >
+                                                    <TrashIcon className="w-4 h-4" />
                                                 </button>
                                             </div>
                                         ))}
@@ -363,11 +576,11 @@ export default function Index({ settings = {} }) {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className={`px-8 py-3 bg-brand-primary text-white text-xs font-bold uppercase tracking-widest rounded-[0.25rem] transition-all ${
-                                    processing ? 'opacity-75 cursor-not-allowed' : 'hover:bg-slate-900 shadow-xl shadow-brand-primary/20 hover:-translate-y-0.5'
+                                className={`px-8 py-3 bg-brand-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-[0.25rem] transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-primary ${
+                                    processing ? 'opacity-75 cursor-not-allowed' : 'hover:bg-slate-900 shadow-xl shadow-brand-primary/25 hover:-translate-y-0.5'
                                 }`}
                             >
-                                {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
+                                {processing ? 'Menyimpan Perubahan...' : 'Simpan Perubahan'}
                             </button>
                         </div>
 

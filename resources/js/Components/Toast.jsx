@@ -88,7 +88,7 @@ export default function Toast({
     const Icon = currentStyle.icon;
 
     return (
-        <div className="fixed top-6 right-6 z-[9999] max-w-sm w-full bg-white border border-slate-100 rounded-[0.25rem] shadow-2xl p-4 overflow-hidden transition-all duration-300 transform translate-y-0 opacity-100 font-sans">
+        <div className="fixed top-6 right-6 z-[9999] max-w-sm w-full bg-white border border-slate-200 rounded-[0.25rem] shadow-[0_15px_50px_-10px_rgba(0,0,0,0.15)] p-5 overflow-hidden transition-all duration-300 transform translate-y-0 opacity-100 font-sans">
             <div className={`absolute top-0 left-0 right-0 p-[1.5px] ${currentStyle.bg}`}></div>
             <div className="flex items-start gap-3">
                 <div className={`${currentStyle.iconColor} shrink-0 mt-0.5`}>

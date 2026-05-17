@@ -119,7 +119,7 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                 </div>
 
                 {filteredData.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 md:gap-8">
                         {filteredData.map((f, i) => {
                             const totalPhotos = 1 + (f.galeris?.length || 0);
 
@@ -138,37 +138,37 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                         />
                                         
                                         {/* Category Badge */}
-                                        <div className="absolute top-4 left-4 z-10">
-                                            <span className="bg-brand-primary/95 backdrop-blur-sm text-white text-[8px] font-bold uppercase tracking-widest px-3 py-1.5 shadow-lg">
+                                        <div className="absolute top-2 left-2 sm:top-4 sm:left-4 z-10">
+                                            <span className="bg-brand-primary/95 backdrop-blur-sm text-white text-[7px] sm:text-[8px] font-bold uppercase tracking-widest px-1.5 py-0.5 sm:px-3 sm:py-1.5 shadow-lg rounded-[0.125rem]">
                                                 {f.kategori || 'Sarana'}
                                             </span>
                                         </div>
 
-                                        {/* Unit Badge (moved to top-right to match style but keep info) */}
-                                        <div className="absolute top-4 right-4 z-10">
-                                            <span className="bg-brand-accent/95 backdrop-blur-sm text-white text-[8px] font-bold uppercase tracking-widest px-3 py-1.5 shadow-lg">
-                                                {f.lembaga?.nama || 'Pusat Yayasan'}
+                                        {/* Unit Badge (uses short slug on mobile to avoid overlapping) */}
+                                        <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10">
+                                            <span className="bg-brand-accent/95 backdrop-blur-sm text-white text-[7px] sm:text-[8px] font-bold uppercase tracking-widest px-1.5 py-0.5 sm:px-3 sm:py-1.5 shadow-lg rounded-[0.125rem] max-w-[80px] sm:max-w-none truncate block">
+                                                {f.lembaga?.nama ? (f.lembaga.slug.toUpperCase()) : 'Pusat'}
                                             </span>
                                         </div>
 
                                         {/* Photos Count Badge */}
-                                        <div className="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-sm px-2.5 py-1.5 rounded-[0.25rem] flex items-center gap-1.5 text-white shadow-lg z-10">
-                                            <PhotoIcon className="h-3.5 w-3.5 text-brand-primary" />
-                                            <span className="text-[9px] font-bold font-mono">{totalPhotos} Foto</span>
+                                        <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 bg-slate-900/85 backdrop-blur-sm px-1.5 py-0.5 sm:px-2.5 sm:py-1.5 rounded-[0.125rem] sm:rounded-[0.25rem] flex items-center gap-1 sm:gap-1.5 text-white shadow-lg z-10">
+                                            <PhotoIcon className="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5 text-brand-primary shrink-0" />
+                                            <span className="text-[6px] sm:text-[9px] font-bold font-mono">{totalPhotos} Foto</span>
                                         </div>
                                     </div>
 
-                                    <div className="p-5 flex-1 flex flex-col justify-between">
+                                    <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between">
                                         <div>
-                                            <h4 className="text-base font-bold text-slate-900 uppercase tracking-tight mb-2 group-hover:text-brand-primary transition-colors line-clamp-1">{f.nama}</h4>
-                                            <p className="text-slate-500 text-xs leading-relaxed line-clamp-3 italic">
+                                            <h4 className="text-xs sm:text-base font-bold text-slate-900 uppercase tracking-tight mb-1 sm:mb-2 group-hover:text-brand-primary transition-colors line-clamp-1">{f.nama}</h4>
+                                            <p className="text-slate-500 text-[10px] sm:text-xs leading-relaxed line-clamp-2 sm:line-clamp-3 italic">
                                                 "{f.deskripsi}"
                                             </p>
                                         </div>
 
-                                        <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
-                                            <span className="text-[8px] font-black text-brand-primary uppercase tracking-widest group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                                                Lihat Detail <ChevronRightIcon className="h-2 w-2" />
+                                        <div className="mt-3 pt-3 sm:mt-4 sm:pt-4 border-t border-slate-100 flex items-center justify-between">
+                                            <span className="text-[7px] sm:text-[8px] font-black text-brand-primary uppercase tracking-widest group-hover:translate-x-1 transition-transform flex items-center gap-0.5 sm:gap-1">
+                                                Lihat Detail <ChevronRightIcon className="h-1.5 w-1.5 sm:h-2 sm:w-2" />
                                             </span>
                                         </div>
                                     </div>
