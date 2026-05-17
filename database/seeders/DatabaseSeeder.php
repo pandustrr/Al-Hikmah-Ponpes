@@ -17,12 +17,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // 1. Create Super Admin
-        $admin = User::create([
-            'name' => 'Super Admin Yayasan',
-            'username' => 'admin',
-            'password' => Hash::make('password'),
-            'role' => 'super_admin',
-        ]);
+        $admin = User::updateOrCreate(
+            ['username' => 'admin'],
+            [
+                'name' => 'Super Admin Yayasan',
+                'password' => Hash::make('password'),
+                'role' => 'super_admin',
+            ]
+        );
 
         // 2. Define Lembaga Data with short slugs
         $lembagas = [
@@ -50,16 +52,24 @@ class DatabaseSeeder extends Seeder
 
         // 3. Create Lembagas and their Admins
         foreach ($lembagas as $data) {
-            $lembaga = Lembaga::create($data);
+            $lembaga = Lembaga::updateOrCreate(
+                ['slug' => $data['slug']],
+                [
+                    'nama' => $data['nama'],
+                    'deskripsi' => $data['deskripsi']
+                ]
+            );
 
             // Create Admin for this Lembaga
-            User::create([
-                'name' => 'Admin ' . $lembaga->nama,
-                'username' => $lembaga->slug . '_admin',
-                'password' => Hash::make('password'),
-                'role' => 'lembaga_admin',
-                'lembaga_id' => $lembaga->id,
-            ]);
+            User::updateOrCreate(
+                ['username' => $lembaga->slug . '_admin'],
+                [
+                    'name' => 'Admin ' . $lembaga->nama,
+                    'password' => Hash::make('password'),
+                    'role' => 'lembaga_admin',
+                    'lembaga_id' => $lembaga->id,
+                ]
+            );
 
             // Create dummy News for each Lembaga
             Berita::create([

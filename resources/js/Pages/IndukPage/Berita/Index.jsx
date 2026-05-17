@@ -107,8 +107,13 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                             </button>
                         </form>
                     </div>
-                    
-                    {/* Navigation / Filter */}
+                </div>
+
+                {/* NewsTicker (TERKINI scrolling marquee) placed di atas pemilihan kategori */}
+                <NewsTicker items={latestNewsForTicker} />
+
+                {/* Category Selection / Navigation */}
+                <div className="max-w-7xl mx-auto px-4 text-center">
                     <div className="flex flex-wrap items-center justify-center border-t border-sage-light mt-4 overflow-x-auto no-scrollbar sticky top-14 bg-white/95 backdrop-blur-md z-40 shadow-sm md:shadow-none">
                         <div className="flex-grow flex justify-center">
                             {allCategories.map(cat => (
@@ -142,8 +147,6 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                     </div>
                 </div>
             </div>
-
-            <NewsTicker items={latestNewsForTicker} />  
 
             <div className="max-w-7xl mx-auto px-4 py-8">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
