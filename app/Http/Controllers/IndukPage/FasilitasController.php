@@ -13,7 +13,8 @@ class FasilitasController extends Controller
     public function index()
     {
         return Inertia::render('IndukPage/Fasilitas/Index', [
-            'fasilitas' => Fasilitas::all(),
+            'fasilitas' => Fasilitas::with(['lembaga', 'galeris'])->get(),
+            'lembagas' => \App\Models\Lembaga::select('id', 'nama', 'slug')->get(),
         ]);
     }
 }
