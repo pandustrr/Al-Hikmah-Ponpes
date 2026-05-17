@@ -1,21 +1,65 @@
-import React, { useState } from 'react';
-import { useForm, router } from '@inertiajs/react';
+import React, { useState, useEffect } from 'react';
+import { useForm, router, usePage, Head } from '@inertiajs/react';
 import IndukAdminLayout from '@/Layouts/Induk/IndukAdminLayout';
 import { 
     BuildingLibraryIcon, 
     ArrowRightIcon, 
     PhotoIcon, 
     PencilSquareIcon, 
-    TrashIcon 
+    TrashIcon,
+    PlusIcon
 } from '@heroicons/react/24/outline';
+import Toast from '@/Components/Toast';
+import ConfirmationModal from '@/Components/ConfirmationModal';
 
 export default function Index({ fasilitas = [], lembagas = [] }) {
-    // Filter State
-    const [activeLembaga, setActiveLembaga] = useState('all');
+    const { flash } = usePage().props;
+
+    // Filter State (Persistent Tab)
+    const [activeLembaga, setActiveLembaga] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('activeFasilitasLembaga') || 'all';
+        }
+        return 'all';
+    });
+
+    const handleSetActiveLembaga = (val) => {
+        setActiveLembaga(val);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('activeFasilitasLembaga', val);
+        }
+    };
 
     const filteredFasilitas = activeLembaga === 'all'
         ? fasilitas
         : fasilitas.filter(f => f.lembaga_id === parseInt(activeLembaga));
+
+    // Toast Notification State
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastType, setToastType] = useState('success');
+
+    // Monitor flash messages
+    useEffect(() => {
+        if (flash?.success) {
+            setToastMessage(flash.success);
+            setToastType('success');
+            setShowToast(true);
+        } else if (flash?.error) {
+            setToastMessage(flash.error);
+            setToastType('error');
+            setShowToast(true);
+        }
+    }, [flash]);
+
+    // Confirmation Modal State
+    const [confirmModal, setConfirmModal] = useState({
+        show: false,
+        title: '',
+        message: '',
+        type: 'danger',
+        onConfirm: null
+    });
 
     // Modal & Form State
     const [isFasilitasModalOpen, setIsFasilitasModalOpen] = useState(false);
@@ -64,21 +108,41 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
             fasilitasForm.post(route('admin.fasilitas.update', editingFasilitas.id), {
                 onSuccess: () => {
                     closeFasilitasModal();
+                    setToastMessage('Fasilitas berhasil diperbarui.');
+                    setToastType('success');
+                    setShowToast(true);
                 },
             });
         } else {
             fasilitasForm.post(route('admin.fasilitas.store'), {
                 onSuccess: () => {
                     closeFasilitasModal();
+                    setToastMessage('Fasilitas baru berhasil ditambahkan.');
+                    setToastType('success');
+                    setShowToast(true);
                 },
             });
         }
     };
 
     const deleteFasilitas = (id) => {
-        if (confirm('Yakin ingin menghapus fasilitas ini?')) {
-            router.delete(route('admin.fasilitas.destroy', id));
-        }
+        setConfirmModal({
+            show: true,
+            title: 'Hapus Fasilitas?',
+            message: 'Apakah Anda yakin ingin menghapus fasilitas ini? Foto-foto di dalam galeri fasilitas ini juga akan terhapus.',
+            type: 'danger',
+            confirmText: 'Ya, Hapus Permanen',
+            onConfirm: () => {
+                router.delete(route('admin.fasilitas.destroy', id), {
+                    onSuccess: () => {
+                        setConfirmModal(prev => ({ ...prev, show: false }));
+                        setToastMessage('Fasilitas berhasil dihapus secara permanen.');
+                        setToastType('warning');
+                        setShowToast(true);
+                    }
+                });
+            }
+        });
     };
 
     // Galeri State
@@ -114,39 +178,93 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
         galeriForm.setData('fasilitas_id', editingFasilitas.id);
         if (editingGaleri) {
             galeriForm.post(route('admin.galeri.update', editingGaleri.id), {
-                onSuccess: () => cancelEditGaleri(),
+                onSuccess: () => {
+                    cancelEditGaleri();
+                    setToastMessage('Foto galeri berhasil diperbarui.');
+                    setToastType('success');
+                    setShowToast(true);
+                },
             });
         } else {
             galeriForm.post(route('admin.galeri.store'), {
-                onSuccess: () => cancelEditGaleri(),
+                onSuccess: () => {
+                    cancelEditGaleri();
+                    setToastMessage('Foto baru berhasil diunggah ke galeri.');
+                    setToastType('success');
+                    setShowToast(true);
+                },
             });
         }
     };
 
     const deleteGaleri = (id) => {
-        if (confirm('Yakin ingin menghapus foto galeri ini?')) {
-            router.delete(route('admin.galeri.destroy', id));
-        }
+        setConfirmModal({
+            show: true,
+            title: 'Hapus Foto Galeri?',
+            message: 'Apakah Anda yakin ingin menghapus foto dari galeri fasilitas ini?',
+            type: 'danger',
+            confirmText: 'Ya, Hapus Foto',
+            onConfirm: () => {
+                router.delete(route('admin.galeri.destroy', id), {
+                    onSuccess: () => {
+                        setConfirmModal(prev => ({ ...prev, show: false }));
+                        setToastMessage('Foto galeri berhasil dihapus secara permanen.');
+                        setToastType('warning');
+                        setShowToast(true);
+                    }
+                });
+            }
+        });
     };
 
     return (
         <IndukAdminLayout title="Manajemen Fasilitas Unit">
-            <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <Head title="Kelola Fasilitas & Galeri Unit" />
+
+            {/* Premium Reusable Notification Component */}
+            <Toast 
+                show={showToast}
+                message={toastMessage}
+                type={toastType}
+                onClose={() => setShowToast(false)}
+            />
+
+            {/* Premium Reusable Confirmation Dialog Component */}
+            <ConfirmationModal
+                show={confirmModal.show}
+                title={confirmModal.title}
+                message={confirmModal.message}
+                type={confirmModal.type}
+                confirmText={confirmModal.confirmText}
+                onConfirm={confirmModal.onConfirm}
+                onCancel={() => setConfirmModal(prev => ({ ...prev, show: false }))}
+            />
+
+            <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8 animate-fade-in">
                 
                 {/* Header */}
-                <div className="mb-8">
-                    <h2 className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-accent mb-2">Pusat Yayasan</h2>
-                    <h1 className="text-3xl font-semibold uppercase tracking-tighter text-slate-900">Kelola Fasilitas Unit</h1>
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-100 pb-6">
+                    <div>
+                        <h2 className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-accent mb-2">Pusat Yayasan</h2>
+                        <h1 className="text-3xl font-semibold uppercase tracking-tighter text-slate-900 leading-none">Kelola Fasilitas <br /><span className="text-brand-primary">Unit Pendidikan</span></h1>
+                    </div>
+                    <button 
+                        onClick={openAddFasilitas}
+                        className="bg-brand-primary text-white text-[10px] font-bold uppercase tracking-widest px-8 py-3.5 rounded-[0.25rem] flex items-center gap-2 hover:bg-slate-900 transition-all shadow-xl shadow-brand-primary/25 self-start md:self-auto"
+                    >
+                        <PlusIcon className="h-4 w-4" />
+                        Tambah Fasilitas Baru
+                    </button>
                 </div>
 
                 {/* Filter Tabs */}
-                <div className="flex flex-wrap gap-2 mb-8">
+                <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-200 bg-slate-50/30 p-2.5 rounded-[0.25rem]">
                     <button
-                        onClick={() => setActiveLembaga('all')}
-                        className={`px-4 py-2 rounded-[0.25rem] text-[10px] font-bold uppercase tracking-widest transition-all ${
+                        onClick={() => handleSetActiveLembaga('all')}
+                        className={`px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all rounded-[0.25rem] ${
                             activeLembaga === 'all'
-                            ? 'bg-slate-900 text-white shadow-lg'
-                            : 'bg-white text-slate-500 border border-slate-200 hover:border-slate-400'
+                            ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/10'
+                            : 'text-slate-500 hover:text-brand-primary hover:bg-slate-100'
                         }`}
                     >
                         Semua Fasilitas
@@ -154,11 +272,11 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                     {lembagas.map(lembaga => (
                         <button
                             key={lembaga.id}
-                            onClick={() => setActiveLembaga(lembaga.id.toString())}
-                            className={`px-4 py-2 rounded-[0.25rem] text-[10px] font-bold uppercase tracking-widest transition-all ${
+                            onClick={() => handleSetActiveLembaga(lembaga.id.toString())}
+                            className={`px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all rounded-[0.25rem] ${
                                 activeLembaga === lembaga.id.toString()
-                                ? 'bg-slate-900 text-white shadow-lg'
-                                : 'bg-white text-slate-500 border border-slate-200 hover:border-slate-400'
+                                ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/10'
+                                : 'text-slate-500 hover:text-brand-primary hover:bg-slate-100'
                             }`}
                         >
                             {lembaga.nama}
@@ -167,82 +285,91 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                 </div>
 
                 {/* Table Section */}
-                <div className="bg-white border border-slate-200 rounded-[0.25rem] overflow-hidden">
-                    <div className="px-8 py-6 border-b border-slate-100 bg-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="bg-white border border-slate-200 rounded-[0.25rem] overflow-hidden shadow-sm">
+                    <div className="px-8 py-6 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <BuildingLibraryIcon className="h-5 w-5 text-brand-primary" />
-                            <h3 className="font-bold text-slate-900 uppercase tracking-widest text-xs">Manajemen Fasilitas Unit</h3>
+                            <h3 className="font-bold text-slate-900 uppercase tracking-widest text-[10px]">Daftar Fasilitas ({filteredFasilitas.length})</h3>
                         </div>
-                        <button 
-                            type="button"
-                            onClick={openAddFasilitas}
-                            className="text-[10px] font-bold uppercase tracking-widest text-brand-primary hover:text-slate-900 transition-colors flex items-center gap-2"
-                        >
-                            Tambah Fasilitas <ArrowRightIcon className="h-3 w-3" />
-                        </button>
                     </div>
                     
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr className="bg-slate-50 border-b border-slate-100">
-                                    <th className="px-6 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest w-10">No</th>
-                                    <th className="px-4 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest w-24">Gambar</th>
-                                    <th className="px-4 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">Nama Fasilitas</th>
-                                    <th className="px-4 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">Kategori</th>
-                                    <th className="px-4 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">Unit</th>
-                                    <th className="px-4 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">Galeri Foto</th>
-                                    <th className="px-4 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest">Deskripsi</th>
-                                    <th className="px-4 py-3 text-[9px] font-black text-slate-400 uppercase tracking-widest text-right w-24">Aksi</th>
+                                <tr className="bg-slate-50 border-b border-slate-200">
+                                    <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest w-16">No</th>
+                                    <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest w-28">Gambar</th>
+                                    <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Nama Fasilitas</th>
+                                    <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Kategori</th>
+                                    <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Unit</th>
+                                    <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Galeri Foto</th>
+                                    <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Deskripsi</th>
+                                    <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right w-32">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="divide-y divide-slate-150">
                                 {filteredFasilitas.length === 0 ? (
                                     <tr>
-                                        <td colSpan={8} className="px-6 py-16 text-center text-slate-300 text-[10px] font-bold uppercase tracking-widest border-2 border-dashed border-slate-100 rounded m-4">
-                                            Belum ada data fasilitas.
+                                        <td colSpan={8} className="px-6 py-20 text-center">
+                                            <div className="flex flex-col items-center gap-4">
+                                                <div className="p-4 bg-slate-50 rounded-full text-slate-300 border border-slate-200 shadow-inner">
+                                                    <BuildingLibraryIcon className="h-12 w-12" />
+                                                </div>
+                                                <div className="space-y-1">
+                                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Belum Ada Fasilitas</p>
+                                                    <p className="text-[9px] text-slate-300 uppercase tracking-widest">Tambahkan fasilitas baru di unit ini.</p>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 ) : filteredFasilitas.map((f, idx) => (
-                                    <tr key={f.id} className="border-b border-slate-50 hover:bg-slate-50/60 transition-colors group">
-                                        <td className="px-6 py-3 text-[10px] font-bold text-slate-300">{idx + 1}</td>
-                                        <td className="px-4 py-3">
-                                            <div className="w-16 h-12 rounded bg-slate-100 overflow-hidden relative border border-slate-200">
+                                    <tr key={f.id} className="hover:bg-slate-50/50 transition-colors group">
+                                        <td className="px-6 py-5 text-[10px] font-bold text-slate-400">{idx + 1}</td>
+                                        <td className="px-6 py-5">
+                                            <div className="w-16 h-12 rounded-[0.25rem] bg-slate-100 overflow-hidden relative border border-slate-200 shadow-sm">
                                                 <img 
-                                                    src={f.image_url || `https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=600&sig=${idx}`} 
+                                                    src={f.image_url || `https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=600`} 
                                                     className="w-full h-full object-cover" 
-                                                    alt={f.nama} 
+                                                    alt="" 
                                                 />
                                             </div>
                                         </td>
-                                        <td className="px-4 py-3 text-[11px] font-bold text-slate-900 uppercase tracking-tight">{f.nama}</td>
-                                        <td className="px-4 py-3">
-                                            <span className="bg-slate-100 text-slate-600 text-[8px] font-bold uppercase tracking-wider px-2 py-1 rounded">
-                                                {f.kategori || 'Fasilitas'}
+                                        <td className="px-6 py-5 text-xs font-bold text-slate-900 uppercase tracking-tight group-hover:text-brand-primary transition-colors">{f.nama}</td>
+                                        <td className="px-6 py-5">
+                                            <span className="bg-slate-55 border border-slate-200 text-slate-650 text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-[0.15rem]">
+                                                {f.kategori || 'Umum'}
                                             </span>
                                         </td>
-                                        <td className="px-4 py-3 text-[10px] font-bold text-brand-primary uppercase tracking-widest">
+                                        <td className="px-6 py-5 text-[9px] font-bold text-slate-900 uppercase tracking-widest">
                                             {f.lembaga?.nama || 'Pusat'}
                                         </td>
-                                        <td className="px-4 py-3">
-                                            <div className="flex items-center gap-2">
+                                        <td className="px-6 py-5">
+                                            <button 
+                                                type="button" 
+                                                onClick={() => openEditFasilitas(f)} 
+                                                className="bg-brand-primary/5 hover:bg-brand-primary text-brand-primary hover:text-white px-2.5 py-1.5 rounded-[0.25rem] border border-brand-primary/10 text-[8px] font-black uppercase tracking-widest flex items-center gap-1 transition-all"
+                                            >
+                                                <PhotoIcon className="h-3.5 w-3.5" />
+                                                <span>Kelola ({f.galeris?.length || 0})</span>
+                                            </button>
+                                        </td>
+                                        <td className="px-6 py-5 text-[10px] text-slate-400 max-w-xs truncate italic">"{f.deskripsi}"</td>
+                                        <td className="px-6 py-5 text-right">
+                                            <div className="flex justify-end gap-1.5">
                                                 <button 
                                                     type="button" 
                                                     onClick={() => openEditFasilitas(f)} 
-                                                    className="bg-brand-primary/5 hover:bg-brand-primary text-brand-primary hover:text-white px-2.5 py-1.5 rounded text-[8px] font-bold uppercase tracking-wider flex items-center gap-1 transition-all"
+                                                    className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-[0.25rem] border border-transparent hover:border-emerald-100 transition-all"
+                                                    title="Edit"
                                                 >
-                                                    <PhotoIcon className="h-3 w-3" />
-                                                    <span>Kelola ({f.galeris?.length || 0})</span>
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td className="px-4 py-3 text-[11px] text-slate-400 leading-relaxed max-w-xs truncate italic">"{f.deskripsi}"</td>
-                                        <td className="px-4 py-3 text-right">
-                                            <div className="flex items-center justify-end gap-1">
-                                                <button type="button" onClick={() => openEditFasilitas(f)} className="p-1.5 text-slate-400 hover:text-brand-primary transition-colors" title="Edit">
                                                     <PencilSquareIcon className="h-4 w-4" />
                                                 </button>
-                                                <button type="button" onClick={() => deleteFasilitas(f.id)} className="p-1.5 text-slate-400 hover:text-red-500 transition-colors" title="Hapus">
+                                                <button 
+                                                    type="button" 
+                                                    onClick={() => deleteFasilitas(f.id)} 
+                                                    className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-[0.25rem] border border-transparent hover:border-rose-100 transition-all" 
+                                                    title="Hapus"
+                                                >
                                                     <TrashIcon className="h-4 w-4" />
                                                 </button>
                                             </div>
@@ -278,7 +405,7 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                     </div>
                                     <button 
                                         onClick={closeFasilitasModal} 
-                                        className="text-slate-400 hover:text-slate-900 text-2xl leading-none"
+                                        className="text-slate-450 hover:text-slate-900 text-2xl leading-none"
                                     >
                                         &times;
                                     </button>
@@ -298,7 +425,7 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                                 <div>
                                                     <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Pilih Unit (Lembaga)</label>
                                                     <select 
-                                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-2.5 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
+                                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
                                                         value={fasilitasForm.data.lembaga_id}
                                                         onChange={e => fasilitasForm.setData('lembaga_id', e.target.value)}
                                                         required
@@ -314,7 +441,7 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                                     <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Nama Fasilitas</label>
                                                     <input 
                                                         type="text" 
-                                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-2.5 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
+                                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
                                                         value={fasilitasForm.data.nama}
                                                         onChange={e => fasilitasForm.setData('nama', e.target.value)}
                                                         required
@@ -325,7 +452,7 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                                     <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Kategori Fasilitas</label>
                                                     <input 
                                                         type="text" 
-                                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-2.5 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
+                                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
                                                         value={fasilitasForm.data.kategori}
                                                         onChange={e => fasilitasForm.setData('kategori', e.target.value)}
                                                         placeholder="Contoh: Gedung, Laboratorium, Lapangan"
@@ -335,7 +462,7 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                                 <div>
                                                     <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Deskripsi Fasilitas</label>
                                                     <textarea 
-                                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-2.5 text-xs focus:ring-1 focus:ring-brand-primary outline-none min-h-[60px]"
+                                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-xs focus:ring-1 focus:ring-brand-primary outline-none min-h-[60px]"
                                                         value={fasilitasForm.data.deskripsi}
                                                         onChange={e => fasilitasForm.setData('deskripsi', e.target.value)}
                                                         placeholder="Deskripsi singkat..."
@@ -344,11 +471,11 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
 
                                                 <div>
                                                     <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-2">Gambar Sampul Utama (16:10 / 4:3)</label>
-                                                    <div className="relative aspect-[16/10] w-full bg-slate-50 rounded overflow-hidden border border-dashed border-slate-200 group hover:border-brand-primary transition-colors">
+                                                    <div className="relative aspect-[16/10] w-full bg-slate-50 rounded-[0.25rem] overflow-hidden border border-dashed border-slate-200 group hover:border-brand-primary transition-colors">
                                                         {fasilitasPreview ? (
                                                             <img src={fasilitasPreview} className="w-full h-full object-cover" alt="Preview" />
                                                         ) : (
-                                                            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                                            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-350">
                                                                 <PhotoIcon className="h-8 w-8 mb-1" />
                                                                 <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Gambar</span>
                                                             </div>
@@ -357,9 +484,9 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                                             type="file" 
                                                             className="absolute inset-0 opacity-0 cursor-pointer" 
                                                             onChange={e => {
-                                                                const file = e.target.files[0];
-                                                                fasilitasForm.setData('image', file);
-                                                                if (file) setFasilitasPreview(URL.createObjectURL(file));
+                                                                 const file = e.target.files[0];
+                                                                 fasilitasForm.setData('image', file);
+                                                                 if (file) setFasilitasPreview(URL.createObjectURL(file));
                                                             }}
                                                         />
                                                     </div>
@@ -376,7 +503,7 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                                     <button 
                                                         type="submit" 
                                                         disabled={fasilitasForm.processing}
-                                                        className="bg-brand-primary text-white py-2.5 px-6 text-[9px] font-bold uppercase tracking-widest rounded-[0.25rem] hover:bg-slate-900 transition-all"
+                                                        className="bg-brand-primary text-white py-2.5 px-6 text-[9px] font-bold uppercase tracking-widest rounded-[0.25rem] hover:bg-slate-900 transition-all shadow-xl shadow-brand-primary/20"
                                                     >
                                                         {fasilitasForm.processing ? 'Menyimpan...' : 'Simpan Fasilitas'}
                                                     </button>
@@ -462,7 +589,7 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                                     
                                                     <div className="flex-1 overflow-y-auto pr-1">
                                                         {activePhotos.length === 0 ? (
-                                                            <div className="py-12 text-center text-slate-300">
+                                                            <div className="py-12 text-center text-slate-350">
                                                                 <PhotoIcon className="h-8 w-8 mx-auto mb-2 opacity-50" />
                                                                 <span className="text-[8px] font-bold uppercase tracking-widest">Belum ada foto galeri</span>
                                                             </div>
@@ -476,7 +603,7 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                                                                 <button 
                                                                                     type="button" 
                                                                                     onClick={() => startEditGaleri(g)} 
-                                                                                    className="p-1 rounded-full bg-white/20 hover:bg-brand-primary text-white transition-colors"
+                                                                                    className="p-1 rounded bg-white/20 hover:bg-brand-primary text-white transition-colors"
                                                                                     title="Edit"
                                                                                 >
                                                                                     <PencilSquareIcon className="h-3.5 w-3.5" />
@@ -484,7 +611,7 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                                                                 <button 
                                                                                     type="button" 
                                                                                     onClick={() => deleteGaleri(g.id)} 
-                                                                                    className="p-1 rounded-full bg-white/20 hover:bg-red-600 text-white transition-colors"
+                                                                                    className="p-1 rounded bg-white/20 hover:bg-red-600 text-white transition-colors"
                                                                                     title="Hapus"
                                                                                 >
                                                                                     <TrashIcon className="h-3.5 w-3.5" />

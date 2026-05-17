@@ -21,7 +21,18 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
     // Dashboard Induk (Protected)
     Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', function () {
-            return Inertia::render('IndukAdmin/Dashboard');
+            return Inertia::render('IndukAdmin/Dashboard', [
+                'stats' => [
+                    'total_lembaga' => \App\Models\Lembaga::count(),
+                    'total_berita' => \App\Models\Berita::count(),
+                    'total_pengajar' => \App\Models\Pengajar::count(),
+                    'total_event' => \App\Models\Event::count(),
+                    'total_testimonial' => \App\Models\Testimonial::count(),
+                    'total_fasilitas' => \App\Models\Fasilitas::count(),
+                ],
+                'recent_berita' => \App\Models\Berita::with('category')->latest()->take(5)->get(),
+                'recent_lembaga' => \App\Models\Lembaga::latest()->take(5)->get(),
+            ]);
         })->name('dashboard');
 
         // Sub-pages

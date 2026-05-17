@@ -71,42 +71,58 @@ class DatabaseSeeder extends Seeder
                 ]
             );
 
-            // Create dummy News for each Lembaga
-            Berita::create([
-                'lembaga_id' => $lembaga->id,
-                'judul' => 'Pendaftaran Siswa Baru ' . $lembaga->nama,
-                'slug' => 'ppdb-' . $lembaga->slug . '-' . uniqid(),
-                'konten' => 'Telah dibuka pendaftaran siswa baru untuk tahun ajaran mendatang.',
-                'status' => 'published',
-                'tanggal' => now(),
-            ]);
+            // Create dummy News for each Lembaga (Safe from duplicates)
+            Berita::firstOrCreate(
+                [
+                    'lembaga_id' => $lembaga->id,
+                    'judul' => 'Pendaftaran Siswa Baru ' . $lembaga->nama,
+                ],
+                [
+                    'slug' => 'ppdb-' . $lembaga->slug,
+                    'konten' => 'Telah dibuka pendaftaran siswa baru untuk tahun ajaran mendatang.',
+                    'status' => 'published',
+                    'tanggal' => now(),
+                ]
+            );
 
-            // Create dummy Achievements (Prestasi)
-            \App\Models\Prestasi::create([
-                'lembaga_id' => $lembaga->id,
-                'judul' => 'Juara 1 Lomba Tahfidz Al-Qur`an',
-                'slug' => 'juara-tahfidz-' . $lembaga->slug . '-' . uniqid(),
-                'konten' => 'Santri kami berhasil meraih juara 1 dalam perlombaan tingkat kabupaten.',
-                'tanggal' => now(),
-            ]);
+            // Create dummy Achievements (Prestasi) (Safe from duplicates)
+            \App\Models\Prestasi::firstOrCreate(
+                [
+                    'lembaga_id' => $lembaga->id,
+                    'judul' => 'Juara 1 Lomba Tahfidz Al-Qur`an',
+                ],
+                [
+                    'slug' => 'juara-tahfidz-' . $lembaga->slug,
+                    'konten' => 'Santri kami berhasil meraih juara 1 dalam perlombaan tingkat kabupaten.',
+                    'tanggal' => now(),
+                ]
+            );
 
-            // Create dummy Activities (Kegiatan)
-            \App\Models\Kegiatan::create([
-                'lembaga_id' => $lembaga->id,
-                'judul' => 'Kegiatan Ekstrakurikuler Rutin',
-                'slug' => 'ekskul-rutin-' . $lembaga->slug . '-' . uniqid(),
-                'deskripsi' => 'Pengembangan minat dan bakat santri melalui berbagai kegiatan positif.',
-                'tanggal' => now(),
-            ]);
+            // Create dummy Activities (Kegiatan) (Safe from duplicates)
+            \App\Models\Kegiatan::firstOrCreate(
+                [
+                    'lembaga_id' => $lembaga->id,
+                    'judul' => 'Kegiatan Ekstrakurikuler Rutin',
+                ],
+                [
+                    'slug' => 'ekskul-rutin-' . $lembaga->slug,
+                    'deskripsi' => 'Pengembangan minat dan bakat santri melalui berbagai kegiatan positif.',
+                    'tanggal' => now(),
+                ]
+            );
         }
 
-        // 4. Call Detailed Seeders
+        // 4. Call Detailed Seeders (Includes all missing seeders now)
         $this->call([
             BeritaSeeder::class,
             LandingPageSeeder::class,
             PpdbSeeder::class,
             LembagaContentSeeder::class,
             RunningTextSeeder::class,
+            FasilitasSeeder::class,     // Seed facilities data dynamically
+            GaleriSeeder::class,        // Seed gallery photo sliders for facilities
+            PengajarSeeder::class,      // Seed organizational teachers list
+            SiteSettingSeeder::class,   // Seed general settings, contact page, social links
         ]);
     }
 }

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import IndukAdminLayout from '@/Layouts/Induk/IndukAdminLayout';
-import { Head, useForm, Link } from '@inertiajs/react';
+import { Head, useForm, Link, usePage } from '@inertiajs/react';
 import { 
     Cog6ToothIcon, 
     KeyIcon, 
@@ -10,9 +10,53 @@ import {
     ArrowLeftIcon,
     CheckCircleIcon
 } from '@heroicons/react/24/outline';
+import Toast from '@/Components/Toast';
+import ConfirmationModal from '@/Components/ConfirmationModal';
 
 export default function Index({ settings, authUser }) {
-    const [activeTab, setActiveTab] = useState('general');
+    const { flash } = usePage().props;
+
+    // Persist activeTab state
+    const [activeTab, setActiveTab] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('activeSettingsTab') || 'general';
+        }
+        return 'general';
+    });
+
+    const handleSetActiveTab = (tab) => {
+        setActiveTab(tab);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('activeSettingsTab', tab);
+        }
+    };
+
+    // Toast State
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastType, setToastType] = useState('success');
+
+    // Monitor flash messages
+    useEffect(() => {
+        if (flash?.success) {
+            setToastMessage(flash.success);
+            setToastType('success');
+            setShowToast(true);
+        } else if (flash?.error) {
+            setToastMessage(flash.error);
+            setToastType('error');
+            setShowToast(true);
+        }
+    }, [flash]);
+
+    // Confirmation Modal State (Ready for future actions)
+    const [confirmModal, setConfirmModal] = useState({
+        show: false,
+        title: '',
+        message: '',
+        type: 'danger',
+        onConfirm: null
+    });
 
     // 1. FORM 1: GENERAL SETTINGS FORM (ONLY SEO)
     const initialSettings = [];
@@ -38,7 +82,12 @@ export default function Index({ settings, authUser }) {
         e.preventDefault();
         generalForm.post(route('admin.settings.update'), {
             preserveScroll: true,
-            forceFormData: true
+            forceFormData: true,
+            onSuccess: () => {
+                setToastMessage('Pengaturan SEO berhasil diperbarui.');
+                setToastType('success');
+                setShowToast(true);
+            }
         });
     };
 
@@ -66,6 +115,9 @@ export default function Index({ settings, authUser }) {
             onSuccess: () => {
                 loginPortalForm.reset('login_bg_file');
                 setFilePreview(null);
+                setToastMessage('Latar portal login berhasil diperbarui.');
+                setToastType('success');
+                setShowToast(true);
             }
         });
     };
@@ -84,6 +136,9 @@ export default function Index({ settings, authUser }) {
             preserveScroll: true,
             onSuccess: () => {
                 accountForm.reset('current_password', 'password', 'password_confirmation');
+                setToastMessage('Akun & Keamanan kredensial berhasil disimpan.');
+                setToastType('success');
+                setShowToast(true);
             }
         });
     };
@@ -102,15 +157,34 @@ export default function Index({ settings, authUser }) {
         <IndukAdminLayout title="Pengaturan Sistem">
             <Head title="Pengaturan Umum & Keamanan" />
 
-            <div className="max-w-6xl mx-auto pt-6 pb-16 px-4 sm:px-6 lg:px-8">
+            {/* Premium Reusable Notification Component */}
+            <Toast 
+                show={showToast}
+                message={toastMessage}
+                type={toastType}
+                onClose={() => setShowToast(false)}
+            />
+
+            {/* Premium Reusable Confirmation Dialog Component */}
+            <ConfirmationModal
+                show={confirmModal.show}
+                title={confirmModal.title}
+                message={confirmModal.message}
+                type={confirmModal.type}
+                confirmText={confirmModal.confirmText}
+                onConfirm={confirmModal.onConfirm}
+                onCancel={() => setConfirmModal(prev => ({ ...prev, show: false }))}
+            />
+
+            <div className="max-w-6xl mx-auto pt-6 pb-16 px-4 sm:px-6 lg:px-8 space-y-8">
                 
                 {/* Header Navigation */}
-                <div className="mb-6 flex items-center justify-between">
+                <div className="mb-6 flex items-center justify-between border-b border-slate-100 pb-6">
                     <Link 
                         href={route('admin.dashboard')}
                         className="text-[10px] font-bold text-slate-400 hover:text-brand-primary uppercase tracking-widest flex items-center gap-2 transition-colors"
                     >
-                        <ArrowLeftIcon className="h-3 w-3" /> Kembali ke Dashboard
+                        <ArrowLeftIcon className="h-3.5 w-3.5" /> Kembali ke Dashboard
                     </Link>
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-brand-primary/5 rounded flex items-center justify-center">
@@ -127,22 +201,19 @@ export default function Index({ settings, authUser }) {
                 </div>
 
                 {/* Tabs Navigation */}
-                <div className="flex flex-wrap gap-1.5 mb-8 border-b border-slate-200 pb-px">
+                <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-200 bg-slate-50/30 p-2.5 rounded-[0.25rem]">
                     {tabs.map((tab) => (
                         <button
                             key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
-                            className={`flex items-center gap-1.5 px-4 py-3 text-[9px] font-black uppercase tracking-wider transition-all relative ${
+                            onClick={() => handleSetActiveTab(tab.id)}
+                            className={`px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all rounded-[0.25rem] ${
                                 activeTab === tab.id 
-                                ? 'text-brand-primary bg-slate-50/50' 
-                                : 'text-slate-400 hover:text-slate-600'
+                                ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/10' 
+                                : 'text-slate-500 hover:text-brand-primary hover:bg-slate-100'
                             }`}
                         >
-                            <tab.icon className="h-3.5 w-3.5 shrink-0" />
+                            <tab.icon className="h-3.5 w-3.5 shrink-0 inline-block mr-1.5" />
                             {tab.name}
-                            {activeTab === tab.id && (
-                                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-primary rounded-t-full"></div>
-                            )}
                         </button>
                     ))}
                 </div>
@@ -160,7 +231,7 @@ export default function Index({ settings, authUser }) {
                                     .map(([group, groupSettings]) => {
                                         const labelInfo = groupLabels[group] || { title: group, icon: Cog6ToothIcon };
                                         return (
-                                            <div key={group} className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6">
+                                            <div key={group} className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6 shadow-sm">
                                                 <div className="flex items-center gap-2 mb-4">
                                                     <span className="h-[2px] w-5 bg-brand-primary"></span>
                                                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{labelInfo.title}</span>
@@ -211,7 +282,7 @@ export default function Index({ settings, authUser }) {
 
                             {/* Right Side: Real-Time SEO Live Debugger & Previewer */}
                             <div className="lg:col-span-5 space-y-6">
-                                <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6">
+                                <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6 shadow-sm">
                                     <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                                         <div className="flex items-center gap-2">
                                             <span className="h-[2px] w-5 bg-brand-primary"></span>
@@ -220,6 +291,7 @@ export default function Index({ settings, authUser }) {
                                         <a 
                                             href="/sitemap.xml" 
                                             target="_blank" 
+                                            rel="noopener noreferrer"
                                             className="text-[9px] font-black uppercase tracking-wider text-brand-primary hover:underline transition-colors flex items-center gap-1.5"
                                         >
                                             Buka Sitemap.xml ↗
@@ -302,13 +374,13 @@ export default function Index({ settings, authUser }) {
                     {/* TAB 2: PORTAL LOGIN CUSTOMIZATION */}
                     {activeTab === 'login_portal' && (
                         <div className="space-y-8">
-                            <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6">
+                            <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6 shadow-sm">
                                 <div className="flex items-center gap-2 mb-4">
                                     <span className="h-[2px] w-5 bg-brand-primary"></span>
                                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Preview Latar Portal Login Saat Ini</span>
                                 </div>
                                 <div 
-                                    className="w-full h-48 rounded-[0.25rem] overflow-hidden bg-cover bg-center relative border border-slate-200 flex items-center justify-center"
+                                    className="w-full h-48 rounded-[0.25rem] overflow-hidden bg-cover bg-center relative border border-slate-200 flex items-center justify-center shadow-inner"
                                     style={{ 
                                         backgroundImage: `url('${filePreview || loginPortalForm.data.login_bg_url || 'https://images.unsplash.com/photo-1540959733332-eab4deceeaf7?w=1600'}')` 
                                     }}
@@ -322,7 +394,7 @@ export default function Index({ settings, authUser }) {
                             </div>
 
                             <form onSubmit={handleLoginPortalSubmit} className="space-y-8">
-                                <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6">
+                                <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6 shadow-sm">
                                     <div className="flex items-center gap-2 mb-4">
                                         <span className="h-[2px] w-5 bg-brand-primary"></span>
                                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sumber Gambar Latar Login</span>
@@ -392,21 +464,21 @@ export default function Index({ settings, authUser }) {
                     {/* TAB 3: ACCOUNT & SECURITY */}
                     {activeTab === 'security' && (
                         <form onSubmit={handleAccountSubmit} className="space-y-8">
-                            <div className="bg-brand-secondary/20 border-l-4 border-brand-accent p-4 rounded-r mb-6">
+                            <div className="bg-[#fef3c7] border-l-4 border-amber-500 p-4 rounded-r shadow-sm">
                                 <div className="flex gap-3">
-                                    <ShieldCheckIcon className="h-5 w-5 text-brand-primary" />
+                                    <ShieldCheckIcon className="h-5 w-5 text-amber-600 shrink-0" />
                                     <div>
                                         <h4 className="text-xs font-black uppercase tracking-wider text-slate-800">
                                             Penting Mengenai Kredensial Admin Induk
                                         </h4>
-                                        <p className="text-[11px] font-bold text-slate-500 leading-relaxed mt-1">
+                                        <p className="text-[11px] font-bold text-slate-600 leading-relaxed mt-1">
                                             Gunakan kombinasi username dan password yang aman. Perubahan ini akan segera memutus akses sesi masuk Anda saat ini jika Anda mengubah password, mewajibkan Anda untuk login kembali menggunakan detail kredensial baru.
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6">
+                            <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6 shadow-sm">
                                 <div className="flex items-center gap-2 mb-4">
                                     <span className="h-[2px] w-5 bg-brand-primary"></span>
                                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Kredensial Akun</span>
@@ -491,16 +563,6 @@ export default function Index({ settings, authUser }) {
 
                 </div>
             </div>
-
-            <style dangerouslySetInnerHTML={{ __html: `
-                .animate-fade-in {
-                    animation: fadeIn 0.4s ease-out forwards;
-                }
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(10px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-            `}} />
         </IndukAdminLayout>
     );
 }
