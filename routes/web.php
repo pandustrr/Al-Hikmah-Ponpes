@@ -68,8 +68,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.show');
 Route::get('/profil', [TentangController::class, 'profil'])->name('profil');
-Route::get('/visi-misi', [TentangController::class, 'visiMisi'])->name('visi-misi');
-Route::get('/sejarah', [TentangController::class, 'sejarah'])->name('sejarah');
 Route::get('/info-ppdb', [InfoPPDBController::class, 'index'])->name('pendaftaran');
 
 Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
