@@ -34,7 +34,7 @@ export default function Testimonials({ testimonials = [] }) {
             <div className="max-w-7xl mx-auto px-4 relative z-10">
                 
                 {/* Header Section */}
-                <div className="text-center mb-10 reveal-element-up">
+                <div className="text-center mb-12 reveal-element-up">
                     <h2 className="text-[9px] font-black text-brand-accent uppercase tracking-[0.4em] mb-2.5">Testimoni</h2>
                     <h3 className="text-2xl md:text-3xl font-serif font-semibold text-brand-primary tracking-tight uppercase leading-tight">
                         Apa Kata Mereka<br />Tentang Al-Hikmah?
@@ -43,58 +43,59 @@ export default function Testimonials({ testimonials = [] }) {
                 </div>
 
                 {/* Slider Container */}
-                <div className="max-w-2xl mx-auto relative reveal-element-up">
+                <div className="max-w-4xl mx-auto relative reveal-element-up">
                     
-                    {/* Testimonial Card */}
-                    <div className="bg-white rounded-xl border border-brand-light shadow-xl p-6 md:p-10 relative overflow-hidden transition-all duration-300 hover:shadow-brand-primary/5">
+                    {/* Testimonial Card (Sleek Horizontal Rectangle) */}
+                    <div className="bg-white rounded-2xl border border-brand-light shadow-xl p-8 md:p-10 relative overflow-hidden transition-all duration-300 hover:shadow-brand-primary/5">
                         
-                        {/* Decorative Giant Quotation Mark */}
-                        <div className="absolute top-1 left-3 text-[70px] md:text-[90px] font-serif text-brand-light/35 select-none pointer-events-none leading-none -translate-x-1 -translate-y-2">
-                            “
-                        </div>
-
-                        <div className="relative z-10 flex flex-col items-center text-center">
+                        <div className="relative z-10 grid grid-cols-1 md:grid-cols-4 gap-8 items-center">
                             
-                            {/* Stars */}
-                            <div className="flex gap-0.5 mb-5">
-                                {[...Array(5)].map((_, s) => (
-                                    <StarIcon key={s} className="w-4 h-4 text-amber-400" />
-                                ))}
-                            </div>
-
-                            {/* Quote Text */}
-                            <blockquote className={`text-sm md:text-base font-serif text-brand-primary italic leading-relaxed font-light mb-6 min-h-[60px] transition-all duration-300 ${
-                                fade ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-[0.98]'
-                            }`}>
-                                "{currentTesti.quote}"
-                            </blockquote>
-
-                            {/* Speaker Information */}
-                            <div className={`flex flex-col items-center gap-3 transition-all duration-300 ${
+                            {/* Left Column: Speaker Info & Stars (1/4 width on desktop) */}
+                            <div className={`md:col-span-1 flex flex-col items-center text-center md:border-r md:border-brand-light md:pr-8 transition-all duration-300 ${
                                 fade ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
                             }`}>
-                                <div className="w-12 h-12 rounded-full overflow-hidden border border-brand-secondary shadow flex-shrink-0">
+                                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-brand-secondary shadow-md flex-shrink-0 mb-4">
                                     <img
                                         src={currentTesti.image_url}
                                         alt={currentTesti.name}
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
-                                <div className="text-center">
+                                <div className="text-center mb-4">
                                     <h4 className="font-serif font-bold text-brand-primary text-sm md:text-base leading-tight">
                                         {currentTesti.name}
                                     </h4>
-                                    <p className="text-[8px] md:text-[9px] text-brand-accent uppercase tracking-[0.2em] font-semibold mt-0.5">
+                                    <p className="text-[8px] md:text-[9px] text-brand-accent uppercase tracking-[0.2em] font-semibold mt-1">
                                         {currentTesti.info}
                                     </p>
                                 </div>
+                                {/* Stars */}
+                                <div className="flex gap-0.5">
+                                    {[...Array(5)].map((_, s) => (
+                                        <StarIcon key={s} className="w-4 h-4 text-amber-400" />
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Right Column: Quote text (3/4 width on desktop) */}
+                            <div className="md:col-span-3 relative pl-0 md:pl-4">
+                                {/* Decorative Giant Quotation Mark */}
+                                <div className="absolute -top-8 -left-2 text-[80px] md:text-[100px] font-serif text-brand-light/25 select-none pointer-events-none leading-none">
+                                    “
+                                </div>
+
+                                <blockquote className={`text-sm md:text-base font-serif text-brand-primary italic leading-relaxed font-light pl-6 relative z-10 transition-all duration-300 ${
+                                    fade ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+                                }`}>
+                                    "{currentTesti.quote}"
+                                </blockquote>
                             </div>
 
                         </div>
                     </div>
 
                     {/* Navigation Buttons (Left & Right desktop/tablet overlay) */}
-                    <div className="absolute top-1/2 -translate-y-1/2 -left-3 md:-left-12 z-20">
+                    <div className="absolute top-1/2 -translate-y-1/2 -left-3 md:-left-6 z-20">
                         <button
                             onClick={handlePrev}
                             className="w-9 h-9 md:w-10 md:h-10 rounded-full border border-brand-light bg-white text-brand-primary hover:bg-brand-primary hover:text-white transition-all shadow-md flex items-center justify-center group"
@@ -104,7 +105,7 @@ export default function Testimonials({ testimonials = [] }) {
                         </button>
                     </div>
 
-                    <div className="absolute top-1/2 -translate-y-1/2 -right-3 md:-right-12 z-20">
+                    <div className="absolute top-1/2 -translate-y-1/2 -right-3 md:-right-6 z-20">
                         <button
                             onClick={handleNext}
                             className="w-9 h-9 md:w-10 md:h-10 rounded-full border border-brand-light bg-white text-brand-primary hover:bg-brand-primary hover:text-white transition-all shadow-md flex items-center justify-center group"
@@ -117,7 +118,7 @@ export default function Testimonials({ testimonials = [] }) {
                 </div>
 
                 {/* Pagination Indicators (Dots) */}
-                <div className="flex justify-center items-center gap-1.5 mt-6 reveal-element-up">
+                <div className="flex justify-center items-center gap-1.5 mt-8 reveal-element-up">
                     {testimonials.map((_, idx) => (
                         <button
                             key={idx}
