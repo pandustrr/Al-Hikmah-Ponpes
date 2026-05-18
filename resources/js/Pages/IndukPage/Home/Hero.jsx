@@ -13,7 +13,7 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
             judul: 'Membangun Masa Depan dengan Adab & Ilmu', 
             category: { name: 'Visi Kami' }, 
             slug: '#',
-            image_url: 'https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=1200'
+            image_url: settings.news_hero_bg || 'https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=1200'
         }
     ];
 
@@ -45,7 +45,7 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
     };
 
     return (
-        <section className="relative h-[85vh] min-h-[650px] flex items-center overflow-hidden bg-brand-primary">
+        <section className="relative h-[70vh] min-h-[500px] flex items-center overflow-hidden bg-brand-primary">
             {/* Dynamic Background Image Layer */}
             {sliderBerita.map((item, index) => item && (
                 <div 
@@ -55,7 +55,7 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
                     }`}
                 >
                     <img
-                        src={item.image_url || 'https://picsum.photos/id/1018/1200/800'}
+                        src={item.image_url || settings.news_hero_bg || 'https://picsum.photos/id/1018/1200/800'}
                         alt="Background"
                         className="w-full h-full object-cover object-center scale-110"
                         style={{ transform: `translateY(${offsetY * 0.15}px)` }}
