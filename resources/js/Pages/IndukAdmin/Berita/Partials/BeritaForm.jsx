@@ -3,6 +3,7 @@ import { useForm } from '@inertiajs/react';
 import { PhotoIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
+import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
 export default function BeritaForm({ berita = null, categories, lembagas, submitLabel = 'Simpan Berita' }) {
     const [preview, setPreview] = React.useState(null);
@@ -209,16 +210,13 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                             <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                 <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em] border border-white/40 px-4 py-2 cursor-pointer">Ganti Gambar</span>
                             </div>
-                            <input 
-                                type="file" 
-                                accept="image/*"
-                                className="absolute inset-0 opacity-0 cursor-pointer" 
-                                onChange={e => {
-                                    const file = e.target.files[0];
+                            <ImageInputWithCrop 
+                                className="absolute inset-0 z-10"
+                                aspectRatio={16/9}
+                                title="Potong Gambar Utama Berita"
+                                onChange={(file) => {
                                     setData('image', file);
-                                    if (file) {
-                                        setPreview(URL.createObjectURL(file));
-                                    }
+                                    if (file) setPreview(URL.createObjectURL(file));
                                 }}
                             />
                         </div>
