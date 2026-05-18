@@ -27,53 +27,53 @@ export default function Testimonials({ testimonials = [] }) {
     const currentTesti = testimonials[currentIndex];
 
     return (
-        <section className="py-24 bg-gradient-to-b from-brand-secondary/30 to-brand-secondary/60 reveal-section relative overflow-hidden">
+        <section className="py-16 md:py-20 bg-gradient-to-b from-brand-secondary/30 to-brand-secondary/60 reveal-section relative overflow-hidden">
             {/* Background Decorative Patterns */}
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/az-subtle.png')] opacity-5 pointer-events-none"></div>
             
             <div className="max-w-7xl mx-auto px-4 relative z-10">
                 
                 {/* Header Section */}
-                <div className="text-center mb-16 reveal-element-up">
-                    <h2 className="text-[10px] font-black text-brand-accent uppercase tracking-[0.4em] mb-3">Testimoni</h2>
-                    <h3 className="text-3xl md:text-4xl font-serif font-semibold text-brand-primary tracking-tight uppercase leading-tight">
+                <div className="text-center mb-10 reveal-element-up">
+                    <h2 className="text-[9px] font-black text-brand-accent uppercase tracking-[0.4em] mb-2.5">Testimoni</h2>
+                    <h3 className="text-2xl md:text-3xl font-serif font-semibold text-brand-primary tracking-tight uppercase leading-tight">
                         Apa Kata Mereka<br />Tentang Al-Hikmah?
                     </h3>
-                    <div className="h-[2px] w-16 bg-brand-accent mx-auto mt-4"></div>
+                    <div className="h-[2px] w-12 bg-brand-accent mx-auto mt-3"></div>
                 </div>
 
                 {/* Slider Container */}
-                <div className="max-w-4xl mx-auto relative reveal-element-up">
+                <div className="max-w-2xl mx-auto relative reveal-element-up">
                     
                     {/* Testimonial Card */}
-                    <div className="bg-white rounded-2xl border border-brand-light shadow-2xl p-8 md:p-14 relative overflow-hidden transition-all duration-300 hover:shadow-brand-primary/5">
+                    <div className="bg-white rounded-xl border border-brand-light shadow-xl p-6 md:p-10 relative overflow-hidden transition-all duration-300 hover:shadow-brand-primary/5">
                         
                         {/* Decorative Giant Quotation Mark */}
-                        <div className="absolute top-2 left-4 text-[120px] md:text-[160px] font-serif text-brand-light/35 select-none pointer-events-none leading-none -translate-x-3 -translate-y-4">
+                        <div className="absolute top-1 left-3 text-[70px] md:text-[90px] font-serif text-brand-light/35 select-none pointer-events-none leading-none -translate-x-1 -translate-y-2">
                             “
                         </div>
 
                         <div className="relative z-10 flex flex-col items-center text-center">
                             
                             {/* Stars */}
-                            <div className="flex gap-0.5 mb-8">
+                            <div className="flex gap-0.5 mb-5">
                                 {[...Array(5)].map((_, s) => (
-                                    <StarIcon key={s} className="w-5 h-5 text-amber-400" />
+                                    <StarIcon key={s} className="w-4 h-4 text-amber-400" />
                                 ))}
                             </div>
 
                             {/* Quote Text */}
-                            <blockquote className={`text-md md:text-xl font-serif text-brand-primary italic leading-relaxed font-light mb-10 min-h-[90px] transition-all duration-300 ${
+                            <blockquote className={`text-sm md:text-base font-serif text-brand-primary italic leading-relaxed font-light mb-6 min-h-[60px] transition-all duration-300 ${
                                 fade ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-[0.98]'
                             }`}>
                                 "{currentTesti.quote}"
                             </blockquote>
 
                             {/* Speaker Information */}
-                            <div className={`flex flex-col items-center gap-4 transition-all duration-300 ${
+                            <div className={`flex flex-col items-center gap-3 transition-all duration-300 ${
                                 fade ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
                             }`}>
-                                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-brand-secondary shadow-lg flex-shrink-0">
+                                <div className="w-12 h-12 rounded-full overflow-hidden border border-brand-secondary shadow flex-shrink-0">
                                     <img
                                         src={currentTesti.image_url}
                                         alt={currentTesti.name}
@@ -81,10 +81,10 @@ export default function Testimonials({ testimonials = [] }) {
                                     />
                                 </div>
                                 <div className="text-center">
-                                    <h4 className="font-serif font-bold text-brand-primary text-base md:text-lg leading-tight">
+                                    <h4 className="font-serif font-bold text-brand-primary text-sm md:text-base leading-tight">
                                         {currentTesti.name}
                                     </h4>
-                                    <p className="text-[9px] md:text-[10px] text-brand-accent uppercase tracking-[0.2em] font-semibold mt-1">
+                                    <p className="text-[8px] md:text-[9px] text-brand-accent uppercase tracking-[0.2em] font-semibold mt-0.5">
                                         {currentTesti.info}
                                     </p>
                                 </div>
@@ -94,38 +94,38 @@ export default function Testimonials({ testimonials = [] }) {
                     </div>
 
                     {/* Navigation Buttons (Left & Right desktop/tablet overlay) */}
-                    <div className="absolute top-1/2 -translate-y-1/2 -left-4 md:-left-16 z-20">
+                    <div className="absolute top-1/2 -translate-y-1/2 -left-3 md:-left-12 z-20">
                         <button
                             onClick={handlePrev}
-                            className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-brand-light bg-white text-brand-primary hover:bg-brand-primary hover:text-white transition-all shadow-lg flex items-center justify-center group"
+                            className="w-9 h-9 md:w-10 md:h-10 rounded-full border border-brand-light bg-white text-brand-primary hover:bg-brand-primary hover:text-white transition-all shadow-md flex items-center justify-center group"
                             aria-label="Previous Testimonial"
                         >
-                            <ArrowLeftIcon className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:-translate-x-0.5" />
+                            <ArrowLeftIcon className="w-3.5 h-3.5 md:w-4 md:h-4 transition-transform group-hover:-translate-x-0.5" />
                         </button>
                     </div>
 
-                    <div className="absolute top-1/2 -translate-y-1/2 -right-4 md:-right-16 z-20">
+                    <div className="absolute top-1/2 -translate-y-1/2 -right-3 md:-right-12 z-20">
                         <button
                             onClick={handleNext}
-                            className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-brand-light bg-white text-brand-primary hover:bg-brand-primary hover:text-white transition-all shadow-lg flex items-center justify-center group"
+                            className="w-9 h-9 md:w-10 md:h-10 rounded-full border border-brand-light bg-white text-brand-primary hover:bg-brand-primary hover:text-white transition-all shadow-md flex items-center justify-center group"
                             aria-label="Next Testimonial"
                         >
-                            <ArrowRightIcon className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:translate-x-0.5" />
+                            <ArrowRightIcon className="w-3.5 h-3.5 md:w-4 md:h-4 transition-transform group-hover:translate-x-0.5" />
                         </button>
                     </div>
 
                 </div>
 
                 {/* Pagination Indicators (Dots) */}
-                <div className="flex justify-center items-center gap-2 mt-8 reveal-element-up">
+                <div className="flex justify-center items-center gap-1.5 mt-6 reveal-element-up">
                     {testimonials.map((_, idx) => (
                         <button
                             key={idx}
                             onClick={() => changeSlide(idx)}
                             className={`transition-all duration-300 rounded-full ${
                                 idx === currentIndex 
-                                    ? 'w-6 h-1.5 bg-brand-primary' 
-                                    : 'w-1.5 h-1.5 bg-brand-light hover:bg-brand-accent/50'
+                                    ? 'w-5 h-1 bg-brand-primary' 
+                                    : 'w-1 h-1 bg-brand-light hover:bg-brand-accent/50'
                             }`}
                             aria-label={`Go to slide ${idx + 1}`}
                         />
