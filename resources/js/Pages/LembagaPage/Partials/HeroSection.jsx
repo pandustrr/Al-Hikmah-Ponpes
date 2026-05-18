@@ -9,10 +9,10 @@ export default function HeroSection({ lembaga }) {
             <div className="absolute inset-0 z-0">
                 <img 
                     src={lembaga.image_url || 'https://images.unsplash.com/photo-1523050853063-bd8012fec21b?auto=format&fit=crop&q=80&w=2000'} 
-                    className="w-full h-full object-cover opacity-40 scale-105" 
+                    className="w-full h-full object-cover opacity-55 scale-105" 
                     alt={lembaga.nama} 
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/60 via-transparent to-brand-primary"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/45 via-transparent to-brand-primary/70"></div>
             </div>
 
             <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
