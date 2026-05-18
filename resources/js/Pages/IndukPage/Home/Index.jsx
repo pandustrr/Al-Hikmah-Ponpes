@@ -43,12 +43,12 @@ export default function Welcome({ lembagas, beritaTerbaru, landingSettings, test
         <PublicLayout title="Beranda" navTheme="dark">
             <Hero offsetY={offsetY} berita={beritaTerbaru} settings={landingSettings} />
             <AboutSummary lembagas={lembagas} settings={landingSettings} />
+            <Testimonials testimonials={testimonials} />
             <FasilitasShortcut />
             <LembagaUpdates lembagas={lembagas} />
             <PpdbCta settings={landingSettings} />
             <BeritaYayasan beritaTerbaru={beritaTerbaru} />
             <UpcomingEvents events={upcomingEvents} />
-            <Testimonials testimonials={testimonials} />
         </PublicLayout>
     );
 }
