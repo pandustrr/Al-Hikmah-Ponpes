@@ -45,10 +45,10 @@ export default function Welcome({ lembagas, beritaTerbaru, landingSettings, test
             <AboutSummary lembagas={lembagas} settings={landingSettings} />
             <FasilitasShortcut />
             <LembagaUpdates lembagas={lembagas} />
+            <Testimonials testimonials={testimonials} />
             <PpdbCta settings={landingSettings} />
             <BeritaYayasan beritaTerbaru={beritaTerbaru} />
             <UpcomingEvents events={upcomingEvents} />
-            <Testimonials testimonials={testimonials} />
         </PublicLayout>
     );
 }
