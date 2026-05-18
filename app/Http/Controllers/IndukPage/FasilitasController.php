@@ -12,9 +12,11 @@ class FasilitasController extends Controller
 {
     public function index()
     {
+        $settings = \App\Models\SiteSetting::all()->pluck('value', 'key');
         return Inertia::render('IndukPage/Fasilitas/Index', [
             'fasilitas' => Fasilitas::with(['lembaga', 'galeris'])->get(),
             'lembagas' => \App\Models\Lembaga::select('id', 'nama', 'slug')->get(),
+            'settings' => $settings,
         ]);
     }
 }

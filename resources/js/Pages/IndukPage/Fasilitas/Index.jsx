@@ -26,7 +26,7 @@ const fallbackFasilitas = [
     { id: 6, nama: 'Aula Serbaguna', deskripsi: 'Ruang serbaguna berkapasitas besar untuk kegiatan seminar, wisuda, dan acara khusus.', img: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=600' },
 ];
 
-export default function Index({ fasilitas = [], lembagas = [] }) {
+export default function Index({ fasilitas = [], lembagas = [], settings = {} }) {
     const data = fasilitas.length > 0 ? fasilitas : fallbackFasilitas;
     const [activeLembaga, setActiveLembaga] = useState('all');
     const [activeFacility, setActiveFacility] = useState(null);
@@ -39,15 +39,15 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
     return (
         <PublicLayout title="Fasilitas" navTheme="dark">
             {/* Hero */}
-            <div className="relative min-h-[50vh] flex items-center pt-32 pb-24 overflow-hidden bg-brand-primary">
+            <div className="relative min-h-[50vh] flex items-center pt-36 pb-28 overflow-hidden bg-brand-primary">
                 {/* Background Layer with Overlay grid */}
                 <div className="absolute inset-0 z-0">
                     <img 
-                        src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1600" 
+                        src={settings.news_hero_bg || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1600'} 
                         alt="Hero BG" 
-                        className="w-full h-full object-cover opacity-25 scale-105"
+                        className="w-full h-full object-cover opacity-55 scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/80 via-brand-primary to-brand-primary"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/60 via-brand-primary/40 to-brand-primary/80"></div>
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/az-subtle.png')] opacity-10"></div>
                 </div>
 

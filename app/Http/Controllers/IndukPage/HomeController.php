@@ -21,7 +21,8 @@ class HomeController extends Controller
 
         $beritaTerbaru = \App\Models\Berita::with('category')->latest()->take(4)->get();
         
-        $landingSettings = \App\Models\LandingSetting::all()->pluck('value', 'key');
+        $siteSettings = \App\Models\SiteSetting::all()->pluck('value', 'key');
+        $landingSettings = \App\Models\LandingSetting::all()->pluck('value', 'key')->merge($siteSettings);
         $testimonials = \App\Models\Testimonial::where('is_active', true)->get();
         $upcomingEvents = \App\Models\Event::where('is_active', true)
             ->where('date', '>=', now())
