@@ -25,15 +25,15 @@ export default function Profil({ settings = {} }) {
         <PublicLayout title="Profil & Tentang Kami" navTheme="dark">
             
             {/* HERO SECTION */}
-            <div className="relative min-h-[45vh] md:min-h-[50vh] flex items-center pt-28 pb-16 md:pt-32 md:pb-24 overflow-hidden bg-brand-primary">
+            <div className="relative min-h-[50vh] flex items-center pt-32 pb-24 overflow-hidden bg-brand-primary">
                 {/* Background Layer with Overlay grid */}
                 <div className="absolute inset-0 z-0">
                     <img 
                         src={settings.profil_hero_bg || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600'} 
                         alt="Hero BG" 
-                        className="w-full h-full object-cover opacity-25 scale-105"
+                        className="w-full h-full object-cover opacity-55 scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/80 via-brand-primary to-brand-primary"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/60 via-brand-primary/40 to-brand-primary/80"></div>
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/az-subtle.png')] opacity-10"></div>
                 </div>
 
@@ -48,12 +48,15 @@ export default function Profil({ settings = {} }) {
                         <h1 className="text-2xl sm:text-4xl md:text-6xl font-serif font-semibold text-white tracking-tight uppercase leading-[1.2] md:leading-[1.1] mb-4 md:mb-8">
                             {settings.profil_hero_title || 'PROFIL YPDS AL-HIKMAH'}
                         </h1>
-                        <p className="text-xs sm:text-sm md:text-base text-white/70 leading-relaxed font-light mb-6 md:mb-10">
-                            {settings.profil_hero_desc || 'Membangun Adab dan Ilmu Sejak Dini. YPDS Al-Hikmah adalah lembaga pendidikan Islam terpadu yang berdedikasi untuk mencetak generasi yang cerdas secara intelektual dan kokoh secara spiritual di Jember.'}
+                        <p className="text-xs sm:text-sm md:text-base text-white/70 leading-relaxed font-light">
+                            {settings.profil_hero_desc || 'Membangun Adab dan Ilmu Sejak Dini. YPDS Al-Hikmah adalah lembaga pendidikan Islam terpadu yang berdedikasi untuk mencetak generasi yang cerdas secara intelektual and kokoh secara spiritual di Jember.'}
                         </p>
+                    </div>
 
+                    {/* Integrated CTA Buttons & Compact Stats Row */}
+                    <div className="mt-8 pt-6 border-t border-white/10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 md:gap-8">
                         {/* Hero Action Buttons */}
-                        <div className="flex flex-wrap items-center gap-3 md:gap-4">
+                        <div className="flex flex-wrap items-center gap-3 md:gap-4 shrink-0">
                             <a 
                                 href="#sejarah" 
                                 className="px-4 py-2.5 md:px-6 md:py-3.5 bg-brand-secondary text-brand-primary text-[8px] md:text-[10px] font-black uppercase tracking-widest rounded hover:bg-white hover:scale-102 transition-all shadow-xl"
@@ -67,25 +70,21 @@ export default function Profil({ settings = {} }) {
                                 {settings.profil_hero_btn2 || 'Visi & Misi'}
                             </a>
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            {/* STATS BAR (Matches Fasilitas Structure, Optimized for Mobile Columns) */}
-            <div className="bg-brand-primary py-6 md:py-8 border-t border-white/10 relative z-10 shadow-xl">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-6 text-center divide-x-0 md:divide-x divide-white/10">
-                        {[
-                            { value: settings.profil_stat1_value || '25+', label: settings.profil_stat1_label || 'Tahun Mengabdi' },
-                            { value: settings.profil_stat2_value || '4', label: settings.profil_stat2_label || 'Unit Pendidikan' },
-                            { value: settings.profil_stat3_value || '1500+', label: settings.profil_stat3_label || 'Santri Aktif' },
-                            { value: settings.profil_stat4_value || 'Ribuan', label: settings.profil_stat4_label || 'Alumni Tersebar' },
-                        ].map((s, i) => (
-                            <div key={i} className="flex flex-col items-center justify-center p-2">
-                                <div className="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-brand-secondary mb-0.5 sm:mb-1">{s.value}</div>
-                                <div className="text-[8px] sm:text-[9px] md:text-[10px] font-semibold text-white/60 uppercase tracking-[0.15em] sm:tracking-[0.2em]">{s.label}</div>
-                            </div>
-                        ))}
+                        {/* Compact Stats Grid (Shrunk & Aligned on the right side) */}
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 text-left divide-x-0 sm:divide-x sm:divide-white/10 lg:pl-8">
+                            {[
+                                { value: settings.profil_stat1_value || '25+', label: settings.profil_stat1_label || 'Tahun Mengabdi' },
+                                { value: settings.profil_stat2_value || '4', label: settings.profil_stat2_label || 'Unit Pendidikan' },
+                                { value: settings.profil_stat3_value || '1500+', label: settings.profil_stat3_label || 'Santri Aktif' },
+                                { value: settings.profil_stat4_value || 'Ribuan', label: settings.profil_stat4_label || 'Alumni Tersebar' },
+                            ].map((s, i) => (
+                                <div key={i} className={`flex flex-col ${i > 0 ? 'sm:pl-4 lg:pl-6' : ''}`}>
+                                    <div className="text-base sm:text-lg md:text-xl font-serif font-black text-brand-secondary leading-none mb-1">{s.value}</div>
+                                    <div className="text-[7.5px] sm:text-[8px] md:text-[9px] font-bold text-white/60 uppercase tracking-[0.12em] sm:tracking-[0.15em] leading-tight">{s.label}</div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
