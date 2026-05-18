@@ -38,7 +38,7 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
         // Sub-pages
         Route::resource('/lembaga', \App\Http\Controllers\IndukAdmin\LembagaController::class)->names('lembaga');
         Route::get('/berita/settings', [\App\Http\Controllers\IndukAdmin\BeritaController::class, 'settings'])->name('berita.settings');
-        Route::resource('/berita', \App\Http\Controllers\IndukAdmin\BeritaController::class)->names('berita');
+        Route::resource('/berita', \App\Http\Controllers\IndukAdmin\BeritaController::class)->names('berita')->parameters(['berita' => 'berita']);
         Route::get('/landing', [\App\Http\Controllers\IndukAdmin\LandingController::class, 'index'])->name('landing.index');
         Route::post('/landing/settings', [\App\Http\Controllers\IndukAdmin\LandingController::class, 'updateSettings'])->name('landing.settings.update');
         Route::resource('/testimonials', \App\Http\Controllers\IndukAdmin\TestimonialController::class)->names('testimonials');

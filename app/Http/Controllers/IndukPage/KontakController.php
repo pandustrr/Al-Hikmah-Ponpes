@@ -9,6 +9,13 @@ class KontakController extends Controller
 {
     public function index()
     {
-        return Inertia::render('IndukPage/Kontak/Index');
+        $settings = \App\Models\SiteSetting::where('group', 'sosial_media')
+            ->orWhere('key', 'portal_email_kontak')
+            ->get()
+            ->pluck('value', 'key');
+
+        return Inertia::render('IndukPage/Kontak/Index', [
+            'settings' => $settings
+        ]);
     }
 }
