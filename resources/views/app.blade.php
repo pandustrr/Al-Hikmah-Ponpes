@@ -14,6 +14,14 @@
                 $metaTitle = ($berita['judul'] ?? 'Berita') . ' - Yayasan Al-Hikmah Ambulu';
             } elseif ($lembaga) {
                 $metaTitle = ($lembaga['nama'] ?? 'Lembaga') . ' - Unit Pendidikan Al-Hikmah';
+            } elseif (request()->is('profil')) {
+                $metaTitle = 'Profil & Tentang Kami - Yayasan Al-Hikmah Ambulu';
+            } elseif (request()->is('info-ppdb')) {
+                $metaTitle = 'Informasi Pendaftaran PPDB - Yayasan Al-Hikmah Ambulu';
+            } elseif (request()->is('fasilitas')) {
+                $metaTitle = 'Fasilitas Yayasan & Sekolah - Yayasan Al-Hikmah Ambulu';
+            } elseif (request()->is('kontak')) {
+                $metaTitle = 'Hubungi Kami & Lokasi - Yayasan Al-Hikmah Ambulu';
             } else {
                 $metaTitle = \App\Models\SiteSetting::get('news_portal_title', 'Yayasan Al-Hikmah Ambulu') . ' - Portal & Informasi';
             }
@@ -25,6 +33,14 @@
             } elseif ($lembaga) {
                 $rawDesc = strip_tags($lembaga['deskripsi'] ?? '');
                 $metaDescription = mb_strimwidth($rawDesc, 0, 155, '...');
+            } elseif (request()->is('profil')) {
+                $metaDescription = 'Mengenal Yayasan Al-Hikmah Ambulu, Jember. Harmoni tradisi pesantren dan inovasi pendidikan modern untuk mencetak generasi berilmu & beradab.';
+            } elseif (request()->is('info-ppdb')) {
+                $metaDescription = 'Panduan lengkap pendaftaran santri dan peserta didik baru (PPDB) Yayasan Al-Hikmah Ambulu. Informasi syarat, alur, dan jadwal pendaftaran.';
+            } elseif (request()->is('fasilitas')) {
+                $metaDescription = 'Lihat fasilitas lengkap pendukung belajar mengajar dan asrama di Yayasan Al-Hikmah Ambulu Jember.';
+            } elseif (request()->is('kontak')) {
+                $metaDescription = 'Hubungi kami via WhatsApp, email, atau kunjungi lokasi kampus terpadu Yayasan Al-Hikmah di Ambulu, Jember.';
             } else {
                 $metaDescription = \App\Models\SiteSetting::get('seo_meta_description', 'Portal berita resmi Yayasan Al-Hikmah Ambulu. Dapatkan informasi terbaru seputar pendidikan, prestasi, dan kegiatan santri.');
             }
