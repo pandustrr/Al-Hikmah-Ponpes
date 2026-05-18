@@ -21,7 +21,8 @@ import {
 export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilitas = [], galeris = [] }) {
     const [activeTab, setActiveTab] = React.useState('visual');
     
-    const { data, setData, put, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
+        _method: 'PUT',
         nama: lembaga.nama,
         slug: lembaga.slug,
         deskripsi: lembaga.deskripsi || '',
@@ -109,14 +110,19 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
     const submitPengajar = (e) => {
         e.preventDefault();
         if (editingPengajar) {
-            pengajarForm.put(route('admin.pengajar.update', editingPengajar.id), {
-                forceFormData: true,
+            pengajarForm.transform((data) => ({
+                ...data,
+                _method: 'PUT',
+            })).post(route('admin.pengajar.update', editingPengajar.id), {
                 onSuccess: () => setIsPengajarModalOpen(false),
             });
         } else {
-            pengajarForm.post(route('admin.pengajar.store'), {
+            pengajarForm.transform((data) => {
+                const { _method, ...rest } = data;
+                return rest;
+            }).post(route('admin.pengajar.store'), {
                 onSuccess: () => {
-                    setIsPengajarModalOpen(false),
+                    setIsPengajarModalOpen(false);
                     pengajarForm.reset();
                 }
             });
@@ -274,7 +280,7 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        put(route('admin.lembaga.update', lembaga.id));
+        post(route('admin.lembaga.update', lembaga.id));
     };
 
     const tabs = [
