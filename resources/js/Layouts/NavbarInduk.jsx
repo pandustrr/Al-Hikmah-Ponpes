@@ -23,7 +23,7 @@ export default function NavbarInduk({ navTheme = 'light' }) {
     const links = [
         { name: 'Beranda', href: '/' },
         { name: 'Tentang', href: '#', dropdown: [
-            { name: 'Profil', href: '/profil#profil' },
+            { name: 'Profil', href: '/profil' },
             { name: 'Visi & Misi', href: '/profil#visi-misi' },
             { name: 'Sejarah', href: '/profil#sejarah' },
         ]},

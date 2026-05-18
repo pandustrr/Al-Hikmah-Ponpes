@@ -69,24 +69,7 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                 </div>
             </div>
 
-            {/* Stats Bar */}
-            <div className="bg-brand-primary py-8">
-                <div className="max-w-7xl mx-auto px-4">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                        {[
-                            { value: '6+', label: 'Jenis Fasilitas' },
-                            { value: '2', label: 'Gedung Asrama' },
-                            { value: '1', label: 'Masjid Utama' },
-                            { value: '100%', label: 'Berasrama' },
-                        ].map((s, i) => (
-                            <div key={i}>
-                                <div className="text-2xl font-semibold text-brand-secondary">{s.value}</div>
-                                <div className="text-[10px] font-semibold text-white/50 uppercase tracking-widest mt-1">{s.label}</div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
+
 
             {/* Grid */}
             <div className="max-w-7xl mx-auto px-4 py-16">
