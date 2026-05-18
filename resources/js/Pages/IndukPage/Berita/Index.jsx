@@ -82,7 +82,7 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                     <div className="mb-4">
                         <span className="bg-brand-primary text-white text-[10px] font-semibold px-2 py-0.5 tracking-tighter uppercase">{settings.news_portal_badge || 'Portal Berita'}</span>
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-semibold text-brand-primary tracking-tighter uppercase mb-2">
+                    <h1 className="text-4xl sm:text-5xl md:text-7xl font-semibold text-brand-primary tracking-tighter uppercase mb-2">
                         {settings.news_portal_title ? (
                             <span dangerouslySetInnerHTML={{ __html: settings.news_portal_title.replace('Al-Hikmah', '<span class="text-brand-accent">Al-Hikmah</span>') }} />
                         ) : (
@@ -101,10 +101,10 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder={settings.news_search_placeholder || "Cari berita atau informasi..."}
-                                className="w-full bg-slate-50 border-2 border-sage-light focus:border-brand-primary focus:bg-white px-12 py-4 rounded-full text-sm font-medium transition-all outline-none"
+                                className="w-full bg-slate-50 border-2 border-sage-light focus:border-brand-primary focus:bg-white px-10 sm:px-12 py-3 sm:py-4 rounded-full text-[10px] sm:text-sm font-medium transition-all outline-none"
                             />
-                            <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-brand-accent group-focus-within:text-brand-primary transition-colors" />
-                            <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-brand-primary hover:bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest px-6 py-2.5 rounded-full transition-all">
+                            <MagnifyingGlassIcon className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-brand-accent group-focus-within:text-brand-primary transition-colors" />
+                            <button type="submit" className="absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 bg-brand-primary hover:bg-slate-900 text-white text-[9px] sm:text-[10px] font-black uppercase tracking-widest px-4 sm:px-6 py-2 sm:py-2.5 rounded-full transition-all">
                                 Cari
                             </button>
                         </form>
@@ -117,12 +117,12 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                                 <button
                                     key={cat.slug}
                                     onClick={() => handleFilter(cat.slug)}
-                                    className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest whitespace-nowrap transition-all border-b-2 ${(currentCategory || '') === cat.slug
+                                    className={`px-3 sm:px-6 py-3 sm:py-4 text-[9px] sm:text-xs font-semibold uppercase tracking-widest whitespace-nowrap transition-all border-b-2 ${(currentCategory || '') === cat.slug
                                             ? 'border-brand-primary text-brand-primary'
                                             : 'border-transparent text-brand-accent hover:text-brand-primary'
                                         }`}
                                 >
-                                    {cat.name} {cat.beritas_count > 0 && <span className="ml-1 text-[10px] opacity-50">({cat.beritas_count})</span>}
+                                    {cat.name} {cat.beritas_count > 0 && <span className="ml-1 text-[8px] sm:text-[10px] opacity-50">({cat.beritas_count})</span>}
                                 </button>
                             ))}
                         </div>
@@ -167,12 +167,12 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
 
                                     {/* Slider Indicators */}
                                     {featuredNewsList.length > 1 && (
-                                        <div className="absolute bottom-6 right-6 z-20 flex gap-2 opacity-0 group-hover/slider:opacity-100 transition-opacity duration-300">
+                                        <div className="absolute bottom-3 right-3 sm:bottom-6 sm:right-6 z-20 flex gap-1.5 sm:gap-2 opacity-0 group-hover/slider:opacity-100 transition-opacity duration-300">
                                             {featuredNewsList.map((_, index) => (
                                                 <button
                                                     key={index}
                                                     onClick={() => setCurrentSlide(index)}
-                                                    className={`h-1.5 rounded-full transition-all duration-300 ${index === currentSlide ? 'bg-brand-secondary w-6' : 'bg-white/50 w-2 hover:bg-white'
+                                                    className={`h-1 sm:h-1.5 rounded-full transition-all duration-300 ${index === currentSlide ? 'bg-brand-secondary w-4 sm:w-6' : 'bg-white/50 w-1.5 sm:w-2 hover:bg-white'
                                                         }`}
                                                     aria-label={`Go to slide ${index + 1}`}
                                                 />

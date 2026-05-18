@@ -18,16 +18,16 @@ export default function NewsCard({ berita, variant = 'vertical', className = '' 
                     className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
-                    <div className="flex items-center gap-3 mb-4">
-                        <span className="bg-brand-primary text-white text-[10px] font-semibold uppercase tracking-[0.2em] px-3 py-1">
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-10">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-4">
+                        <span className="bg-brand-primary text-white text-[8px] sm:text-[10px] font-semibold uppercase tracking-[0.2em] px-2 py-0.5 sm:px-3 sm:py-1">
                             UTAMA
                         </span>
-                        <span className="text-white/70 text-[10px] font-semibold uppercase tracking-widest">
+                        <span className="text-white/70 text-[8px] sm:text-[10px] font-semibold uppercase tracking-widest">
                             {formattedDate}
                         </span>
                     </div>
-                    <h2 className="text-2xl md:text-4xl font-serif font-semibold text-white leading-tight group-hover:text-brand-secondary transition-colors line-clamp-2 mb-4">
+                    <h2 className="text-xl sm:text-2xl md:text-4xl font-serif font-semibold text-white leading-tight group-hover:text-brand-secondary transition-colors line-clamp-2 mb-2 sm:mb-4">
                         {berita.judul}
                     </h2>
                     <p className="text-white/80 text-sm md:text-base line-clamp-2 max-w-2xl hidden md:block">
@@ -42,9 +42,9 @@ export default function NewsCard({ berita, variant = 'vertical', className = '' 
         return (
             <Link 
                 href={`/berita/${berita.slug}`} 
-                className={`group flex gap-4 py-4 border-b border-sage-light last:border-0 ${className}`}
+                className={`group flex gap-3 sm:gap-4 py-3 sm:py-4 border-b border-sage-light last:border-0 ${className}`}
             >
-                <div className="w-32 h-20 md:w-48 md:h-28 flex-shrink-0 overflow-hidden bg-brand-secondary">
+                <div className="w-24 h-16 sm:w-32 sm:h-20 md:w-48 md:h-28 flex-shrink-0 overflow-hidden bg-brand-secondary rounded-[0.1rem]">
                     <img
                         src={berita.image_url || "https://images.unsplash.com/photo-1585829365234-781fcd04c838?auto=format&fit=crop&q=80&w=400"}
                         alt={berita.judul}
@@ -52,13 +52,13 @@ export default function NewsCard({ berita, variant = 'vertical', className = '' 
                     />
                 </div>
                 <div className="flex-grow">
-                    <div className="text-[10px] font-semibold text-brand-accent uppercase tracking-widest mb-1">
+                    <div className="text-[8px] sm:text-[10px] font-semibold text-brand-accent uppercase tracking-widest mb-1">
                         {berita.category?.name || 'Berita'}
                     </div>
-                    <h3 className="text-base font-semibold text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2 mb-2">
+                    <h3 className="text-sm sm:text-base font-semibold text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2 mb-1 sm:mb-2">
                         {berita.judul}
                     </h3>
-                    <div className="text-[10px] font-medium text-brand-accent uppercase tracking-widest">
+                    <div className="text-[8px] sm:text-[10px] font-medium text-brand-accent uppercase tracking-widest">
                         {formattedDate}
                     </div>
                 </div>
