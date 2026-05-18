@@ -46,73 +46,84 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
 
     return (
         <section className="relative h-[85vh] min-h-[650px] flex items-center overflow-hidden bg-brand-primary">
-            {/* Dynamic Background Image Layer */}
-            {sliderBerita.map((item, index) => item && (
-                <div 
-                    key={`bg-${item.id || index}`}
-                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                        index === currentIndex ? 'opacity-100' : 'opacity-0'
-                    }`}
-                >
-                    <img
-                        src={item.image_url || 'https://picsum.photos/id/1018/1200/800'}
-                        alt="Background"
-                        className="w-full h-full object-cover object-center scale-110"
-                        style={{ transform: `translateY(${offsetY * 0.15}px)` }}
-                    />
-                </div>
-            ))}
+            {/* Static Background Image Layer */}
+            <div className="absolute inset-0">
+                <img
+                    src={settings.hero_bg || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1600'}
+                    alt="Hero Background"
+                    className="w-full h-full object-cover object-center scale-105"
+                    style={{ transform: `translateY(${offsetY * 0.15}px)` }}
+                />
+            </div>
             
-            {/* Sophisticated Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/60 via-transparent to-brand-primary"></div>
+            {/* Sophisticated Overlay for the main background */}
+            <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/80 via-brand-primary/60 to-brand-primary"></div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 w-full h-full flex flex-col justify-end lg:grid lg:grid-cols-12 lg:items-center gap-8 lg:gap-12 pb-12 lg:pb-0 pt-20 lg:pt-0">
                 
                 {/* Main Headline (Glassmorphism & Refined) */}
                 <div className="lg:col-span-7 xl:col-span-8 flex flex-col items-center lg:items-start text-center lg:text-left mb-4 lg:mb-0">
-                    <div className={`transition-all duration-700 transform ${isAnimating ? 'opacity-0 translate-y-8' : 'opacity-100 translate-y-0'}`}>
+                    <div className={`transition-all duration-700 transform w-full ${isAnimating ? 'opacity-0 translate-y-8' : 'opacity-100 translate-y-0'}`}>
                         
-                        {/* Glass Card for Content */}
-                        <div className="backdrop-blur-sm bg-white/5 border border-white/10 p-6 md:p-0 md:bg-transparent md:border-0 rounded-2xl mb-6 md:mb-10">
-                            <div className="space-y-4 md:space-y-4">
+                        {/* Glass Card for Content with Dynamic Blurred Background */}
+                        <div className="relative overflow-hidden backdrop-blur-md bg-white/10 border border-white/20 p-6 sm:p-8 rounded-2xl mb-6 md:mb-10 shadow-2xl">
+                            
+                            {/* Dynamic Background Image Layer inside the card */}
+                            {sliderBerita.map((item, index) => item && (
+                                <div 
+                                    key={`card-bg-${item.id || index}`}
+                                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                                        index === currentIndex ? 'opacity-100' : 'opacity-0'
+                                    }`}
+                                >
+                                    <img
+                                        src={item.image_url || 'https://picsum.photos/id/1018/1200/800'}
+                                        alt="News Background"
+                                        className="w-full h-full object-cover object-center scale-110 blur-md opacity-60 mix-blend-overlay"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-slate-900/40"></div>
+                                </div>
+                            ))}
+
+                            <div className="relative z-10 space-y-4 md:space-y-4 text-left">
                                 <div className="space-y-1 mb-2">
                                     {settings.hero_subtitle && (
-                                        <div className="text-white/40 text-[9px] font-semibold uppercase tracking-[0.4em]">
+                                        <div className="text-white/60 text-[9px] font-semibold uppercase tracking-[0.4em]">
                                             {settings.hero_subtitle}
                                         </div>
                                     )}
-                                    <div className="flex items-center justify-center lg:justify-start gap-3">
+                                    <div className="flex items-center justify-start gap-3">
                                         <span className="h-[1px] w-8 md:w-12 bg-brand-secondary"></span>
                                         <span className="text-brand-secondary text-[8px] md:text-[11px] font-semibold uppercase tracking-[0.5em]">
                                             {sliderBerita[currentIndex].category?.name || 'YPDS Update'}
                                         </span>
                                     </div>
                                 </div>
-                                <h1 className="text-2xl md:text-5xl font-serif font-semibold text-white tracking-tight leading-[1.2] max-w-2xl">
+                                <h1 className="text-2xl md:text-4xl lg:text-5xl font-serif font-semibold text-white tracking-tight leading-[1.2] max-w-2xl">
                                     {sliderBerita[currentIndex].judul}
                                 </h1>
-                                <p className="text-white/70 text-[10px] md:text-base font-light max-w-xl line-clamp-2 leading-relaxed mx-auto lg:mx-0">
+                                <p className="text-white/80 text-[10px] md:text-base font-light max-w-xl line-clamp-2 md:line-clamp-3 leading-relaxed">
                                     {sliderBerita[currentIndex].ringkasan || 'Dapatkan informasi terbaru mengenai perkembangan pendidikan dan kegiatan eksklusif di lingkungan YPDS Al-Hikmah Jember.'}
                                 </p>
                             </div>
 
-                            <div className="flex flex-col sm:flex-row items-center gap-5 justify-center lg:justify-start mt-8">
+                            <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-5 mt-8">
                                 <Link 
                                     href={sliderBerita[currentIndex].slug === '#' ? '#' : `/berita/${sliderBerita[currentIndex].slug}`}
-                                    className="bg-brand-secondary text-brand-primary px-7 md:px-10 py-3.5 md:py-4.5 text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.2em] rounded-[0.25rem] flex items-center gap-3 md:gap-4 hover:bg-white transition-all shadow-2xl w-fit group"
+                                    className="bg-brand-secondary text-brand-primary px-7 md:px-10 py-3.5 md:py-4.5 text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.2em] rounded-[0.25rem] flex items-center gap-3 md:gap-4 hover:bg-white transition-all shadow-xl w-fit group"
                                 >
                                     Baca Selengkapnya
                                     <ChevronRightIcon className="w-4 h-4 md:w-5 md:h-5 stroke-[3px] group-hover:translate-x-1 transition-transform" />
                                 </Link>
 
-                                {/* Indicators Integrated closer to Button */}
-                                <div className="flex lg:hidden items-center gap-2.5">
+                                {/* Indicators Integrated closer to Button for Mobile */}
+                                <div className="flex lg:hidden items-center gap-2.5 mt-2 sm:mt-0 sm:ml-auto">
                                     {sliderBerita.map((_, idx) => (
                                         <button
                                             key={`dot-${idx}`}
                                             onClick={() => goToSlide(idx)}
-                                            className={`transition-all duration-500 rounded-full h-1 ${
-                                                idx === currentIndex ? 'w-8 bg-brand-secondary' : 'w-2 bg-white/20'
+                                            className={`transition-all duration-500 rounded-full h-1.5 ${
+                                                idx === currentIndex ? 'w-8 bg-brand-secondary' : 'w-2 bg-white/40'
                                             }`}
                                         />
                                     ))}
@@ -124,39 +135,36 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
 
                 {/* Thumbnail Gallery Sidebar (Docked Look) */}
                 <div className="lg:col-span-5 xl:col-span-4 flex flex-col gap-4">
-                    <h3 className="text-white/30 text-[9px] font-semibold uppercase tracking-[0.4em] mb-1 hidden lg:block">Berita Lainnya</h3>
+                    <h3 className="text-white/70 text-[10px] font-semibold uppercase tracking-[0.4em] mb-1 hidden lg:block">Berita Lainnya</h3>
                     
                     <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto pb-6 lg:pb-0 custom-scrollbar snap-x px-4 lg:px-0">
                         {sliderBerita.map((item, idx) => (
                             <button
                                 key={`thumb-${item.id}`}
                                 onClick={() => goToSlide(idx)}
-                                className={`group relative flex flex-shrink-0 lg:flex-shrink flex-col lg:flex-row lg:items-center gap-2 lg:gap-4 p-2.5 lg:p-3 rounded-[0.5rem] transition-all duration-500 border snap-center w-[140px] md:w-[160px] lg:w-full ${
+                                className={`group relative flex flex-shrink-0 lg:flex-shrink flex-col lg:flex-row lg:items-center gap-2 lg:gap-4 p-2.5 lg:p-3 rounded-[0.5rem] transition-all duration-500 snap-center w-[140px] md:w-[160px] lg:w-full backdrop-blur-xl ${
                                     idx === currentIndex 
-                                        ? 'bg-white/20 border-white/30 shadow-2xl scale-[1.02] lg:scale-100' 
-                                        : 'bg-white/5 border-white/5 hover:bg-white/10 opacity-80 hover:opacity-100'
+                                        ? 'bg-black/60 border-2 border-brand-secondary shadow-2xl scale-[1.02] lg:scale-100' 
+                                        : 'bg-black/40 border border-white/30 hover:bg-black/50 hover:border-white/60 opacity-100'
                                 }`}
                             >
-                                <div className="w-full lg:w-20 h-16 lg:h-14 flex-shrink-0 rounded-[0.3rem] overflow-hidden bg-brand-primary/50">
+                                <div className="w-full lg:w-24 h-16 lg:h-16 flex-shrink-0 rounded-[0.3rem] overflow-hidden bg-brand-primary">
                                     <img 
                                         src={item.image_url || 'https://images.unsplash.com/photo-1590076215667-875d4ef2d968?auto=format&fit=crop&q=80&w=200'} 
                                         alt={item.judul}
                                         className={`w-full h-full object-cover transition-transform duration-700 ${idx === currentIndex ? 'scale-110' : 'group-hover:scale-110'}`}
                                     />
                                 </div>
-                                <div className="text-left min-w-0">
-                                    <p className={`text-[7px] lg:text-[9px] font-semibold uppercase tracking-widest mb-0.5 ${idx === currentIndex ? 'text-brand-secondary' : 'text-white/40'}`}>
+                                <div className="text-left min-w-0 py-1">
+                                    <p className={`text-[8px] lg:text-[10px] font-bold uppercase tracking-widest mb-1 ${idx === currentIndex ? 'text-brand-secondary' : 'text-white/80'}`}>
                                         {item.category?.name || 'Berita'}
                                     </p>
-                                    <h4 className={`text-[9px] lg:text-[10px] font-semibold leading-tight line-clamp-2 ${idx === currentIndex ? 'text-white' : 'text-white/70 group-hover:text-white/90'}`}>
+                                    <h4 className={`text-[10px] lg:text-[11px] font-semibold leading-tight line-clamp-2 ${idx === currentIndex ? 'text-white' : 'text-white/90 group-hover:text-white'}`}>
                                         {item.judul}
                                     </h4>
                                 </div>
                                 {idx === currentIndex && (
-                                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-brand-secondary rounded-l-[0.5rem] hidden lg:block"></div>
-                                )}
-                                {idx === currentIndex && (
-                                    <div className="absolute left-0 right-0 bottom-0 h-0.5 bg-brand-secondary lg:hidden"></div>
+                                    <div className="absolute left-0 right-0 bottom-0 h-1 bg-brand-secondary lg:hidden rounded-b-[0.5rem]"></div>
                                 )}
                             </button>
                         ))}
