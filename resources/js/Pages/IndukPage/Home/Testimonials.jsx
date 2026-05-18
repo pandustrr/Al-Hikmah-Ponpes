@@ -50,8 +50,8 @@ export default function Testimonials({ testimonials = [] }) {
                         
                         <div className="relative z-10 grid grid-cols-1 md:grid-cols-4 gap-8 items-center">
                             
-                            {/* Left Column: Speaker Info & Stars (1/4 width on desktop) */}
-                            <div className={`md:col-span-1 flex flex-col items-center text-center md:border-r md:border-brand-light md:pr-8 transition-all duration-300 ${
+                            {/* Left Column: Speaker Info & Stars (1/4 width on desktop, bottom on mobile) */}
+                            <div className={`md:col-span-1 order-2 md:order-1 flex flex-col items-center text-center md:border-r md:border-brand-light md:pr-8 transition-all duration-300 ${
                                 fade ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
                             }`}>
                                 <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-brand-secondary shadow-md flex-shrink-0 mb-4">
@@ -77,8 +77,8 @@ export default function Testimonials({ testimonials = [] }) {
                                 </div>
                             </div>
 
-                            {/* Right Column: Quote text (3/4 width on desktop) */}
-                            <div className="md:col-span-3 relative pl-0 md:pl-4">
+                            {/* Right Column: Quote text (3/4 width on desktop, top on mobile) */}
+                            <div className="md:col-span-3 order-1 md:order-2 relative pl-0 md:pl-4">
                                 {/* Decorative Giant Quotation Mark */}
                                 <div className="absolute -top-8 -left-2 text-[80px] md:text-[100px] font-serif text-brand-light/25 select-none pointer-events-none leading-none">
                                     “
