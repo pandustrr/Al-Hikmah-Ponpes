@@ -17,6 +17,7 @@ import {
     BuildingLibraryIcon,
     InformationCircleIcon
 } from '@heroicons/react/24/outline';
+import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
 export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilitas = [], galeris = [] }) {
     const [activeTab, setActiveTab] = React.useState('visual');
@@ -464,11 +465,11 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                             <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                                 <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em] border border-white/40 px-4 py-2">Ganti Gambar</span>
                                             </div>
-                                            <input 
-                                                type="file" 
-                                                className="absolute inset-0 opacity-0 cursor-pointer" 
-                                                onChange={e => {
-                                                    const file = e.target.files[0];
+                                            <ImageInputWithCrop 
+                                                className="absolute inset-0 z-10"
+                                                aspectRatio={21/9}
+                                                title="Potong Hero Banner"
+                                                onChange={(file) => {
                                                     setData('image', file);
                                                     if (file) setImagePreview(URL.createObjectURL(file));
                                                 }}
@@ -489,11 +490,11 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                             <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                                 <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em]">Ganti</span>
                                             </div>
-                                            <input 
-                                                type="file" 
-                                                className="absolute inset-0 opacity-0 cursor-pointer" 
-                                                onChange={e => {
-                                                    const file = e.target.files[0];
+                                            <ImageInputWithCrop 
+                                                className="absolute inset-0 z-10"
+                                                aspectRatio={1}
+                                                title="Potong Ikon/Logo Unit"
+                                                onChange={(file) => {
                                                     setData('ikon', file);
                                                     if (file) setIconPreview(URL.createObjectURL(file));
                                                 }}
@@ -1015,11 +1016,11 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                                 <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Foto</span>
                                             </div>
                                         )}
-                                        <input 
-                                            type="file" 
-                                            className="absolute inset-0 opacity-0 cursor-pointer" 
-                                            onChange={e => {
-                                                const file = e.target.files[0];
+                                        <ImageInputWithCrop 
+                                            className="absolute inset-0 z-10"
+                                            aspectRatio={3/4}
+                                            title="Potong Foto Pengajar"
+                                            onChange={(file) => {
                                                 pengajarForm.setData('image', file);
                                                 if (file) setPengajarPreview(URL.createObjectURL(file));
                                             }}
@@ -1125,11 +1126,11 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                                                 <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Gambar</span>
                                                             </div>
                                                         )}
-                                                        <input 
-                                                            type="file" 
-                                                            className="absolute inset-0 opacity-0 cursor-pointer" 
-                                                            onChange={e => {
-                                                                const file = e.target.files[0];
+                                                        <ImageInputWithCrop 
+                                                            className="absolute inset-0 z-10"
+                                                            aspectRatio={4/3}
+                                                            title="Potong Gambar Fasilitas"
+                                                            onChange={(file) => {
                                                                 fasilitasForm.setData('image', file);
                                                                 if (file) setFasilitasPreview(URL.createObjectURL(file));
                                                             }}
@@ -1205,11 +1206,11 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                                             ) : (
                                                                 <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider">Pilih Foto Galeri</span>
                                                             )}
-                                                            <input 
-                                                                type="file" 
-                                                                className="absolute inset-0 opacity-0 cursor-pointer" 
-                                                                onChange={e => {
-                                                                    const file = e.target.files[0];
+                                                            <ImageInputWithCrop 
+                                                                className="absolute inset-0 z-10"
+                                                                aspectRatio={null}
+                                                                title="Potong Foto Galeri"
+                                                                onChange={(file) => {
                                                                     galeriForm.setData('image', file);
                                                                     if (file) setGaleriPreview(URL.createObjectURL(file));
                                                                 }}
