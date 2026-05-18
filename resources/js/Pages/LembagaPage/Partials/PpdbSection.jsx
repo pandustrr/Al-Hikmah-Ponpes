@@ -7,10 +7,28 @@ export default function PpdbSection({ lembaga, ppdbInfo }) {
     const waNumber = ppdbInfo.contact_number?.replace(/\D/g, '');
     const currentYear = new Date().getFullYear();
 
-    // Normalize: use contact_persons if available, otherwise fallback from contact_number
-    const contacts = (ppdbInfo.contact_persons && ppdbInfo.contact_persons.length > 0)
-        ? ppdbInfo.contact_persons
-        : (ppdbInfo.contact_number ? [{ name: 'Kontak PPDB', number: ppdbInfo.contact_number }] : []);
+    // Normalize: merge primary contact and additional contact persons into a single list
+    const contacts = [];
+    
+    // 1. Add primary contact if available
+    if (ppdbInfo.contact_number) {
+        contacts.push({
+            name: ppdbInfo.contact_name ? `WA Utama (${ppdbInfo.contact_name})` : 'WhatsApp Utama',
+            number: ppdbInfo.contact_number,
+            isPrimary: true
+        });
+    }
+    
+    // 2. Add additional contact persons (narahubung)
+    if (ppdbInfo.contact_persons && ppdbInfo.contact_persons.length > 0) {
+        ppdbInfo.contact_persons.forEach(person => {
+            contacts.push({
+                name: person.name,
+                number: person.number,
+                isPrimary: false
+            });
+        });
+    }
 
     return (
         <section id="ppdb" className="py-20 md:py-24 bg-[#FBFBF9] border-t border-slate-100">

@@ -38,40 +38,23 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
         struktur_pendidikan: lembaga.struktur_pendidikan || '',
         keunggulan: lembaga.keunggulan || '',
         image: null,
+        image_mobile: null,
         ikon: null,
     });
 
     const [imagePreview, setImagePreview] = React.useState(lembaga.image_url);
+    const [imageMobilePreview, setImageMobilePreview] = React.useState(lembaga.image_mobile_url);
     const [iconPreview, setIconPreview] = React.useState(lembaga.ikon_url);
 
     // PPDB Form
     const ppdbForm = useForm({
         description:       ppdbInfo?.description       || '',
-        contact_number:    ppdbInfo?.contact_number    || '',
-        // Migrate legacy contact_number to contact_persons if contact_persons is empty
-        contact_persons:   (ppdbInfo?.contact_persons && ppdbInfo.contact_persons.length > 0)
-            ? ppdbInfo.contact_persons
-            : (ppdbInfo?.contact_number
-                ? [{ name: 'Panitia PPDB', number: ppdbInfo.contact_number }]
-                : []),
         registration_link: ppdbInfo?.registration_link || '',
         is_active:         ppdbInfo?.is_active         ?? true,
         is_open:           ppdbInfo?.is_open           ?? true,
         is_link_active:     ppdbInfo?.is_link_active     ?? true,
     });
 
-    const addContact = () => {
-        ppdbForm.setData('contact_persons', [...ppdbForm.data.contact_persons, { name: '', number: '' }]);
-    };
-    const removeContact = (i) => {
-        ppdbForm.setData('contact_persons', ppdbForm.data.contact_persons.filter((_, idx) => idx !== i));
-    };
-    const updateContact = (i, field, value) => {
-        const updated = ppdbForm.data.contact_persons.map((c, idx) =>
-            idx === i ? { ...c, [field]: value } : c
-        );
-        ppdbForm.setData('contact_persons', updated);
-    };
     const submitPpdb = (e) => {
         e.preventDefault();
         ppdbForm.put(route('admin.lembaga.ppdb.upsert', lembaga.id));
@@ -443,16 +426,19 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                     {activeTab === 'visual' && (
                         <div className="space-y-8 animate-fade-in">
                             <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-8">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                                    <div>
-                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Hero Banner (Latar Belakang Utama)</label>
+                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                                    {/* Desktop Banner */}
+                                    <div className="space-y-4">
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                            Hero Banner Desktop (Lanskap 21:9)
+                                        </label>
                                         <div className="relative aspect-video bg-slate-100 rounded overflow-hidden border-2 border-dashed border-slate-200 group">
                                             {imagePreview ? (
-                                                <img src={imagePreview} className="w-full h-full object-cover" alt="Preview" />
+                                                <img src={imagePreview} className="w-full h-full object-cover" alt="Desktop Preview" />
                                             ) : (
                                                 <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
                                                     <PhotoIcon className="h-10 w-10 mb-2" />
-                                                    <span className="text-[10px] font-bold uppercase tracking-widest">Pilih Gambar Banner</span>
+                                                    <span className="text-[10px] font-bold uppercase tracking-widest">Pilih Lanskap Banner</span>
                                                 </div>
                                             )}
                                             <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -461,17 +447,62 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                             <ImageInputWithCrop 
                                                 className="absolute inset-0 z-10"
                                                 aspectRatio={21/9}
-                                                title="Potong Hero Banner"
+                                                title="Potong Hero Banner Desktop"
                                                 onChange={(file) => {
                                                     setData('image', file);
                                                     if (file) setImagePreview(URL.createObjectURL(file));
                                                 }}
                                             />
                                         </div>
+                                        {errors.image && (
+                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider">{errors.image}</p>
+                                        )}
+                                        <p className="text-[9px] text-slate-400 uppercase tracking-widest italic leading-relaxed">
+                                            Digunakan sebagai latar belakang utama pada resolusi layar monitor/laptop.
+                                        </p>
                                     </div>
-                                    <div>
-                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Ikon Logo Unit (Seal of Identity)</label>
-                                        <div className="relative w-40 h-40 bg-slate-100 rounded-xl overflow-hidden border-2 border-dashed border-slate-200 group mx-auto md:mx-0">
+
+                                    {/* Mobile Banner */}
+                                    <div className="space-y-4">
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                            Hero Banner Mobile (Potret 3:4)
+                                        </label>
+                                        <div className="relative aspect-[3/4] max-w-[200px] bg-slate-100 rounded overflow-hidden border-2 border-dashed border-slate-200 group">
+                                            {imageMobilePreview ? (
+                                                <img src={imageMobilePreview} className="w-full h-full object-cover" alt="Mobile Preview" />
+                                            ) : (
+                                                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                                    <PhotoIcon className="h-10 w-10 mb-2" />
+                                                    <span className="text-[10px] font-bold uppercase tracking-widest">Pilih Potret Banner</span>
+                                                </div>
+                                            )}
+                                            <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em] border border-white/40 px-4 py-2">Ganti Gambar</span>
+                                            </div>
+                                            <ImageInputWithCrop 
+                                                className="absolute inset-0 z-10"
+                                                aspectRatio={3/4}
+                                                title="Potong Hero Banner Mobile"
+                                                onChange={(file) => {
+                                                    setData('image_mobile', file);
+                                                    if (file) setImageMobilePreview(URL.createObjectURL(file));
+                                                }}
+                                            />
+                                        </div>
+                                        {errors.image_mobile && (
+                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider">{errors.image_mobile}</p>
+                                        )}
+                                        <p className="text-[9px] text-slate-400 uppercase tracking-widest italic leading-relaxed">
+                                            Digunakan sebagai latar belakang utama khusus pada tampilan HP/ponsel pintar.
+                                        </p>
+                                    </div>
+
+                                    {/* Ikon Logo */}
+                                    <div className="space-y-4">
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                            Ikon Logo Unit (Rasio 1:1)
+                                        </label>
+                                        <div className="relative w-40 h-40 bg-slate-100 rounded-xl overflow-hidden border-2 border-dashed border-slate-200 group">
                                             {iconPreview ? (
                                                 <img src={iconPreview} className="w-full h-full object-contain p-4" alt="Icon Preview" />
                                             ) : (
@@ -493,7 +524,12 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                                 }}
                                             />
                                         </div>
-                                        <p className="mt-4 text-[9px] text-slate-400 uppercase tracking-widest text-center md:text-left italic">Direkomendasikan format PNG transparan 1:1</p>
+                                        {errors.ikon && (
+                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider">{errors.ikon}</p>
+                                        )}
+                                        <p className="text-[9px] text-slate-400 uppercase tracking-widest italic leading-relaxed">
+                                            Direkomendasikan format PNG transparan berukuran 1:1 untuk hasil terbaik.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -613,73 +649,6 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                         {ppdbForm.errors.description && (
                                             <p className="text-[10px] text-red-500 italic mt-1">{ppdbForm.errors.description}</p>
                                         )}
-                                    </div>
-
-                                    {/* Kontak WhatsApp — Multi */}
-                                    <div>
-                                        <div className="flex items-center justify-between mb-3">
-                                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Kontak WhatsApp</label>
-                                            <button
-                                                type="button"
-                                                onClick={addContact}
-                                                className="text-[9px] font-bold text-brand-primary uppercase tracking-widest hover:text-slate-900 transition-colors flex items-center gap-1"
-                                            >
-                                                + Tambah Kontak
-                                            </button>
-                                        </div>
-
-                                        {ppdbForm.data.contact_persons.length === 0 && (
-                                            <p className="text-[10px] text-slate-300 italic text-center py-4 border-2 border-dashed border-slate-100 rounded">
-                                                Belum ada kontak. Klik "Tambah Kontak" untuk menambahkan.
-                                            </p>
-                                        )}
-
-                                        <div className="space-y-3">
-                                            {ppdbForm.data.contact_persons.map((contact, i) => {
-                                                const nameError = ppdbForm.errors[`contact_persons.${i}.name`];
-                                                const numberError = ppdbForm.errors[`contact_persons.${i}.number`];
-
-                                                return (
-                                                    <div key={i} className="space-y-1">
-                                                        <div className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3">
-                                                            <span className="text-[10px] font-black text-slate-300 w-5 shrink-0 text-center">{i + 1}</span>
-                                                            <input
-                                                                type="text"
-                                                                className={`flex-1 bg-white border rounded p-2 text-sm focus:ring-1 focus:ring-brand-primary outline-none ${
-                                                                    nameError ? 'border-red-400' : 'border-slate-200'
-                                                                }`}
-                                                                placeholder="Nama (mis. Panitia PPDB)"
-                                                                value={contact.name}
-                                                                onChange={e => updateContact(i, 'name', e.target.value)}
-                                                            />
-                                                            <input
-                                                                type="text"
-                                                                className={`flex-1 bg-white border rounded p-2 text-sm focus:ring-1 focus:ring-brand-primary outline-none ${
-                                                                    numberError ? 'border-red-400' : 'border-slate-200'
-                                                                }`}
-                                                                placeholder="Nomor (628...)"
-                                                                value={contact.number}
-                                                                onChange={e => updateContact(i, 'number', e.target.value)}
-                                                            />
-                                                            <button
-                                                                type="button"
-                                                                onClick={() => removeContact(i)}
-                                                                className="p-1.5 text-slate-300 hover:text-red-400 transition-colors shrink-0"
-                                                            >
-                                                                <TrashIcon className="h-4 w-4" />
-                                                            </button>
-                                                        </div>
-                                                        {(nameError || numberError) && (
-                                                            <div className="pl-8 text-[9px] text-red-500 italic space-x-2">
-                                                                {nameError && <span>* {nameError}</span>}
-                                                                {numberError && <span>* {numberError}</span>}
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                        <p className="mt-2 text-[9px] text-slate-400 italic">Nomor diawali kode negara tanpa tanda +. Contoh: 6281234567890</p>
                                     </div>
 
                                     {/* Link Formulir */}

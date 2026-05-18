@@ -9,6 +9,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Toast from '@/Components/Toast';
 import ConfirmationModal from '@/Components/ConfirmationModal';
+import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
 export default function Index({ settings = {} }) {
     const { flash } = usePage().props;
@@ -39,6 +40,10 @@ export default function Index({ settings = {} }) {
         onConfirm: null
     });
 
+    const [heroBgPreview, setHeroBgPreview] = useState(settings.profil_hero_bg);
+    const [heroBgMobilePreview, setHeroBgMobilePreview] = useState(settings.profil_hero_bg_mobile);
+    const [profilImagePreview, setProfilImagePreview] = useState(settings.profil_image);
+
     const { data, setData, post, processing, errors } = useForm({
         // Hero Section
         profil_hero_tagline: settings.profil_hero_tagline || 'Mengenal Lebih Dekat',
@@ -47,6 +52,7 @@ export default function Index({ settings = {} }) {
         profil_hero_btn1: settings.profil_hero_btn1 || 'Sejarah Lembaga',
         profil_hero_btn2: settings.profil_hero_btn2 || 'Visi & Misi',
         hero_bg_file: null,
+        hero_bg_mobile_file: null,
 
         // Stats Section
         profil_stat1_value: settings.profil_stat1_value || '25+',
@@ -242,23 +248,71 @@ export default function Index({ settings = {} }) {
                                 
                                 <div className="space-y-6">
                                     <div>
-                                        <label className={labelStyle}>Latar Belakang Hero (Gambar Banner)</label>
-                                        <div className="flex flex-col sm:flex-row sm:items-center gap-6 p-4 border border-slate-100 rounded-[0.25rem] bg-slate-50/50">
-                                            <div className="w-36 h-20 bg-slate-100 border border-slate-200 rounded-[0.25rem] overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
-                                                {settings.profil_hero_bg ? (
-                                                    <img src={settings.profil_hero_bg} alt="Hero Background" className="w-full h-full object-cover" />
-                                                ) : (
-                                                    <PhotoIcon className="w-8 h-8 text-slate-300" />
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-6">
+                                            {/* Desktop Hero BG */}
+                                            <div className="space-y-4">
+                                                <label className={labelStyle}>Latar Belakang Hero Desktop (Lanskap 21:9)</label>
+                                                <div className="relative aspect-video bg-slate-100 rounded overflow-hidden border-2 border-dashed border-slate-200 group">
+                                                    {heroBgPreview ? (
+                                                        <img src={heroBgPreview} className="w-full h-full object-cover" alt="Hero BG Desktop Preview" />
+                                                    ) : (
+                                                        <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                                            <PhotoIcon className="h-10 w-10 mb-2" />
+                                                            <span className="text-[10px] font-bold uppercase tracking-widest">Pilih Gambar Lanskap</span>
+                                                        </div>
+                                                    )}
+                                                    <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                        <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em] border border-white/40 px-4 py-2">Ganti Gambar</span>
+                                                    </div>
+                                                    <ImageInputWithCrop 
+                                                        className="absolute inset-0 z-10"
+                                                        aspectRatio={21/9}
+                                                        title="Potong Background Hero Desktop"
+                                                        onChange={(file) => {
+                                                            setData('hero_bg_file', file);
+                                                            if (file) setHeroBgPreview(URL.createObjectURL(file));
+                                                        }}
+                                                    />
+                                                </div>
+                                                {errors.hero_bg_file && (
+                                                    <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider">{errors.hero_bg_file}</p>
                                                 )}
+                                                <p className="text-[9px] text-slate-400 uppercase tracking-widest italic leading-relaxed">
+                                                    Format: JPG/PNG. Rekomendasi rasio lanskap 21:9 untuk layar desktop.
+                                                </p>
                                             </div>
-                                            <div className="space-y-2 flex-grow">
-                                                <input
-                                                    type="file"
-                                                    onChange={e => setData('hero_bg_file', e.target.files[0])}
-                                                    className="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-[0.25rem] file:border file:border-slate-200 file:text-[9px] file:font-bold file:uppercase file:tracking-widest file:bg-white file:text-slate-600 hover:file:bg-brand-primary hover:file:text-white hover:file:border-brand-primary file:transition-all cursor-pointer"
-                                                    accept="image/*"
-                                                />
-                                                <p className="text-[9px] text-slate-400 uppercase tracking-wider font-semibold">Format: JPG/PNG, Max: 2MB. Rekomendasi: 1920x1080px.</p>
+
+                                            {/* Mobile Hero BG */}
+                                            <div className="space-y-4">
+                                                <label className={labelStyle}>Latar Belakang Hero Mobile (Potret 3:4)</label>
+                                                <div className="relative aspect-[3/4] max-w-[200px] bg-slate-100 rounded overflow-hidden border-2 border-dashed border-slate-200 group">
+                                                    {heroBgMobilePreview ? (
+                                                        <img src={heroBgMobilePreview} className="w-full h-full object-cover" alt="Hero BG Mobile Preview" />
+                                                    ) : (
+                                                        <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                                            <PhotoIcon className="h-10 w-10 mb-2" />
+                                                            <span className="text-[10px] font-bold uppercase tracking-widest">Pilih Gambar Potret</span>
+                                                        </div>
+                                                    )}
+                                                    <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                        <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em] border border-white/40 px-4 py-2">Ganti Gambar</span>
+                                                    </div>
+                                                    <ImageInputWithCrop 
+                                                        className="absolute inset-0 z-10"
+                                                        aspectRatio={3/4}
+                                                        title="Potong Background Hero Mobile"
+                                                        onChange={(file) => {
+                                                            setData('hero_bg_mobile_file', file);
+                                                            if (file) setHeroBgMobilePreview(URL.createObjectURL(file));
+                                                        }}
+                                                    />
+                                                </div>
+                                                {errors.hero_bg_mobile_file && (
+                                                    <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider">{errors.hero_bg_mobile_file}</p>
+                                                )}
+                                                <p className="text-[9px] text-slate-400 uppercase tracking-widest italic leading-relaxed">
+                                                    Format: JPG/PNG. Rekomendasi rasio potret 3:4 untuk layar HP/ponsel.
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -396,26 +450,36 @@ export default function Index({ settings = {} }) {
                                     />
                                 </div>
 
-                                <div>
-                                    <label className={labelStyle}>Gambar Pendukung Profil Samping</label>
-                                    <div className="flex flex-col sm:flex-row sm:items-center gap-6 p-4 border border-slate-100 rounded-[0.25rem] bg-slate-50/50">
-                                        <div className="w-24 h-32 bg-slate-100 border border-slate-200 rounded-[0.25rem] overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
-                                            {settings.profil_image ? (
-                                                <img src={settings.profil_image} alt="Profil Image" className="w-full h-full object-cover" />
-                                            ) : (
-                                                <PhotoIcon className="w-8 h-8 text-slate-300" />
-                                            )}
+                                <div className="space-y-4 max-w-sm">
+                                    <label className={labelStyle}>Gambar Pendukung Profil Samping (Potret 3:4)</label>
+                                    <div className="relative aspect-[3/4] max-w-[200px] bg-slate-100 rounded overflow-hidden border-2 border-dashed border-slate-200 group">
+                                        {profilImagePreview ? (
+                                            <img src={profilImagePreview} className="w-full h-full object-cover" alt="Profil Side Preview" />
+                                        ) : (
+                                            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                                <PhotoIcon className="h-10 w-10 mb-2" />
+                                                <span className="text-[10px] font-bold uppercase tracking-widest">Pilih Gambar Potret</span>
+                                            </div>
+                                        )}
+                                        <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em] border border-white/40 px-4 py-2">Ganti Gambar</span>
                                         </div>
-                                        <div className="space-y-2 flex-grow">
-                                            <input
-                                                type="file"
-                                                onChange={e => setData('profil_image_file', e.target.files[0])}
-                                                className="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-[0.25rem] file:border file:border-slate-200 file:text-[9px] file:font-bold file:uppercase file:tracking-widest file:bg-white file:text-slate-600 hover:file:bg-brand-primary hover:file:text-white hover:file:border-brand-primary file:transition-all cursor-pointer"
-                                                accept="image/*"
-                                            />
-                                            <p className="text-[9px] text-slate-400 uppercase tracking-wider font-semibold">Resolusi potret vertikal sangat direkomendasikan.</p>
-                                        </div>
+                                        <ImageInputWithCrop 
+                                            className="absolute inset-0 z-10"
+                                            aspectRatio={3/4}
+                                            title="Potong Gambar Pendukung Profil"
+                                            onChange={(file) => {
+                                                setData('profil_image_file', file);
+                                                if (file) setProfilImagePreview(URL.createObjectURL(file));
+                                            }}
+                                        />
                                     </div>
+                                    {errors.profil_image_file && (
+                                        <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider">{errors.profil_image_file}</p>
+                                    )}
+                                    <p className="text-[9px] text-slate-400 uppercase tracking-widest italic leading-relaxed">
+                                        Format: JPG/PNG. Rekomendasi rasio potret 3:4 untuk hasil terbaik.
+                                    </p>
                                 </div>
 
                                 <div className="space-y-1.5">

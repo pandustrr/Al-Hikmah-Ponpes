@@ -12,6 +12,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Toast from '@/Components/Toast';
 import ConfirmationModal from '@/Components/ConfirmationModal';
+import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
 export default function Index({ lembagas = [] }) {
     const { flash } = usePage().props;
@@ -51,12 +52,15 @@ export default function Index({ lembagas = [] }) {
         summary: '',
         running_text: '',
         image: null,
+        image_mobile: null,
         ikon: null,
         image_url: '',
+        image_mobile_url: '',
         ikon_url: '',
     });
 
     const [previewUrl, setPreviewUrl] = useState(null);
+    const [previewMobileUrl, setPreviewMobileUrl] = useState(null);
     const [iconPreviewUrl, setIconPreviewUrl] = useState(null);
 
     const handleFileChange = (e) => {
@@ -79,6 +83,7 @@ export default function Index({ lembagas = [] }) {
         setEditingLembaga(null);
         reset();
         setPreviewUrl(null);
+        setPreviewMobileUrl(null);
         setIconPreviewUrl(null);
         setIsModalOpen(true);
     };
@@ -91,11 +96,14 @@ export default function Index({ lembagas = [] }) {
             summary: lembaga.summary || '',
             running_text: lembaga.running_text || '',
             image: null,
+            image_mobile: null,
             ikon: null,
             image_url: lembaga.image_url || '',
+            image_mobile_url: lembaga.image_mobile_url || '',
             ikon_url: lembaga.ikon_url || '',
         });
         setPreviewUrl(lembaga.image_url);
+        setPreviewMobileUrl(lembaga.image_mobile_url);
         setIconPreviewUrl(lembaga.ikon_url);
         setIsModalOpen(true);
     };
@@ -257,17 +265,17 @@ export default function Index({ lembagas = [] }) {
             {/* Modal Form Master Data */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
-                    <div className="bg-white w-full max-w-2xl rounded-[0.25rem] shadow-2xl overflow-hidden border border-slate-200 animate-scale-up">
-                        <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                    <div className="bg-white w-full max-w-xl rounded-[0.25rem] shadow-2xl overflow-hidden border border-slate-200 animate-scale-up">
+                        <div className="py-4 px-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                             <div>
-                                <h3 className="font-bold uppercase tracking-widest text-slate-900 text-sm">{editingLembaga ? 'Update Data Unit' : 'Tambah Unit Pendidikan'}</h3>
-                                <p className="text-[9px] text-slate-400 uppercase tracking-widest mt-1">Konfigurasi Identitas Utama Lembaga</p>
+                                <h3 className="font-bold uppercase tracking-widest text-slate-900 text-xs">{editingLembaga ? 'Update Data Unit' : 'Tambah Unit Pendidikan'}</h3>
+                                <p className="text-[8px] text-slate-400 uppercase tracking-widest mt-0.5">Konfigurasi Identitas Utama Lembaga</p>
                             </div>
                             <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-900 transition-colors p-2 text-2xl leading-none">&times;</button>
                         </div>
                         
-                        <form onSubmit={handleSubmit} className="p-8 space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <form onSubmit={handleSubmit} className="p-5 md:p-6 space-y-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="md:col-span-1 space-y-1.5">
                                     <label className={labelStyle}>Nama Lembaga</label>
                                     <input 
@@ -317,37 +325,100 @@ export default function Index({ lembagas = [] }) {
                                     {errors.running_text && <span className="text-[10px] text-rose-500 font-semibold">{errors.running_text}</span>}
                                 </div>
                                 
-                                <div className="md:col-span-1">
-                                    <label className={labelStyle}>Banner Hero (16:9)</label>
-                                    <div className="relative aspect-video bg-slate-50 rounded-[0.25rem] overflow-hidden border border-slate-200 hover:border-slate-300 transition-all group flex items-center justify-center shadow-sm">
-                                        {previewUrl || data.image_url ? (
-                                            <img src={previewUrl || data.image_url} className="w-full h-full object-cover" alt="Banner" />
-                                        ) : (
-                                            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
-                                                <PhotoIcon className="h-8 w-8 mb-2" />
-                                                <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Gambar</span>
+                                {/* Banner & Logo Section */}
+                                <div className="md:col-span-2 border-t border-slate-100 pt-4">
+                                    <h4 className="text-[9px] font-bold text-slate-800 uppercase tracking-widest mb-4">Berkas Media Utama</h4>
+                                    <div className="grid grid-cols-3 gap-4">
+                                        
+                                        {/* Desktop Banner (21:9) */}
+                                        <div className="space-y-2">
+                                            <label className={labelStyle}>Banner Desktop (21:9)</label>
+                                            <div className="relative aspect-video bg-slate-50 rounded overflow-hidden border border-slate-200 hover:border-slate-300 transition-all group flex items-center justify-center shadow-sm">
+                                                {previewUrl || data.image_url ? (
+                                                    <img src={previewUrl || data.image_url} className="w-full h-full object-cover" alt="Banner Desktop" />
+                                                ) : (
+                                                    <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                                        <PhotoIcon className="h-5 w-5 mb-0.5" />
+                                                        <span className="text-[7px] font-bold uppercase tracking-widest">Lanskap</span>
+                                                    </div>
+                                                )}
+                                                <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                    <span className="text-white text-[7px] font-bold uppercase tracking-widest border border-white/40 px-1.5 py-0.5">Pilih</span>
+                                                </div>
+                                                <ImageInputWithCrop 
+                                                    className="absolute inset-0 z-10"
+                                                    aspectRatio={21/9}
+                                                    title="Potong Banner Desktop"
+                                                    onChange={(file) => {
+                                                        setData('image', file);
+                                                        if (file) setPreviewUrl(URL.createObjectURL(file));
+                                                    }}
+                                                />
                                             </div>
-                                        )}
-                                        <input type="file" onChange={handleFileChange} className="absolute inset-0 opacity-0 cursor-pointer" accept="image/*" />
-                                    </div>
-                                </div>
-                                <div className="md:col-span-1">
-                                    <label className={labelStyle}>Ikon/Logo (1:1)</label>
-                                    <div className="relative aspect-square w-32 mx-auto bg-slate-50 rounded-[0.25rem] overflow-hidden border border-slate-200 hover:border-slate-300 transition-all group flex items-center justify-center shadow-sm">
-                                        {iconPreviewUrl || data.ikon_url ? (
-                                            <img src={iconPreviewUrl || data.ikon_url} className="w-full h-full object-contain p-4" alt="Icon" />
-                                        ) : (
-                                            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
-                                                <SparklesIcon className="h-6 w-6 mb-2" />
-                                                <span className="text-[8px] font-bold uppercase tracking-widest">Icon</span>
+                                            {errors.image && <span className="text-[8px] text-rose-500 font-semibold">{errors.image}</span>}
+                                        </div>
+
+                                        {/* Mobile Banner (3:4) */}
+                                        <div className="space-y-2">
+                                            <label className={labelStyle}>Banner Mobile (3:4)</label>
+                                            <div className="relative aspect-[3/4] w-full max-w-[95px] mx-auto bg-slate-50 rounded overflow-hidden border border-slate-200 hover:border-slate-300 transition-all group flex items-center justify-center shadow-sm">
+                                                {previewMobileUrl || data.image_mobile_url ? (
+                                                    <img src={previewMobileUrl || data.image_mobile_url} className="w-full h-full object-cover" alt="Banner Mobile" />
+                                                ) : (
+                                                    <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                                        <PhotoIcon className="h-5 w-5 mb-0.5" />
+                                                        <span className="text-[7px] font-bold uppercase tracking-widest">Potret</span>
+                                                    </div>
+                                                )}
+                                                <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                    <span className="text-white text-[7px] font-bold uppercase tracking-widest border border-white/40 px-1.5 py-0.5">Pilih</span>
+                                                </div>
+                                                <ImageInputWithCrop 
+                                                    className="absolute inset-0 z-10"
+                                                    aspectRatio={3/4}
+                                                    title="Potong Banner Mobile"
+                                                    onChange={(file) => {
+                                                        setData('image_mobile', file);
+                                                        if (file) setPreviewMobileUrl(URL.createObjectURL(file));
+                                                    }}
+                                                />
                                             </div>
-                                        )}
-                                        <input type="file" onChange={handleIconChange} className="absolute inset-0 opacity-0 cursor-pointer" accept="image/*" />
+                                            {errors.image_mobile && <span className="text-[8px] text-rose-500 font-semibold">{errors.image_mobile}</span>}
+                                        </div>
+
+                                        {/* Ikon/Logo (1:1) */}
+                                        <div className="space-y-2">
+                                            <label className={labelStyle}>Ikon Unit (1:1)</label>
+                                            <div className="relative aspect-square w-full max-w-[95px] mx-auto bg-slate-50 rounded overflow-hidden border border-slate-200 hover:border-slate-300 transition-all group flex items-center justify-center shadow-sm">
+                                                {iconPreviewUrl || data.ikon_url ? (
+                                                    <img src={iconPreviewUrl || data.ikon_url} className="w-full h-full object-contain p-2" alt="Icon" />
+                                                ) : (
+                                                    <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                                        <SparklesIcon className="h-5 w-5 mb-0.5" />
+                                                        <span className="text-[7px] font-bold uppercase tracking-widest">Logo</span>
+                                                    </div>
+                                                )}
+                                                <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                    <span className="text-white text-[7px] font-bold uppercase tracking-widest border border-white/40 px-1.5 py-0.5">Pilih</span>
+                                                </div>
+                                                <ImageInputWithCrop 
+                                                    className="absolute inset-0 z-10"
+                                                    aspectRatio={1/1}
+                                                    title="Potong Ikon Lembaga"
+                                                    onChange={(file) => {
+                                                        setData('ikon', file);
+                                                        if (file) setIconPreviewUrl(URL.createObjectURL(file));
+                                                    }}
+                                                />
+                                            </div>
+                                            {errors.ikon && <span className="text-[8px] text-rose-500 font-semibold">{errors.ikon}</span>}
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="pt-6 border-t border-slate-100 flex justify-end gap-4 pb-4">
+                            <div className="pt-4 border-t border-slate-100 flex justify-end gap-4 pb-2">
                                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors">Batal</button>
                                 <button type="submit" disabled={processing} className="bg-brand-primary text-white py-3 px-12 text-[10px] font-bold uppercase tracking-widest rounded-[0.25rem] hover:bg-slate-900 transition-all shadow-xl shadow-brand-primary/25 disabled:opacity-50">
                                     {processing ? 'Menyimpan...' : (editingLembaga ? 'Update Data' : 'Tambah Data')}

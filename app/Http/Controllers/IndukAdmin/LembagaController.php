@@ -40,8 +40,10 @@ class LembagaController extends Controller
             'struktur_pendidikan' => 'nullable|string',
             'keunggulan' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_mobile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'ikon' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1024',
             'image_url' => 'nullable|string',
+            'image_mobile_url' => 'nullable|string',
             'ikon_url' => 'nullable|string',
         ]);
 
@@ -51,6 +53,11 @@ class LembagaController extends Controller
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('lembagas/banners', 'public');
             $validated['image_url'] = '/storage/' . $path;
+        }
+
+        if ($request->hasFile('image_mobile')) {
+            $path = $request->file('image_mobile')->store('lembagas/banners_mobile', 'public');
+            $validated['image_mobile_url'] = '/storage/' . $path;
         }
 
         if ($request->hasFile('ikon')) {
@@ -88,10 +95,23 @@ class LembagaController extends Controller
             'struktur_pendidikan' => 'nullable|string',
             'keunggulan' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_mobile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'ikon' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1024',
             'image_url' => 'nullable|string',
+            'image_mobile_url' => 'nullable|string',
             'ikon_url' => 'nullable|string',
         ]);
+
+        // Keep existing image_url, image_mobile_url and ikon_url if not explicitly provided or if no new files are uploaded
+        if (!$request->has('image_url') && !$request->hasFile('image')) {
+            unset($validated['image_url']);
+        }
+        if (!$request->has('image_mobile_url') && !$request->hasFile('image_mobile')) {
+            unset($validated['image_mobile_url']);
+        }
+        if (!$request->has('ikon_url') && !$request->hasFile('ikon')) {
+            unset($validated['ikon_url']);
+        }
 
         // Clean slug
         $validated['slug'] = Str::slug($validated['slug']);
@@ -112,6 +132,14 @@ class LembagaController extends Controller
             $validated['image_url'] = '/storage/' . $path;
         }
 
+        if ($request->hasFile('image_mobile')) {
+            if ($lembaga->image_mobile_url && str_starts_with($lembaga->image_mobile_url, '/storage/')) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->image_mobile_url));
+            }
+            $path = $request->file('image_mobile')->store('lembagas/banners_mobile', 'public');
+            $validated['image_mobile_url'] = '/storage/' . $path;
+        }
+
         if ($request->hasFile('ikon')) {
             if ($lembaga->ikon_url && str_starts_with($lembaga->ikon_url, '/storage/')) {
                 \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->ikon_url));
@@ -130,6 +158,9 @@ class LembagaController extends Controller
         // Delete files
         if ($lembaga->image_url && str_starts_with($lembaga->image_url, '/storage/')) {
             \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->image_url));
+        }
+        if ($lembaga->image_mobile_url && str_starts_with($lembaga->image_mobile_url, '/storage/')) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->image_mobile_url));
         }
         if ($lembaga->ikon_url && str_starts_with($lembaga->ikon_url, '/storage/')) {
             \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->ikon_url));

@@ -36,7 +36,7 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
         })->name('dashboard');
 
         // Sub-pages
-        Route::post('/lembaga/{lembaga}', [\App\Http\Controllers\IndukAdmin\LembagaController::class, 'update'])->name('admin.lembaga.update-post');
+        Route::post('/lembaga/{lembaga}', [\App\Http\Controllers\IndukAdmin\LembagaController::class, 'update'])->name('lembaga.update-post');
         Route::resource('/lembaga', \App\Http\Controllers\IndukAdmin\LembagaController::class)->names('lembaga');
         Route::get('/berita/settings', [\App\Http\Controllers\IndukAdmin\BeritaController::class, 'settings'])->name('berita.settings');
         Route::resource('/berita', \App\Http\Controllers\IndukAdmin\BeritaController::class)->names('berita')->parameters(['berita' => 'berita']);
@@ -69,6 +69,7 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
         Route::get('/tentang', [\App\Http\Controllers\IndukAdmin\TentangAdminController::class, 'index'])->name('tentang.index');
         Route::post('/tentang', [\App\Http\Controllers\IndukAdmin\TentangAdminController::class, 'update'])->name('tentang.update');
         Route::get('/kontak', [\App\Http\Controllers\IndukAdmin\KontakController::class, 'index'])->name('kontak.index');
+        Route::post('/kontak', [\App\Http\Controllers\IndukAdmin\KontakController::class, 'update'])->name('kontak.update');
         
         // Settings
         Route::get('/settings', [\App\Http\Controllers\IndukAdmin\SiteSettingController::class, 'index'])->name('settings.index');

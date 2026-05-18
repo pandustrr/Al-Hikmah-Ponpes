@@ -44,11 +44,17 @@ class BeritaController extends Controller
             'is_multimedia' => 'required|boolean',
             'is_sticky' => 'required|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_mobile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('berita', 'public');
             $validated['image_url'] = Storage::url($path);
+        }
+
+        if ($request->hasFile('image_mobile')) {
+            $path = $request->file('image_mobile')->store('berita_mobile', 'public');
+            $validated['image_mobile_url'] = Storage::url($path);
         }
 
         $validated['slug'] = Str::slug($validated['judul']) . '-' . Str::random(5);
@@ -80,6 +86,7 @@ class BeritaController extends Controller
             'is_multimedia' => 'required|boolean',
             'is_sticky' => 'required|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_mobile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -91,6 +98,17 @@ class BeritaController extends Controller
             
             $path = $request->file('image')->store('berita', 'public');
             $validated['image_url'] = Storage::url($path);
+        }
+
+        if ($request->hasFile('image_mobile')) {
+            // Delete old mobile image if exists
+            if ($berita->image_mobile_url) {
+                $oldPath = str_replace('/storage/', '', $berita->image_mobile_url);
+                Storage::disk('public')->delete($oldPath);
+            }
+            
+            $path = $request->file('image_mobile')->store('berita_mobile', 'public');
+            $validated['image_mobile_url'] = Storage::url($path);
         }
 
         // Only update slug if judul changed
@@ -107,6 +125,11 @@ class BeritaController extends Controller
     {
         if ($berita->image_url) {
             $path = str_replace('/storage/', '', $berita->image_url);
+            Storage::disk('public')->delete($path);
+        }
+
+        if ($berita->image_mobile_url) {
+            $path = str_replace('/storage/', '', $berita->image_mobile_url);
             Storage::disk('public')->delete($path);
         }
 

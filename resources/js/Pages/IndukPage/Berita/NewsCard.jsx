@@ -12,11 +12,16 @@ export default function NewsCard({ berita, variant = 'vertical', className = '' 
                 href={`/berita/${berita.slug}`} 
                 className={`group block relative overflow-hidden bg-slate-900 aspect-[16/9] md:aspect-[21/9] ${className}`}
             >
-                <img
-                    src={berita.image_url || "https://images.unsplash.com/photo-1504711432869-5d39a110fdd7?auto=format&fit=crop&q=80&w=1200"}
-                    alt={berita.judul}
-                    className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700"
-                />
+                <picture className="w-full h-full">
+                    {berita.image_mobile_url && (
+                        <source media="(max-w: 640px)" srcSet={berita.image_mobile_url} />
+                    )}
+                    <img
+                        src={berita.image_url || "https://images.unsplash.com/photo-1504711432869-5d39a110fdd7?auto=format&fit=crop&q=80&w=1200"}
+                        alt={berita.judul}
+                        className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700"
+                    />
+                </picture>
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-10">
                     <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-4">
@@ -97,12 +102,17 @@ export default function NewsCard({ berita, variant = 'vertical', className = '' 
             href={`/berita/${berita.slug}`} 
             className={`group block bg-white ${className}`}
         >
-            <div className="aspect-video overflow-hidden bg-brand-secondary mb-4">
-                <img
-                    src={berita.image_url || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=600"}
-                    alt={berita.judul}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+            <div className="aspect-[3/4] sm:aspect-video overflow-hidden bg-brand-secondary mb-4">
+                <picture className="w-full h-full">
+                    {berita.image_mobile_url && (
+                        <source media="(max-w: 640px)" srcSet={berita.image_mobile_url} />
+                    )}
+                    <img
+                        src={berita.image_url || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=600"}
+                        alt={berita.judul}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                </picture>
             </div>
             <div className="text-[10px] font-semibold text-brand-accent uppercase tracking-widest mb-2">
                 {berita.category?.name || 'Berita'}

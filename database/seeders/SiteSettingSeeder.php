@@ -148,6 +148,20 @@ class SiteSettingSeeder extends Seeder
                 'group' => 'sosial_media',
                 'type'  => 'text',
             ],
+            [
+                'key'   => 'contact_hero_bg',
+                'label' => 'Hero Background Kontak (Desktop)',
+                'value' => 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=1600',
+                'group' => 'sosial_media',
+                'type'  => 'image',
+            ],
+            [
+                'key'   => 'contact_hero_bg_mobile',
+                'label' => 'Hero Background Kontak (Mobile)',
+                'value' => '',
+                'group' => 'sosial_media',
+                'type'  => 'image',
+            ],
 
             // SEO
             [

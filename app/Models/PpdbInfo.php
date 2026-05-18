@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PpdbInfo extends Model
 {
-    protected $fillable = ['lembaga_id', 'description', 'contact_number', 'contact_persons', 'registration_link', 'banner_url', 'is_active', 'is_open', 'is_link_active'];
+    protected $fillable = ['lembaga_id', 'description', 'contact_number', 'contact_name', 'contact_persons', 'registration_link', 'banner_url', 'is_active', 'is_open', 'is_link_active'];
 
     protected $casts = [
         'contact_persons' => 'array',
