@@ -36,6 +36,7 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
         })->name('dashboard');
 
         // Sub-pages
+        Route::post('/lembaga/{lembaga}', [\App\Http\Controllers\IndukAdmin\LembagaController::class, 'update'])->name('admin.lembaga.update-post');
         Route::resource('/lembaga', \App\Http\Controllers\IndukAdmin\LembagaController::class)->names('lembaga');
         Route::get('/berita/settings', [\App\Http\Controllers\IndukAdmin\BeritaController::class, 'settings'])->name('berita.settings');
         Route::resource('/berita', \App\Http\Controllers\IndukAdmin\BeritaController::class)->names('berita')->parameters(['berita' => 'berita']);
@@ -43,6 +44,7 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
         Route::post('/landing/settings', [\App\Http\Controllers\IndukAdmin\LandingController::class, 'updateSettings'])->name('landing.settings.update');
         Route::resource('/testimonials', \App\Http\Controllers\IndukAdmin\TestimonialController::class)->names('testimonials');
         Route::resource('/events', \App\Http\Controllers\IndukAdmin\EventController::class)->names('events');
+        Route::post('/pengajar/{pengajar}', [\App\Http\Controllers\IndukAdmin\PengajarController::class, 'update'])->name('admin.pengajar.update-post');
         Route::resource('/pengajar', \App\Http\Controllers\IndukAdmin\PengajarController::class)->names('pengajar');
         
         Route::get('/info-ppdb', [\App\Http\Controllers\IndukAdmin\InfoPPDBController::class, 'index'])->name('info-ppdb.index');
