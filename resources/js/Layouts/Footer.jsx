@@ -14,21 +14,21 @@ export default function Footer() {
     const formattedWa = waNumber.startsWith('62') ? '+' + waNumber : waNumber;
 
     return (
-        <footer className="bg-brand-primary text-white/70 py-12">
+        <footer className="bg-brand-primary text-white/70 py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div className="col-span-1 md:col-span-2">
-                        <div className="flex items-center gap-3 mb-4">
-                            <img src="/logo.png" alt="Logo YPDS Al-Hikmah" className="h-10 w-auto object-contain p-1 bg-white/10 rounded-lg border border-white/10" />
-                            <h3 className="text-white text-lg font-semibold tracking-tighter">YPDS AL-HIKMAH</h3>
+                        <div className="flex items-center gap-2 mb-3">
+                            <img src="/logo.png" alt="Logo YPDS Al-Hikmah" className="h-8 w-auto object-contain p-1 bg-white/10 rounded-lg border border-white/10" />
+                            <h3 className="text-white text-base font-semibold tracking-tighter">YPDS AL-HIKMAH</h3>
                         </div>
-                        <p className="text-sm leading-relaxed max-w-md whitespace-pre-line">
+                        <p className="text-xs leading-relaxed max-w-sm whitespace-pre-line">
                             {footerTagline}
                         </p>
                     </div>
                     <div>
-                        <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Tautan</h4>
-                        <ul className="space-y-2 text-sm">
+                        <h4 className="text-white font-semibold mb-3 text-xs uppercase tracking-wider">Tautan</h4>
+                        <ul className="space-y-1.5 text-xs">
                             <li><Link href="/" className="hover:text-white transition-colors">Beranda</Link></li>
                             <li><Link href="/profil" className="hover:text-white transition-colors">Profil Yayasan</Link></li>
                             <li><Link href="/berita" className="hover:text-white transition-colors">Kabar Berita</Link></li>
@@ -38,8 +38,8 @@ export default function Footer() {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Kontak</h4>
-                        <ul className="space-y-2 text-sm">
+                        <h4 className="text-white font-semibold mb-3 text-xs uppercase tracking-wider">Kontak</h4>
+                        <ul className="space-y-1.5 text-xs">
                             <li>{alamat}</li>
                             <li>
                                 <a href={`mailto:${email}`} className="hover:text-white transition-colors">{email}</a>
@@ -52,7 +52,7 @@ export default function Footer() {
                         </ul>
                     </div>
                 </div>
-                <div className="mt-12 pt-8 border-t border-white/10 text-center text-xs">
+                <div className="mt-8 pt-6 border-t border-white/10 text-center text-[10px]">
                     &copy; {new Date().getFullYear()} YPDS Al-Hikmah. All rights reserved.
                 </div>
             </div>

@@ -48,12 +48,17 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
         <section className="relative h-[85vh] min-h-[650px] flex items-center overflow-hidden bg-brand-primary">
             {/* Static Background Image Layer */}
             <div className="absolute inset-0">
-                <img
-                    src={settings.hero_bg || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1600'}
-                    alt="Hero Background"
-                    className="w-full h-full object-cover object-center scale-105"
-                    style={{ transform: `translateY(${offsetY * 0.15}px)` }}
-                />
+                <picture>
+                    {settings.hero_bg_mobile && (
+                        <source media="(max-w: 640px)" srcSet={settings.hero_bg_mobile} />
+                    )}
+                    <img
+                        src={settings.hero_bg || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1600'}
+                        alt="Hero Background"
+                        className="w-full h-full object-cover object-center scale-105"
+                        style={{ transform: `translateY(${offsetY * 0.15}px)` }}
+                    />
+                </picture>
             </div>
             
             {/* Sophisticated Overlay for the main background */}
@@ -66,7 +71,7 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
                     <div className={`transition-all duration-700 transform w-full ${isAnimating ? 'opacity-0 translate-y-8' : 'opacity-100 translate-y-0'}`}>
                         
                         {/* Glass Card for Content with Dynamic Blurred Background */}
-                        <div className="relative overflow-hidden backdrop-blur-md bg-white/10 border border-white/20 p-6 sm:p-8 rounded-2xl mb-6 md:mb-10 shadow-2xl">
+                        <div className="relative overflow-hidden backdrop-blur-sm bg-white/10 border border-white/20 p-6 sm:p-8 rounded-2xl mb-6 md:mb-10 shadow-2xl">
                             
                             {/* Dynamic Background Image Layer inside the card */}
                             {sliderBerita.map((item, index) => item && (
@@ -79,7 +84,7 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
                                     <img
                                         src={item.image_url || 'https://picsum.photos/id/1018/1200/800'}
                                         alt="News Background"
-                                        className="w-full h-full object-cover object-center scale-110 blur-md opacity-60 mix-blend-overlay"
+                                        className="w-full h-full object-cover object-center scale-110 blur-sm opacity-60 mix-blend-overlay"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-slate-900/40"></div>
                                 </div>
@@ -110,10 +115,10 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
                             <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-5 mt-8">
                                 <Link 
                                     href={sliderBerita[currentIndex].slug === '#' ? '#' : `/berita/${sliderBerita[currentIndex].slug}`}
-                                    className="bg-brand-secondary text-brand-primary px-7 md:px-10 py-3.5 md:py-4.5 text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.2em] rounded-[0.25rem] flex items-center gap-3 md:gap-4 hover:bg-white transition-all shadow-xl w-fit group"
+                                    className="bg-brand-secondary text-brand-primary px-5 md:px-7 py-2.5 md:py-3 text-[8px] md:text-[9px] font-semibold uppercase tracking-[0.2em] rounded-[0.25rem] flex items-center gap-2.5 md:gap-3 hover:bg-white transition-all shadow-xl w-fit group"
                                 >
                                     Baca Selengkapnya
-                                    <ChevronRightIcon className="w-4 h-4 md:w-5 md:h-5 stroke-[3px] group-hover:translate-x-1 transition-transform" />
+                                    <ChevronRightIcon className="w-3.5 h-3.5 md:w-4 h-4 stroke-[2.5px] group-hover:translate-x-1 transition-transform" />
                                 </Link>
 
                                 {/* Indicators Integrated closer to Button for Mobile */}
