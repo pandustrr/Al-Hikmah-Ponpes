@@ -7,10 +7,17 @@ export default function HeroSection({ lembaga }) {
         <section className="relative h-[80vh] md:h-[90vh] flex items-center overflow-hidden bg-brand-primary">
             {/* Background Layer */}
             <div className="absolute inset-0 z-0">
+                {/* Desktop Background Image (Hidden on Mobile) */}
                 <img 
                     src={lembaga.image_url || 'https://images.unsplash.com/photo-1523050853063-bd8012fec21b?auto=format&fit=crop&q=80&w=2000'} 
-                    className="w-full h-full object-cover opacity-55 scale-105" 
-                    alt={lembaga.nama} 
+                    className="hidden md:block w-full h-full object-cover opacity-55 scale-105" 
+                    alt={`${lembaga.nama} Desktop Banner`} 
+                />
+                {/* Mobile Background Image (Visible only on Mobile, falls back to Desktop Image if Mobile Image is null) */}
+                <img 
+                    src={lembaga.image_mobile_url || lembaga.image_url || 'https://images.unsplash.com/photo-1523050853063-bd8012fec21b?auto=format&fit=crop&q=80&w=2000'} 
+                    className="block md:hidden w-full h-full object-cover opacity-55 scale-105" 
+                    alt={`${lembaga.nama} Mobile Banner`} 
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/45 via-transparent to-brand-primary/70"></div>
             </div>

@@ -13,6 +13,22 @@ class LandingController extends Controller
 {
     public function index()
     {
+        LandingSetting::firstOrCreate(
+            ['key' => 'hero_bg'],
+            [
+                'value' => 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1600',
+                'group' => 'hero'
+            ]
+        );
+
+        LandingSetting::firstOrCreate(
+            ['key' => 'hero_bg_mobile'],
+            [
+                'value' => 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1600',
+                'group' => 'hero'
+            ]
+        );
+
         return Inertia::render('IndukAdmin/Landing/Index', [
             'settings' => LandingSetting::all()->pluck('value', 'key'),
             'testimonials' => Testimonial::latest()->get(),

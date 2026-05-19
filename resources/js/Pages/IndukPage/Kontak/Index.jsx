@@ -5,7 +5,8 @@ import {
     PhoneIcon, 
     EnvelopeIcon,
     ClockIcon,
-    ArrowTopRightOnSquareIcon
+    ArrowTopRightOnSquareIcon,
+    AcademicCapIcon
 } from '@heroicons/react/24/outline';
 
 // SVG Icons for Social Media
@@ -33,7 +34,7 @@ const TiktokIcon = () => (
     </svg>
 );
 
-export default function Index({ settings = {} }) {
+export default function Index({ settings = {}, lembagas = [] }) {
     
     // Formatting WhatsApp link
     const waNumber = settings.sosmed_whatsapp || '6281234567890';
@@ -51,15 +52,20 @@ export default function Index({ settings = {} }) {
         <PublicLayout title="Kontak & Maps" navTheme="dark">
             
             {/* HERO SECTION */}
-            <div className="relative min-h-[40vh] md:min-h-[45vh] flex items-center pt-28 pb-16 md:pt-32 md:pb-24 overflow-hidden bg-brand-primary">
+            <div className="relative min-h-[48vh] md:min-h-[50vh] flex items-center pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-brand-primary">
                 {/* Background Layer */}
                 <div className="absolute inset-0 z-0">
-                    <img 
-                        src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=1600" 
-                        alt="Hero BG" 
-                        className="w-full h-full object-cover opacity-20 scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand-primary via-brand-primary/90 to-brand-primary/60"></div>
+                    <picture className="w-full h-full">
+                        {settings.contact_hero_bg_mobile && (
+                            <source media="(max-w: 640px)" srcSet={settings.contact_hero_bg_mobile} />
+                        )}
+                        <img 
+                            src={settings.contact_hero_bg || "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=1600"} 
+                            alt="Hero BG" 
+                            className="w-full h-full object-cover opacity-55 scale-105"
+                        />
+                    </picture>
+                    <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/45 via-transparent to-brand-primary/75"></div>
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/az-subtle.png')] opacity-10"></div>
                 </div>
 
@@ -136,34 +142,9 @@ export default function Index({ settings = {} }) {
                                     </div>
                                     <div>
                                         <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Alamat Utama</h3>
-                                        <p className="text-sm font-medium text-slate-600 leading-relaxed">
-                                            Jl. Raya Ambulu No. 123, Ambulu, Jember, Jawa Timur 68172
+                                        <p className="text-sm font-medium text-slate-600 leading-relaxed whitespace-pre-line">
+                                            {settings.contact_alamat || 'Jl. Raya Ambulu No. 123, Ambulu, Jember, Jawa Timur 68172'}
                                         </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* Operational Hours */}
-                        <section className="bg-slate-900 p-8 rounded-[0.5rem] text-white shadow-xl relative overflow-hidden">
-                            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/az-subtle.png')] opacity-10"></div>
-                            <div className="relative z-10">
-                                <h3 className="text-lg font-serif font-bold tracking-tight uppercase flex items-center gap-3 mb-6">
-                                    <ClockIcon className="w-6 h-6 text-brand-secondary" />
-                                    Jam Operasional
-                                </h3>
-                                <div className="space-y-4 text-sm">
-                                    <div className="flex justify-between items-center border-b border-white/10 pb-3">
-                                        <span className="text-slate-400">Senin - Kamis</span>
-                                        <span className="font-semibold text-brand-secondary">07:00 - 15:00 WIB</span>
-                                    </div>
-                                    <div className="flex justify-between items-center border-b border-white/10 pb-3">
-                                        <span className="text-slate-400">Jumat</span>
-                                        <span className="font-semibold text-brand-secondary">07:00 - 11:00 WIB</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-slate-400">Sabtu - Minggu</span>
-                                        <span className="font-semibold text-rose-400">Tutup (Hari Libur)</span>
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +178,7 @@ export default function Index({ settings = {} }) {
                             <div className="aspect-square md:aspect-video lg:aspect-[4/3] w-full rounded-[0.25rem] overflow-hidden bg-slate-100 relative group">
                                 {/* Interactive Iframe Map */}
                                 <iframe 
-                                    src="https://maps.google.com/maps?q=Pondok%20Pesantren%20Al-Hikmah%20Jember&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                                    src={settings.contact_google_maps_iframe || "https://maps.google.com/maps?q=Pondok%20Pesantren%20Al-Hikmah%20Jember&t=&z=15&ie=UTF8&iwloc=&output=embed"} 
                                     width="100%" 
                                     height="100%" 
                                     style={{ border: 0 }} 
@@ -215,7 +196,7 @@ export default function Index({ settings = {} }) {
                             </div>
 
                             <a 
-                                href="https://share.google/euTzI1NffkXkx7PEa" 
+                                href={settings.contact_google_maps_link || "https://share.google/euTzI1NffkXkx7PEa"} 
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="mt-4 w-full bg-brand-primary text-white py-4 px-6 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] rounded-[0.25rem] hover:bg-slate-900 transition-all shadow-md flex items-center justify-center gap-3 group"
@@ -227,6 +208,122 @@ export default function Index({ settings = {} }) {
                     </div>
 
                 </div>
+
+                {/* Educational Units WhatsApp Contacts Section */}
+                {lembagas && lembagas.length > 0 && (
+                    <div className="mt-20 border-t border-slate-100 pt-16">
+                        <div className="text-center max-w-3xl mx-auto mb-12">
+                            <div className="inline-flex items-center gap-2 mb-4">
+                                <span className="h-[2px] w-6 bg-brand-primary"></span>
+                                <span className="text-brand-primary text-[10px] font-black uppercase tracking-[0.4em]">Kontak Unit Pendidikan</span>
+                                <span className="h-[2px] w-6 bg-brand-primary"></span>
+                            </div>
+                            <h2 className="text-3xl font-serif font-semibold text-slate-900 tracking-tight uppercase">
+                                WhatsApp Masing-Masing Unit
+                            </h2>
+                            <p className="text-slate-500 text-sm mt-3">
+                                Silakan hubungi nomor WhatsApp resmi dari masing-masing unit pendidikan formal kami di bawah ini untuk konsultasi, informasi pendaftaran, atau administrasi sekolah.
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {lembagas.map((lembaga) => {
+                                const contactNumber = lembaga.ppdb_info?.contact_number || '';
+                                const contactPersons = lembaga.ppdb_info?.contact_persons || [];
+                                
+                                if (!contactNumber && contactPersons.length === 0) return null;
+
+                                // Clean formatting for international link
+                                const cleanNumber = contactNumber.replace(/[^0-9]/g, '');
+                                const formattedNumber = cleanNumber.startsWith('0') ? '62' + cleanNumber.substring(1) : cleanNumber;
+                                const waLink = `https://wa.me/${formattedNumber}`;
+
+                                return (
+                                    <div 
+                                        key={lembaga.id}
+                                        className="bg-white border border-slate-200/60 hover:border-brand-primary/30 rounded-[0.5rem] p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group h-full"
+                                    >
+                                        <div className="space-y-4">
+                                            <div className="flex items-center gap-3">
+                                                {lembaga.ikon_url ? (
+                                                    <div className="w-10 h-10 p-1.5 bg-slate-50 rounded-lg border border-slate-100 flex items-center justify-center shrink-0">
+                                                        <img src={lembaga.ikon_url} alt={lembaga.nama} className="w-full h-full object-contain" />
+                                                    </div>
+                                                ) : (
+                                                    <div className="w-10 h-10 bg-brand-primary/5 text-brand-primary rounded-lg flex items-center justify-center shrink-0">
+                                                        <AcademicCapIcon className="w-5 h-5" />
+                                                    </div>
+                                                )}
+                                                <div>
+                                                    <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Unit Formal</h3>
+                                                    <h4 className="text-sm font-semibold text-slate-800 line-clamp-1 group-hover:text-brand-primary transition-colors">{lembaga.nama}</h4>
+                                                </div>
+                                            </div>
+                                            
+                                            <p className="text-[11px] text-slate-500 leading-relaxed line-clamp-3">
+                                                {lembaga.summary || `Layanan informasi pendaftaran dan administrasi santri untuk ${lembaga.nama}.`}
+                                            </p>
+                                        </div>
+
+                                        <div className="mt-6 space-y-4">
+                                            {/* WhatsApp Utama */}
+                                            {contactNumber && (
+                                                <div className="space-y-2">
+                                                    <div className="flex items-center justify-between">
+                                                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">WhatsApp Utama</span>
+                                                        {lembaga.ppdb_info?.contact_name && (
+                                                            <span className="text-[9px] font-medium text-slate-500 italic block">a.n. {lembaga.ppdb_info.contact_name}</span>
+                                                        )}
+                                                    </div>
+                                                    <a 
+                                                        href={waLink}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="w-full bg-[#25D366]/10 hover:bg-[#25D366] text-[#25D366] hover:text-white py-3 px-4 text-[10px] font-bold uppercase tracking-widest rounded-[0.25rem] transition-all flex items-center justify-center gap-2 group/btn shadow-sm"
+                                                    >
+                                                        <PhoneIcon className="w-4 h-4 shrink-0" />
+                                                        +{formattedNumber}
+                                                    </a>
+                                                </div>
+                                            )}
+
+                                            {/* Kontak Tambahan */}
+                                            {contactPersons.length > 0 && (
+                                                <div className="space-y-2 pt-4 border-t border-slate-100">
+                                                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Narahubung Lainnya</span>
+                                                    <div className="grid gap-2">
+                                                        {contactPersons.map((person, pIdx) => {
+                                                            const cleanPNumber = person.number.replace(/[^0-9]/g, '');
+                                                            const formattedPNumber = cleanPNumber.startsWith('0') ? '62' + cleanPNumber.substring(1) : cleanPNumber;
+                                                            const pWaLink = `https://wa.me/${formattedPNumber}`;
+                                                            return (
+                                                                <a 
+                                                                    key={pIdx}
+                                                                    href={pWaLink}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="flex items-center justify-between p-2.5 bg-slate-50/50 hover:bg-emerald-50/40 border border-slate-100 hover:border-emerald-250/20 rounded-[0.25rem] transition-all group/person"
+                                                                >
+                                                                    <div className="min-w-0">
+                                                                        <p className="text-[10px] font-semibold text-slate-700 truncate">{person.name}</p>
+                                                                        <p className="text-[9px] text-slate-400 font-mono">+{formattedPNumber}</p>
+                                                                    </div>
+                                                                    <span className="text-[8px] font-extrabold text-[#25D366] uppercase tracking-widest group-hover/person:translate-x-0.5 transition-transform flex items-center gap-0.5 shrink-0">
+                                                                        Chat <span className="text-[10px] font-black">→</span>
+                                                                    </span>
+                                                                </a>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
             </div>
 
             <style dangerouslySetInnerHTML={{ __html: `

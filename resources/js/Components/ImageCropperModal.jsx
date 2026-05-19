@@ -95,11 +95,11 @@ export default function ImageCropperModal({
                                 </div>
 
                                 {/* Cropper Container */}
-                                <div className="p-6 bg-slate-900 flex justify-center items-center min-h-[400px]">
+                                <div className="p-2 sm:p-6 bg-slate-900 flex justify-center items-center h-[260px] xs:h-[320px] sm:h-[450px] w-full overflow-hidden">
                                     {imageSrc && (
                                         <Cropper
                                             src={imageSrc}
-                                            style={{ height: 400, width: "100%" }}
+                                            style={{ height: "100%", width: "100%" }}
                                             initialAspectRatio={aspectRatio}
                                             aspectRatio={aspectRatio}
                                             guides={true}

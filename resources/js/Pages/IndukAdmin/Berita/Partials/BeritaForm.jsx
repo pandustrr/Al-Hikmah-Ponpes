@@ -7,6 +7,7 @@ import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
 export default function BeritaForm({ berita = null, categories, lembagas, submitLabel = 'Simpan Berita' }) {
     const [preview, setPreview] = React.useState(null);
+    const [previewMobile, setPreviewMobile] = React.useState(null);
 
     const { data, setData, post, processing, errors, progress } = useForm({
         judul: berita?.judul || '',
@@ -19,6 +20,7 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
         is_multimedia: !!berita?.is_multimedia || false,
         is_sticky: !!berita?.is_sticky || false,
         image: null,
+        image_mobile: null,
         _method: berita ? 'PUT' : 'POST', // For spoofing PUT with multipart/form-data
     });
 
@@ -197,33 +199,72 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                     </div>
 
                     <div>
-                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Gambar Utama Berita</label>
-                        <div className="relative aspect-video bg-slate-50 rounded-[0.25rem] overflow-hidden border border-slate-200 group">
-                            {preview || berita?.image_url ? (
-                                <img src={preview || berita.image_url} className="w-full h-full object-cover" alt="Preview Gambar Berita" />
-                            ) : (
-                                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
-                                    <PhotoIcon className="h-10 w-10 mb-2" />
-                                    <span className="text-[10px] font-bold uppercase tracking-widest">Pilih Gambar Utama</span>
+                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Berkas Gambar Utama Berita</label>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            
+                            {/* Desktop Image (Lanskap 16:9) */}
+                            <div className="space-y-3">
+                                <span className="block text-[9px] font-bold text-slate-500 uppercase tracking-widest">Gambar Desktop (16:9)</span>
+                                <div className="relative aspect-video bg-slate-50 rounded-[0.25rem] overflow-hidden border border-slate-200 group flex items-center justify-center shadow-sm">
+                                    {preview || berita?.image_url ? (
+                                        <img src={preview || berita.image_url} className="w-full h-full object-cover" alt="Preview Lanskap" />
+                                    ) : (
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                            <PhotoIcon className="h-8 w-8 mb-1" />
+                                            <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Gambar Lanskap</span>
+                                        </div>
+                                    )}
+                                    <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
+                                    </div>
+                                    <ImageInputWithCrop 
+                                        className="absolute inset-0 z-10"
+                                        aspectRatio={16/9}
+                                        title="Potong Gambar Desktop"
+                                        onChange={(file) => {
+                                            setData('image', file);
+                                            if (file) setPreview(URL.createObjectURL(file));
+                                        }}
+                                    />
                                 </div>
-                            )}
-                            <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em] border border-white/40 px-4 py-2 cursor-pointer">Ganti Gambar</span>
+                                <p className="text-[8px] text-slate-400 italic">PNG, JPG, JPEG, WEBP sampai 2MB</p>
+                                {errors.image && (
+                                    <p className="text-[10px] text-red-500 italic mt-1">{errors.image}</p>
+                                )}
                             </div>
-                            <ImageInputWithCrop 
-                                className="absolute inset-0 z-10"
-                                aspectRatio={16/9}
-                                title="Potong Gambar Utama Berita"
-                                onChange={(file) => {
-                                    setData('image', file);
-                                    if (file) setPreview(URL.createObjectURL(file));
-                                }}
-                            />
+
+                            {/* Mobile Image (Potret 3:4) */}
+                            <div className="space-y-3">
+                                <span className="block text-[9px] font-bold text-slate-500 uppercase tracking-widest">Gambar Mobile (3:4)</span>
+                                <div className="relative aspect-[3/4] w-full max-w-[130px] mx-auto bg-slate-50 rounded-[0.25rem] overflow-hidden border border-slate-200 group flex items-center justify-center shadow-sm">
+                                    {previewMobile || berita?.image_mobile_url ? (
+                                        <img src={previewMobile || berita.image_mobile_url} className="w-full h-full object-cover" alt="Preview Potret" />
+                                    ) : (
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                            <PhotoIcon className="h-8 w-8 mb-1" />
+                                            <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Gambar Potret</span>
+                                        </div>
+                                    )}
+                                    <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
+                                    </div>
+                                    <ImageInputWithCrop 
+                                        className="absolute inset-0 z-10"
+                                        aspectRatio={3/4}
+                                        title="Potong Gambar Mobile"
+                                        onChange={(file) => {
+                                            setData('image_mobile', file);
+                                            if (file) setPreviewMobile(URL.createObjectURL(file));
+                                        }}
+                                    />
+                                </div>
+                                <p className="text-[8px] text-slate-400 italic">PNG, JPG, JPEG, WEBP sampai 2MB</p>
+                                {errors.image_mobile && (
+                                    <p className="text-[10px] text-red-500 italic mt-1">{errors.image_mobile}</p>
+                                )}
+                            </div>
+
                         </div>
-                        <p className="mt-2 text-[9px] text-slate-400 italic">PNG, JPG, JPEG, WEBP sampai 2MB</p>
-                        {errors.image && (
-                            <p className="text-[10px] text-red-500 italic mt-1">{errors.image}</p>
-                        )}
                     </div>
                 </div>
             </div>

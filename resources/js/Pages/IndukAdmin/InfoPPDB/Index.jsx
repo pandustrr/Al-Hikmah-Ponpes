@@ -15,6 +15,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Toast from '@/Components/Toast';
 import ConfirmationModal from '@/Components/ConfirmationModal';
+import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
 export default function Index({ ppdbInfos = [], lembagas = [], faqs = [], settings = {} }) {
     const { flash } = usePage().props;
@@ -24,6 +25,11 @@ export default function Index({ ppdbInfos = [], lembagas = [], faqs = [], settin
         }
         return 'settings';
     });
+
+    const [ppdbHeroBgFile, setPpdbHeroBgFile] = useState(null);
+    const [ppdbHeroBgMobileFile, setPpdbHeroBgMobileFile] = useState(null);
+    const [ppdbHeroBgPreview, setPpdbHeroBgPreview] = useState(settings.ppdb_hero_bg || '');
+    const [ppdbHeroBgMobilePreview, setPpdbHeroBgMobilePreview] = useState(settings.ppdb_hero_bg_mobile || '');
 
     const handleSetActiveTab = (tab) => {
         setActiveTab(tab);
@@ -451,52 +457,81 @@ export default function Index({ ppdbInfos = [], lembagas = [], faqs = [], settin
                         <form onSubmit={(e) => {
                             e.preventDefault();
                             const formData = new FormData(e.target);
+                            if (ppdbHeroBgFile) {
+                                formData.append('ppdb_hero_bg', ppdbHeroBgFile);
+                            }
+                            if (ppdbHeroBgMobileFile) {
+                                formData.append('ppdb_hero_bg_mobile', ppdbHeroBgMobileFile);
+                            }
                             router.post(route('admin.landing.settings.update'), formData, {
                                 forceFormData: true,
                             });
-                        }} className="max-w-2xl space-y-8">
+                        }} className="max-w-4xl space-y-8">
                             <div>
                                 <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Hero Background (Halaman Publik PPDB)</label>
                                 
-                                <div className="flex flex-col md:flex-row gap-8 items-center">
-                                    <div className="relative w-full md:w-80 aspect-video bg-slate-100 rounded-[0.25rem] overflow-hidden border-2 border-dashed border-slate-200 group">
-                                        <img 
-                                            id="ppdb-hero-preview"
-                                            src={settings.ppdb_hero_bg || 'https://images.unsplash.com/photo-1523050335392-93851179ae22?w=1600'} 
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-                                            alt="Preview"
-                                        />
-                                        <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <PhotoIcon className="h-8 w-8 text-white mb-2" />
-                                            <span className="text-white text-[8px] font-bold uppercase tracking-widest">Ganti Background</span>
-                                        </div>
-                                        <input 
-                                            type="file" 
-                                            name="ppdb_hero_bg"
-                                            className="absolute inset-0 opacity-0 cursor-pointer"
-                                            accept="image/*"
-                                            onChange={(e) => {
-                                                const file = e.target.files[0];
-                                                if (file) {
-                                                    const reader = new FileReader();
-                                                    reader.onload = (e) => {
-                                                        const img = document.querySelector('#ppdb-hero-preview');
-                                                        if (img) img.src = e.target.result;
-                                                    };
-                                                    reader.readAsDataURL(file);
-                                                }
-                                            }}
-                                        />
-                                    </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     
-                                    <div className="flex-grow">
-                                        <p className="text-[10px] text-slate-400 font-semibold uppercase tracking-widest mb-1">Panduan Hero Background</p>
-                                        <p className="text-[9px] text-slate-400 italic leading-relaxed">
-                                            Klik kotak untuk mengupload file background baru. <br />
-                                            Gunakan gambar resolusi tinggi (min. 1920x1080) <br />
-                                            untuk hasil visual terbaik di layar lebar.
+                                    {/* Desktop Background (21:9) */}
+                                    <div className="space-y-3">
+                                        <span className="block text-[9px] font-bold text-slate-500 uppercase tracking-widest">Tampilan Desktop (Cinematic 21:9)</span>
+                                        <div className="relative aspect-[21/9] bg-slate-50 rounded-[0.25rem] overflow-hidden border border-slate-200 group flex items-center justify-center shadow-sm">
+                                            {ppdbHeroBgPreview ? (
+                                                <img src={ppdbHeroBgPreview} className="w-full h-full object-cover" alt="Preview Desktop" />
+                                            ) : (
+                                                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                                    <PhotoIcon className="h-8 w-8 mb-1" />
+                                                    <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Gambar Desktop</span>
+                                                </div>
+                                            )}
+                                            <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
+                                            </div>
+                                            <ImageInputWithCrop 
+                                                className="absolute inset-0 z-10"
+                                                aspectRatio={21/9}
+                                                title="Potong Gambar Hero Desktop (21:9)"
+                                                onChange={(file) => {
+                                                    setPpdbHeroBgFile(file);
+                                                    if (file) setPpdbHeroBgPreview(URL.createObjectURL(file));
+                                                }}
+                                            />
+                                        </div>
+                                        <p className="text-[9px] text-slate-400 italic">
+                                            Rasio ideal 21:9. Bagus untuk monitor layar lebar.
                                         </p>
                                     </div>
+
+                                    {/* Mobile Background (3:4) */}
+                                    <div className="space-y-3">
+                                        <span className="block text-[9px] font-bold text-slate-500 uppercase tracking-widest">Tampilan Mobile (Portrait 3:4)</span>
+                                        <div className="relative aspect-[3/4] w-full max-w-[130px] bg-slate-50 rounded-[0.25rem] overflow-hidden border border-slate-200 group flex items-center justify-center shadow-sm">
+                                            {ppdbHeroBgMobilePreview ? (
+                                                <img src={ppdbHeroBgMobilePreview} className="w-full h-full object-cover" alt="Preview Mobile" />
+                                            ) : (
+                                                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                                    <PhotoIcon className="h-8 w-8 mb-1" />
+                                                    <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Gambar Mobile</span>
+                                                </div>
+                                            )}
+                                            <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
+                                            </div>
+                                            <ImageInputWithCrop 
+                                                className="absolute inset-0 z-10"
+                                                aspectRatio={3/4}
+                                                title="Potong Gambar Hero Mobile (3:4)"
+                                                onChange={(file) => {
+                                                    setPpdbHeroBgMobileFile(file);
+                                                    if (file) setPpdbHeroBgMobilePreview(URL.createObjectURL(file));
+                                                }}
+                                            />
+                                        </div>
+                                        <p className="text-[9px] text-slate-400 italic text-center md:text-left">
+                                            Rasio ideal 3:4. Bagus untuk tampilan layar hp tegak.
+                                        </p>
+                                    </div>
+
                                 </div>
                             </div>
 

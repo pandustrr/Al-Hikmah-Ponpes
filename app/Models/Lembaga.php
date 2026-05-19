@@ -22,6 +22,7 @@ class Lembaga extends Model
         'struktur_pendidikan',
         'keunggulan',
         'image_url', 
+        'image_mobile_url',
         'ikon_url'
     ];
 
@@ -33,5 +34,10 @@ class Lembaga extends Model
     public function kegiatans()
     {
         return $this->hasMany(Kegiatan::class);
+    }
+
+    public function ppdbInfo()
+    {
+        return $this->hasOne(PpdbInfo::class);
     }
 }

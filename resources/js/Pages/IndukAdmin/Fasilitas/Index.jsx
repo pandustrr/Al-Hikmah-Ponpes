@@ -11,6 +11,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Toast from '@/Components/Toast';
 import ConfirmationModal from '@/Components/ConfirmationModal';
+import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
 export default function Index({ fasilitas = [], lembagas = [] }) {
     const { flash } = usePage().props;
@@ -470,27 +471,30 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                                 </div>
 
                                                 <div>
-                                                    <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-2">Gambar Sampul Utama (16:10 / 4:3)</label>
-                                                    <div className="relative aspect-[16/10] w-full bg-slate-50 rounded-[0.25rem] overflow-hidden border border-dashed border-slate-200 group hover:border-brand-primary transition-colors">
-                                                        {fasilitasPreview ? (
-                                                            <img src={fasilitasPreview} className="w-full h-full object-cover" alt="Preview" />
-                                                        ) : (
-                                                            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-350">
-                                                                <PhotoIcon className="h-8 w-8 mb-1" />
-                                                                <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Gambar</span>
-                                                            </div>
-                                                        )}
-                                                        <input 
-                                                            type="file" 
-                                                            className="absolute inset-0 opacity-0 cursor-pointer" 
-                                                            onChange={e => {
-                                                                 const file = e.target.files[0];
+                                                     <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-2">Gambar Sampul Utama (Rasio 4:3)</label>
+                                                     <div className="relative aspect-[4/3] w-full bg-slate-50 rounded-[0.25rem] overflow-hidden border border-dashed border-slate-200 group hover:border-brand-primary transition-colors flex items-center justify-center">
+                                                         {fasilitasPreview ? (
+                                                             <img src={fasilitasPreview} className="w-full h-full object-cover" alt="Preview" />
+                                                         ) : (
+                                                             <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-350">
+                                                                 <PhotoIcon className="h-8 w-8 mb-1" />
+                                                                 <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Gambar</span>
+                                                             </div>
+                                                         )}
+                                                         <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
+                                                             <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti Sampul</span>
+                                                         </div>
+                                                         <ImageInputWithCrop 
+                                                             className="absolute inset-0 z-20"
+                                                             aspectRatio={4/3}
+                                                             title="Potong Gambar Sampul (4:3)"
+                                                             onChange={(file) => {
                                                                  fasilitasForm.setData('image', file);
                                                                  if (file) setFasilitasPreview(URL.createObjectURL(file));
-                                                            }}
-                                                        />
-                                                    </div>
-                                                </div>
+                                                             }}
+                                                         />
+                                                     </div>
+                                                 </div>
 
                                                 <div className="pt-4 border-t border-slate-100 flex justify-end gap-2">
                                                     <button 
@@ -548,7 +552,7 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                                                 className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
                                                                 value={galeriForm.data.deskripsi}
                                                                 onChange={e => galeriForm.setData('deskripsi', e.target.value)}
-                                                                placeholder="Keterangan foto..."
+                                                placeholder="Keterangan foto..."
                                                             />
                                                         </div>
                                                     </div>
@@ -560,15 +564,14 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                                             ) : (
                                                                 <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider">Pilih Foto Galeri</span>
                                                             )}
-                                                            <input 
-                                                                type="file" 
-                                                                className="absolute inset-0 opacity-0 cursor-pointer" 
-                                                                onChange={e => {
-                                                                    const file = e.target.files[0];
+                                                            <ImageInputWithCrop 
+                                                                className="absolute inset-0 z-10"
+                                                                aspectRatio={4/3}
+                                                                title="Potong Foto Galeri (4:3)"
+                                                                onChange={(file) => {
                                                                     galeriForm.setData('image', file);
                                                                     if (file) setGaleriPreview(URL.createObjectURL(file));
                                                                 }}
-                                                                required={!editingGaleri}
                                                             />
                                                         </div>
                                                         <button 

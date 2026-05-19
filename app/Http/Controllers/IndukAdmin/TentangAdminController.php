@@ -25,12 +25,17 @@ class TentangAdminController extends Controller
 
     public function update(Request $request)
     {
-        $data = $request->except(['_token', 'hero_bg_file', 'profil_image_file']);
+        $data = $request->except(['_token', 'hero_bg_file', 'hero_bg_mobile_file', 'profil_image_file']);
         
         // Handle file uploads
         if ($request->hasFile('hero_bg_file')) {
             $path = $request->file('hero_bg_file')->store('landing', 'public');
             $data['profil_hero_bg'] = '/storage/' . $path;
+        }
+
+        if ($request->hasFile('hero_bg_mobile_file')) {
+            $path = $request->file('hero_bg_mobile_file')->store('landing', 'public');
+            $data['profil_hero_bg_mobile'] = '/storage/' . $path;
         }
 
         if ($request->hasFile('profil_image_file')) {

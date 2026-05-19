@@ -28,10 +28,17 @@ export default function Profil({ settings = {} }) {
             <div className="relative min-h-[50vh] flex items-center pt-32 pb-24 overflow-hidden bg-brand-primary">
                 {/* Background Layer with Overlay grid */}
                 <div className="absolute inset-0 z-0">
+                    {/* Desktop Hero BG */}
                     <img 
                         src={settings.profil_hero_bg || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600'} 
-                        alt="Hero BG" 
-                        className="w-full h-full object-cover opacity-65 scale-105"
+                        alt="Hero BG Desktop" 
+                        className="hidden md:block w-full h-full object-cover opacity-65 scale-105"
+                    />
+                    {/* Mobile Hero BG */}
+                    <img 
+                        src={settings.profil_hero_bg_mobile || settings.profil_hero_bg || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600'} 
+                        alt="Hero BG Mobile" 
+                        className="block md:hidden w-full h-full object-cover opacity-65 scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/45 via-brand-primary/30 to-brand-primary/70"></div>
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/az-subtle.png')] opacity-10"></div>

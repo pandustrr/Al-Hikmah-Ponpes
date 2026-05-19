@@ -75,12 +75,17 @@ export default function Show({ berita, recentBerita = [], settings = {} }) {
                             </div>
                         </div>
 
-                        <div className="aspect-video bg-brand-secondary mb-10 overflow-hidden rounded-[0.25rem]">
-                            <img
-                                src={berita.image_url || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=1200"}
-                                alt={berita.judul}
-                                className="w-full h-full object-cover"
-                            />
+                        <div className="aspect-[3/4] sm:aspect-video bg-brand-secondary mb-10 overflow-hidden rounded-[0.25rem]">
+                            <picture className="w-full h-full">
+                                {berita.image_mobile_url && (
+                                    <source media="(max-w: 640px)" srcSet={berita.image_mobile_url} />
+                                )}
+                                <img
+                                    src={berita.image_url || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=1200"}
+                                    alt={berita.judul}
+                                    className="w-full h-full object-cover"
+                                />
+                            </picture>
                         </div>
 
                         <div className="prose prose-slate max-w-none mb-12">
