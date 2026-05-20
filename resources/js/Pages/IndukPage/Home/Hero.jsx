@@ -84,9 +84,9 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
                                     <img
                                         src={item.image_url || 'https://picsum.photos/id/1018/1200/800'}
                                         alt="News Background"
-                                        className="w-full h-full object-cover object-center scale-110 blur-sm opacity-60 mix-blend-overlay"
+                                        className="w-full h-full object-cover object-center scale-110 blur-none opacity-60 mix-blend-overlay"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-slate-900/40"></div>
+                                    <div className="absolute inset-0 bg-gradient-to-r from-brand-primary/80 to-brand-primary/25"></div>
                                 </div>
                             ))}
 
