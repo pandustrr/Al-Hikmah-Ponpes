@@ -19,16 +19,105 @@ class HomeController extends Controller
             'kegiatans' => fn($q) => $q->latest()->take(2)
         ])->get();
 
-        $beritaTerbaru = \App\Models\Berita::with('category')->latest()->take(4)->get();
-        
         $siteSettings = \App\Models\SiteSetting::all()->pluck('value', 'key');
         $landingSettings = \App\Models\LandingSetting::all()->pluck('value', 'key')->merge($siteSettings);
         $testimonials = \App\Models\Testimonial::where('is_active', true)->get();
-        $upcomingEvents = \App\Models\Event::where('is_active', true)
-            ->where('date', '>=', now())
-            ->orderBy('date', 'asc')
-            ->take(4)
-            ->get();
+
+        // 1. Hero News
+        $heroNewsCategoryId = $landingSettings->get('hero_news_category_id', '');
+        if (!empty($heroNewsCategoryId)) {
+            $heroBerita = \App\Models\Berita::with('category')
+                ->where('category_id', $heroNewsCategoryId)
+                ->latest()
+                ->take(5)
+                ->get();
+        } else {
+            $heroBerita = \App\Models\Berita::with('category')->latest()->take(4)->get();
+        }
+
+        // 2. Announcements
+        $announcementCategoryId = $landingSettings->get('sticky_announcement_category_id', '');
+        $announcementCategory = null;
+        if (!empty($announcementCategoryId)) {
+            $announcementCategory = \App\Models\BeritaCategory::find($announcementCategoryId);
+        }
+
+        if ($announcementCategory) {
+            $announcements = \App\Models\Berita::with('category')
+                ->where('category_id', $announcementCategoryId)
+                ->latest()
+                ->take(3)
+                ->get();
+            $announcementTitle = $announcementCategory->name;
+            $announcementSlug = $announcementCategory->slug;
+        } else {
+            $announcements = \App\Models\Berita::with('category')
+                ->whereHas('category', fn($q) => $q->where('name', 'like', '%pengumuman%'))
+                ->latest()
+                ->take(3)
+                ->get();
+            $announcementTitle = 'Pengumuman';
+            $firstAnn = $announcements->first();
+            $announcementSlug = $firstAnn && $firstAnn->category ? $firstAnn->category->slug : 'pengumuman';
+        }
+
+        // 3. Articles
+        $articleCategoryId = $landingSettings->get('sticky_article_category_id', '');
+        $articleCategory = null;
+        if (!empty($articleCategoryId)) {
+            $articleCategory = \App\Models\BeritaCategory::find($articleCategoryId);
+        }
+
+        if ($articleCategory) {
+            $articles = \App\Models\Berita::with('category')
+                ->where('category_id', $articleCategoryId)
+                ->latest()
+                ->take(3)
+                ->get();
+            $articleTitle = $articleCategory->name;
+            $articleSlug = $articleCategory->slug;
+        } else {
+            $articles = \App\Models\Berita::with('category')
+                ->whereHas('category', fn($q) => $q->where('name', 'like', '%artikel%'))
+                ->latest()
+                ->take(3)
+                ->get();
+            $articleTitle = 'Artikel & Wawasan';
+            $firstArt = $articles->first();
+            $articleSlug = $firstArt && $firstArt->category ? $firstArt->category->slug : 'artikel';
+        }
+
+        // Format dates
+        $formatItemDate = function($item) {
+            $item->formatted_date = \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y');
+            return $item;
+        };
+        $announcements->map($formatItemDate);
+        $articles->map($formatItemDate);
+
+        // General Latest News (for the grid at the bottom)
+        $beritaTerbaru = \App\Models\Berita::with('category')->latest()->take(4)->get();
+
+        // 4. Bottom Category News
+        $bottomNewsCategoryId = $landingSettings->get('bottom_news_category_id', '');
+        $bottomNewsCategory = null;
+        if (!empty($bottomNewsCategoryId)) {
+            $bottomNewsCategory = \App\Models\BeritaCategory::find($bottomNewsCategoryId);
+        }
+
+        if ($bottomNewsCategory) {
+            $bottomNews = \App\Models\Berita::with('category')
+                ->where('category_id', $bottomNewsCategoryId)
+                ->latest()
+                ->take(4)
+                ->get();
+            $bottomNewsTitle = $bottomNewsCategory->name;
+            $bottomNewsSlug = $bottomNewsCategory->slug;
+        } else {
+            $bottomNews = collect([]);
+            $bottomNewsTitle = '';
+            $bottomNewsSlug = '';
+        }
 
         // Map relations to match frontend expected names
         foreach ($lembagas as $lembaga) {
@@ -38,10 +127,19 @@ class HomeController extends Controller
 
         return Inertia::render('IndukPage/Home/Index', [
             'lembagas' => $lembagas,
+            'heroBerita' => $heroBerita,
             'beritaTerbaru' => $beritaTerbaru,
+            'bottomNews' => $bottomNews,
+            'bottomNewsTitle' => $bottomNewsTitle,
+            'bottomNewsSlug' => $bottomNewsSlug,
+            'announcements' => $announcements,
+            'announcementTitle' => $announcementTitle,
+            'announcementSlug' => $announcementSlug,
+            'articles' => $articles,
+            'articleTitle' => $articleTitle,
+            'articleSlug' => $articleSlug,
             'landingSettings' => $landingSettings,
             'testimonials' => $testimonials,
-            'upcomingEvents' => $upcomingEvents,
         ]);
     }
 

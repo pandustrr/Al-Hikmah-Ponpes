@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import IndukAdminLayout from '@/Layouts/Induk/IndukAdminLayout';
 import { useForm, router } from '@inertiajs/react';
 import { 
     Cog6ToothIcon, 
     ChatBubbleLeftRightIcon, 
-    CalendarDaysIcon,
+    NewspaperIcon,
     PlusIcon,
     PencilSquareIcon,
     TrashIcon,
@@ -12,7 +12,7 @@ import {
 } from '@heroicons/react/24/outline';
 import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
-export default function Index({ settings, testimonials, events }) {
+export default function Index({ settings, testimonials, beritaList = [], categories = [] }) {
     const [activeTab, setActiveTab] = useState('settings');
     const [heroBgPreview, setHeroBgPreview] = useState(settings.hero_bg || null);
     const [heroBgMobilePreview, setHeroBgMobilePreview] = useState(settings.hero_bg_mobile || null);
@@ -30,9 +30,25 @@ export default function Index({ settings, testimonials, events }) {
         ppdb_wave_2: settings.ppdb_wave_2 || '',
     });
 
+    const { data: newsData, setData: setNewsData, post: postNews, processing: newsProcessing } = useForm({
+        hero_news_category_id: settings.hero_news_category_id || '',
+        sticky_announcement_category_id: settings.sticky_announcement_category_id || '',
+        sticky_article_category_id: settings.sticky_article_category_id || '',
+        bottom_news_category_id: settings.bottom_news_category_id || '',
+    });
+
     const handleSettingsSubmit = (e) => {
         e.preventDefault();
         post(route('admin.landing.settings.update'));
+    };
+
+    const handleNewsSubmit = (e) => {
+        e.preventDefault();
+        postNews(route('admin.landing.settings.update'), {
+            onSuccess: () => {
+                alert('Pilihan kategori berita beranda berhasil disimpan!');
+            }
+        });
     };
 
     return (
@@ -59,15 +75,15 @@ export default function Index({ settings, testimonials, events }) {
                         Konfigurasi Teks
                     </button>
                     <button 
-                        onClick={() => setActiveTab('events')}
+                        onClick={() => setActiveTab('news_selection')}
                         className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 ${
-                            activeTab === 'events' 
+                            activeTab === 'news_selection' 
                             ? 'border-brand-primary text-brand-primary' 
                             : 'border-transparent text-slate-400 hover:text-brand-primary'
                         }`}
                     >
-                        <CalendarDaysIcon className="h-4 w-4" />
-                        Agenda & Event
+                        <NewspaperIcon className="h-4 w-4" />
+                        Pilihan Berita
                     </button>
                     <button 
                         onClick={() => setActiveTab('testimonials')}
@@ -257,44 +273,105 @@ export default function Index({ settings, testimonials, events }) {
                         </form>
                     )}
 
-                    {/* 2. Events Tab */}
-                    {activeTab === 'events' && (
-                        <div className="p-8">
-                            <div className="flex justify-between items-center mb-8">
-                                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Daftar Event Mendatang</h3>
-                                <button className="inline-flex items-center gap-2 bg-brand-primary hover:bg-slate-900 text-white text-[10px] font-semibold uppercase tracking-widest px-4 py-2 transition-all rounded-[0.25rem]">
-                                    <PlusIcon className="h-3 w-3" />
-                                    Tambah Event
+                    {/* 2. News Selection Tab */}
+                    {activeTab === 'news_selection' && (
+                        <form onSubmit={handleNewsSubmit} className="p-8 space-y-10">
+                            <div className="flex justify-between items-center border-b border-slate-100 pb-4">
+                                <div>
+                                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Pilihan Kategori Berita Beranda</h3>
+                                    <p className="text-xs text-slate-400 mt-1">Pilih kategori berita yang ingin ditampilkan pada slide utama (Hero) dan sidebar beranda.</p>
+                                </div>
+                                <button 
+                                    type="submit" 
+                                    disabled={newsProcessing}
+                                    className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-8 py-3 transition-all rounded-[0.25rem] shadow-lg shadow-brand-primary/15 disabled:opacity-50"
+                                >
+                                    Simpan Pilihan
                                 </button>
                             </div>
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-left">
-                                    <thead>
-                                        <tr className="bg-slate-50 text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
-                                            <th className="px-6 py-4">Event</th>
-                                            <th className="px-6 py-4">Tanggal</th>
-                                            <th className="px-6 py-4">Lembaga</th>
-                                            <th className="px-6 py-4">Lokasi</th>
-                                            <th className="px-6 py-4 text-right">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-slate-100">
-                                        {events.map(event => (
-                                            <tr key={event.id} className="text-sm hover:bg-slate-50/50">
-                                                <td className="px-6 py-4 font-semibold text-slate-700">{event.title}</td>
-                                                <td className="px-6 py-4 text-slate-500">{event.date}</td>
-                                                <td className="px-6 py-4 text-slate-500">{event.lembaga}</td>
-                                                <td className="px-6 py-4 text-slate-500">{event.lokasi}</td>
-                                                <td className="px-6 py-4 text-right space-x-2">
-                                                    <button className="p-1.5 text-slate-400 hover:text-brand-primary"><PencilSquareIcon className="h-4 w-4" /></button>
-                                                    <button className="p-1.5 text-slate-400 hover:text-red-500"><TrashIcon className="h-4 w-4" /></button>
-                                                </td>
-                                            </tr>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                                {/* Section 1: Hero News Category */}
+                                <div className="bg-slate-50 p-6 rounded-[0.25rem] border border-slate-100 space-y-4">
+                                    <div>
+                                        <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                                            1. Kategori Hero Slider
+                                        </h4>
+                                        <p className="text-[11px] text-slate-400 mt-1">Daftar slide berita utama akan diisi otomatis dari berita terbaru dengan kategori yang dipilih.</p>
+                                    </div>
+                                    <select
+                                        value={newsData.hero_news_category_id}
+                                        onChange={e => setNewsData('hero_news_category_id', e.target.value)}
+                                        className="w-full bg-white border border-slate-200 rounded-[0.25rem] px-3 py-2 text-xs outline-none focus:ring-1 focus:ring-brand-primary"
+                                    >
+                                        <option value="">Semua Kategori (Terbaru)</option>
+                                        {categories.map(c => (
+                                            <option key={c.id} value={c.id}>{c.name}</option>
                                         ))}
-                                    </tbody>
-                                </table>
+                                    </select>
+                                </div>
+
+                                {/* Section 2: Sticky 1 Category */}
+                                <div className="bg-slate-50 p-6 rounded-[0.25rem] border border-slate-100 space-y-4">
+                                    <div>
+                                        <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                                            2. Kategori Sticky 1 (Sidebar)
+                                        </h4>
+                                        <p className="text-[11px] text-slate-400 mt-1">Menampilkan berita terbaru dari kategori ini pada widget pertama di sidebar kanan (default: Pengumuman).</p>
+                                    </div>
+                                    <select
+                                        value={newsData.sticky_announcement_category_id}
+                                        onChange={e => setNewsData('sticky_announcement_category_id', e.target.value)}
+                                        className="w-full bg-white border border-slate-200 rounded-[0.25rem] px-3 py-2 text-xs outline-none focus:ring-1 focus:ring-brand-primary"
+                                    >
+                                        <option value="">Pilih Kategori...</option>
+                                        {categories.map(c => (
+                                            <option key={c.id} value={c.id}>{c.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                {/* Section 3: Sticky 2 Category */}
+                                <div className="bg-slate-50 p-6 rounded-[0.25rem] border border-slate-100 space-y-4">
+                                    <div>
+                                        <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                                            3. Kategori Sticky 2 (Sidebar)
+                                        </h4>
+                                        <p className="text-[11px] text-slate-400 mt-1">Menampilkan berita terbaru dari kategori ini pada widget kedua di sidebar kanan (default: Artikel).</p>
+                                    </div>
+                                    <select
+                                        value={newsData.sticky_article_category_id}
+                                        onChange={e => setNewsData('sticky_article_category_id', e.target.value)}
+                                        className="w-full bg-white border border-slate-200 rounded-[0.25rem] px-3 py-2 text-xs outline-none focus:ring-1 focus:ring-brand-primary"
+                                    >
+                                        <option value="">Pilih Kategori...</option>
+                                        {categories.map(c => (
+                                            <option key={c.id} value={c.id}>{c.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                {/* Section 4: Bottom News Category */}
+                                <div className="bg-slate-50 p-6 rounded-[0.25rem] border border-slate-100 space-y-4">
+                                    <div>
+                                        <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                                            4. Kategori Beranda Bawah
+                                        </h4>
+                                        <p className="text-[11px] text-slate-400 mt-1">Menampilkan berita terbaru dari kategori ini pada section khusus di bawah Informasi Terbaru.</p>
+                                    </div>
+                                    <select
+                                        value={newsData.bottom_news_category_id}
+                                        onChange={e => setNewsData('bottom_news_category_id', e.target.value)}
+                                        className="w-full bg-white border border-slate-200 rounded-[0.25rem] px-3 py-2 text-xs outline-none focus:ring-1 focus:ring-brand-primary"
+                                    >
+                                        <option value="">Jangan Tampilkan / Kosong</option>
+                                        {categories.map(c => (
+                                            <option key={c.id} value={c.id}>{c.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     )}
 
                     {/* 3. Testimonials Tab */}
