@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import IndukAdminLayout from '@/Layouts/Induk/IndukAdminLayout';
-import { Link, router, usePage, Head } from '@inertiajs/react';
+import { Link, router, usePage, Head, useForm } from '@inertiajs/react';
 import { 
     PlusIcon, 
     PencilSquareIcon, 
@@ -14,14 +14,101 @@ import {
 } from '@heroicons/react/24/outline';
 import Toast from '@/Components/Toast';
 import ConfirmationModal from '@/Components/ConfirmationModal';
+import Modal from '@/Components/Modal';
 
-export default function Index({ berita = [], categories = [] }) {
+export default function Index({ berita = [], categories = [], lembagas = [] }) {
     const { flash } = usePage().props;
-    const [selectedCategory, setSelectedCategory] = useState('latest');
+    const [selectedLembaga, setSelectedLembaga] = useState('all');
+    const [selectedCategory, setSelectedCategory] = useState('all');
+    
+    // Category management states
+    const [showCategoryModal, setShowCategoryModal] = useState(false);
+    const [editingCategory, setEditingCategory] = useState(null);
+
+    const categoryForm = useForm({
+        name: '',
+    });
 
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [toastType, setToastType] = useState('success');
+
+    const handleSaveCategory = (e) => {
+        e.preventDefault();
+        if (editingCategory) {
+            categoryForm.put(route('admin.berita-category.update', editingCategory.id), {
+                onSuccess: () => {
+                    setEditingCategory(null);
+                    categoryForm.reset();
+                    setToastMessage('Kategori berhasil diperbarui.');
+                    setToastType('success');
+                    setShowToast(true);
+                }
+            });
+        } else {
+            categoryForm.post(route('admin.berita-category.store'), {
+                onSuccess: () => {
+                    categoryForm.reset();
+                    setToastMessage('Kategori berhasil ditambahkan.');
+                    setToastType('success');
+                    setShowToast(true);
+                }
+            });
+        }
+    };
+
+    const startEditCategory = (cat) => {
+        setEditingCategory(cat);
+        categoryForm.setData('name', cat.name);
+    };
+
+    const cancelEditCategory = () => {
+        setEditingCategory(null);
+        categoryForm.reset();
+    };
+
+    const handleDeleteCategory = (id, name) => {
+        setConfirmModal({
+            show: true,
+            title: 'Hapus Kategori Berita?',
+            message: `Apakah Anda yakin ingin menghapus kategori "${name}"? Semua berita dengan kategori ini akan diubah menjadi "Uncategorized" (Tanpa Kategori).`,
+            type: 'danger',
+            confirmText: 'Ya, Hapus',
+            onConfirm: () => {
+                router.delete(route('admin.berita-category.destroy', id), {
+                    onSuccess: () => {
+                        setConfirmModal(prev => ({ ...prev, show: false }));
+                        setToastMessage('Kategori berhasil dihapus.');
+                        setToastType('warning');
+                        setShowToast(true);
+                    }
+                });
+            }
+        });
+    };
+
+    const getBeritaCountForLembaga = (lembagaId) => {
+        if (lembagaId === 'all') return berita.length;
+        if (lembagaId === 'pusat') return berita.filter(b => b.lembaga_id === null).length;
+        return berita.filter(b => b.lembaga_id === parseInt(lembagaId)).length;
+    };
+
+    const getBeritaCountForFilter = (categoryId) => {
+        let items = berita;
+        
+        // Filter by selected unit first
+        if (selectedLembaga !== 'all') {
+            if (selectedLembaga === 'pusat') {
+                items = items.filter(b => b.lembaga_id === null);
+            } else {
+                items = items.filter(b => b.lembaga_id === parseInt(selectedLembaga));
+            }
+        }
+        
+        // Filter by category
+        if (categoryId === 'all') return items.length;
+        return items.filter(b => b.category_id === categoryId).length;
+    };
 
     // Monitor flash messages
     useEffect(() => {
@@ -65,13 +152,20 @@ export default function Index({ berita = [], categories = [] }) {
         });
     };
 
-    let filteredBerita = [];
-    if (selectedCategory === 'latest') {
-        filteredBerita = berita.slice(0, 10);
-    } else if (selectedCategory === 'all') {
-        filteredBerita = berita;
-    } else {
-        filteredBerita = berita.filter(item => item.category_id === parseInt(selectedCategory));
+    let filteredBerita = berita;
+
+    // Apply educational unit (lembaga) filter
+    if (selectedLembaga !== 'all') {
+        if (selectedLembaga === 'pusat') {
+            filteredBerita = filteredBerita.filter(item => item.lembaga_id === null);
+        } else {
+            filteredBerita = filteredBerita.filter(item => item.lembaga_id === parseInt(selectedLembaga));
+        }
+    }
+
+    // Apply category filter
+    if (selectedCategory !== 'all') {
+        filteredBerita = filteredBerita.filter(item => item.category_id === parseInt(selectedCategory));
     }
 
     return (
@@ -108,53 +202,99 @@ export default function Index({ berita = [], categories = [] }) {
                             <InformationCircleIcon className="h-4 w-4 text-brand-primary" /> Kelola artikel berita publikasi unit & yayasan di sini
                         </p>
                     </div>
-                    <Link 
-                        href={route('admin.berita.create')}
-                        className="bg-brand-primary text-white text-[10px] font-bold uppercase tracking-widest px-8 py-3.5 rounded-[0.25rem] flex items-center gap-2 hover:bg-slate-900 transition-all shadow-xl shadow-brand-primary/25 self-start md:self-auto"
-                    >
-                        <PlusIcon className="h-4 w-4" />
-                        Tambah Berita Baru
-                    </Link>
+                    <div className="flex flex-wrap gap-2.5 self-start md:self-auto">
+                        <button 
+                            onClick={() => setShowCategoryModal(true)}
+                            className="bg-white border border-slate-200 text-slate-700 text-[10px] font-bold uppercase tracking-widest px-6 py-3.5 rounded-[0.25rem] flex items-center gap-2 hover:bg-slate-50 transition-all"
+                        >
+                            <TagIcon className="h-4 w-4 text-slate-400" />
+                            Kelola Kategori
+                        </button>
+                        <Link 
+                            href={route('admin.berita.create')}
+                            className="bg-brand-primary text-white text-[10px] font-bold uppercase tracking-widest px-8 py-3.5 rounded-[0.25rem] flex items-center gap-2 hover:bg-slate-900 transition-all shadow-xl shadow-brand-primary/25"
+                        >
+                            <PlusIcon className="h-4 w-4" />
+                            Tambah Berita Baru
+                        </Link>
+                    </div>
                 </div>
 
-                {/* Category Tabs */}
-                <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-200 bg-slate-50/30 p-2.5 rounded-[0.25rem]">
-                    <button 
-                        onClick={() => setSelectedCategory('latest')}
-                        className={`px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all rounded-[0.25rem] ${
-                            selectedCategory === 'latest' 
-                            ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/10' 
-                            : 'text-slate-500 hover:text-brand-primary hover:bg-slate-100'
-                        }`}
-                    >
-                        Terkini (10 Baru)
-                    </button>
-                    <button 
-                        onClick={() => setSelectedCategory('all')}
-                        className={`px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all rounded-[0.25rem] ${
-                            selectedCategory === 'all' 
-                            ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/10' 
-                            : 'text-slate-500 hover:text-brand-primary hover:bg-slate-100'
-                        }`}
-                    >
-                        Semua ({berita.length})
-                    </button>
-                    {categories.map(cat => {
-                        const count = berita.filter(b => b.category_id === cat.id).length;
-                        return (
-                            <button 
-                                key={cat.id}
-                                onClick={() => setSelectedCategory(cat.id.toString())}
-                                className={`px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all rounded-[0.25rem] ${
-                                    selectedCategory === cat.id.toString() 
-                                    ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/10' 
-                                    : 'text-slate-500 hover:text-brand-primary hover:bg-slate-100'
-                                }`}
-                            >
-                                {cat.name} ({count})
-                            </button>
-                        );
-                    })}
+                {/* Unit Filtering Tabs */}
+                <div className="border-b border-slate-200 bg-slate-50/30 p-2 rounded-[0.25rem]">
+                    <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+                        <button 
+                            onClick={() => { setSelectedLembaga('all'); setSelectedCategory('all'); }}
+                            className={`px-4 py-2 text-[9px] font-bold uppercase tracking-widest whitespace-nowrap transition-all rounded-[0.25rem] ${
+                                selectedLembaga === 'all' 
+                                ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/10' 
+                                : 'text-slate-500 hover:text-brand-primary hover:bg-slate-100'
+                            }`}
+                        >
+                            Semua ({getBeritaCountForLembaga('all')})
+                        </button>
+                        <button 
+                            onClick={() => { setSelectedLembaga('pusat'); setSelectedCategory('all'); }}
+                            className={`px-4 py-2 text-[9px] font-bold uppercase tracking-widest whitespace-nowrap transition-all rounded-[0.25rem] ${
+                                selectedLembaga === 'pusat' 
+                                ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/10' 
+                                : 'text-slate-500 hover:text-brand-primary hover:bg-slate-100'
+                            }`}
+                        >
+                            Pusat Yayasan ({getBeritaCountForLembaga('pusat')})
+                        </button>
+                        {lembagas.map(l => {
+                            const count = getBeritaCountForLembaga(l.id);
+                            return (
+                                <button 
+                                    key={l.id}
+                                    onClick={() => { setSelectedLembaga(l.id.toString()); setSelectedCategory('all'); }}
+                                    className={`px-4 py-2 text-[9px] font-bold uppercase tracking-widest whitespace-nowrap transition-all rounded-[0.25rem] ${
+                                        selectedLembaga === l.id.toString() 
+                                        ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/10' 
+                                        : 'text-slate-500 hover:text-brand-primary hover:bg-slate-100'
+                                    }`}
+                                >
+                                    {l.nama} ({count})
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Category Filtering Tabs (Global) */}
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200/60 rounded-[0.25rem] shadow-sm">
+                    <span className="text-[8px] font-bold uppercase tracking-widest text-slate-400 whitespace-nowrap flex items-center gap-1">
+                        <TagIcon className="h-3 w-3 text-slate-400" /> Filter Kategori:
+                    </span>
+                    <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none flex-1">
+                        <button 
+                            onClick={() => setSelectedCategory('all')}
+                            className={`px-3 py-1.5 text-[8px] font-bold uppercase tracking-widest whitespace-nowrap transition-all rounded-[0.25rem] ${
+                                selectedCategory === 'all' 
+                                ? 'bg-slate-800 text-white shadow-sm' 
+                                : 'bg-white text-slate-500 hover:text-slate-700 border border-slate-200 hover:border-slate-300'
+                            }`}
+                        >
+                            Semua ({getBeritaCountForFilter('all')})
+                        </button>
+                        {categories.map(cat => {
+                            const count = getBeritaCountForFilter(cat.id);
+                            return (
+                                <button 
+                                    key={cat.id}
+                                    onClick={() => setSelectedCategory(cat.id.toString())}
+                                    className={`px-3 py-1.5 text-[8px] font-bold uppercase tracking-widest whitespace-nowrap transition-all rounded-[0.25rem] ${
+                                        selectedCategory === cat.id.toString() 
+                                        ? 'bg-slate-800 text-white shadow-sm' 
+                                        : 'bg-white text-slate-500 hover:text-slate-700 border border-slate-200 hover:border-slate-300'
+                                    }`}
+                                >
+                                    {cat.name} ({count})
+                                </button>
+                            );
+                        })}
+                    </div>
                 </div>
 
                 {/* Table Section */}
@@ -204,7 +344,7 @@ export default function Index({ berita = [], categories = [] }) {
                                                     </div>
                                                     <div className="flex items-center gap-1.5 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
                                                         <BuildingOfficeIcon className="h-3 w-3" />
-                                                        {item.lembaga?.name || 'Pusat Yayasan'}
+                                                        {item.lembaga?.nama || 'Pusat Yayasan'}
                                                     </div>
                                                 </div>
                                             </td>
@@ -285,6 +425,106 @@ export default function Index({ berita = [], categories = [] }) {
                     </p>
                 </div>
             </div>
+            {/* Modal Kelola Kategori */}
+            <Modal show={showCategoryModal} onClose={() => { setShowCategoryModal(false); cancelEditCategory(); }} maxWidth="lg">
+                <div className="p-6 space-y-6">
+                    <div className="flex items-center justify-between border-b border-brand-secondary/40 pb-4">
+                        <div>
+                            <h2 className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-accent mb-1">
+                                Pengaturan Kategori
+                            </h2>
+                            <h3 className="text-lg font-bold uppercase tracking-tight text-brand-primary">Kelola Kategori Berita</h3>
+                        </div>
+                        <button 
+                            onClick={() => { setShowCategoryModal(false); cancelEditCategory(); }}
+                            className="text-brand-accent hover:text-brand-primary text-sm font-bold p-1 hover:bg-brand-secondary/40 rounded transition-all"
+                        >
+                            ✕
+                        </button>
+                    </div>
+
+                    {/* Form Input/Edit Kategori */}
+                    <form onSubmit={handleSaveCategory} className="space-y-4">
+                        <div>
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-1.5">
+                                {editingCategory ? 'Edit Nama Kategori' : 'Kategori Baru'}
+                            </label>
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    placeholder="Contoh: Pengumuman, Agenda, Prestasi"
+                                    value={categoryForm.data.name}
+                                    onChange={e => categoryForm.setData('name', e.target.value)}
+                                    className="flex-1 text-xs px-4 py-3 rounded-[0.25rem] border border-sage-light focus:outline-none focus:border-brand-primary focus:ring-1 focus:ring-brand-primary placeholder:text-slate-350 bg-brand-light transition-all"
+                                    required
+                                />
+                                <button
+                                    type="submit"
+                                    disabled={categoryForm.processing}
+                                    className="bg-brand-primary text-white text-[10px] font-bold uppercase tracking-widest px-6 py-3 rounded-[0.25rem] hover:bg-brand-accent transition-all shadow-md shadow-brand-primary/10"
+                                >
+                                    {editingCategory ? 'Simpan' : 'Tambah'}
+                                </button>
+                                {editingCategory && (
+                                    <button
+                                        type="button"
+                                        onClick={cancelEditCategory}
+                                        className="bg-brand-secondary text-brand-primary text-[10px] font-bold uppercase tracking-widest px-4 py-3 rounded-[0.25rem] hover:bg-sage-light/35 transition-all"
+                                    >
+                                        Batal
+                                    </button>
+                                )}
+                            </div>
+                            {categoryForm.errors.name && (
+                                <p className="mt-1.5 text-[10px] font-bold text-red-550 uppercase tracking-wider">{categoryForm.errors.name}</p>
+                            )}
+                        </div>
+                    </form>
+
+                    {/* List Kategori */}
+                    <div className="space-y-3">
+                        <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-accent">
+                            Daftar Kategori ({categories.length})
+                        </label>
+                        <div className="border border-sage-light/60 rounded-[0.25rem] divide-y divide-brand-secondary/40 max-h-60 overflow-y-auto bg-brand-secondary/10">
+                            {categories.length > 0 ? (
+                                categories.map(cat => (
+                                    <div key={cat.id} className="flex items-center justify-between p-3.5 hover:bg-brand-secondary/25 transition-colors">
+                                        <div>
+                                            <div className="text-xs font-bold text-brand-primary uppercase tracking-wide flex items-center gap-1.5">
+                                                {cat.name}
+                                            </div>
+                                            <div className="text-[9px] font-semibold text-brand-accent uppercase tracking-widest mt-1">
+                                                Slug: {cat.slug} • ({berita.filter(b => b.category_id === cat.id).length} Berita)
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <button
+                                                onClick={() => startEditCategory(cat)}
+                                                className="p-1.5 text-brand-accent hover:text-brand-gold hover:bg-brand-secondary/45 rounded border border-transparent hover:border-brand-secondary/50 transition-all"
+                                                title="Edit"
+                                            >
+                                                <PencilSquareIcon className="h-4 w-4" />
+                                            </button>
+                                            <button
+                                                onClick={() => handleDeleteCategory(cat.id, cat.name)}
+                                                className="p-1.5 text-brand-accent hover:text-red-650 hover:bg-red-50/70 rounded border border-transparent hover:border-red-100 transition-all"
+                                                title="Hapus"
+                                            >
+                                                <TrashIcon className="h-4 w-4" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="p-8 text-center text-[10px] font-bold text-brand-accent uppercase tracking-widest">
+                                    Belum ada kategori terdaftar
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </Modal>
         </IndukAdminLayout>
     );
 }

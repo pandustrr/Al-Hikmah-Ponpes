@@ -175,7 +175,7 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                         >
                             <option value="">Pusat Yayasan (Global)</option>
                             {lembagas.map(lembaga => (
-                                <option key={lembaga.id} value={lembaga.id}>{lembaga.name}</option>
+                                <option key={lembaga.id} value={lembaga.id}>{lembaga.nama}</option>
                             ))}
                         </select>
                         <p className="mt-2 text-[9px] text-slate-400 italic">Biarkan kosong jika berita untuk umum/yayasan.</p>

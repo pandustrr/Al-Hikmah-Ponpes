@@ -865,7 +865,7 @@ export default function Index({ ppdbInfos = [], lembagas = [], faqs = [], settin
                                     >
                                         <option value="">UMUM (Semua Unit)</option>
                                         {lembagas.map(lembaga => (
-                                            <option key={lembaga.id} value={lembaga.id}>{lembaga.name}</option>
+                                            <option key={lembaga.id} value={lembaga.id}>{lembaga.nama}</option>
                                         ))}
                                     </select>
                                     {faqForm.errors.lembaga_id && (
