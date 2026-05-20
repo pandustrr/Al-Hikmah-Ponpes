@@ -7,10 +7,10 @@ import FasilitasShortcut from './FasilitasShortcut';
 import PpdbCta from './PpdbCta';
 import LembagaUpdates from './LembagaUpdates';
 import BeritaYayasan from './BeritaYayasan';
-import UpcomingEvents from './UpcomingEvents';
+import BeritaKategoriBottom from './BeritaKategoriBottom';
 import Testimonials from './Testimonials';
 
-export default function Welcome({ lembagas, beritaTerbaru, landingSettings, testimonials, upcomingEvents }) {
+export default function Welcome({ lembagas, heroBerita, beritaTerbaru, bottomNews, bottomNewsTitle, bottomNewsSlug, landingSettings, testimonials, announcements, announcementTitle, announcementSlug, articles, articleTitle, articleSlug }) {
     const [offsetY, setOffsetY] = useState(0);
     const handleScroll = () => setOffsetY(window.scrollY);
 
@@ -41,14 +41,23 @@ export default function Welcome({ lembagas, beritaTerbaru, landingSettings, test
 
     return (
         <PublicLayout title="Beranda" navTheme="dark">
-            <Hero offsetY={offsetY} berita={beritaTerbaru} settings={landingSettings} />
-            <AboutSummary lembagas={lembagas} settings={landingSettings} />
+            <Hero offsetY={offsetY} berita={heroBerita} settings={landingSettings} />
+            <AboutSummary 
+                lembagas={lembagas} 
+                settings={landingSettings} 
+                announcements={announcements} 
+                announcementTitle={announcementTitle}
+                announcementSlug={announcementSlug}
+                articles={articles} 
+                articleTitle={articleTitle}
+                articleSlug={articleSlug}
+            />
             <Testimonials testimonials={testimonials} />
             <FasilitasShortcut />
             <LembagaUpdates lembagas={lembagas} />
             <PpdbCta settings={landingSettings} />
             <BeritaYayasan beritaTerbaru={beritaTerbaru} />
-            <UpcomingEvents events={upcomingEvents} />
+            <BeritaKategoriBottom bottomNews={bottomNews} bottomNewsTitle={bottomNewsTitle} bottomNewsSlug={bottomNewsSlug} />
         </PublicLayout>
     );
 }

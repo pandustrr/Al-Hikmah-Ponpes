@@ -32,7 +32,8 @@ class LandingController extends Controller
         return Inertia::render('IndukAdmin/Landing/Index', [
             'settings' => LandingSetting::all()->pluck('value', 'key'),
             'testimonials' => Testimonial::latest()->get(),
-            'events' => Event::latest()->get(),
+            'beritaList' => \App\Models\Berita::with('category')->latest()->get(),
+            'categories' => \App\Models\BeritaCategory::all(),
         ]);
     }
 

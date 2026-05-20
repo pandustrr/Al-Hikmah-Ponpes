@@ -2,18 +2,7 @@ import React from 'react';
 import { Link } from '@inertiajs/react';
 import { ArrowLongRightIcon } from '@heroicons/react/24/outline';
 
-export default function AboutSummary({ lembagas = [], settings = {} }) {
-    const announcements = [
-        { title: 'Pengumuman Ujian Akhir Semester MTS 2026', date: '06/05/2026' },
-        { title: 'Jadwal Libur Idul Adha Seluruh Lembaga', date: '05/05/2026' },
-        { title: 'Pembukaan Pendaftaran Ekskul Baru Tahun Ajaran 2026', date: '04/05/2026' },
-    ];
-
-    const articles = [
-        { title: 'Adab Sebelum Ilmu: Mengapa Karakter Adalah Fondasi Pendidikan?', date: '06/05/2026' },
-        { title: 'Menjaga Hafalan Al-Qur\'an di Era Digital', date: '05/05/2026' },
-        { title: 'Teknologi dalam Pendidikan Islam Modern', date: '04/05/2026' },
-    ];
+export default function AboutSummary({ lembagas = [], settings = {}, announcements = [], announcementTitle = 'Pengumuman', announcementSlug = 'pengumuman', articles = [], articleTitle = 'Artikel & Wawasan', articleSlug = 'artikel' }) {
 
     return (
         <section className="pt-16 pb-24 bg-brand-light relative z-20">
@@ -115,19 +104,23 @@ export default function AboutSummary({ lembagas = [], settings = {} }) {
                             <div>
                                 <div className="border-b-2 border-brand-primary pb-3 mb-6">
                                     <h4 className="text-[10px] font-semibold text-brand-primary uppercase tracking-[0.2em] flex items-center justify-between">
-                                        Pengumuman
+                                        {announcementTitle}
                                         <span className="w-1.5 h-1.5 bg-brand-accent rounded-full animate-pulse"></span>
                                     </h4>
                                 </div>
                                 <div className="space-y-6">
-                                    {announcements.map((item, i) => (
-                                        <Link key={i} href="/berita?kategori=pengumuman" className="block group border-b border-brand-secondary pb-4 last:border-0 hover:pl-2 transition-all duration-300">
-                                            <div className="text-[8px] font-semibold text-brand-accent uppercase tracking-widest mb-1 opacity-70">Berita · {item.date}</div>
-                                            <p className="text-[11px] font-semibold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug line-clamp-2">{item.title}</p>
-                                        </Link>
-                                    ))}
+                                    {announcements.length === 0 ? (
+                                        <p className="text-[10px] text-slate-400 italic">Belum ada berita.</p>
+                                    ) : (
+                                        announcements.map((item) => (
+                                            <Link key={item.id} href={route('berita.show', item.slug)} className="block group border-b border-brand-secondary pb-4 last:border-0 hover:pl-2 transition-all duration-300">
+                                                <div className="text-[8px] font-semibold text-brand-accent uppercase tracking-widest mb-1 opacity-70">{item.category?.name || 'Berita'} · {item.formatted_date || item.tanggal}</div>
+                                                <p className="text-[11px] font-semibold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug line-clamp-2">{item.judul}</p>
+                                            </Link>
+                                        ))
+                                    )}
                                     <div className="pt-2">
-                                        <Link href="/berita?kategori=pengumuman" className="text-[10px] font-semibold text-brand-accent hover:text-brand-primary uppercase tracking-[0.2em] transition-all flex flex-col group/link">
+                                        <Link href={`/berita?kategori=${encodeURIComponent(announcementSlug)}`} className="text-[10px] font-semibold text-brand-accent hover:text-brand-primary uppercase tracking-[0.2em] transition-all flex flex-col group/link">
                                             <span>Lihat Semua</span>
                                             <span className="mt-1 group-hover/link:translate-x-2 transition-transform duration-300">→</span>
                                         </Link>
@@ -139,19 +132,23 @@ export default function AboutSummary({ lembagas = [], settings = {} }) {
                             <div className="pt-4">
                                 <div className="border-b-2 border-brand-primary pb-3 mb-6">
                                     <h4 className="text-[10px] font-semibold text-brand-primary uppercase tracking-[0.2em] flex items-center justify-between">
-                                        Artikel
+                                        {articleTitle}
                                         <span className="w-1.5 h-1.5 bg-brand-accent rounded-full animate-pulse"></span>
                                     </h4>
                                 </div>
                                 <div className="space-y-6">
-                                    {articles.map((item, i) => (
-                                        <Link key={i} href="/berita?kategori=artikel" className="block group border-b border-brand-secondary pb-4 last:border-0 hover:pl-2 transition-all duration-300">
-                                            <div className="text-[8px] font-semibold text-brand-accent uppercase tracking-widest mb-1 opacity-70">Artikel · {item.date}</div>
-                                            <p className="text-[11px] font-semibold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug line-clamp-2">{item.title}</p>
-                                        </Link>
-                                    ))}
+                                    {articles.length === 0 ? (
+                                        <p className="text-[10px] text-slate-400 italic">Belum ada berita.</p>
+                                    ) : (
+                                        articles.map((item) => (
+                                            <Link key={item.id} href={route('berita.show', item.slug)} className="block group border-b border-brand-secondary pb-4 last:border-0 hover:pl-2 transition-all duration-300">
+                                                <div className="text-[8px] font-semibold text-brand-accent uppercase tracking-widest mb-1 opacity-70">{item.category?.name || 'Artikel'} · {item.formatted_date || item.tanggal}</div>
+                                                <p className="text-[11px] font-semibold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug line-clamp-2">{item.judul}</p>
+                                            </Link>
+                                        ))
+                                    )}
                                     <div className="pt-2">
-                                        <Link href="/berita?kategori=artikel" className="text-[10px] font-semibold text-brand-accent hover:text-brand-primary uppercase tracking-[0.2em] transition-all flex flex-col group/link">
+                                        <Link href={`/berita?kategori=${encodeURIComponent(articleSlug)}`} className="text-[10px] font-semibold text-brand-accent hover:text-brand-primary uppercase tracking-[0.2em] transition-all flex flex-col group/link">
                                             <span>Lihat Semua</span>
                                             <span className="mt-1 group-hover/link:translate-x-2 transition-transform duration-300">→</span>
                                         </Link>

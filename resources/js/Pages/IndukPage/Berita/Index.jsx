@@ -9,7 +9,7 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
     const [search, setSearch] = useState(filters.q || '');
     // Combine "Semua Berita" with dynamic categories from DB
     const allCategories = [
-        { slug: '', name: 'Terkini' },
+        { slug: '', name: 'Semua' },
         ...categories
     ];
 
@@ -117,12 +117,12 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                                 <button
                                     key={cat.slug}
                                     onClick={() => handleFilter(cat.slug)}
-                                    className={`px-3 sm:px-6 py-3 sm:py-4 text-[9px] sm:text-xs font-semibold uppercase tracking-widest whitespace-nowrap transition-all border-b-2 ${(currentCategory || '') === cat.slug
+                                    className={`px-2.5 sm:px-4 py-2 sm:py-2.5 text-[8px] sm:text-[9.5px] font-semibold uppercase tracking-widest whitespace-nowrap transition-all border-b-2 ${(currentCategory || '') === cat.slug
                                             ? 'border-brand-primary text-brand-primary'
                                             : 'border-transparent text-brand-accent hover:text-brand-primary'
                                         }`}
                                 >
-                                    {cat.name} {cat.beritas_count > 0 && <span className="ml-1 text-[8px] sm:text-[10px] opacity-50">({cat.beritas_count})</span>}
+                                    {cat.name} {cat.beritas_count > 0 && <span className="ml-1 text-[7px] sm:text-[8.5px] opacity-50">({cat.beritas_count})</span>}
                                 </button>
                             ))}
                         </div>
