@@ -308,7 +308,7 @@ export default function Index({ settings, authUser }) {
                                                 </div>
                                                 <div className="flex flex-col text-[12px] leading-tight">
                                                     <span className="text-[#202124] font-medium truncate max-w-[200px]">Yayasan Al-Hikmah Ambulu</span>
-                                                    <span className="text-[#5f6368] text-[10px] truncate max-w-[200px]">https://alhikmahambulu.sch.id</span>
+                                                    <span className="text-[#5f6368] text-[10px] truncate max-w-[200px]">https://ypdsalhikmahjbr.com</span>
                                                 </div>
                                             </div>
                                             <h3 className="text-[#1a0dab] hover:underline text-[18px] leading-tight font-medium cursor-pointer">
@@ -341,7 +341,7 @@ export default function Index({ settings, authUser }) {
                                                         {generalForm.data.settings.find(s => s.key === 'seo_meta_description')?.value || 'Portal berita resmi Yayasan Al-Hikmah Ambulu. Dapatkan informasi terbaru seputar pendidikan, prestasi, dan kegiatan santri.'}
                                                     </p>
                                                     <span className="text-[9px] text-[#94a3b8] uppercase tracking-wider mt-1 block">
-                                                        alhikmahambulu.sch.id
+                                                        ypdsalhikmahjbr.com
                                                     </span>
                                                 </div>
                                             </div>
@@ -356,8 +356,8 @@ export default function Index({ settings, authUser }) {
                                                 "@context": "https://schema.org",
                                                 "@type": "EducationalOrganization",
                                                 "name": "Yayasan Al-Hikmah Ambulu",
-                                                "url": "https://alhikmahambulu.sch.id",
-                                                "logo": "https://alhikmahambulu.sch.id/logo.png",
+                                                "url": "https://ypdsalhikmahjbr.com",
+                                                "logo": "https://ypdsalhikmahjbr.com/logo.png",
                                                 "subOrganization": [
                                                     { "@type": "School", "name": "SD NU 22 Full Day" },
                                                     { "@type": "School", "name": "SMP Unggulan Al-Hikmah" },

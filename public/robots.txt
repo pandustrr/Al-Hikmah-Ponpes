@@ -1,2 +1,93 @@
+# =====================================================
+# robots.txt - YPDS Al-Hikmah Jember
+# https://ypdsalhikmahjbr.com
+# =====================================================
+
+# --- Semua Bot Umum ---
 User-agent: *
-Disallow:
+
+# Blokir area admin & autentikasi (tidak perlu diindeks)
+Disallow: /admin/
+Disallow: /admin/console/
+Disallow: /admin/console/dashboard
+Disallow: /admin/console/berita/
+Disallow: /admin/console/lembaga/
+Disallow: /admin/console/landing/
+Disallow: /admin/console/settings/
+Disallow: /admin/console/pengajar/
+Disallow: /admin/console/events/
+Disallow: /admin/console/testimonials/
+Disallow: /admin/console/fasilitas/
+Disallow: /admin/console/galeri/
+Disallow: /admin/console/kontak/
+Disallow: /admin/console/tentang/
+Disallow: /admin/console/info-ppdb/
+Disallow: /admin/console/berita-category/
+
+# Blokir file internal Laravel
+Disallow: /vendor/
+Disallow: /_ignition/
+Disallow: /telescope/
+
+# Izinkan semua halaman publik
+Allow: /
+Allow: /berita
+Allow: /berita/
+Allow: /profil
+Allow: /info-ppdb
+Allow: /fasilitas
+Allow: /kontak
+
+# Izinkan gambar storage agar muncul di Google Images
+# (Foto berita, foto lembaga, foto santri, dll.)
+Allow: /storage/
+Allow: /storage/berita/
+Allow: /storage/berita_mobile/
+Allow: /storage/lembaga/
+Allow: /storage/galeri/
+Allow: /storage/pengajar/
+Allow: /storage/settings/
+
+# Izinkan aset publik
+Allow: /build/
+Allow: /logo.png
+Allow: /favicon.ico
+Allow: /favicon-32x32.png
+Allow: /apple-touch-icon.png
+Allow: /site.webmanifest
+
+# Sitemap
+Sitemap: https://ypdsalhikmahjbr.com/sitemap.xml
+
+# --- Bot Google Image (Prioritas Tinggi untuk Foto Berita) ---
+User-agent: Googlebot-Image
+Allow: /storage/
+Allow: /storage/berita/
+Allow: /storage/berita_mobile/
+Allow: /storage/lembaga/
+Allow: /storage/galeri/
+Allow: /storage/pengajar/
+Allow: /public/
+Allow: /logo.png
+
+# --- Bing & Yandex ---
+User-agent: Bingbot
+Allow: /
+Sitemap: https://ypdsalhikmahjbr.com/sitemap.xml
+
+User-agent: Yandex
+Allow: /
+Sitemap: https://ypdsalhikmahjbr.com/sitemap.xml
+
+# --- Blokir Bot Spam & Scraper Tidak Berguna ---
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /

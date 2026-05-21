@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PublicLayout from '@/Layouts/PublicLayout';
-import { Link, router } from '@inertiajs/react';
+import { Link, Head, router } from '@inertiajs/react';
 import NewsTicker from './NewsTicker';
 import NewsCard from './NewsCard';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
@@ -47,7 +47,30 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
     // popularNews is now passed from props correctly sorted by views
 
     return (
-        <PublicLayout title="Berita & Informasi">
+        <PublicLayout title={currentCategory
+            ? `Berita ${categories.find(c => c.slug === currentCategory)?.name || currentCategory}`
+            : 'Berita & Informasi'}
+        >
+            {/* Dynamic SEO Head for SPA navigation */}
+            <Head>
+                {currentCategory ? (
+                    <>
+                        <title key="title">{`Berita ${categories.find(c => c.slug === currentCategory)?.name || currentCategory} - Yayasan Al-Hikmah Ambulu`}</title>
+                        <meta key="desc" name="description" content={`Kumpulan berita dan informasi kategori ${categories.find(c => c.slug === currentCategory)?.name || currentCategory} dari Yayasan Al-Hikmah Ambulu.`} />
+                        <meta key="og-title" property="og:title" content={`Berita ${categories.find(c => c.slug === currentCategory)?.name || currentCategory} - Yayasan Al-Hikmah Ambulu`} />
+                        <meta key="og-desc" property="og:description" content={`Kumpulan berita dan informasi kategori ${categories.find(c => c.slug === currentCategory)?.name || currentCategory} dari Yayasan Al-Hikmah Ambulu.`} />
+                    </>
+                ) : (
+                    <>
+                        <title key="title">Berita &amp; Informasi Terbaru - Yayasan Al-Hikmah Ambulu</title>
+                        <meta key="desc" name="description" content="Baca berita, pengumuman, dan informasi terkini dari Yayasan Al-Hikmah Ambulu. Update kegiatan, prestasi, dan program pendidikan santri." />
+                    </>
+                )}
+                <link key="canonical" rel="canonical" href={typeof window !== 'undefined' ? `${window.location.origin}/berita` : '/berita'} />
+                <meta key="og-type" property="og:type" content="website" />
+                <meta key="og-url" property="og:url" content={typeof window !== 'undefined' ? `${window.location.origin}/berita` : '/berita'} />
+                <meta key="robots" name="robots" content="index, follow" />
+            </Head>
             {/* Wrapper to offset the fixed navbar height so the top bar is not covered or too close */}
             <div className="pt-20 md:pt-24">
                 {/* News Top Bar (Tempo Style) - Diaktifkan di mobile secara responsif dengan penyesuaian posisi */}
@@ -161,7 +184,7 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                                             className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
                                                 }`}
                                         >
-                                            <NewsCard berita={item} variant="featured" className="h-full w-full" />
+                                            <NewsCard berita={item} variant="featured" className="h-full w-full" isPriority={index === 0} />
                                         </div>
                                     ))}
 
