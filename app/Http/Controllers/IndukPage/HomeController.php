@@ -163,7 +163,7 @@ class HomeController extends Controller
             'info-ppdb' => ['priority' => '0.9', 'changefreq' => 'weekly'],
             'kontak'    => ['priority' => '0.7', 'changefreq' => 'monthly'],
             'fasilitas' => ['priority' => '0.7', 'changefreq' => 'monthly'],
-            'berita'    => ['priority' => '0.9', 'changefreq' => 'daily'],  // Naik ke 0.9 — setara info-ppdb
+            'berita'    => ['priority' => '0.9', 'changefreq' => 'daily'], 
         ];
 
         foreach ($staticPages as $path => $meta) {

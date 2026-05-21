@@ -1,6 +1,6 @@
 import React from 'react';
 import PublicLayout from '@/Layouts/PublicLayout';
-import { BookOpenIcon, HomeModernIcon } from '@heroicons/react/24/outline';
+import { BookOpenIcon, HomeModernIcon, SparklesIcon } from '@heroicons/react/24/outline';
 
 export default function Profil({ settings = {} }) {
     const defaultTimeline = [
@@ -20,6 +20,13 @@ export default function Profil({ settings = {} }) {
 
     const timeline = settings.profil_sejarah_timeline && settings.profil_sejarah_timeline.length > 0 ? settings.profil_sejarah_timeline : defaultTimeline;
     const misiList = settings.profil_misi_list && settings.profil_misi_list.length > 0 ? settings.profil_misi_list : defaultMisi;
+
+    const defaultCards = [
+        { title: 'Metode Pendidikan', desc: 'Pendekatan holistik yang mengintegrasikan sains, teknologi, dan ilmu agama dalam lingkungan yang kondusif.' },
+        { title: 'Lingkungan Santri', desc: 'Fasilitas asrama yang nyaman dan pembiasaan adab harian ketat untuk membentuk karakter santri yang tangguh.' },
+    ];
+    const tentangCards = settings.profil_tentang_cards && settings.profil_tentang_cards.length > 0 ? settings.profil_tentang_cards : defaultCards;
+    const cardIcons = [BookOpenIcon, HomeModernIcon, SparklesIcon];
 
     return (
         <PublicLayout title="Profil & Tentang Kami" navTheme="dark">
@@ -119,25 +126,20 @@ export default function Profil({ settings = {} }) {
                             </p>
                             
                             <div className="pt-2 sm:pt-4 space-y-3 sm:space-y-4">
-                                <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-white border border-slate-200/60 rounded-[0.25rem] shadow-sm">
-                                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-brand-primary/10 rounded-full flex items-center justify-center shrink-0">
-                                        <BookOpenIcon className="w-4 h-4 sm:w-5 sm:h-5 text-brand-primary" />
-                                    </div>
-                                    <div>
-                                        <h4 className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-tight">Metode Pendidikan</h4>
-                                        <p className="text-[10px] sm:text-xs text-slate-500 mt-0.5 sm:mt-1 leading-relaxed">Pendekatan holistik yang mengintegrasikan sains, teknologi, dan ilmu agama dalam lingkungan yang kondusif.</p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-white border border-slate-200/60 rounded-[0.25rem] shadow-sm">
-                                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-brand-primary/10 rounded-full flex items-center justify-center shrink-0">
-                                        <HomeModernIcon className="w-4 h-4 sm:w-5 sm:h-5 text-brand-primary" />
-                                    </div>
-                                    <div>
-                                        <h4 className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-tight">Lingkungan Santri</h4>
-                                        <p className="text-[10px] sm:text-xs text-slate-500 mt-0.5 sm:mt-1 leading-relaxed">Fasilitas asrama yang nyaman dan pembiasaan adab harian ketat untuk membentuk karakter santri yang tangguh.</p>
-                                    </div>
-                                </div>
+                                {tentangCards.map((card, i) => {
+                                    const CardIcon = cardIcons[i] || SparklesIcon;
+                                    return (
+                                        <div key={i} className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 bg-white border border-slate-200/60 rounded-[0.25rem] shadow-sm">
+                                            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-brand-primary/10 rounded-full flex items-center justify-center shrink-0">
+                                                <CardIcon className="w-4 h-4 sm:w-5 sm:h-5 text-brand-primary" />
+                                            </div>
+                                            <div>
+                                                <h4 className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-tight">{card.title}</h4>
+                                                <p className="text-[10px] sm:text-xs text-slate-500 mt-0.5 sm:mt-1 leading-relaxed">{card.desc}</p>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
 
@@ -164,8 +166,12 @@ export default function Profil({ settings = {} }) {
                                         </span>
                                     </div>
                                     <div>
-                                        <span className="text-[8px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Pengalaman Kami</span>
-                                        <span className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-tight mt-0.5 block">Tahun Mengabdi</span>
+                                        <span className="text-[8px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest block">
+                                            {settings.profil_tentang_badge_label1 || 'Pengalaman Kami'}
+                                        </span>
+                                        <span className="text-xs sm:text-sm font-bold text-slate-800 uppercase tracking-tight mt-0.5 block">
+                                            {settings.profil_tentang_badge_label2 || 'Tahun Mengabdi'}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
