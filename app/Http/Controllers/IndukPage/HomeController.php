@@ -188,22 +188,31 @@ class HomeController extends Controller
             }
         }
 
-        // 3. Dynamic News (Berita) Pages
-        $beritas = \App\Models\Berita::latest()->get();
+        // 3. Dynamic News (Berita) Pages — with Image Sitemap
+        $beritas = \App\Models\Berita::with('category')->latest()->get();
         foreach ($beritas as $b) {
             if ($b->slug) {
+                $imageUrl = null;
+                if (!empty($b->image_url)) {
+                    $imageUrl = filter_var($b->image_url, FILTER_VALIDATE_URL)
+                        ? $b->image_url
+                        : url(ltrim($b->image_url, '/'));
+                }
                 $urls[] = [
-                    'loc' => "{$baseUrl}/berita/" . ltrim($b->slug, '/'),
-                    'lastmod' => $b->updated_at ? $b->updated_at->toAtomString() : now()->toAtomString(),
+                    'loc'        => "{$baseUrl}/berita/" . ltrim($b->slug, '/'),
+                    'lastmod'    => $b->updated_at ? $b->updated_at->toAtomString() : now()->toAtomString(),
                     'changefreq' => 'weekly',
-                    'priority' => '0.8'
+                    'priority'   => '0.8',
+                    'image_url'  => $imageUrl,
+                    'image_title'   => $b->judul,
+                    'image_caption' => $b->judul . ' - YPDS Al-Hikmah Jember',
                 ];
             }
         }
 
         // Generate XML Content
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
-        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">';
         
         foreach ($urls as $url) {
             $xml .= '<url>';
@@ -211,6 +220,14 @@ class HomeController extends Controller
             $xml .= '<lastmod>' . $url['lastmod'] . '</lastmod>';
             $xml .= '<changefreq>' . $url['changefreq'] . '</changefreq>';
             $xml .= '<priority>' . $url['priority'] . '</priority>';
+            // Add image sitemap tag if image exists
+            if (!empty($url['image_url'])) {
+                $xml .= '<image:image>';
+                $xml .= '<image:loc>' . htmlspecialchars($url['image_url']) . '</image:loc>';
+                $xml .= '<image:title>' . htmlspecialchars($url['image_title'] ?? '') . '</image:title>';
+                $xml .= '<image:caption>' . htmlspecialchars($url['image_caption'] ?? '') . '</image:caption>';
+                $xml .= '</image:image>';
+            }
             $xml .= '</url>';
         }
         

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
 
-export default function NewsCard({ berita, variant = 'vertical', className = '' }) {
+export default function NewsCard({ berita, variant = 'vertical', className = '', isPriority = false }) {
     const formattedDate = berita.created_at 
         ? new Date(berita.created_at).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }) 
         : '';
@@ -18,7 +18,11 @@ export default function NewsCard({ berita, variant = 'vertical', className = '' 
                     )}
                     <img
                         src={berita.image_url || "https://images.unsplash.com/photo-1504711432869-5d39a110fdd7?auto=format&fit=crop&q=80&w=1200"}
-                        alt={berita.judul}
+                        alt={`${berita.judul} - YPDS Al-Hikmah Jember`}
+                        width="1200"
+                        height="630"
+                        loading={isPriority ? 'eager' : 'lazy'}
+                        fetchPriority={isPriority ? 'high' : 'auto'}
                         className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700"
                     />
                 </picture>
@@ -52,7 +56,10 @@ export default function NewsCard({ berita, variant = 'vertical', className = '' 
                 <div className="w-24 h-16 sm:w-32 sm:h-20 md:w-48 md:h-28 flex-shrink-0 overflow-hidden bg-brand-secondary rounded-[0.1rem]">
                     <img
                         src={berita.image_url || "https://images.unsplash.com/photo-1585829365234-781fcd04c838?auto=format&fit=crop&q=80&w=400"}
-                        alt={berita.judul}
+                        alt={`${berita.judul} - YPDS Al-Hikmah Jember`}
+                        width="400"
+                        height="250"
+                        loading="lazy"
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                 </div>
@@ -80,7 +87,10 @@ export default function NewsCard({ berita, variant = 'vertical', className = '' 
                 <div className="w-16 h-16 flex-shrink-0 overflow-hidden bg-brand-secondary">
                     <img
                         src={berita.image_url || "https://images.unsplash.com/photo-1585829365234-781fcd04c838?auto=format&fit=crop&q=80&w=200"}
-                        alt={berita.judul}
+                        alt={`${berita.judul} - YPDS Al-Hikmah Jember`}
+                        width="200"
+                        height="200"
+                        loading="lazy"
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                 </div>
@@ -109,7 +119,10 @@ export default function NewsCard({ berita, variant = 'vertical', className = '' 
                     )}
                     <img
                         src={berita.image_url || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=600"}
-                        alt={berita.judul}
+                        alt={`${berita.judul} - YPDS Al-Hikmah Jember`}
+                        width="600"
+                        height="400"
+                        loading="lazy"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                 </picture>

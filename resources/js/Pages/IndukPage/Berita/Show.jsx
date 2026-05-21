@@ -4,18 +4,74 @@ import { Link, Head } from '@inertiajs/react';
 import NewsCard from './NewsCard';
 
 export default function Show({ berita, recentBerita = [], settings = {} }) {
-    const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/berita/${berita.slug}` : '';
+    const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/berita/${berita.slug}` : `/berita/${berita.slug}`;
     const formattedDate = berita.created_at 
         ? new Date(berita.created_at).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) 
         : '';
-    const cleanDescription = berita.konten 
-        ? berita.konten.replace(/<[^>]*>/g, '').substring(0, 155) + '...' 
-        : '';
+    // Use ringkasan first (curated excerpt), fallback to stripping konten HTML
+    const cleanDescription = berita.ringkasan
+        ? berita.ringkasan.replace(/<[^>]*>/g, '').substring(0, 155)
+        : berita.konten
+            ? berita.konten.replace(/<[^>]*>/g, '').substring(0, 155) + '...'
+            : '';
+
+    const canonicalUrl = typeof window !== 'undefined'
+        ? `${window.location.origin}/berita/${berita.slug}`
+        : `/berita/${berita.slug}`;
+
+    const newsArticleSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'NewsArticle',
+        'headline': berita.judul,
+        'description': cleanDescription,
+        'image': berita.image_url ? [{
+            '@type': 'ImageObject',
+            'url': berita.image_url,
+            'width': 1200,
+            'height': 630,
+            'caption': `${berita.judul} - YPDS Al-Hikmah Jember`,
+        }] : [],
+        'datePublished': berita.created_at,
+        'dateModified': berita.updated_at || berita.created_at,
+        'author': [{ '@type': 'Organization', 'name': 'Redaksi YPDS Al-Hikmah', 'url': 'https://ypdsalhikmahjbr.com' }],
+        'publisher': {
+            '@type': 'Organization',
+            'name': 'YPDS Al-Hikmah Jember',
+            'logo': { '@type': 'ImageObject', 'url': 'https://ypdsalhikmahjbr.com/logo.png', 'width': 200, 'height': 200 }
+        },
+        'mainEntityOfPage': { '@type': 'WebPage', '@id': canonicalUrl },
+        'articleSection': berita.category?.name || 'Berita',
+        'inLanguage': 'id-ID',
+        'isPartOf': { '@type': 'WebSite', 'name': 'YPDS Al-Hikmah Jember', 'url': 'https://ypdsalhikmahjbr.com' },
+    };
+
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+            { '@type': 'ListItem', 'position': 1, 'name': 'Beranda', 'item': 'https://ypdsalhikmahjbr.com' },
+            { '@type': 'ListItem', 'position': 2, 'name': 'Berita', 'item': 'https://ypdsalhikmahjbr.com/berita' },
+            { '@type': 'ListItem', 'position': 3, 'name': berita.judul, 'item': canonicalUrl },
+        ]
+    };
 
     return (
         <PublicLayout title={berita.judul}>
             <Head>
-                <meta name="description" content={cleanDescription} />
+                <title key="title">{`${berita.judul} - YPDS Al-Hikmah Jember`}</title>
+                <meta key="desc" name="description" content={cleanDescription} />
+                <link key="canonical" rel="canonical" href={canonicalUrl} />
+                <meta key="og-type" property="og:type" content="article" />
+                <meta key="og-title" property="og:title" content={`${berita.judul} - YPDS Al-Hikmah Jember`} />
+                <meta key="og-desc" property="og:description" content={cleanDescription} />
+                <meta key="og-url" property="og:url" content={canonicalUrl} />
+                {berita.image_url && <meta key="og-img" property="og:image" content={berita.image_url} />}
+                <script key="ld-article" type="application/ld+json">
+                    {JSON.stringify(newsArticleSchema)}
+                </script>
+                <script key="ld-breadcrumb" type="application/ld+json">
+                    {JSON.stringify(breadcrumbSchema)}
+                </script>
             </Head>
 
             {/* News Top Bar (Tempo Style) */}
@@ -69,9 +125,9 @@ export default function Show({ berita, recentBerita = [], settings = {} }) {
                                     </div>
                                     <span className="text-xs font-semibold text-brand-primary uppercase tracking-widest">Redaksi Al-Hikmah</span>
                                 </div>
-                                <div className="text-[10px] font-semibold uppercase tracking-widest">
+                                <time dateTime={berita.created_at} className="text-[10px] font-semibold uppercase tracking-widest">
                                     {formattedDate}
-                                </div>
+                                </time>
                             </div>
                         </div>
 
@@ -82,7 +138,11 @@ export default function Show({ berita, recentBerita = [], settings = {} }) {
                                 )}
                                 <img
                                     src={berita.image_url || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=1200"}
-                                    alt={berita.judul}
+                                    alt={`${berita.judul} - YPDS Al-Hikmah Jember`}
+                                    width="1200"
+                                    height="630"
+                                    loading="eager"
+                                    fetchPriority="high"
                                     className="w-full h-full object-cover"
                                 />
                             </picture>

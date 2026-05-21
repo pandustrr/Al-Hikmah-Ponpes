@@ -4,6 +4,46 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property int|null $lembaga_id
+ * @property string $judul
+ * @property string $slug
+ * @property string|null $ringkasan
+ * @property string $konten
+ * @property string|null $image_url
+ * @property string|null $image_mobile_url
+ * @property string|null $tanggal
+ * @property string $status
+ * @property int $views
+ * @property int $is_sticky
+ * @property int $is_multimedia
+ * @property int|null $category_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\BeritaCategory|null $category
+ * @property-read \App\Models\Lembaga|null $lembaga
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereImageMobileUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereImageUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereIsMultimedia($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereIsSticky($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereJudul($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereKonten($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereLembagaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereRingkasan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereTanggal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Berita whereViews($value)
+ * @mixin \Eloquent
+ */
 class Berita extends Model
 {
     protected $fillable = [
