@@ -158,12 +158,12 @@ class HomeController extends Controller
 
         // 1. Static Pages
         $staticPages = [
-            '' => ['priority' => '1.0', 'changefreq' => 'daily'],
-            'profil' => ['priority' => '0.8', 'changefreq' => 'monthly'],
+            ''          => ['priority' => '1.0', 'changefreq' => 'daily'],
+            'profil'    => ['priority' => '0.8', 'changefreq' => 'monthly'],
             'info-ppdb' => ['priority' => '0.9', 'changefreq' => 'weekly'],
-            'kontak' => ['priority' => '0.7', 'changefreq' => 'monthly'],
+            'kontak'    => ['priority' => '0.7', 'changefreq' => 'monthly'],
             'fasilitas' => ['priority' => '0.7', 'changefreq' => 'monthly'],
-            'berita' => ['priority' => '0.8', 'changefreq' => 'daily'],
+            'berita'    => ['priority' => '0.9', 'changefreq' => 'daily'],  // Naik ke 0.9 — setara info-ppdb
         ];
 
         foreach ($staticPages as $path => $meta) {
@@ -175,15 +175,15 @@ class HomeController extends Controller
             ];
         }
 
-        // 2. Dynamic School (Lembaga) Pages
+        // 2. Dynamic School (Lembaga) Pages — Priority 0.95 (diprioritaskan untuk Sitelinks)
         $lembagas = \App\Models\Lembaga::all();
         foreach ($lembagas as $l) {
             if ($l->slug) {
                 $urls[] = [
                     'loc' => "{$baseUrl}/" . ltrim($l->slug, '/'),
                     'lastmod' => $l->updated_at ? $l->updated_at->toAtomString() : now()->toAtomString(),
-                    'changefreq' => 'weekly',
-                    'priority' => '0.9'
+                    'changefreq' => 'monthly',
+                    'priority' => '0.95'
                 ];
             }
         }

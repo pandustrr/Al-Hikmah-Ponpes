@@ -141,6 +141,30 @@
         <meta name="twitter:image" content="{{ $metaImage }}">
         <meta name="twitter:image:alt" content="{{ $metaTitle }}">
 
+        <!-- WebSite Schema (Sinyal Utama Google Sitelinks) -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "@id": "{{ url('/') }}/#website",
+          "name": "YPDS Al-Hikmah Jember",
+          "url": "{{ url('/') }}",
+          "description": "Portal resmi YPDS Al-Hikmah Jember. Yayasan pendidikan Islam dengan unit SD, SMP, SMK, dan Madrasah Diniyah di Ambulu, Jember.",
+          "inLanguage": "id-ID",
+          "publisher": {
+            "@id": "{{ url('/') }}/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "{{ url('/berita') }}?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        }
+        </script>
+
         <!-- Schema.org JSON-LD (Structured Data) -->
         <script type="application/ld+json">
         {
