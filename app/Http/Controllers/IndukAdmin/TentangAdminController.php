@@ -17,6 +17,7 @@ class TentangAdminController extends Controller
         // Decode JSON arrays if they exist, otherwise provide defaults
         $settings['profil_misi_list'] = isset($settings['profil_misi_list']) ? json_decode($settings['profil_misi_list'], true) : [];
         $settings['profil_sejarah_timeline'] = isset($settings['profil_sejarah_timeline']) ? json_decode($settings['profil_sejarah_timeline'], true) : [];
+        $settings['profil_tentang_cards'] = isset($settings['profil_tentang_cards']) ? json_decode($settings['profil_tentang_cards'], true) : [];
 
         return Inertia::render('IndukAdmin/Tentang/Index', [
             'settings' => $settings,
