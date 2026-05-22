@@ -20,13 +20,16 @@ class LembagaContentSeeder extends Seeder
                 'jumlah_fasilitas' => '10+',
                 'akreditasi' => 'A',
                 'program_tags' => 'Kurikulum Merdeka|Tahfidz Juz 30|Adab & Akhlak|Full Day School',
-                'summary' => 'Pendidikan tingkat dasar yang mengedepankan pembentukan karakter islami dan pembiasaan adab harian sejak dini dengan metode Full Day School.',
+                'summary' => 'Pendidikan tingkat dasar yang mengedepahuan pembentukan karakter islami dan pembiasaan adab harian sejak dini dengan metode Full Day School.',
                 'visi' => 'Terwujudnya Generasi yang Berakhlakul Karimah, Cerdas, dan Mandiri berlandaskan Nilai-Nilai Islam Ahlussunnah Wal Jamaah.',
                 'misi' => "1. Menanamkan Akidah Islam yang murni sejak dini.\n2. Membiasakan adab dan akhlak mulia dalam kehidupan sehari-hari.\n3. Menyelenggarakan pendidikan dasar yang kreatif dan inovatif.\n4. Mengembangkan potensi minat dan bakat siswa secara optimal.",
                 'struktur_pendidikan' => "Kurikulum Nasional (Merdeka) yang diintegrasikan dengan Kurikulum Lokal Pesantren meliputi:\n- Tahfidz Juz 30 & Surat Pilihan\n- Pembiasaan Shalat Dhuha & Dhuhur Berjamaah\n- Bahasa Arab Dasar\n- Ekstrakurikuler Memanah & Berenang",
                 'keunggulan' => "Gedung Milik Sendiri\nTenaga Pendidik Lulusan S1\nLingkungan Aman & Nyaman\nProgram Tahfidz Intensif\nKantin Sehat Higienis",
                 'image_url' => 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1000',
                 'ikon_url' => 'https://img.icons8.com/bubbles/200/school.png',
+                'filosofi_tagline' => 'Membangun Generasi',
+                'filosofi_title' => 'Filosofi Pendidikan di SD NU 22 Full Day Al-Hikmah',
+                'sidebar_category_id' => 1,
             ],
             'smp' => [
                 'running_text' => 'SMP Al-Hikmah Ambulu — Unggul dalam Prestasi, Mulia dalam Akhlak — Pendaftaran Santri Baru 2026/2027 Segera Ditutup — Hubungi Kami!',
@@ -42,6 +45,9 @@ class LembagaContentSeeder extends Seeder
                 'keunggulan' => "Laboratorium IPA & Komputer\nPerpustakaan Digital\nAsrama Representatif\nBeasiswa Prestasi & Tahfidz\nBimbingan Konseling Intensif",
                 'image_url' => 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=1000',
                 'ikon_url' => 'https://img.icons8.com/bubbles/200/books.png',
+                'filosofi_tagline' => 'Membangun Karakter',
+                'filosofi_title' => 'Filosofi Pendidikan di SMP Al-Hikmah',
+                'sidebar_category_id' => 1,
             ],
             'smk' => [
                 'running_text' => 'SMK Al-Hikmah Ambulu — Siap Kerja, Siap Berwirausaha, Siap Berdakwah — Buka Jurusan TKJ, Multimedia & Perbankan Syariah — Daftar Sekarang!',
@@ -57,6 +63,9 @@ class LembagaContentSeeder extends Seeder
                 'keunggulan' => "Sertifikasi Kompetensi BNSP\nBursa Kerja Khusus (BKK)\nBengkel & Lab Standar Industri\nE-Learning System\nProgram Magang Luar Negeri",
                 'image_url' => 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1000',
                 'ikon_url' => 'https://img.icons8.com/bubbles/200/technical-support.png',
+                'filosofi_tagline' => 'Membangun Kompetensi',
+                'filosofi_title' => 'Filosofi Pendidikan di SMK Al-Hikmah',
+                'sidebar_category_id' => 1,
             ],
             'madin' => [
                 'running_text' => 'Madrasah Diniyah Al-Hikmah Ambulu — Mendalami Kitab Salaf, Meneladani Ulama — Kajian Rutin Setiap Hari — Terbuka untuk Umum!',
@@ -72,6 +81,9 @@ class LembagaContentSeeder extends Seeder
                 'keunggulan' => "Metode Sorogan & Bandongan\nHalaqah Ilmiah Mingguan\nIjazah Sanad Kitab\nUstadz Lulusan Pesantren Ternama\nLingkungan Full Bahasa Arab",
                 'image_url' => 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=1000',
                 'ikon_url' => 'https://img.icons8.com/bubbles/200/mosque.png',
+                'filosofi_tagline' => 'Membangun Akhlak',
+                'filosofi_title' => 'Filosofi Pendidikan di Madin Al-Hikmah',
+                'sidebar_category_id' => 1,
             ],
         ];
 

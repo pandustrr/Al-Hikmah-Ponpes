@@ -18,8 +18,9 @@ export default function Show({
     kegiatan = [], 
     beritas = [], 
     stickyBerita = null,
-    announcements = [],
-    articles = [],
+    sidebarSections = [],
+    sidebarBeritas = [],
+    sidebarCategoryName = '',
     pengajars = [],
     fasilitas = [],
     ppdbInfo = null
@@ -31,7 +32,12 @@ export default function Show({
             <StatsBar lembaga={lembaga} />
             <RunningTextBanner text={lembaga.running_text} />
             <StickyNewsHighlight stickyBerita={stickyBerita} />
-            <ProfilSection lembaga={lembaga} prestasi={prestasi} articles={articles} />
+            <ProfilSection 
+                lembaga={lembaga} 
+                sidebarSections={sidebarSections}
+                sidebarBeritas={sidebarBeritas} 
+                sidebarCategoryName={sidebarCategoryName} 
+            />
             <TenagaPendidikSection pengajars={pengajars} />
             <KeunggulanSection lembaga={lembaga} />
             <BeritaKegiatanSection beritas={beritas} prestasi={prestasi} />

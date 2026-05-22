@@ -24,6 +24,8 @@ class LembagaController extends Controller
             'pengajars' => \App\Models\Pengajar::where('lembaga_id', $lembaga->id)->orderBy('urutan')->get(),
             'ppdbInfo'  => \App\Models\PpdbInfo::where('lembaga_id', $lembaga->id)->first(),
             'fasilitas' => \App\Models\Fasilitas::where('lembaga_id', $lembaga->id)->with('galeris')->latest()->get(),
+            'beritaCategories' => \App\Models\BeritaCategory::orderBy('name', 'asc')->get(),
+            'beritas'   => \App\Models\Berita::where('lembaga_id', $lembaga->id)->where('status', 'published')->with('category')->orderBy('judul', 'asc')->get(),
         ]);
     }
 
@@ -42,9 +44,19 @@ class LembagaController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'image_mobile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'ikon' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1024',
+            'profil_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'profil_image_mobile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'image_url' => 'nullable|string',
             'image_mobile_url' => 'nullable|string',
             'ikon_url' => 'nullable|string',
+            'profil_image_url' => 'nullable|string',
+            'profil_image_mobile_url' => 'nullable|string',
+            'filosofi_tagline' => 'nullable|string|max:255',
+            'filosofi_title' => 'nullable|string|max:255',
+            'sidebar_category_id' => 'nullable|exists:berita_categories,id',
+            'sidebar_berita_id' => 'nullable|exists:beritas,id',
+            'sidebar_categories' => 'nullable|array',
+            'sidebar_categories.*' => 'exists:berita_categories,id',
         ]);
 
         $validated['slug'] = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['nama']);
@@ -63,6 +75,16 @@ class LembagaController extends Controller
         if ($request->hasFile('ikon')) {
             $path = $request->file('ikon')->store('lembagas/icons', 'public');
             $validated['ikon_url'] = '/storage/' . $path;
+        }
+
+        if ($request->hasFile('profil_image')) {
+            $path = $request->file('profil_image')->store('lembagas/profils', 'public');
+            $validated['profil_image_url'] = '/storage/' . $path;
+        }
+
+        if ($request->hasFile('profil_image_mobile')) {
+            $path = $request->file('profil_image_mobile')->store('lembagas/profils_mobile', 'public');
+            $validated['profil_image_mobile_url'] = '/storage/' . $path;
         }
 
         // Ensure slug is unique
@@ -97,12 +119,22 @@ class LembagaController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'image_mobile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'ikon' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1024',
+            'profil_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'profil_image_mobile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'image_url' => 'nullable|string',
             'image_mobile_url' => 'nullable|string',
             'ikon_url' => 'nullable|string',
+            'profil_image_url' => 'nullable|string',
+            'profil_image_mobile_url' => 'nullable|string',
+            'filosofi_tagline' => 'nullable|string|max:255',
+            'filosofi_title' => 'nullable|string|max:255',
+            'sidebar_category_id' => 'nullable|exists:berita_categories,id',
+            'sidebar_berita_id' => 'nullable|exists:beritas,id',
+            'sidebar_categories' => 'nullable|array',
+            'sidebar_categories.*' => 'exists:berita_categories,id',
         ]);
 
-        // Keep existing image_url, image_mobile_url and ikon_url if not explicitly provided or if no new files are uploaded
+        // Keep existing URLs if not explicitly provided or if no new files are uploaded
         if (!$request->has('image_url') && !$request->hasFile('image')) {
             unset($validated['image_url']);
         }
@@ -111,6 +143,12 @@ class LembagaController extends Controller
         }
         if (!$request->has('ikon_url') && !$request->hasFile('ikon')) {
             unset($validated['ikon_url']);
+        }
+        if (!$request->has('profil_image_url') && !$request->hasFile('profil_image')) {
+            unset($validated['profil_image_url']);
+        }
+        if (!$request->has('profil_image_mobile_url') && !$request->hasFile('profil_image_mobile')) {
+            unset($validated['profil_image_mobile_url']);
         }
 
         // Clean slug
@@ -148,6 +186,22 @@ class LembagaController extends Controller
             $validated['ikon_url'] = '/storage/' . $path;
         }
 
+        if ($request->hasFile('profil_image')) {
+            if ($lembaga->profil_image_url && str_starts_with($lembaga->profil_image_url, '/storage/')) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->profil_image_url));
+            }
+            $path = $request->file('profil_image')->store('lembagas/profils', 'public');
+            $validated['profil_image_url'] = '/storage/' . $path;
+        }
+
+        if ($request->hasFile('profil_image_mobile')) {
+            if ($lembaga->profil_image_mobile_url && str_starts_with($lembaga->profil_image_mobile_url, '/storage/')) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->profil_image_mobile_url));
+            }
+            $path = $request->file('profil_image_mobile')->store('lembagas/profils_mobile', 'public');
+            $validated['profil_image_mobile_url'] = '/storage/' . $path;
+        }
+
         $lembaga->update($validated);
 
         return back()->with('success', 'Lembaga berhasil diperbarui.');
@@ -164,6 +218,12 @@ class LembagaController extends Controller
         }
         if ($lembaga->ikon_url && str_starts_with($lembaga->ikon_url, '/storage/')) {
             \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->ikon_url));
+        }
+        if ($lembaga->profil_image_url && str_starts_with($lembaga->profil_image_url, '/storage/')) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->profil_image_url));
+        }
+        if ($lembaga->profil_image_mobile_url && str_starts_with($lembaga->profil_image_mobile_url, '/storage/')) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->profil_image_mobile_url));
         }
 
         $lembaga->delete();
