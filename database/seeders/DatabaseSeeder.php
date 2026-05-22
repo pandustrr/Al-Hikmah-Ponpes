@@ -44,9 +44,14 @@ class DatabaseSeeder extends Seeder
                 'deskripsi' => 'Sekolah Menengah Kejuruan yang mencetak tenaga ahli profesional berkarakter santri.',
             ],
             [
-                'nama' => 'Madin Al-Hikmah Jember',
-                'slug' => 'madin',
-                'deskripsi' => 'Madrasah Diniyah untuk pendalaman ilmu agama dan Al-Qur`an.',
+                'nama' => 'PAUD Al-Hikmah',
+                'slug' => 'paud',
+                'deskripsi' => 'Pendidikan Anak Usia Dini yang membentuk fondasi karakter islami sejak dini dalam suasana bermain yang menyenangkan.',
+            ],
+            [
+                'nama' => 'TPQ Allimna Al-Hikmah',
+                'slug' => 'tpq',
+                'deskripsi' => 'Taman Pendidikan Al-Qur`an dengan metode yang menyenangkan untuk mengenalkan Al-Qur`an dan nilai-nilai Islam kepada anak-anak.',
             ],
         ];
 
