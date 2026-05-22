@@ -9,7 +9,7 @@ echo "=== Memulai Proses Deploy ke Production ==="
 
 # 1. Ambil update terbaru dari Git
 echo "Menarik update terbaru dari GitHub..."
-git pull origin branch-pandu
+git pull origin main
 
 # 2. Update dependencies (Composer) tanpa package development
 echo "Menginstall dependencies PHP (Production)..."
