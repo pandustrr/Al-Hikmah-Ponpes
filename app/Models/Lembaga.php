@@ -74,7 +74,18 @@ class Lembaga extends Model
         'keunggulan',
         'image_url', 
         'image_mobile_url',
-        'ikon_url'
+        'ikon_url',
+        'profil_image_url',
+        'profil_image_mobile_url',
+        'filosofi_tagline',
+        'filosofi_title',
+        'sidebar_category_id',
+        'sidebar_berita_id',
+        'sidebar_categories',
+    ];
+
+    protected $casts = [
+        'sidebar_categories' => 'array',
     ];
 
     public function prestasis()

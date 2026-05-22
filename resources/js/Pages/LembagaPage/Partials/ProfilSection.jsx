@@ -45,8 +45,12 @@ function NewsSidebarCard({ items, title, type }) {
     );
 }
 
-export default function ProfilSection({ lembaga, prestasi = [], articles = [] }) {
-    const hasSidebar = prestasi.length > 0 || articles.length > 0;
+export default function ProfilSection({ lembaga, sidebarSections = [], sidebarBeritas = [], sidebarCategoryName = '' }) {
+    // Support both new multi-section format and legacy single section
+    const sections = sidebarSections.length > 0
+        ? sidebarSections
+        : (sidebarBeritas.length > 0 ? [{ category_name: sidebarCategoryName, items: sidebarBeritas }] : []);
+    const hasSidebar = sections.length > 0;
 
     return (
         <section id="profil" className="py-20 md:py-28 bg-[#FBFBF9]">
@@ -57,18 +61,26 @@ export default function ProfilSection({ lembaga, prestasi = [], articles = [] })
                     <div className={hasSidebar ? 'lg:col-span-8' : 'w-full'}>
                         <div className="inline-flex items-center gap-2 mb-6">
                             <span className="h-[2px] w-8 bg-brand-primary"></span>
-                            <span className="text-brand-primary text-[10px] font-bold uppercase tracking-[0.3em]">Membangun Generasi</span>
+                            <span className="text-brand-primary text-[10px] font-bold uppercase tracking-[0.3em]">
+                                {lembaga.filosofi_tagline || 'Membangun Generasi'}
+                            </span>
                         </div>
                         <h2 className="text-3xl md:text-5xl font-serif font-semibold text-slate-900 tracking-tight leading-tight mb-8">
-                            Filosofi Pendidikan di <br />
-                            <span className="text-brand-primary">{lembaga.nama}</span>
+                            {lembaga.filosofi_title ? decodeHtml(lembaga.filosofi_title) : `Filosofi Pendidikan di ${lembaga.nama}`}
                         </h2>
                         <div className="relative mb-12">
-                            <div className="aspect-video rounded-[0.25rem] overflow-hidden shadow-2xl border-[12px] border-white relative group">
+                            <div className="rounded-[0.25rem] overflow-hidden shadow-2xl border-[12px] border-white relative group">
+                                {/* Desktop Image */}
                                 <img 
-                                    src={lembaga.image_url || 'https://images.unsplash.com/photo-1541339907198-e08756ebafe3?w=800'} 
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" 
-                                    alt="About" 
+                                    src={lembaga.profil_image_url || lembaga.image_url || 'https://images.unsplash.com/photo-1541339907198-e08756ebafe3?w=800'} 
+                                    className="hidden md:block w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 aspect-video" 
+                                    alt="About Desktop" 
+                                />
+                                {/* Mobile Image */}
+                                <img 
+                                    src={lembaga.profil_image_mobile_url || lembaga.image_mobile_url || lembaga.profil_image_url || lembaga.image_url || 'https://images.unsplash.com/photo-1541339907198-e08756ebafe3?w=800'} 
+                                    className="block md:hidden w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 aspect-[3/4]" 
+                                    alt="About Mobile" 
                                 />
                                 {lembaga.ikon_url && (
                                     <div className="absolute top-6 right-6 w-20 h-20 bg-white/90 backdrop-blur p-4 shadow-xl z-20">
@@ -125,11 +137,17 @@ export default function ProfilSection({ lembaga, prestasi = [], articles = [] })
                         </div>
                     </div>
 
-                    {/* RIGHT SIDEBAR — only if admin has data */}
+                    {/* RIGHT SIDEBAR — dynamic multi-section sidebar news */}
                     {hasSidebar && (
-                        <div className="lg:col-span-4 space-y-12 lg:sticky lg:top-24 self-start">
-                            <NewsSidebarCard items={prestasi} title="Prestasi" type="Prestasi" />
-                            <NewsSidebarCard items={articles} title="Artikel Pilihan" type="Artikel" />
+                        <div className="lg:col-span-4 space-y-10 lg:sticky lg:top-24 self-start">
+                            {sections.map((section, idx) => (
+                                <NewsSidebarCard 
+                                    key={idx}
+                                    items={section.items} 
+                                    title={section.category_name} 
+                                    type={section.category_name} 
+                                />
+                            ))}
                         </div>
                     )}
                 </div>

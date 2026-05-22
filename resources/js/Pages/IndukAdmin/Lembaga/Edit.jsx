@@ -19,7 +19,7 @@ import {
 } from '@heroicons/react/24/outline';
 import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
-export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilitas = [], galeris = [] }) {
+export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilitas = [], galeris = [], beritaCategories = [], beritas = [] }) {
     const [activeTab, setActiveTab] = React.useState('visual');
     
     const { data, setData, post, processing, errors } = useForm({
@@ -40,11 +40,49 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
         image: null,
         image_mobile: null,
         ikon: null,
+        profil_image: null,
+        profil_image_mobile: null,
+        filosofi_tagline: lembaga.filosofi_tagline || '',
+        filosofi_title: lembaga.filosofi_title || '',
+        sidebar_category_id: lembaga.sidebar_category_id || '',
+        sidebar_berita_id: lembaga.sidebar_berita_id || '',
+        sidebar_categories: lembaga.sidebar_categories || [],
     });
+
+    // Local UI state for sidebar multi-category manager
+    const [sidebarCats, setSidebarCats] = React.useState(
+        lembaga.sidebar_categories && lembaga.sidebar_categories.length > 0
+            ? lembaga.sidebar_categories.map(id => parseInt(id))
+            : (lembaga.sidebar_category_id ? [parseInt(lembaga.sidebar_category_id)] : [])
+    );
+
+    const addSidebarCat = (catId) => {
+        if (!catId || sidebarCats.includes(parseInt(catId))) return;
+        const next = [...sidebarCats, parseInt(catId)];
+        setSidebarCats(next);
+        setData('sidebar_categories', next);
+    };
+
+    const removeSidebarCat = (catId) => {
+        const next = sidebarCats.filter(id => id !== parseInt(catId));
+        setSidebarCats(next);
+        setData('sidebar_categories', next);
+    };
+
+    const moveSidebarCat = (index, dir) => {
+        const next = [...sidebarCats];
+        const swap = index + dir;
+        if (swap < 0 || swap >= next.length) return;
+        [next[index], next[swap]] = [next[swap], next[index]];
+        setSidebarCats(next);
+        setData('sidebar_categories', next);
+    };
 
     const [imagePreview, setImagePreview] = React.useState(lembaga.image_url);
     const [imageMobilePreview, setImageMobilePreview] = React.useState(lembaga.image_mobile_url);
     const [iconPreview, setIconPreview] = React.useState(lembaga.ikon_url);
+    const [profilImagePreview, setProfilImagePreview] = React.useState(lembaga.profil_image_url);
+    const [profilImageMobilePreview, setProfilImageMobilePreview] = React.useState(lembaga.profil_image_mobile_url);
 
     // PPDB Form
     const ppdbForm = useForm({
@@ -263,7 +301,6 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
     const tabs = [
         { id: 'visual',     name: 'Identitas Visual',     icon: PhotoIcon },
         { id: 'profil',     name: 'Profil & Narasi',       icon: DocumentTextIcon },
-        { id: 'visi',       name: 'Visi, Misi & Kurikulum', icon: SparklesIcon },
         { id: 'keunggulan', name: 'Keunggulan Unit',     icon: StarIcon },
         { id: 'ppdb',       name: 'Info PPDB',             icon: InformationCircleIcon },
         { id: 'pengajar',   name: 'Tenaga Pendidik',       icon: UserGroupIcon },
@@ -324,8 +361,340 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                     {activeTab === 'profil' && (
                         <div className="space-y-8 animate-fade-in">
                             <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-8">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                    <div className="md:col-span-2">
+                                
+                                {/* Section 1: Filosofi Pendidikan */}
+                                <div>
+                                    <div className="flex items-center gap-2 mb-6">
+                                        <span className="h-[2px] w-5 bg-brand-primary"></span>
+                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Filosofi &amp; Narasi Utama</span>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                        <div>
+                                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Tagline Filosofi</label>
+                                            <input 
+                                                type="text" 
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                                value={data.filosofi_tagline}
+                                                onChange={e => setData('filosofi_tagline', e.target.value)}
+                                                placeholder="Membangun Generasi"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Judul Filosofi</label>
+                                            <input 
+                                                type="text" 
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                                value={data.filosofi_title}
+                                                onChange={e => setData('filosofi_title', e.target.value)}
+                                                placeholder="Filosofi Pendidikan di..."
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="mb-6">
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Deskripsi/Tulisan Filosofi</label>
+                                        <textarea 
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[120px]"
+                                            value={data.deskripsi}
+                                            onChange={e => setData('deskripsi', e.target.value)}
+                                            placeholder="Sekolah Dasar dengan sistem Full Day yang mengedepankan adab dan ilmu..."
+                                        ></textarea>
+                                    </div>
+                                    
+                                    {/* Gambar Filosofi / Profil */}
+                                    <div className="mb-6">
+                                        <div className="flex items-center gap-2 mb-6">
+                                            <span className="h-[2px] w-5 bg-brand-primary"></span>
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-serif">Gambar &amp; Ikon Visual Filosofi</span>
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                            {/* Profil Image Desktop */}
+                                            <div className="space-y-4 max-w-md">
+                                                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                                    Gambar Profil Desktop (Lanskap 16:9)
+                                                </label>
+                                                <div className="relative aspect-video bg-slate-100 rounded overflow-hidden border-2 border-dashed border-slate-200 group">
+                                                    {profilImagePreview ? (
+                                                        <img src={profilImagePreview} className="w-full h-full object-cover" alt="Profil Preview" />
+                                                    ) : (
+                                                        <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                                            <PhotoIcon className="h-10 w-10 mb-2" />
+                                                            <span className="text-[10px] font-bold uppercase tracking-widest text-center px-4">Pilih Gambar Profil Desktop</span>
+                                                        </div>
+                                                    )}
+                                                    <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                        <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em] border border-white/40 px-4 py-2">Ganti Gambar</span>
+                                                    </div>
+                                                    <ImageInputWithCrop 
+                                                        className="absolute inset-0 z-10"
+                                                        aspectRatio={16/9}
+                                                        title="Potong Gambar Profil Desktop"
+                                                        onChange={(file) => {
+                                                            setData('profil_image', file);
+                                                            if (file) setProfilImagePreview(URL.createObjectURL(file));
+                                                        }}
+                                                    />
+                                                </div>
+                                                {errors.profil_image && (
+                                                    <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider">{errors.profil_image}</p>
+                                                )}
+                                                <p className="text-[9px] text-slate-400 uppercase tracking-widest italic leading-relaxed">
+                                                    Gambar ini akan ditampilkan pada resolusi layar monitor/laptop.
+                                                </p>
+                                            </div>
+
+                                            {/* Profil Image Mobile */}
+                                            <div className="space-y-4">
+                                                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                                    Gambar Profil Mobile (Potret 3:4)
+                                                </label>
+                                                <div className="relative aspect-[3/4] max-w-[200px] bg-slate-100 rounded overflow-hidden border-2 border-dashed border-slate-200 group">
+                                                    {profilImageMobilePreview ? (
+                                                        <img src={profilImageMobilePreview} className="w-full h-full object-cover" alt="Profil Mobile Preview" />
+                                                    ) : (
+                                                        <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                                            <PhotoIcon className="h-10 w-10 mb-2" />
+                                                            <span className="text-[10px] font-bold uppercase tracking-widest text-center px-4">Pilih Gambar Profil Mobile</span>
+                                                        </div>
+                                                    )}
+                                                    <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                        <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em] border border-white/40 px-4 py-2">Ganti Gambar</span>
+                                                    </div>
+                                                    <ImageInputWithCrop 
+                                                        className="absolute inset-0 z-10"
+                                                        aspectRatio={3/4}
+                                                        title="Potong Gambar Profil Mobile"
+                                                        onChange={(file) => {
+                                                            setData('profil_image_mobile', file);
+                                                            if (file) setProfilImageMobilePreview(URL.createObjectURL(file));
+                                                        }}
+                                                    />
+                                                </div>
+                                                {errors.profil_image_mobile && (
+                                                    <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-2">{errors.profil_image_mobile}</p>
+                                                )}
+                                                <p className="text-[9px] text-slate-400 uppercase tracking-widest italic leading-relaxed">
+                                                    Gambar ini akan ditampilkan pada resolusi layar HP/tablet.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Section 2: Sidebar News Categories */}
+                                <div className="border-t border-slate-100 pt-6">
+                                    <div className="flex items-center gap-2 mb-6">
+                                        <span className="h-[2px] w-5 bg-brand-primary"></span>
+                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sidebar Berita — Multi Kategori</span>
+                                    </div>
+                                    <p className="text-[9px] text-slate-400 italic mb-6">
+                                        Tambahkan satu atau beberapa kategori berita yang tampil sebagai widget sticky di sidebar kanan halaman unit. Urutan bisa diatur dengan tombol ↑ ↓.
+                                    </p>
+
+                                    {/* Active sidebar categories */}
+                                    <div className="space-y-2 mb-4">
+                                        {sidebarCats.length === 0 && (
+                                            <div className="text-[10px] text-slate-300 italic border border-dashed border-slate-200 rounded p-4 text-center">
+                                                Belum ada kategori sidebar. Tambahkan di bawah.
+                                            </div>
+                                        )}
+                                        {sidebarCats.map((catId, idx) => {
+                                            const cat = beritaCategories.find(c => c.id === catId);
+                                            return (
+                                                <div key={catId} className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] px-4 py-3">
+                                                    <span className="flex-1 text-sm font-semibold text-slate-700">{cat ? cat.name : `Kategori #${catId}`}</span>
+                                                    <div className="flex items-center gap-1">
+                                                        <button type="button" onClick={() => moveSidebarCat(idx, -1)} disabled={idx === 0}
+                                                            className="px-2 py-1 text-[10px] font-bold text-slate-400 hover:text-brand-primary disabled:opacity-30 transition-colors">↑</button>
+                                                        <button type="button" onClick={() => moveSidebarCat(idx, 1)} disabled={idx === sidebarCats.length - 1}
+                                                            className="px-2 py-1 text-[10px] font-bold text-slate-400 hover:text-brand-primary disabled:opacity-30 transition-colors">↓</button>
+                                                        <button type="button" onClick={() => removeSidebarCat(catId)}
+                                                            className="px-2 py-1 text-[10px] font-bold text-red-400 hover:text-red-600 transition-colors ml-1">✕ Hapus</button>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+
+                                    {/* Add new category picker */}
+                                    <div className="flex items-center gap-3">
+                                        <select
+                                            id="sidebar-cat-add"
+                                            className="flex-1 bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                            defaultValue=""
+                                            onChange={e => { addSidebarCat(e.target.value); e.target.value = ''; }}
+                                        >
+                                            <option value="">+ Pilih kategori untuk ditambahkan...</option>
+                                            {beritaCategories
+                                                .filter(c => !sidebarCats.includes(c.id))
+                                                .map(c => (
+                                                    <option key={c.id} value={c.id}>{c.name}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {/* Section 3: Visi & Misi */}
+                                <div className="border-t border-slate-100 pt-6 space-y-6">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <span className="h-[2px] w-5 bg-brand-primary"></span>
+                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Visi &amp; Misi Unit</span>
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                            <SparklesIcon className="h-3 w-3 text-brand-primary" /> Visi Unit
+                                        </label>
+                                        <textarea 
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[80px]"
+                                            value={data.visi}
+                                            onChange={e => setData('visi', e.target.value)}
+                                        ></textarea>
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Misi Unit</label>
+                                        <textarea 
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[150px]"
+                                            value={data.misi}
+                                            onChange={e => setData('misi', e.target.value)}
+                                            placeholder="Gunakan baris baru untuk setiap poin misi..."
+                                        ></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Tab 3: Identitas Visual */}
+                    {activeTab === 'visual' && (
+                        <div className="space-y-8 animate-fade-in">
+                            <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-8">
+                                
+                                {/* Gambar & Ikon Visual */}
+                                <div>
+                                    <div className="flex items-center gap-2 mb-6">
+                                        <span className="h-[2px] w-5 bg-brand-primary"></span>
+                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Gambar &amp; Ikon Visual</span>
+                                    </div>
+                                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                                        {/* Desktop Banner */}
+                                        <div className="space-y-4">
+                                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                                Hero Banner Desktop (Lanskap 21:9)
+                                            </label>
+                                            <div className="relative aspect-video bg-slate-100 rounded overflow-hidden border-2 border-dashed border-slate-200 group">
+                                                {imagePreview ? (
+                                                    <img src={imagePreview} className="w-full h-full object-cover" alt="Desktop Preview" />
+                                                ) : (
+                                                    <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                                        <PhotoIcon className="h-10 w-10 mb-2" />
+                                                        <span className="text-[10px] font-bold uppercase tracking-widest">Pilih Lanskap Banner</span>
+                                                    </div>
+                                                )}
+                                                <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                    <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em] border border-white/40 px-4 py-2">Ganti Gambar</span>
+                                                </div>
+                                                <ImageInputWithCrop 
+                                                    className="absolute inset-0 z-10"
+                                                    aspectRatio={21/9}
+                                                    title="Potong Hero Banner Desktop"
+                                                    onChange={(file) => {
+                                                        setData('image', file);
+                                                        if (file) setImagePreview(URL.createObjectURL(file));
+                                                    }}
+                                                />
+                                            </div>
+                                            {errors.image && (
+                                                <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider">{errors.image}</p>
+                                            )}
+                                            <p className="text-[9px] text-slate-400 uppercase tracking-widest italic leading-relaxed">
+                                                Digunakan sebagai latar belakang utama pada resolusi layar monitor/laptop.
+                                            </p>
+                                        </div>
+
+                                        {/* Mobile Banner */}
+                                        <div className="space-y-4">
+                                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                                Hero Banner Mobile (Potret 3:4)
+                                            </label>
+                                            <div className="relative aspect-[3/4] max-w-[200px] bg-slate-100 rounded overflow-hidden border-2 border-dashed border-slate-200 group">
+                                                {imageMobilePreview ? (
+                                                    <img src={imageMobilePreview} className="w-full h-full object-cover" alt="Mobile Preview" />
+                                                ) : (
+                                                    <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                                        <PhotoIcon className="h-10 w-10 mb-2" />
+                                                        <span className="text-[10px] font-bold uppercase tracking-widest">Pilih Potret Banner</span>
+                                                    </div>
+                                                )}
+                                                <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                    <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em] border border-white/40 px-4 py-2">Ganti Gambar</span>
+                                                </div>
+                                                <ImageInputWithCrop 
+                                                    className="absolute inset-0 z-10"
+                                                    aspectRatio={3/4}
+                                                    title="Potong Hero Banner Mobile"
+                                                    onChange={(file) => {
+                                                        setData('image_mobile', file);
+                                                        if (file) setImageMobilePreview(URL.createObjectURL(file));
+                                                    }}
+                                                />
+                                            </div>
+                                            {errors.image_mobile && (
+                                                <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider">{errors.image_mobile}</p>
+                                            )}
+                                            <p className="text-[9px] text-slate-400 uppercase tracking-widest italic leading-relaxed">
+                                                Digunakan sebagai latar belakang utama khusus pada tampilan HP/ponsel pintar.
+                                            </p>
+                                        </div>
+
+                                        {/* Ikon Logo */}
+                                        <div className="space-y-4">
+                                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                                Ikon Logo Unit (Rasio 1:1)
+                                            </label>
+                                            <div className="relative w-40 h-40 bg-slate-100 rounded-xl overflow-hidden border-2 border-dashed border-slate-200 group">
+                                                {iconPreview ? (
+                                                    <img src={iconPreview} className="w-full h-full object-contain p-4" alt="Icon Preview" />
+                                                ) : (
+                                                    <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                                        <BuildingLibraryIcon className="h-10 w-10 mb-2" />
+                                                        <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Ikon</span>
+                                                    </div>
+                                                )}
+                                                <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                    <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em]">Ganti</span>
+                                                </div>
+                                                <ImageInputWithCrop 
+                                                    className="absolute inset-0 z-10"
+                                                    aspectRatio={1}
+                                                    title="Potong Ikon/Logo Unit"
+                                                    onChange={(file) => {
+                                                        setData('ikon', file);
+                                                        if (file) setIconPreview(URL.createObjectURL(file));
+                                                    }}
+                                                />
+                                            </div>
+                                            {errors.ikon && (
+                                                <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider">{errors.ikon}</p>
+                                            )}
+                                            <p className="text-[9px] text-slate-400 uppercase tracking-widest italic leading-relaxed">
+                                                Direkomendasikan format PNG transparan berukuran 1:1 untuk hasil terbaik.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Divider */}
+                                <div className="border-t border-slate-100 pt-6">
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <span className="h-[2px] w-5 bg-brand-primary"></span>
+                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Informasi Teks &amp; Statistik</span>
+                                    </div>
+                                </div>
+
+                                {/* Ringkasan & Running Text */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
                                         <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Ringkasan Singkat (Summary)</label>
                                         <textarea 
                                             className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[80px]"
@@ -334,7 +703,7 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                             placeholder="Muncul di kartu tingkat pendidikan..."
                                         ></textarea>
                                     </div>
-                                    <div className="md:col-span-2">
+                                    <div>
                                         <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Narasi Beranda (Running Text)</label>
                                         <textarea 
                                             className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[80px]"
@@ -345,7 +714,7 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                     </div>
                                 </div>
 
-                                {/* Stats Section */}
+                                {/* Statistik Unit */}
                                 <div>
                                     <div className="flex items-center gap-2 mb-4">
                                         <span className="h-[2px] w-5 bg-brand-primary"></span>
@@ -370,8 +739,16 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    )}
 
-                                {/* Program Tags */}
+                    {/* Tab: Keunggulan */}
+                    {activeTab === 'keunggulan' && (
+                        <div className="space-y-8 animate-fade-in">
+                            <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-8">
+                                
+                                {/* Tag Program Unggulan */}
                                 <div>
                                     <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Tag Program Unggulan</label>
                                     <input 
@@ -379,179 +756,38 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                         className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
                                         value={data.program_tags}
                                         onChange={e => setData('program_tags', e.target.value)}
-                                        placeholder="Kurikulum Merdeka|Tahfidz|Adab & Akhlak|Bilingual"
+                                        placeholder="Kurikulum Merdeka|Tahfidz Juz 30|Adab & Akhlak|Full Day School"
                                     />
                                     <p className="mt-2 text-[9px] text-slate-400 italic">Pisahkan setiap tag dengan tanda | (pipe). Contoh: Kurikulum Merdeka|Tahfidz|Bilingual</p>
                                 </div>
-                            </div>
-                        </div>
-                    )}
 
-                    {/* Tab 2: Visi & Misi */}
-                    {activeTab === 'visi' && (
-                        <div className="space-y-8 animate-fade-in">
-                            <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-8">
+                                {/* Struktur Pendidikan / Kurikulum */}
                                 <div>
-                                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                                        <SparklesIcon className="h-3 w-3 text-brand-primary" /> Visi Unit
-                                    </label>
-                                    <textarea 
-                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[80px]"
-                                        value={data.visi}
-                                        onChange={e => setData('visi', e.target.value)}
-                                    ></textarea>
-                                </div>
-                                <div>
-                                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Misi Unit</label>
-                                    <textarea 
-                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[150px]"
-                                        value={data.misi}
-                                        onChange={e => setData('misi', e.target.value)}
-                                        placeholder="Gunakan baris baru untuk setiap poin misi..."
-                                    ></textarea>
-                                </div>
-                                <div>
-                                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Struktur Pendidikan / Kurikulum</label>
+                                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Struktur Pendidikan &amp; Kurikulum</label>
                                     <textarea 
                                         className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[150px]"
                                         value={data.struktur_pendidikan}
                                         onChange={e => setData('struktur_pendidikan', e.target.value)}
+                                        placeholder="Tuliskan detail kurikulum atau program pendidikan di sini..."
                                     ></textarea>
                                 </div>
-                            </div>
-                        </div>
-                    )}
 
-                    {/* Tab 3: Identitas Visual */}
-                    {activeTab === 'visual' && (
-                        <div className="space-y-8 animate-fade-in">
-                            <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-8">
-                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                                    {/* Desktop Banner */}
-                                    <div className="space-y-4">
-                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                            Hero Banner Desktop (Lanskap 21:9)
-                                        </label>
-                                        <div className="relative aspect-video bg-slate-100 rounded overflow-hidden border-2 border-dashed border-slate-200 group">
-                                            {imagePreview ? (
-                                                <img src={imagePreview} className="w-full h-full object-cover" alt="Desktop Preview" />
-                                            ) : (
-                                                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
-                                                    <PhotoIcon className="h-10 w-10 mb-2" />
-                                                    <span className="text-[10px] font-bold uppercase tracking-widest">Pilih Lanskap Banner</span>
-                                                </div>
-                                            )}
-                                            <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                                <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em] border border-white/40 px-4 py-2">Ganti Gambar</span>
-                                            </div>
-                                            <ImageInputWithCrop 
-                                                className="absolute inset-0 z-10"
-                                                aspectRatio={21/9}
-                                                title="Potong Hero Banner Desktop"
-                                                onChange={(file) => {
-                                                    setData('image', file);
-                                                    if (file) setImagePreview(URL.createObjectURL(file));
-                                                }}
-                                            />
-                                        </div>
-                                        {errors.image && (
-                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider">{errors.image}</p>
-                                        )}
-                                        <p className="text-[9px] text-slate-400 uppercase tracking-widest italic leading-relaxed">
-                                            Digunakan sebagai latar belakang utama pada resolusi layar monitor/laptop.
-                                        </p>
-                                    </div>
-
-                                    {/* Mobile Banner */}
-                                    <div className="space-y-4">
-                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                            Hero Banner Mobile (Potret 3:4)
-                                        </label>
-                                        <div className="relative aspect-[3/4] max-w-[200px] bg-slate-100 rounded overflow-hidden border-2 border-dashed border-slate-200 group">
-                                            {imageMobilePreview ? (
-                                                <img src={imageMobilePreview} className="w-full h-full object-cover" alt="Mobile Preview" />
-                                            ) : (
-                                                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
-                                                    <PhotoIcon className="h-10 w-10 mb-2" />
-                                                    <span className="text-[10px] font-bold uppercase tracking-widest">Pilih Potret Banner</span>
-                                                </div>
-                                            )}
-                                            <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                                <span className="text-white text-[10px] font-bold uppercase tracking-[0.2em] border border-white/40 px-4 py-2">Ganti Gambar</span>
-                                            </div>
-                                            <ImageInputWithCrop 
-                                                className="absolute inset-0 z-10"
-                                                aspectRatio={3/4}
-                                                title="Potong Hero Banner Mobile"
-                                                onChange={(file) => {
-                                                    setData('image_mobile', file);
-                                                    if (file) setImageMobilePreview(URL.createObjectURL(file));
-                                                }}
-                                            />
-                                        </div>
-                                        {errors.image_mobile && (
-                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider">{errors.image_mobile}</p>
-                                        )}
-                                        <p className="text-[9px] text-slate-400 uppercase tracking-widest italic leading-relaxed">
-                                            Digunakan sebagai latar belakang utama khusus pada tampilan HP/ponsel pintar.
-                                        </p>
-                                    </div>
-
-                                    {/* Ikon Logo */}
-                                    <div className="space-y-4">
-                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                            Ikon Logo Unit (Rasio 1:1)
-                                        </label>
-                                        <div className="relative w-40 h-40 bg-slate-100 rounded-xl overflow-hidden border-2 border-dashed border-slate-200 group">
-                                            {iconPreview ? (
-                                                <img src={iconPreview} className="w-full h-full object-contain p-4" alt="Icon Preview" />
-                                            ) : (
-                                                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
-                                                    <BuildingLibraryIcon className="h-10 w-10 mb-2" />
-                                                    <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Ikon</span>
-                                                </div>
-                                            )}
-                                            <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                                <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em]">Ganti</span>
-                                            </div>
-                                            <ImageInputWithCrop 
-                                                className="absolute inset-0 z-10"
-                                                aspectRatio={1}
-                                                title="Potong Ikon/Logo Unit"
-                                                onChange={(file) => {
-                                                    setData('ikon', file);
-                                                    if (file) setIconPreview(URL.createObjectURL(file));
-                                                }}
-                                            />
-                                        </div>
-                                        {errors.ikon && (
-                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider">{errors.ikon}</p>
-                                        )}
-                                        <p className="text-[9px] text-slate-400 uppercase tracking-widest italic leading-relaxed">
-                                            Direkomendasikan format PNG transparan berukuran 1:1 untuk hasil terbaik.
-                                        </p>
+                                {/* Keunggulan Unit */}
+                                <div>
+                                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                        <StarIcon className="h-3 w-3 text-brand-primary" /> Daftar Keunggulan Unit
+                                    </label>
+                                    <textarea 
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[200px]"
+                                        value={data.keunggulan}
+                                        onChange={e => setData('keunggulan', e.target.value)}
+                                        placeholder="Tuliskan poin-poin keunggulan unit di sini..."
+                                    ></textarea>
+                                    <div className="mt-4 flex items-center gap-2 text-[10px] text-slate-400 uppercase tracking-widest italic font-medium">
+                                        <InformationCircleIcon className="h-3 w-3" /> Gunakan baris baru untuk memisahkan poin keunggulan.
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    )}
 
-                    {/* Tab 4: Keunggulan */}
-                    {activeTab === 'keunggulan' && (
-                        <div className="space-y-8 animate-fade-in">
-                            <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8">
-                                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                                    <StarIcon className="h-3 w-3 text-brand-primary" /> Keunggulan Unit
-                                </label>
-                                <textarea 
-                                    className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[250px]"
-                                    value={data.keunggulan}
-                                    onChange={e => setData('keunggulan', e.target.value)}
-                                    placeholder="Tuliskan poin-poin keunggulan unit di sini..."
-                                ></textarea>
-                                <div className="mt-4 flex items-center gap-2 text-[10px] text-slate-400 uppercase tracking-widest italic font-medium">
-                                    <InformationCircleIcon className="h-3 w-3" /> Gunakan baris baru untuk memisahkan poin keunggulan.
-                                </div>
                             </div>
                         </div>
                     )}
