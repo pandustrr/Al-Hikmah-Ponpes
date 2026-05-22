@@ -7,6 +7,10 @@ echo "=== Memulai Proses Deploy ke Production ==="
 # echo "Mengaktifkan Mode Maintenance..."
 # php artisan down || true
 
+# 1. Ambil update terbaru dari Git
+echo "Menarik update terbaru dari GitHub..."
+git pull origin main
+
 # 2. Update dependencies (Composer) tanpa package development
 echo "Menginstall dependencies PHP (Production)..."
 composer install --no-dev --optimize-autoloader
