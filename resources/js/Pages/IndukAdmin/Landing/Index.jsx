@@ -16,6 +16,7 @@ export default function Index({ settings, testimonials, beritaList = [], categor
     const [activeTab, setActiveTab] = useState('settings');
     const [heroBgPreview, setHeroBgPreview] = useState(settings.hero_bg || null);
     const [heroBgMobilePreview, setHeroBgMobilePreview] = useState(settings.hero_bg_mobile || null);
+    const [aboutImagePreview, setAboutImagePreview] = useState(settings.about_image || null);
 
     const { data, setData, post, processing, errors } = useForm({
         hero_bg: null,
@@ -25,6 +26,7 @@ export default function Index({ settings, testimonials, beritaList = [], categor
         about_title_large: settings.about_title_large || '',
         about_description_short: settings.about_description_short || '',
         about_description: settings.about_description || '',
+        about_image: null,
         ppdb_cta_title: settings.ppdb_cta_title || '',
         ppdb_wave_1: settings.ppdb_wave_1 || '',
         ppdb_wave_2: settings.ppdb_wave_2 || '',
@@ -226,6 +228,37 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                     ></textarea>
                                 </div>
                             </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {/* About Image Upload (3:4) */}
+                                    <div className="space-y-3">
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Foto Profil "Mengenal Lebih Dekat" (3:4)</label>
+                                        <div className="relative aspect-[3/4] w-full max-w-[160px] bg-slate-50 rounded-[0.25rem] overflow-hidden border border-slate-200 group flex items-center justify-center shadow-sm">
+                                            {aboutImagePreview ? (
+                                                <img src={aboutImagePreview} className="w-full h-full object-cover" alt="Preview About Image" />
+                                            ) : (
+                                                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-350 bg-slate-100/50">
+                                                    <PhotoIcon className="h-8 w-8 mb-1" />
+                                                    <span className="text-[8px] font-bold uppercase tracking-widest text-center px-2">Pilih Foto</span>
+                                                </div>
+                                            )}
+                                            <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
+                                                <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
+                                            </div>
+                                            <ImageInputWithCrop 
+                                                className="absolute inset-0 z-20"
+                                                aspectRatio={3/4}
+                                                title="Potong Foto Profil (3:4)"
+                                                onChange={(file) => {
+                                                    setData('about_image', file);
+                                                    if (file) setAboutImagePreview(URL.createObjectURL(file));
+                                                }}
+                                            />
+                                        </div>
+                                        <p className="text-[9px] text-slate-400 italic">
+                                            Rasio ideal 3:4. Foto yang tampil di section "Mengenal Lebih Dekat" beranda.
+                                        </p>
+                                    </div>
+                                </div>
 
                             {/* PPDB CTA */}
                             <div className="space-y-6 pt-6 border-t border-slate-100">

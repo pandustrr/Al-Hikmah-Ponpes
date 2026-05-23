@@ -10,7 +10,7 @@ import BeritaYayasan from './BeritaYayasan';
 import BeritaKategoriBottom from './BeritaKategoriBottom';
 import Testimonials from './Testimonials';
 
-export default function Welcome({ lembagas, heroBerita, beritaTerbaru, bottomNews, bottomNewsTitle, bottomNewsSlug, landingSettings, testimonials, announcements, announcementTitle, announcementSlug, articles, articleTitle, articleSlug }) {
+export default function Welcome({ lembagas, heroBerita, beritaTerbaru, bottomNews, bottomNewsTitle, bottomNewsSlug, landingSettings, testimonials, announcements, announcementTitle, announcementSlug, articles, articleTitle, articleSlug, fasilitasUnggulan = [] }) {
     const [offsetY, setOffsetY] = useState(0);
     const handleScroll = () => setOffsetY(window.scrollY);
 
@@ -53,7 +53,7 @@ export default function Welcome({ lembagas, heroBerita, beritaTerbaru, bottomNew
                 articleSlug={articleSlug}
             />
             <Testimonials testimonials={testimonials} />
-            <FasilitasShortcut />
+            <FasilitasShortcut fasilitasUnggulan={fasilitasUnggulan} />
             <LembagaUpdates lembagas={lembagas} />
             <PpdbCta settings={landingSettings} />
             <BeritaYayasan beritaTerbaru={beritaTerbaru} />

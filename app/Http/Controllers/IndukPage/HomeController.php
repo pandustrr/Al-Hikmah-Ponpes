@@ -19,9 +19,26 @@ class HomeController extends Controller
             'kegiatans' => fn($q) => $q->latest()->take(2)
         ])->get();
 
+        // Load berita terbaru per lembaga untuk section "Update Lembaga"
+        foreach ($lembagas as $lembaga) {
+            $lembaga->berita_terbaru = \App\Models\Berita::where('lembaga_id', $lembaga->id)
+                ->where('status', 'published')
+                ->with('category')
+                ->latest()
+                ->take(4)
+                ->get();
+        }
+
         $siteSettings = \App\Models\SiteSetting::all()->pluck('value', 'key');
         $landingSettings = \App\Models\LandingSetting::all()->pluck('value', 'key')->merge($siteSettings);
         $testimonials = \App\Models\Testimonial::where('is_active', true)->get();
+
+        // Load fasilitas untuk section "Fasilitas Unggulan" (ambil yang punya gambar, max 4)
+        $fasilitasUnggulan = \App\Models\Fasilitas::whereNotNull('image_url')
+            ->whereNotNull('nama')
+            ->with('lembaga')
+            ->take(4)
+            ->get();
 
         // 1. Hero News
         $heroNewsCategoryId = $landingSettings->get('hero_news_category_id', '');
@@ -140,6 +157,7 @@ class HomeController extends Controller
             'articleSlug' => $articleSlug,
             'landingSettings' => $landingSettings,
             'testimonials' => $testimonials,
+            'fasilitasUnggulan' => $fasilitasUnggulan,
         ]);
     }
 

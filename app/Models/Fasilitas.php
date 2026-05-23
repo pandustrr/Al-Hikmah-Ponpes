@@ -33,6 +33,18 @@ class Fasilitas extends Model
 {
     protected $fillable = ['lembaga_id', 'nama', 'kategori', 'deskripsi', 'image_url'];
 
+    /**
+     * Normalize image_url: strip any domain prefix so we always return a root-relative path.
+     */
+    public function getImageUrlAttribute($value): ?string
+    {
+        if (empty($value)) return null;
+        if (str_starts_with($value, '/')) return $value;
+        $parsed = parse_url($value);
+        return ($parsed['path'] ?? '/') .
+               (isset($parsed['query']) ? '?' . $parsed['query'] : '');
+    }
+
     public function lembaga() {
         return $this->belongsTo(Lembaga::class);
     }

@@ -37,6 +37,18 @@ class Pengajar extends Model
         'urutan'
     ];
 
+    /**
+     * Normalize image_url to relative path.
+     */
+    public function getImageUrlAttribute($value): ?string
+    {
+        if (empty($value)) return null;
+        if (str_starts_with($value, '/')) return $value;
+        $parsed = parse_url($value);
+        return ($parsed['path'] ?? '/') .
+               (isset($parsed['query']) ? '?' . $parsed['query'] : '');
+    }
+
     public function lembaga()
     {
         return $this->belongsTo(Lembaga::class);
