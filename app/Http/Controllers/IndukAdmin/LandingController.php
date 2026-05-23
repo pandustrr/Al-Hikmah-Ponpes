@@ -93,6 +93,62 @@ class LandingController extends Controller
             ]
         );
 
+        LandingSetting::firstOrCreate(
+            ['key' => 'warta_tagline'],
+            [
+                'value' => 'Warta Yayasan',
+                'group' => 'landing'
+            ]
+        );
+
+        LandingSetting::firstOrCreate(
+            ['key' => 'warta_title_1'],
+            [
+                'value' => 'Informasi',
+                'group' => 'landing'
+            ]
+        );
+
+        LandingSetting::firstOrCreate(
+            ['key' => 'warta_title_2'],
+            [
+                'value' => 'Terbaru',
+                'group' => 'landing'
+            ]
+        );
+
+        LandingSetting::firstOrCreate(
+            ['key' => 'warta_btn_text'],
+            [
+                'value' => 'Lihat Semua Berita',
+                'group' => 'landing'
+            ]
+        );
+
+        $defaultFasilitas = [
+            1 => ['nama' => 'Asrama Putra & Putri', 'img' => 'https://images.unsplash.com/photo-1555854817-40e09807a11d?auto=format&fit=crop&q=80&w=400'],
+            2 => ['nama' => 'Laboratorium IT', 'img' => 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=80&w=400'],
+            3 => ['nama' => 'Perpustakaan Digital', 'img' => 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&q=80&w=400'],
+            4 => ['nama' => 'Pusat Olahraga', 'img' => 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=400'],
+        ];
+
+        foreach ($defaultFasilitas as $i => $d) {
+            LandingSetting::firstOrCreate(
+                ['key' => "fasilitas_utama_{$i}_nama"],
+                [
+                    'value' => $d['nama'],
+                    'group' => 'landing'
+                ]
+            );
+            LandingSetting::firstOrCreate(
+                ['key' => "fasilitas_utama_{$i}_img"],
+                [
+                    'value' => $d['img'],
+                    'group' => 'landing'
+                ]
+            );
+        }
+
         $settings = LandingSetting::all()->pluck('value', 'key')->map(function ($val) {
             if (is_string($val) && (str_starts_with($val, '[') || str_starts_with($val, '{'))) {
                 $decoded = json_decode($val, true);
@@ -132,7 +188,11 @@ class LandingController extends Controller
             if ($request->hasFile($key) || $key === '_method') continue;
             
             // Skip file keys when they don't contain a new file (to avoid overwriting existing images with null)
-            if (in_array($key, ['hero_bg', 'hero_bg_mobile', 'about_image', 'ppdb_hero_bg', 'ppdb_hero_bg_mobile']) && (is_null($value) || $value === 'null' || $value === '')) {
+            $imageKeys = [
+                'hero_bg', 'hero_bg_mobile', 'about_image', 'ppdb_hero_bg', 'ppdb_hero_bg_mobile',
+                'fasilitas_utama_1_img', 'fasilitas_utama_2_img', 'fasilitas_utama_3_img', 'fasilitas_utama_4_img'
+            ];
+            if (in_array($key, $imageKeys) && (is_null($value) || $value === 'null' || $value === '')) {
                 continue;
             }
             

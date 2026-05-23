@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import IndukAdminLayout from '@/Layouts/Induk/IndukAdminLayout';
 import { useForm, router } from '@inertiajs/react';
-import { 
-    Cog6ToothIcon, 
-    ChatBubbleLeftRightIcon, 
+import {
+    Cog6ToothIcon,
+    ChatBubbleLeftRightIcon,
     NewspaperIcon,
     PlusIcon,
     PencilSquareIcon,
@@ -14,10 +14,14 @@ import {
 import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
 export default function Index({ settings, testimonials, beritaList = [], categories = [], lembagas = [] }) {
-    const [activeTab, setActiveTab] = useState('settings');
+    const [activeTab, setActiveTab] = useState('hero');
     const [heroBgPreview, setHeroBgPreview] = useState(settings.hero_bg || null);
     const [heroBgMobilePreview, setHeroBgMobilePreview] = useState(settings.hero_bg_mobile || null);
     const [aboutImagePreview, setAboutImagePreview] = useState(settings.about_image || null);
+    const [fasilitas1Preview, setFasilitas1Preview] = useState(settings.fasilitas_utama_1_img || null);
+    const [fasilitas2Preview, setFasilitas2Preview] = useState(settings.fasilitas_utama_2_img || null);
+    const [fasilitas3Preview, setFasilitas3Preview] = useState(settings.fasilitas_utama_3_img || null);
+    const [fasilitas4Preview, setFasilitas4Preview] = useState(settings.fasilitas_utama_4_img || null);
 
     const { data, setData, post, processing, errors } = useForm({
         hero_bg: null,
@@ -69,6 +73,18 @@ export default function Index({ settings, testimonials, beritaList = [], categor
         fasilitas_title: settings.fasilitas_title || '',
         fasilitas_desc: settings.fasilitas_desc || '',
         fasilitas_btn_text: settings.fasilitas_btn_text || '',
+        fasilitas_utama_1_nama: settings.fasilitas_utama_1_nama || '',
+        fasilitas_utama_1_img: null,
+        fasilitas_utama_2_nama: settings.fasilitas_utama_2_nama || '',
+        fasilitas_utama_2_img: null,
+        fasilitas_utama_3_nama: settings.fasilitas_utama_3_nama || '',
+        fasilitas_utama_3_img: null,
+        fasilitas_utama_4_nama: settings.fasilitas_utama_4_nama || '',
+        fasilitas_utama_4_img: null,
+        warta_tagline: settings.warta_tagline || '',
+        warta_title_1: settings.warta_title_1 || '',
+        warta_title_2: settings.warta_title_2 || '',
+        warta_btn_text: settings.warta_btn_text || '',
     });
 
     const [videoList, setVideoList] = useState(() => {
@@ -116,45 +132,96 @@ export default function Index({ settings, testimonials, beritaList = [], categor
     return (
         <IndukAdminLayout title="Pengaturan Beranda">
             <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-                
+
                 {/* Header */}
                 <div className="mb-10">
                     <h2 className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-accent mb-2">Manajemen Konten</h2>
                     <h1 className="text-4xl font-semibold uppercase tracking-tighter text-slate-900 leading-none">Pengaturan <br /><span className="text-brand-primary">Halaman Beranda</span></h1>
-                </div>
-
-                {/* Tabs */}
-                <div className="flex items-center gap-2 mb-8 border-b border-slate-200">
-                    <button 
-                        onClick={() => setActiveTab('settings')}
-                        className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 ${
-                            activeTab === 'settings' 
-                            ? 'border-brand-primary text-brand-primary' 
-                            : 'border-transparent text-slate-400 hover:text-brand-primary'
-                        }`}
+                </div>                {/* Tabs */}
+                <div className="flex items-center gap-2 mb-8 border-b border-slate-200 overflow-x-auto whitespace-nowrap scrollbar-none pb-1">
+                    <button
+                        onClick={() => setActiveTab('hero')}
+                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'hero'
+                                ? 'border-brand-primary text-brand-primary'
+                                : 'border-transparent text-slate-400 hover:text-brand-primary'
+                            }`}
                     >
-                        <Cog6ToothIcon className="h-4 w-4" />
-                        Konfigurasi Teks
+                        <PhotoIcon className="h-4 w-4" />
+                        Bagian Hero
                     </button>
 
-                    <button 
+                    <button
+                        onClick={() => setActiveTab('about')}
+                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'about'
+                                ? 'border-brand-primary text-brand-primary'
+                                : 'border-transparent text-slate-400 hover:text-brand-primary'
+                            }`}
+                    >
+                        <Cog6ToothIcon className="h-4 w-4" />
+                        Tentang Kami
+                    </button>
+
+                    <button
+                        onClick={() => setActiveTab('lembaga')}
+                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'lembaga'
+                                ? 'border-brand-primary text-brand-primary'
+                                : 'border-transparent text-slate-400 hover:text-brand-primary'
+                            }`}
+                    >
+                        <Cog6ToothIcon className="h-4 w-4" />
+                        Lembaga Pendidikan
+                    </button>
+
+                    <button
                         onClick={() => setActiveTab('youtube_videos')}
-                        className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 ${
-                            activeTab === 'youtube_videos' 
-                            ? 'border-brand-primary text-brand-primary' 
-                            : 'border-transparent text-slate-400 hover:text-brand-primary'
-                        }`}
+                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'youtube_videos'
+                                ? 'border-brand-primary text-brand-primary'
+                                : 'border-transparent text-slate-400 hover:text-brand-primary'
+                            }`}
                     >
                         <VideoCameraIcon className="h-4 w-4" />
                         Video Beranda
                     </button>
-                    <button 
+
+                    <button
+                        onClick={() => setActiveTab('fasilitas')}
+                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'fasilitas'
+                                ? 'border-brand-primary text-brand-primary'
+                                : 'border-transparent text-slate-400 hover:text-brand-primary'
+                            }`}
+                    >
+                        <PhotoIcon className="h-4 w-4" />
+                        Fasilitas Keunggulan
+                    </button>
+
+                    <button
+                        onClick={() => setActiveTab('ppdb_cta')}
+                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'ppdb_cta'
+                                ? 'border-brand-primary text-brand-primary'
+                                : 'border-transparent text-slate-400 hover:text-brand-primary'
+                            }`}
+                    >
+                        <Cog6ToothIcon className="h-4 w-4" />
+                        PPDB CTA
+                    </button>
+
+                    <button
+                        onClick={() => setActiveTab('berita')}
+                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'berita'
+                                ? 'border-brand-primary text-brand-primary'
+                                : 'border-transparent text-slate-400 hover:text-brand-primary'
+                            }`}
+                    >
+                        <NewspaperIcon className="h-4 w-4" />
+                        Berita Terbaru
+                    </button>
+
+                    <button
                         onClick={() => setActiveTab('testimonials')}
-                        className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 ${
-                            activeTab === 'testimonials' 
-                            ? 'border-brand-primary text-brand-primary' 
-                            : 'border-transparent text-slate-400 hover:text-brand-primary'
-                        }`}
+                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'testimonials'
+                                ? 'border-brand-primary text-brand-primary'
+                                : 'border-transparent text-slate-400 hover:text-brand-primary'
+                            }`}
                     >
                         <ChatBubbleLeftRightIcon className="h-4 w-4" />
                         Testimoni
@@ -163,15 +230,15 @@ export default function Index({ settings, testimonials, beritaList = [], categor
 
                 {/* Content Sections */}
                 <div className="bg-white rounded-[0.25rem] border border-slate-200 shadow-sm overflow-hidden">
-                    
-                    {/* 1. Settings Tab */}
-                    {activeTab === 'settings' && (
+
+                    {/* 1. Hero Tab */}
+                    {activeTab === 'hero' && (
                         <form onSubmit={handleSettingsSubmit} className="p-8 space-y-10">
-                            
+
                             {/* Hero Section */}
                             <div className="space-y-6">
                                 <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Bagian Hero</h3>
-                                
+
                                 {/* Background Image Upload */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {/* Desktop Background (21:9) */}
@@ -189,9 +256,9 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                             <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
                                                 <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
                                             </div>
-                                            <ImageInputWithCrop 
+                                            <ImageInputWithCrop
                                                 className="absolute inset-0 z-20"
-                                                aspectRatio={21/9}
+                                                aspectRatio={21 / 9}
                                                 title="Potong Gambar Hero Beranda (21:9)"
                                                 onChange={(file) => {
                                                     setData('hero_bg', file);
@@ -219,9 +286,9 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                             <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
                                                 <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
                                             </div>
-                                            <ImageInputWithCrop 
+                                            <ImageInputWithCrop
                                                 className="absolute inset-0 z-20"
-                                                aspectRatio={3/4}
+                                                aspectRatio={3 / 4}
                                                 title="Potong Gambar Hero Beranda Mobile (3:4)"
                                                 onChange={(file) => {
                                                     setData('hero_bg_mobile', file);
@@ -237,9 +304,9 @@ export default function Index({ settings, testimonials, beritaList = [], categor
 
                                 <div>
                                     <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Subtitle Hero</label>
-                                    <input 
-                                        type="text" 
-                                        value={data.hero_subtitle} 
+                                    <input
+                                        type="text"
+                                        value={data.hero_subtitle}
                                         onChange={e => setData('hero_subtitle', e.target.value)}
                                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                         placeholder="Pusat Pendidikan & Dakwah Sosial"
@@ -265,11 +332,25 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                     </select>
                                 </div>
                             </div>
+                            <div className="pt-6">
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-10 py-4 transition-all rounded-[0.25rem] shadow-xl shadow-brand-primary/20 disabled:opacity-50"
+                                >
+                                    Simpan Perubahan
+                                </button>
+                            </div>
+                        </form>
+                    )}
 
+                    {/* 2. Tentang Kami Tab */}
+                    {activeTab === 'about' && (
+                        <form onSubmit={handleSettingsSubmit} className="p-8 space-y-10">
                             {/* About Section */}
-                            <div className="space-y-6 pt-6 border-t border-slate-100">
+                            <div className="space-y-6">
                                 <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Bagian Tentang Kami</h3>
-                                
+
                                 {/* About Image Upload (3:4) */}
                                 <div className="space-y-3 bg-slate-50/50 p-4 rounded-[0.25rem] border border-slate-200 max-w-md">
                                     <label className="block text-[10px] font-bold text-slate-600 uppercase tracking-widest mb-2">Foto Profil "Mengenal Lebih Dekat" (3:4)</label>
@@ -285,9 +366,9 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                         <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
                                             <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
                                         </div>
-                                        <ImageInputWithCrop 
+                                        <ImageInputWithCrop
                                             className="absolute inset-0 z-20"
-                                            aspectRatio={3/4}
+                                            aspectRatio={3 / 4}
                                             title="Potong Foto Profil (3:4)"
                                             onChange={(file) => {
                                                 setData('about_image', file);
@@ -303,18 +384,18 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Title Kecil</label>
-                                        <input 
-                                            type="text" 
-                                            value={data.about_title_small} 
+                                        <input
+                                            type="text"
+                                            value={data.about_title_small}
                                             onChange={e => setData('about_title_small', e.target.value)}
                                             className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                         />
                                     </div>
                                     <div>
                                         <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Title Besar (Gunakan \n untuk baris baru)</label>
-                                        <input 
-                                            type="text" 
-                                            value={data.about_title_large} 
+                                        <input
+                                            type="text"
+                                            value={data.about_title_large}
                                             onChange={e => setData('about_title_large', e.target.value)}
                                             className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                         />
@@ -322,18 +403,18 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                 </div>
                                 <div>
                                     <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Deskripsi Singkat (Italic)</label>
-                                    <textarea 
+                                    <textarea
                                         rows="2"
-                                        value={data.about_description_short} 
+                                        value={data.about_description_short}
                                         onChange={e => setData('about_description_short', e.target.value)}
                                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                     ></textarea>
                                 </div>
                                 <div>
                                     <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Deskripsi Utama</label>
-                                    <textarea 
+                                    <textarea
                                         rows="4"
-                                        value={data.about_description} 
+                                        value={data.about_description}
                                         onChange={e => setData('about_description', e.target.value)}
                                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                     ></textarea>
@@ -475,17 +556,30 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                     </div>
                                 </div>
                             </div>
+                            <div className="pt-6">
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-10 py-4 transition-all rounded-[0.25rem] shadow-xl shadow-brand-primary/20 disabled:opacity-50"
+                                >
+                                    Simpan Perubahan
+                                </button>
+                            </div>
+                        </form>
+                    )}
 
-
+                    {/* 3. Lembaga Pendidikan Tab */}
+                    {activeTab === 'lembaga' && (
+                        <form onSubmit={handleSettingsSubmit} className="p-8 space-y-10">
                             {/* Program Unggulan Section */}
-                            <div className="space-y-6 pt-6 border-t border-slate-100">
-                                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Bagian Program Unggulan (Beranda)</h3>
+                            <div className="space-y-6">
+                                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Bagian Lembaga Pendidikan</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Tagline Section</label>
-                                        <input 
-                                            type="text" 
-                                            value={data.about_lembaga_tagline} 
+                                        <input
+                                            type="text"
+                                            value={data.about_lembaga_tagline}
                                             onChange={e => setData('about_lembaga_tagline', e.target.value)}
                                             className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                             placeholder="Program Unggulan"
@@ -493,9 +587,9 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                     </div>
                                     <div>
                                         <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Judul Section</label>
-                                        <input 
-                                            type="text" 
-                                            value={data.about_lembaga_title} 
+                                        <input
+                                            type="text"
+                                            value={data.about_lembaga_title}
                                             onChange={e => setData('about_lembaga_title', e.target.value)}
                                             className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                             placeholder="Lembaga Pendidikan"
@@ -515,13 +609,12 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                         {lembagas.map(lembaga => {
                                             const isActive = data.active_lembaga_ids.includes(lembaga.id);
                                             return (
-                                                <div 
-                                                    key={lembaga.id} 
-                                                    className={`p-4 border rounded-[0.25rem] flex items-center justify-between transition-all ${
-                                                        isActive 
-                                                            ? 'bg-emerald-50/40 border-emerald-200 shadow-sm' 
+                                                <div
+                                                    key={lembaga.id}
+                                                    className={`p-4 border rounded-[0.25rem] flex items-center justify-between transition-all ${isActive
+                                                            ? 'bg-emerald-50/40 border-emerald-200 shadow-sm'
                                                             : 'bg-slate-50 border-slate-200 opacity-75'
-                                                    }`}
+                                                        }`}
                                                 >
                                                     <div className="space-y-1 pr-3">
                                                         <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wide leading-tight">
@@ -539,14 +632,12 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                                                 : [...data.active_lembaga_ids, lembaga.id];
                                                             setData('active_lembaga_ids', newActiveIds);
                                                         }}
-                                                        className={`relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                                                            isActive ? 'bg-emerald-600' : 'bg-slate-200'
-                                                        }`}
+                                                        className={`relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${isActive ? 'bg-emerald-600' : 'bg-slate-200'
+                                                            }`}
                                                     >
                                                         <span
-                                                            className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                                                                isActive ? 'translate-x-5' : 'translate-x-0'
-                                                            }`}
+                                                            className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${isActive ? 'translate-x-5' : 'translate-x-0'
+                                                                }`}
                                                         />
                                                     </button>
                                                 </div>
@@ -555,60 +646,30 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                     </div>
                                 </div>
                             </div>
-
-                            {/* PPDB CTA */}
-                            <div className="space-y-6 pt-6 border-t border-slate-100">
-                                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Bagian PPDB CTA</h3>
-                                <div>
-                                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Title CTA</label>
-                                    <input 
-                                        type="text" 
-                                        value={data.ppdb_cta_title} 
-                                        onChange={e => setData('ppdb_cta_title', e.target.value)}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
-                                    />
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Info Gelombang 1</label>
-                                        <input 
-                                            type="text" 
-                                            value={data.ppdb_wave_1} 
-                                            onChange={e => setData('ppdb_wave_1', e.target.value)}
-                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Info Gelombang 2</label>
-                                        <input 
-                                            type="text" 
-                                            value={data.ppdb_wave_2} 
-                                            onChange={e => setData('ppdb_wave_2', e.target.value)}
-                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
-                                        />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Persyaratan Umum (Tulis satu syarat per baris)</label>
-                                    <textarea 
-                                        rows="5"
-                                        value={data.ppdb_requirements} 
-                                        onChange={e => setData('ppdb_requirements', e.target.value)}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
-                                        placeholder="Fotokopi Kartu Keluarga & Akta Kelahiran&#10;Pas Foto Terbaru ukuran 3x4 (4 lembar)&#10;Fotokopi Ijazah & Raport terakhir"
-                                    ></textarea>
-                                </div>
+                            <div className="pt-6">
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-10 py-4 transition-all rounded-[0.25rem] shadow-xl shadow-brand-primary/20 disabled:opacity-50"
+                                >
+                                    Simpan Perubahan
+                                </button>
                             </div>
+                        </form>
+                    )}
 
+                    {/* 5. Fasilitas Keunggulan Tab */}
+                    {activeTab === 'fasilitas' && (
+                        <form onSubmit={handleSettingsSubmit} className="p-8 space-y-10">
                             {/* Fasilitas Unggulan */}
-                            <div className="space-y-6 pt-6 border-t border-slate-100">
+                            <div className="space-y-6">
                                 <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Bagian Fasilitas Unggulan</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Tagline Section (Fasilitas)</label>
-                                        <input 
-                                            type="text" 
-                                            value={data.fasilitas_tagline} 
+                                        <input
+                                            type="text"
+                                            value={data.fasilitas_tagline}
                                             onChange={e => setData('fasilitas_tagline', e.target.value)}
                                             className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                             placeholder="Fasilitas Unggulan"
@@ -616,9 +677,9 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                     </div>
                                     <div>
                                         <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Text Tombol Section</label>
-                                        <input 
-                                            type="text" 
-                                            value={data.fasilitas_btn_text} 
+                                        <input
+                                            type="text"
+                                            value={data.fasilitas_btn_text}
                                             onChange={e => setData('fasilitas_btn_text', e.target.value)}
                                             className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                             placeholder="Jelajahi Fasilitas Selengkapnya"
@@ -626,10 +687,10 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Judul Besar (Gunakan \n untuk baris baru)</label>
-                                    <input 
-                                        type="text" 
-                                        value={data.fasilitas_title} 
+                                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Judul Besar</label>
+                                    <input
+                                        type="text"
+                                        value={data.fasilitas_title}
                                         onChange={e => setData('fasilitas_title', e.target.value)}
                                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                         placeholder="Mendukung Perkembangan \n Potensi Siswa"
@@ -637,13 +698,191 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                 </div>
                                 <div>
                                     <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Deskripsi / Kutipan Singkat (Italic)</label>
-                                    <textarea 
+                                    <textarea
                                         rows="3"
-                                        value={data.fasilitas_desc} 
+                                        value={data.fasilitas_desc}
                                         onChange={e => setData('fasilitas_desc', e.target.value)}
                                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                         placeholder='"Fasilitas modern mulai dari laboratorium terpadu, asrama yang nyaman, hingga lapangan olahraga yang luas disediakan untuk memastikan kenyamanan belajar para siswa."'
                                     ></textarea>
+                                </div>
+
+                                {/* 4 Fasilitas Utama */}
+                                <div className="space-y-4 pt-4 border-t border-slate-100/70">
+                                    <label className="block text-[10px] font-bold text-slate-600 uppercase tracking-widest">
+                                        Data 4 Gambar Fasilitas Utama (Rasio Gambar 4:3)
+                                    </label>
+                                    <p className="text-xs text-slate-400">
+                                        Unggah gambar dan beri nama untuk 4 fasilitas utama yayasan yang akan tampil di halaman depan beranda.
+                                    </p>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+                                        {[1, 2, 3, 4].map(idx => {
+                                            const previewState = idx === 1 ? fasilitas1Preview : idx === 2 ? fasilitas2Preview : idx === 3 ? fasilitas3Preview : fasilitas4Preview;
+                                            const setPreviewState = idx === 1 ? setFasilitas1Preview : idx === 2 ? setFasilitas2Preview : idx === 3 ? setFasilitas3Preview : setFasilitas4Preview;
+                                            return (
+                                                <div key={idx} className="p-4 bg-slate-50/50 border border-slate-200 rounded-[0.25rem] space-y-4">
+                                                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Slot Fasilitas {idx}</div>
+                                                    
+                                                    {/* Image upload with crop */}
+                                                    <div className="relative aspect-[4/3] bg-slate-100 border border-slate-200 rounded-[0.25rem] overflow-hidden group">
+                                                        {previewState ? (
+                                                            <img src={previewState} alt={`Fasilitas ${idx}`} className="w-full h-full object-cover" />
+                                                        ) : (
+                                                            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300 bg-slate-100/50">
+                                                                <PhotoIcon className="h-8 w-8 mb-1" />
+                                                                <span className="text-[8px] font-bold uppercase tracking-widest text-center px-2">Pilih Foto</span>
+                                                            </div>
+                                                        )}
+                                                        <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
+                                                            <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
+                                                        </div>
+                                                        <ImageInputWithCrop 
+                                                            className="absolute inset-0 z-20"
+                                                            aspectRatio={4/3}
+                                                            title={`Potong Foto Fasilitas ${idx} (4:3)`}
+                                                            onChange={(file) => {
+                                                                setData(`fasilitas_utama_${idx}_img`, file);
+                                                                if (file) setPreviewState(URL.createObjectURL(file));
+                                                            }}
+                                                        />
+                                                    </div>
+                                                    
+                                                    {/* Name input */}
+                                                    <div className="space-y-1.5">
+                                                        <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-widest">Nama Fasilitas</label>
+                                                        <input
+                                                            type="text"
+                                                            value={data[`fasilitas_utama_${idx}_nama`]}
+                                                            onChange={e => setData(`fasilitas_utama_${idx}_nama`, e.target.value)}
+                                                            className="w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-[0.25rem] py-2 px-2.5 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary/20 outline-none font-semibold"
+                                                            placeholder={`Contoh: Laboratorium IT`}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="pt-6">
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-10 py-4 transition-all rounded-[0.25rem] shadow-xl shadow-brand-primary/20 disabled:opacity-50"
+                                >
+                                    Simpan Perubahan
+                                </button>
+                            </div>
+                        </form>
+                    )}
+
+                    {/* 6. PPDB CTA Tab */}
+                    {activeTab === 'ppdb_cta' && (
+                        <form onSubmit={handleSettingsSubmit} className="p-8 space-y-10">
+                            {/* PPDB CTA */}
+                            <div className="space-y-6">
+                                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Bagian PPDB CTA</h3>
+                                <div>
+                                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Title CTA</label>
+                                    <input
+                                        type="text"
+                                        value={data.ppdb_cta_title}
+                                        onChange={e => setData('ppdb_cta_title', e.target.value)}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                    />
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Info Gelombang 1</label>
+                                        <input
+                                            type="text"
+                                            value={data.ppdb_wave_1}
+                                            onChange={e => setData('ppdb_wave_1', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Info Gelombang 2</label>
+                                        <input
+                                            type="text"
+                                            value={data.ppdb_wave_2}
+                                            onChange={e => setData('ppdb_wave_2', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Persyaratan Umum (Tulis satu syarat per baris)</label>
+                                    <textarea
+                                        rows="5"
+                                        value={data.ppdb_requirements}
+                                        onChange={e => setData('ppdb_requirements', e.target.value)}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                        placeholder="Fotokopi Kartu Keluarga & Akta Kelahiran&#10;Pas Foto Terbaru ukuran 3x4 (4 lembar)&#10;Fotokopi Ijazah & Raport terakhir"
+                                    ></textarea>
+                                </div>
+                            </div>
+                            <div className="pt-6">
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-10 py-4 transition-all rounded-[0.25rem] shadow-xl shadow-brand-primary/20 disabled:opacity-50"
+                                >
+                                    Simpan Perubahan
+                                </button>
+                            </div>
+                        </form>
+                    )}
+
+                    {/* 7. Berita Terbaru Tab */}
+                    {activeTab === 'berita' && (
+                        <form onSubmit={handleSettingsSubmit} className="p-8 space-y-10">
+                            {/* Bagian Warta & Berita Terbaru */}
+                            <div className="space-y-6">
+                                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Bagian Warta & Berita Terbaru</h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Tagline Section (Badge)</label>
+                                        <input
+                                            type="text"
+                                            value={data.warta_tagline}
+                                            onChange={e => setData('warta_tagline', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                            placeholder="Warta Yayasan"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Text Tombol / Link Selengkapnya</label>
+                                        <input
+                                            type="text"
+                                            value={data.warta_btn_text}
+                                            onChange={e => setData('warta_btn_text', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                            placeholder="Lihat Semua Berita"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Judul Baris 1 (Teks Biasa)</label>
+                                        <input
+                                            type="text"
+                                            value={data.warta_title_1}
+                                            onChange={e => setData('warta_title_1', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                            placeholder="Informasi"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Judul Baris 2 (Italic / Miring)</label>
+                                        <input
+                                            type="text"
+                                            value={data.warta_title_2}
+                                            onChange={e => setData('warta_title_2', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                            placeholder="Terbaru"
+                                        />
+                                    </div>
                                 </div>
                             </div>
 
@@ -659,6 +898,7 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                         className="max-w-md w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] px-4 py-3 text-sm outline-none focus:ring-1 focus:ring-brand-primary"
                                     >
                                         <option value="">Jangan Tampilkan / Kosong</option>
+                                        <option value="all">Semua Kategori (Terbaru)</option>
                                         {categories.map(c => (
                                             <option key={c.id} value={c.id}>{c.name}</option>
                                         ))}
@@ -667,8 +907,8 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                             </div>
 
                             <div className="pt-6">
-                                <button 
-                                    type="submit" 
+                                <button
+                                    type="submit"
                                     disabled={processing}
                                     className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-10 py-4 transition-all rounded-[0.25rem] shadow-xl shadow-brand-primary/20 disabled:opacity-50"
                                 >
@@ -687,21 +927,21 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                         <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Pengaturan Galeri Video Beranda</h3>
                                         <p className="text-xs text-slate-400 mt-1">Kelola judul, deskripsi, dan link video YouTube yang tampil di halaman beranda utama.</p>
                                     </div>
-                                    <button 
-                                        type="submit" 
+                                    <button
+                                        type="submit"
                                         disabled={processing}
                                         className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-8 py-3 transition-all rounded-[0.25rem] shadow-lg shadow-brand-primary/15 disabled:opacity-50"
                                     >
                                         Simpan Perubahan
                                     </button>
                                 </div>
-                                
+
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Badge Video</label>
-                                        <input 
-                                            type="text" 
-                                            value={data.youtube_video_badge} 
+                                        <input
+                                            type="text"
+                                            value={data.youtube_video_badge}
                                             onChange={e => setData('youtube_video_badge', e.target.value)}
                                             className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                             placeholder="Contoh: Galeri Video Resmi"
@@ -709,9 +949,9 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                     </div>
                                     <div>
                                         <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Judul Section Video</label>
-                                        <input 
-                                            type="text" 
-                                            value={data.youtube_video_title} 
+                                        <input
+                                            type="text"
+                                            value={data.youtube_video_title}
                                             onChange={e => setData('youtube_video_title', e.target.value)}
                                             className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                             placeholder="Contoh: Dokumentasi & Video Profil YPDS Al-Hikmah"
@@ -720,9 +960,9 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                 </div>
                                 <div>
                                     <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Deskripsi Section Video</label>
-                                    <textarea 
+                                    <textarea
                                         rows="2"
-                                        value={data.youtube_video_desc} 
+                                        value={data.youtube_video_desc}
                                         onChange={e => setData('youtube_video_desc', e.target.value)}
                                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                         placeholder="Contoh: Simak video profil resmi..."
@@ -731,7 +971,7 @@ export default function Index({ settings, testimonials, beritaList = [], categor
 
                                 <div className="flex items-center justify-between pt-6 border-t border-slate-100/70">
                                     <label className="block text-[10px] font-bold text-slate-600 uppercase tracking-widest">Daftar Tautan Video YouTube</label>
-                                    <button 
+                                    <button
                                         type="button"
                                         onClick={addVideoInput}
                                         className="inline-flex items-center gap-2 bg-brand-primary hover:bg-slate-900 text-white text-[10px] font-semibold uppercase tracking-widest px-4 py-2 transition-all rounded-[0.25rem]"
@@ -748,15 +988,15 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                         videoList.map((url, idx) => (
                                             <div key={idx} className="flex items-center gap-3">
                                                 <div className="flex-1">
-                                                    <input 
-                                                        type="text" 
-                                                        value={url} 
+                                                    <input
+                                                        type="text"
+                                                        value={url}
                                                         onChange={e => handleVideoUrlChange(idx, e.target.value)}
                                                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                                         placeholder="Contoh: https://www.youtube.com/watch?v=xxxxxx"
                                                     />
                                                 </div>
-                                                <button 
+                                                <button
                                                     type="button"
                                                     onClick={() => removeVideoInput(idx)}
                                                     className="p-3 bg-red-50 text-red-500 hover:bg-red-100 border border-red-200 rounded-[0.25rem] transition-colors"
@@ -779,7 +1019,7 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                     {/* 3. Testimonials Tab */}
                     {activeTab === 'testimonials' && (
                         <div className="p-8">
-                             <div className="flex justify-between items-center mb-8">
+                            <div className="flex justify-between items-center mb-8">
                                 <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Daftar Testimoni</h3>
                                 <button className="inline-flex items-center gap-2 bg-brand-primary hover:bg-slate-900 text-white text-[10px] font-semibold uppercase tracking-widest px-4 py-2 transition-all rounded-[0.25rem]">
                                     <PlusIcon className="h-3 w-3" />
