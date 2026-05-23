@@ -11,27 +11,70 @@ export default function HomeVideo({ settings = {} }) {
 
     if (!rawUrls) return null;
 
-    // Helper untuk extract ID video YouTube
+    // Helper super tangguh untuk extract ID video YouTube
     const getYouTubeEmbedUrl = (url) => {
         if (!url) return null;
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        const match = url.trim().match(regExp);
-        return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
+        
+        // Bersihkan HTML entities seperti &amp; menjadi &
+        const tempUrl = url.replace(/&amp;/g, '&').trim();
+        
+        // Regex industri standar yang mencakup watch, embed, v, share, mobile dll
+        const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+        const match = tempUrl.match(regExp);
+        
+        if (match && match[1].length === 11) {
+            return `https://www.youtube.com/embed/${match[1]}`;
+        }
+        
+        // Fallback regex jika regex utama meleset
+        const fallbackReg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const fallbackMatch = tempUrl.match(fallbackReg);
+        if (fallbackMatch && fallbackMatch[2].length === 11) {
+            return `https://www.youtube.com/embed/${fallbackMatch[2]}`;
+        }
+
+        return null;
     };
 
-    // Parsing data video (mendukung format JSON array & fallback split baris baru)
-    let parsedUrls = [];
-    try {
-        const trimmed = rawUrls.trim();
-        if (trimmed.startsWith('[')) {
-            parsedUrls = JSON.parse(trimmed);
-        } else if (trimmed) {
-            parsedUrls = trimmed.split('\n').map(u => u.trim()).filter(Boolean);
+    // Parsing data video secara robust (tangguh terhadap JSON escape ganda dan HTML entities)
+    const robustParseUrls = (raw) => {
+        if (!raw) return [];
+        let trimmed = raw.trim();
+        
+        // Decode HTML entities & unescape backslashes
+        trimmed = trimmed
+            .replace(/&quot;/g, '"')
+            .replace(/&amp;/g, '&')
+            .replace(/\\"/g, '"');
+            
+        // Hapus tanda kutip luar jika membungkus array (contoh: "[...]")
+        if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
+            const inner = trimmed.slice(1, -1).trim();
+            if (inner.startsWith('[') && inner.endsWith(']')) {
+                trimmed = inner;
+            }
         }
-    } catch (e) {
-        console.error("Error parsing youtube_video_urls:", e);
-        parsedUrls = [];
-    }
+
+        let parsedUrls = [];
+        if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+            try {
+                parsedUrls = JSON.parse(trimmed);
+            } catch (e) {
+                // Fallback manual regex extraction jika JSON invalid
+                const matches = trimmed.match(/"([^"]+)"/g);
+                if (matches) {
+                    parsedUrls = matches.map(m => m.replace(/"/g, ''));
+                }
+            }
+        } else {
+            // Fallback split per baris atau koma
+            parsedUrls = trimmed.split(/[\n,]/).map(u => u.trim()).filter(Boolean);
+        }
+        
+        return parsedUrls;
+    };
+
+    const parsedUrls = robustParseUrls(rawUrls);
 
     // Bersihkan dan ubah ke embed url yang valid
     const embedUrls = parsedUrls
