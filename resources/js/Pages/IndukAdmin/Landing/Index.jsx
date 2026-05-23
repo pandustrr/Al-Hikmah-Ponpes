@@ -64,6 +64,11 @@ export default function Index({ settings, testimonials, beritaList = [], categor
             : (typeof settings.youtube_video_urls === 'string' && settings.youtube_video_urls.trim().startsWith('['))
                 ? settings.youtube_video_urls
                 : JSON.stringify(settings.youtube_video_urls ? settings.youtube_video_urls.split('\n').map(u => u.trim()).filter(Boolean) : []),
+        bottom_news_category_id: settings.bottom_news_category_id || '',
+        fasilitas_tagline: settings.fasilitas_tagline || '',
+        fasilitas_title: settings.fasilitas_title || '',
+        fasilitas_desc: settings.fasilitas_desc || '',
+        fasilitas_btn_text: settings.fasilitas_btn_text || '',
     });
 
     const [videoList, setVideoList] = useState(() => {
@@ -103,23 +108,9 @@ export default function Index({ settings, testimonials, beritaList = [], categor
         setVideoList(newList);
         setData('youtube_video_urls', JSON.stringify(newList));
     };
-
-    const { data: newsData, setData: setNewsData, post: postNews, processing: newsProcessing } = useForm({
-        bottom_news_category_id: settings.bottom_news_category_id || '',
-    });
-
     const handleSettingsSubmit = (e) => {
         e.preventDefault();
         post(route('admin.landing.settings.update'));
-    };
-
-    const handleNewsSubmit = (e) => {
-        e.preventDefault();
-        postNews(route('admin.landing.settings.update'), {
-            onSuccess: () => {
-                alert('Pilihan kategori berita beranda berhasil disimpan!');
-            }
-        });
     };
 
     return (
@@ -145,17 +136,7 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                         <Cog6ToothIcon className="h-4 w-4" />
                         Konfigurasi Teks
                     </button>
-                    <button 
-                        onClick={() => setActiveTab('news_selection')}
-                        className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 ${
-                            activeTab === 'news_selection' 
-                            ? 'border-brand-primary text-brand-primary' 
-                            : 'border-transparent text-slate-400 hover:text-brand-primary'
-                        }`}
-                    >
-                        <NewspaperIcon className="h-4 w-4" />
-                        Pilihan Berita
-                    </button>
+
                     <button 
                         onClick={() => setActiveTab('youtube_videos')}
                         className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 ${
@@ -619,6 +600,72 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                 </div>
                             </div>
 
+                            {/* Fasilitas Unggulan */}
+                            <div className="space-y-6 pt-6 border-t border-slate-100">
+                                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Bagian Fasilitas Unggulan</h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Tagline Section (Fasilitas)</label>
+                                        <input 
+                                            type="text" 
+                                            value={data.fasilitas_tagline} 
+                                            onChange={e => setData('fasilitas_tagline', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                            placeholder="Fasilitas Unggulan"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Text Tombol Section</label>
+                                        <input 
+                                            type="text" 
+                                            value={data.fasilitas_btn_text} 
+                                            onChange={e => setData('fasilitas_btn_text', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                            placeholder="Jelajahi Fasilitas Selengkapnya"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Judul Besar (Gunakan \n untuk baris baru)</label>
+                                    <input 
+                                        type="text" 
+                                        value={data.fasilitas_title} 
+                                        onChange={e => setData('fasilitas_title', e.target.value)}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                        placeholder="Mendukung Perkembangan \n Potensi Siswa"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Deskripsi / Kutipan Singkat (Italic)</label>
+                                    <textarea 
+                                        rows="3"
+                                        value={data.fasilitas_desc} 
+                                        onChange={e => setData('fasilitas_desc', e.target.value)}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                        placeholder='"Fasilitas modern mulai dari laboratorium terpadu, asrama yang nyaman, hingga lapangan olahraga yang luas disediakan untuk memastikan kenyamanan belajar para siswa."'
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                            {/* Pilihan Berita Beranda Bawah */}
+                            <div className="space-y-6 pt-6 border-t border-slate-100">
+                                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Kategori Berita Beranda Bawah</h3>
+                                <div>
+                                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Pilih Kategori</label>
+                                    <p className="text-xs text-slate-400 mb-3">Menampilkan berita terbaru dari kategori yang dipilih pada section khusus di bagian paling bawah beranda (di bawah Informasi Terbaru).</p>
+                                    <select
+                                        value={data.bottom_news_category_id}
+                                        onChange={e => setData('bottom_news_category_id', e.target.value)}
+                                        className="max-w-md w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] px-4 py-3 text-sm outline-none focus:ring-1 focus:ring-brand-primary"
+                                    >
+                                        <option value="">Jangan Tampilkan / Kosong</option>
+                                        {categories.map(c => (
+                                            <option key={c.id} value={c.id}>{c.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+
                             <div className="pt-6">
                                 <button 
                                     type="submit" 
@@ -728,46 +775,6 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                         </form>
                     )}
 
-                    {/* 2. News Selection Tab */}
-                    {activeTab === 'news_selection' && (
-                        <form onSubmit={handleNewsSubmit} className="p-8 space-y-10">
-                            <div className="flex justify-between items-center border-b border-slate-100 pb-4">
-                                <div>
-                                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Pilihan Kategori Berita Beranda</h3>
-                                    <p className="text-xs text-slate-400 mt-1">Pilih kategori berita yang ingin ditampilkan pada slide utama (Hero) dan sidebar beranda.</p>
-                                </div>
-                                <button 
-                                    type="submit" 
-                                    disabled={newsProcessing}
-                                    className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-8 py-3 transition-all rounded-[0.25rem] shadow-lg shadow-brand-primary/15 disabled:opacity-50"
-                                >
-                                    Simpan Pilihan
-                                </button>
-                            </div>
-
-                            <div className="max-w-md">
-                                {/* Section: Bottom News Category */}
-                                <div className="bg-slate-50 p-6 rounded-[0.25rem] border border-slate-100 space-y-4">
-                                    <div>
-                                        <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                                            Kategori Berita Beranda Bawah
-                                        </h4>
-                                        <p className="text-[11px] text-slate-400 mt-1">Menampilkan berita terbaru dari kategori ini pada section khusus di bagian paling bawah beranda (di bawah Informasi Terbaru).</p>
-                                    </div>
-                                    <select
-                                        value={newsData.bottom_news_category_id}
-                                        onChange={e => setNewsData('bottom_news_category_id', e.target.value)}
-                                        className="w-full bg-white border border-slate-200 rounded-[0.25rem] px-3 py-2 text-xs outline-none focus:ring-1 focus:ring-brand-primary"
-                                    >
-                                        <option value="">Jangan Tampilkan / Kosong</option>
-                                        {categories.map(c => (
-                                            <option key={c.id} value={c.id}>{c.name}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-                        </form>
-                    )}
 
                     {/* 3. Testimonials Tab */}
                     {activeTab === 'testimonials' && (
