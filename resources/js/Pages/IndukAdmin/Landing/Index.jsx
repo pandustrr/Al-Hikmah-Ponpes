@@ -41,7 +41,45 @@ export default function Index({ settings, testimonials, beritaList = [], categor
         ppdb_wave_1: settings.ppdb_wave_1 || '',
         ppdb_wave_2: settings.ppdb_wave_2 || '',
         ppdb_requirements: settings.ppdb_requirements || '',
+        youtube_video_urls: settings.youtube_video_urls && settings.youtube_video_urls.trim().startsWith('[') 
+            ? settings.youtube_video_urls 
+            : JSON.stringify(settings.youtube_video_urls ? settings.youtube_video_urls.split('\n').map(u => u.trim()).filter(Boolean) : []),
     });
+
+    const [videoList, setVideoList] = useState(() => {
+        try {
+            if (settings.youtube_video_urls) {
+                const trimmed = settings.youtube_video_urls.trim();
+                if (trimmed.startsWith('[')) {
+                    return JSON.parse(trimmed);
+                } else if (trimmed) {
+                    return trimmed.split('\n').map(u => u.trim()).filter(Boolean);
+                }
+            }
+        } catch (e) {
+            console.error("Error parsing youtube_video_urls:", e);
+        }
+        return [];
+    });
+
+    const handleVideoUrlChange = (index, value) => {
+        const newList = [...videoList];
+        newList[index] = value;
+        setVideoList(newList);
+        setData('youtube_video_urls', JSON.stringify(newList));
+    };
+
+    const addVideoInput = () => {
+        const newList = [...videoList, ''];
+        setVideoList(newList);
+        setData('youtube_video_urls', JSON.stringify(newList));
+    };
+
+    const removeVideoInput = (index) => {
+        const newList = videoList.filter((_, i) => i !== index);
+        setVideoList(newList);
+        setData('youtube_video_urls', JSON.stringify(newList));
+    };
 
     const { data: newsData, setData: setNewsData, post: postNews, processing: newsProcessing } = useForm({
         hero_news_category_id: settings.hero_news_category_id || '',
@@ -366,6 +404,51 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                         placeholder="Fotokopi Kartu Keluarga & Akta Kelahiran&#10;Pas Foto Terbaru ukuran 3x4 (4 lembar)&#10;Fotokopi Ijazah & Raport terakhir"
                                     ></textarea>
+                                </div>
+                            </div>
+
+                            {/* Video YouTube Section */}
+                            <div className="space-y-6 pt-6 border-t border-slate-100">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Bagian Video YouTube (Beranda)</h3>
+                                    <button 
+                                        type="button"
+                                        onClick={addVideoInput}
+                                        className="inline-flex items-center gap-2 bg-brand-primary hover:bg-slate-900 text-white text-[10px] font-semibold uppercase tracking-widest px-4 py-2 transition-all rounded-[0.25rem]"
+                                    >
+                                        <PlusIcon className="h-3.5 w-3.5" />
+                                        Tambah Link Video
+                                    </button>
+                                </div>
+                                <div className="space-y-4">
+                                    {videoList.length === 0 ? (
+                                        <p className="text-xs text-slate-400 italic">Belum ada link video. Klik "Tambah Link Video" untuk menambahkan.</p>
+                                    ) : (
+                                        videoList.map((url, idx) => (
+                                            <div key={idx} className="flex items-center gap-3">
+                                                <div className="flex-1">
+                                                    <input 
+                                                        type="text" 
+                                                        value={url} 
+                                                        onChange={e => handleVideoUrlChange(idx, e.target.value)}
+                                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                                        placeholder="Contoh: https://www.youtube.com/watch?v=xxxxxx"
+                                                    />
+                                                </div>
+                                                <button 
+                                                    type="button"
+                                                    onClick={() => removeVideoInput(idx)}
+                                                    className="p-3 bg-red-50 text-red-500 hover:bg-red-100 border border-red-200 rounded-[0.25rem] transition-colors"
+                                                    title="Hapus Link Video"
+                                                >
+                                                    <TrashIcon className="h-4 w-4" />
+                                                </button>
+                                            </div>
+                                        ))
+                                    )}
+                                    <p className="text-[9px] text-slate-400 italic mt-2">
+                                        Masukkan link video YouTube profil yayasan / pesantren. Anda dapat menambahkan beberapa video sekaligus dan menghapusnya secara interaktif.
+                                    </p>
                                 </div>
                             </div>
 

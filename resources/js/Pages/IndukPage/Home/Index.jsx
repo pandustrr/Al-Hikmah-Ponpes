@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import Hero from './Hero';
 import AboutSummary from './AboutSummary';
+import HomeVideo from './HomeVideo';
 
 import FasilitasShortcut from './FasilitasShortcut';
 import PpdbCta from './PpdbCta';
@@ -52,6 +53,7 @@ export default function Welcome({ lembagas, heroBerita, beritaTerbaru, bottomNew
                 articleTitle={articleTitle}
                 articleSlug={articleSlug}
             />
+            <HomeVideo settings={landingSettings} />
             <Testimonials testimonials={testimonials} />
             <FasilitasShortcut fasilitasUnggulan={fasilitasUnggulan} />
             <LembagaUpdates lembagas={lembagas} />

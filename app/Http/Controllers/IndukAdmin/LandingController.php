@@ -29,6 +29,14 @@ class LandingController extends Controller
             ]
         );
 
+        LandingSetting::firstOrCreate(
+            ['key' => 'youtube_video_urls'],
+            [
+                'value' => '', // Default kosong, pisahkan dengan baris baru untuk beberapa link
+                'group' => 'landing'
+            ]
+        );
+
         return Inertia::render('IndukAdmin/Landing/Index', [
             'settings' => LandingSetting::all()->pluck('value', 'key'),
             'testimonials' => Testimonial::latest()->get(),
