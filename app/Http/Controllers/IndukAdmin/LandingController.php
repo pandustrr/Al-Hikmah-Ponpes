@@ -162,7 +162,6 @@ class LandingController extends Controller
         return Inertia::render('IndukAdmin/Landing/Index', [
             'settings' => $settings,
             'testimonials' => Testimonial::latest()->get(),
-            'beritaList' => \App\Models\Berita::with('category')->latest()->get(),
             'categories' => \App\Models\BeritaCategory::all(),
             'lembagas' => \App\Models\Lembaga::all(['id', 'nama', 'slug']),
         ]);

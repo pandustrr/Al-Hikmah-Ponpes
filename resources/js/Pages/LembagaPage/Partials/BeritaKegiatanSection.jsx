@@ -18,26 +18,28 @@ export default function BeritaKegiatanSection({ beritas = [], prestasi = [] }) {
                     </Link>
                 </div>
 
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
                     {items.map((p, i) => (
-                        <div key={i} className="group flex flex-col h-full border border-slate-100 p-4 hover:shadow-xl transition-all">
-                            <div className="aspect-video overflow-hidden mb-6 relative transition-all duration-700">
+                        <div key={i} className="group flex flex-col h-full border border-slate-100 p-2 sm:p-4 rounded-[0.25rem] hover:shadow-xl transition-all">
+                            <div className="aspect-video overflow-hidden mb-3 sm:mb-6 relative transition-all duration-700">
                                 <img 
                                     src={p.image_url || `https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=600&sig=${p.id}`} 
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                                     alt={p.judul} 
                                 />
-                                <div className="absolute top-3 left-3 bg-brand-primary text-white text-[7px] font-bold uppercase tracking-widest px-2 py-1 shadow-lg">
+                                <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-brand-primary text-white text-[6px] sm:text-[7px] font-bold uppercase tracking-widest px-1.5 py-0.5 sm:px-2 sm:py-1 shadow-lg">
                                     Update Unit
                                 </div>
                             </div>
-                            <div className="flex-grow">
-                                <div className="text-[8px] font-bold text-brand-secondary uppercase tracking-[0.2em] mb-2">
-                                    {new Date(p.tanggal || p.created_at).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' })}
+                            <div className="flex-grow flex flex-col justify-between">
+                                <div>
+                                    <div className="text-[7px] sm:text-[8px] font-bold text-brand-secondary uppercase tracking-[0.2em] mb-1 sm:mb-2">
+                                        {new Date(p.tanggal || p.created_at).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' })}
+                                    </div>
+                                    <h4 className="text-[10px] sm:text-xs md:text-sm lg:text-base font-bold text-slate-900 uppercase tracking-tight leading-tight line-clamp-3 sm:line-clamp-2 group-hover:text-brand-primary transition-colors">
+                                        {p.judul}
+                                    </h4>
                                 </div>
-                                <h4 className="text-base font-bold text-slate-900 uppercase tracking-tight leading-tight line-clamp-2 group-hover:text-brand-primary transition-colors">
-                                    {p.judul}
-                                </h4>
                             </div>
                         </div>
                     ))}

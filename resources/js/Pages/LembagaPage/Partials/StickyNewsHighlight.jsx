@@ -19,11 +19,11 @@ export default function StickyNewsHighlight({ stickyBerita }) {
                         </div>
                     </div>
                     <div className="md:w-1/2 p-6 md:p-16 flex flex-col justify-center">
-                        <div className="text-brand-secondary text-[9px] font-bold uppercase tracking-[0.4em] mb-4">Penting & Terbaru</div>
-                        <h2 className="text-2xl md:text-4xl font-serif font-semibold tracking-tight mb-6 leading-tight">
+                        <div className="text-brand-secondary text-[9px] font-bold uppercase tracking-[0.4em] mb-4">Terbaru</div>
+                        <h2 className="text-white text-2xl md:text-4xl font-serif font-semibold tracking-tight mb-6 leading-tight">
                             {stickyBerita.judul}
                         </h2>
-                        <p className="text-white/60 text-xs md:text-sm leading-relaxed mb-10 line-clamp-3">
+                        <p className="text-white/80 text-xs md:text-sm leading-relaxed mb-10 line-clamp-3">
                             {stickyBerita.ringkasan || stickyBerita.konten.substring(0, 200) + '...'}
                         </p>
                         <Link 

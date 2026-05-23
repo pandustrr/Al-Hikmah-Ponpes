@@ -11,6 +11,7 @@ import BeritaKegiatanSection from './Partials/BeritaKegiatanSection';
 import FasilitasSection from './Partials/FasilitasSection';
 import PpdbSection from './Partials/PpdbSection';
 import CtaSection from './Partials/CtaSection';
+import HomeVideo from './Partials/HomeVideo';
 
 export default function Show({ 
     lembaga, 
@@ -40,6 +41,7 @@ export default function Show({
             />
             <TenagaPendidikSection pengajars={pengajars} />
             <KeunggulanSection lembaga={lembaga} />
+            <HomeVideo lembaga={lembaga} />
             <BeritaKegiatanSection beritas={beritas} prestasi={prestasi} />
             <PpdbSection lembaga={lembaga} ppdbInfo={ppdbInfo} />
             <FasilitasSection lembaga={lembaga} fasilitas={fasilitas} />
