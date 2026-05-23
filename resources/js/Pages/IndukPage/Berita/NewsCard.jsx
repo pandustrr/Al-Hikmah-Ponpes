@@ -130,7 +130,7 @@ export default function NewsCard({ berita, variant = 'vertical', className = '',
             <div className="text-[10px] font-semibold text-brand-accent uppercase tracking-widest mb-2">
                 {berita.category?.name || 'Berita'}
             </div>
-            <h3 className="text-lg font-semibold text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2 mb-2">
+            <h3 className="text-xs sm:text-lg font-semibold text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2 mb-2">
                 {berita.judul}
             </h3>
             <div className="text-[10px] font-medium text-brand-accent uppercase tracking-widest">

@@ -142,7 +142,7 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
                 <div className="lg:col-span-5 xl:col-span-4 flex flex-col gap-4">
                     <h3 className="text-white/70 text-[10px] font-semibold uppercase tracking-[0.4em] mb-1 hidden lg:block">Berita Lainnya</h3>
                     
-                    <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto pb-6 lg:pb-0 custom-scrollbar snap-x px-4 lg:px-0">
+                    <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto pb-6 lg:pb-0 custom-scrollbar snap-x scroll-px-4 px-4 lg:px-0">
                         {sliderBerita.map((item, idx) => (
                             <button
                                 key={`thumb-${item.id}`}
