@@ -138,92 +138,92 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                     <h2 className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-accent mb-2">Manajemen Konten</h2>
                     <h1 className="text-4xl font-semibold uppercase tracking-tighter text-slate-900 leading-none">Pengaturan <br /><span className="text-brand-primary">Halaman Beranda</span></h1>
                 </div>                {/* Tabs */}
-                <div className="flex items-center gap-2 mb-8 border-b border-slate-200 overflow-x-auto whitespace-nowrap scrollbar-none pb-1">
+                <div className="flex items-center gap-1.5 mb-6 border-b border-slate-200 overflow-x-auto whitespace-nowrap scrollbar-none pb-0.5">
                     <button
                         onClick={() => setActiveTab('hero')}
-                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'hero'
+                        className={`px-3.5 py-2.5 text-[10px] font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-1.5 shrink-0 ${activeTab === 'hero'
                                 ? 'border-brand-primary text-brand-primary'
                                 : 'border-transparent text-slate-400 hover:text-brand-primary'
                             }`}
                     >
-                        <PhotoIcon className="h-4 w-4" />
+                        <PhotoIcon className="h-3.5 w-3.5" />
                         Bagian Hero
                     </button>
 
                     <button
                         onClick={() => setActiveTab('about')}
-                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'about'
+                        className={`px-3.5 py-2.5 text-[10px] font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-1.5 shrink-0 ${activeTab === 'about'
                                 ? 'border-brand-primary text-brand-primary'
                                 : 'border-transparent text-slate-400 hover:text-brand-primary'
                             }`}
                     >
-                        <Cog6ToothIcon className="h-4 w-4" />
+                        <Cog6ToothIcon className="h-3.5 w-3.5" />
                         Tentang Kami
                     </button>
 
                     <button
                         onClick={() => setActiveTab('lembaga')}
-                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'lembaga'
+                        className={`px-3.5 py-2.5 text-[10px] font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-1.5 shrink-0 ${activeTab === 'lembaga'
                                 ? 'border-brand-primary text-brand-primary'
                                 : 'border-transparent text-slate-400 hover:text-brand-primary'
                             }`}
                     >
-                        <Cog6ToothIcon className="h-4 w-4" />
+                        <Cog6ToothIcon className="h-3.5 w-3.5" />
                         Lembaga Pendidikan
                     </button>
 
                     <button
                         onClick={() => setActiveTab('youtube_videos')}
-                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'youtube_videos'
+                        className={`px-3.5 py-2.5 text-[10px] font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-1.5 shrink-0 ${activeTab === 'youtube_videos'
                                 ? 'border-brand-primary text-brand-primary'
                                 : 'border-transparent text-slate-400 hover:text-brand-primary'
                             }`}
                     >
-                        <VideoCameraIcon className="h-4 w-4" />
+                        <VideoCameraIcon className="h-3.5 w-3.5" />
                         Video Beranda
                     </button>
 
                     <button
                         onClick={() => setActiveTab('fasilitas')}
-                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'fasilitas'
+                        className={`px-3.5 py-2.5 text-[10px] font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-1.5 shrink-0 ${activeTab === 'fasilitas'
                                 ? 'border-brand-primary text-brand-primary'
                                 : 'border-transparent text-slate-400 hover:text-brand-primary'
                             }`}
                     >
-                        <PhotoIcon className="h-4 w-4" />
+                        <PhotoIcon className="h-3.5 w-3.5" />
                         Fasilitas Keunggulan
                     </button>
 
                     <button
                         onClick={() => setActiveTab('ppdb_cta')}
-                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'ppdb_cta'
+                        className={`px-3.5 py-2.5 text-[10px] font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-1.5 shrink-0 ${activeTab === 'ppdb_cta'
                                 ? 'border-brand-primary text-brand-primary'
                                 : 'border-transparent text-slate-400 hover:text-brand-primary'
                             }`}
                     >
-                        <Cog6ToothIcon className="h-4 w-4" />
+                        <Cog6ToothIcon className="h-3.5 w-3.5" />
                         PPDB CTA
                     </button>
 
                     <button
                         onClick={() => setActiveTab('berita')}
-                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'berita'
+                        className={`px-3.5 py-2.5 text-[10px] font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-1.5 shrink-0 ${activeTab === 'berita'
                                 ? 'border-brand-primary text-brand-primary'
                                 : 'border-transparent text-slate-400 hover:text-brand-primary'
                             }`}
                     >
-                        <NewspaperIcon className="h-4 w-4" />
+                        <NewspaperIcon className="h-3.5 w-3.5" />
                         Berita Terbaru
                     </button>
 
                     <button
                         onClick={() => setActiveTab('testimonials')}
-                        className={`px-5 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 shrink-0 ${activeTab === 'testimonials'
+                        className={`px-3.5 py-2.5 text-[10px] font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-1.5 shrink-0 ${activeTab === 'testimonials'
                                 ? 'border-brand-primary text-brand-primary'
                                 : 'border-transparent text-slate-400 hover:text-brand-primary'
                             }`}
                     >
-                        <ChatBubbleLeftRightIcon className="h-4 w-4" />
+                        <ChatBubbleLeftRightIcon className="h-3.5 w-3.5" />
                         Testimoni
                     </button>
                 </div>
