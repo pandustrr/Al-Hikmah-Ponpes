@@ -20,6 +20,14 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
         });
     };
 
+    const handleMainSearch = (e) => {
+        e.preventDefault();
+        router.get('/berita', { q: search, kategori: currentCategory }, {
+            preserveState: true,
+            replace: true,
+        });
+    };
+
     const handleSearch = (e) => {
         e.preventDefault();
         router.get('/berita', { q: searchQuery, kategori: currentCategory }, {
@@ -118,7 +126,7 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
 
                     {/* Search Bar */}
                     <div className="max-w-2xl mx-auto mb-10">
-                        <form onSubmit={handleSearch} className="relative group">
+                        <form onSubmit={handleMainSearch} className="relative group">
                             <input
                                 type="text"
                                 value={search}
@@ -134,18 +142,18 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                     </div>
 
                     {/* Navigation / Filter */}
-                    <div className="flex flex-wrap items-center justify-center border-t border-sage-light mt-4 overflow-x-auto no-scrollbar sticky top-14 bg-white/95 backdrop-blur-md z-40 shadow-sm md:shadow-none">
-                        <div className="flex-grow flex justify-center">
+                    <div className="flex border-t border-sage-light mt-4 overflow-x-auto no-scrollbar sticky top-14 bg-white/95 backdrop-blur-md z-40 shadow-sm md:shadow-none w-full">
+                        <div className="flex w-max sm:mx-auto px-4 md:px-0">
                             {allCategories.map(cat => (
                                 <button
                                     key={cat.slug}
                                     onClick={() => handleFilter(cat.slug)}
-                                    className={`px-2.5 sm:px-4 py-2 sm:py-2.5 text-[8px] sm:text-[9.5px] font-semibold uppercase tracking-widest whitespace-nowrap transition-all border-b-2 ${(currentCategory || '') === cat.slug
+                                    className={`px-3 sm:px-4 py-3 sm:py-3 text-[9px] sm:text-[10px] font-semibold uppercase tracking-widest whitespace-nowrap transition-all border-b-2 ${(currentCategory || '') === cat.slug
                                             ? 'border-brand-primary text-brand-primary'
                                             : 'border-transparent text-brand-accent hover:text-brand-primary'
                                         }`}
                                 >
-                                    {cat.name} {cat.beritas_count > 0 && <span className="ml-1 text-[7px] sm:text-[8.5px] opacity-50">({cat.beritas_count})</span>}
+                                    {cat.name} {cat.beritas_count > 0 && <span className="ml-1 text-[8px] sm:text-[8.5px] opacity-50">({cat.beritas_count})</span>}
                                 </button>
                             ))}
                         </div>
@@ -294,17 +302,22 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
 
 
 
-                        {/* Instagram Feed Mockup */}
+                        {/* Instagram CTA */}
                         <div>
                             <h2 className="text-sm font-semibold text-brand-primary uppercase tracking-widest border-b-2 border-brand-primary pb-2 mb-6">
                                 {settings.news_ig_title || 'Instagram @alhikmah'}
                             </h2>
-                            <div className="grid grid-cols-3 gap-2">
-                                {[1, 2, 3, 4, 5, 6].map(i => (
-                                    <div key={i} className="aspect-square bg-brand-secondary overflow-hidden rounded-[0.1rem] hover:opacity-80 transition-opacity cursor-pointer">
-                                        <img src={`https://images.unsplash.com/photo-${1500000000000 + i}?auto=format&fit=crop&q=60&w=200&h=200`} className="w-full h-full object-cover" alt="IG" />
-                                    </div>
-                                ))}
+                            <div className="bg-gradient-to-br from-purple-600 via-pink-500 to-orange-500 p-6 rounded-[0.25rem] text-white shadow-lg relative overflow-hidden group">
+                                <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-xl group-hover:bg-white/20 transition-all"></div>
+                                <div className="absolute -left-4 -bottom-4 w-32 h-32 bg-orange-400/20 rounded-full blur-xl group-hover:bg-orange-400/30 transition-all"></div>
+                                
+                                <div className="relative z-10 flex flex-col items-center text-center space-y-4 py-2">
+                                    <svg className="w-12 h-12 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                                    <p className="text-sm font-medium drop-shadow-sm line-clamp-2">Ikuti kami di Instagram untuk melihat dokumentasi kegiatan dan keseharian santri.</p>
+                                    <a href={settings.social_instagram || "#"} target="_blank" rel="noopener noreferrer" className="mt-2 bg-white text-pink-600 px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-slate-100 hover:scale-105 active:scale-95 transition-all shadow-md">
+                                        Follow Instagram
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
