@@ -29,6 +29,38 @@ class LandingController extends Controller
             ]
         );
 
+        LandingSetting::firstOrCreate(
+            ['key' => 'youtube_video_urls'],
+            [
+                'value' => '', // Default kosong, pisahkan dengan baris baru untuk beberapa link
+                'group' => 'landing'
+            ]
+        );
+
+        LandingSetting::firstOrCreate(
+            ['key' => 'youtube_video_badge'],
+            [
+                'value' => 'Galeri Video Resmi',
+                'group' => 'landing'
+            ]
+        );
+
+        LandingSetting::firstOrCreate(
+            ['key' => 'youtube_video_title'],
+            [
+                'value' => 'Dokumentasi & Video Profil YPDS Al-Hikmah',
+                'group' => 'landing'
+            ]
+        );
+
+        LandingSetting::firstOrCreate(
+            ['key' => 'youtube_video_desc'],
+            [
+                'value' => 'Simak video profil resmi serta dokumentasi kegiatan kami untuk melihat lingkungan belajar dan pembiasaan nilai adab santri.',
+                'group' => 'landing'
+            ]
+        );
+
         return Inertia::render('IndukAdmin/Landing/Index', [
             'settings' => LandingSetting::all()->pluck('value', 'key'),
             'testimonials' => Testimonial::latest()->get(),

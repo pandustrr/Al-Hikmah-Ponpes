@@ -8,7 +8,8 @@ import {
     PlusIcon,
     PencilSquareIcon,
     TrashIcon,
-    PhotoIcon
+    PhotoIcon,
+    VideoCameraIcon
 } from '@heroicons/react/24/outline';
 import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
@@ -41,7 +42,48 @@ export default function Index({ settings, testimonials, beritaList = [], categor
         ppdb_wave_1: settings.ppdb_wave_1 || '',
         ppdb_wave_2: settings.ppdb_wave_2 || '',
         ppdb_requirements: settings.ppdb_requirements || '',
+        youtube_video_badge: settings.youtube_video_badge || '',
+        youtube_video_title: settings.youtube_video_title || '',
+        youtube_video_desc: settings.youtube_video_desc || '',
+        youtube_video_urls: settings.youtube_video_urls && settings.youtube_video_urls.trim().startsWith('[') 
+            ? settings.youtube_video_urls 
+            : JSON.stringify(settings.youtube_video_urls ? settings.youtube_video_urls.split('\n').map(u => u.trim()).filter(Boolean) : []),
     });
+
+    const [videoList, setVideoList] = useState(() => {
+        try {
+            if (settings.youtube_video_urls) {
+                const trimmed = settings.youtube_video_urls.trim();
+                if (trimmed.startsWith('[')) {
+                    return JSON.parse(trimmed);
+                } else if (trimmed) {
+                    return trimmed.split('\n').map(u => u.trim()).filter(Boolean);
+                }
+            }
+        } catch (e) {
+            console.error("Error parsing youtube_video_urls:", e);
+        }
+        return [];
+    });
+
+    const handleVideoUrlChange = (index, value) => {
+        const newList = [...videoList];
+        newList[index] = value;
+        setVideoList(newList);
+        setData('youtube_video_urls', JSON.stringify(newList));
+    };
+
+    const addVideoInput = () => {
+        const newList = [...videoList, ''];
+        setVideoList(newList);
+        setData('youtube_video_urls', JSON.stringify(newList));
+    };
+
+    const removeVideoInput = (index) => {
+        const newList = videoList.filter((_, i) => i !== index);
+        setVideoList(newList);
+        setData('youtube_video_urls', JSON.stringify(newList));
+    };
 
     const { data: newsData, setData: setNewsData, post: postNews, processing: newsProcessing } = useForm({
         hero_news_category_id: settings.hero_news_category_id || '',
@@ -97,6 +139,17 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                     >
                         <NewspaperIcon className="h-4 w-4" />
                         Pilihan Berita
+                    </button>
+                    <button 
+                        onClick={() => setActiveTab('youtube_videos')}
+                        className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 ${
+                            activeTab === 'youtube_videos' 
+                            ? 'border-brand-primary text-brand-primary' 
+                            : 'border-transparent text-slate-400 hover:text-brand-primary'
+                        }`}
+                    >
+                        <VideoCameraIcon className="h-4 w-4" />
+                        Video Beranda
                     </button>
                     <button 
                         onClick={() => setActiveTab('testimonials')}
@@ -377,6 +430,103 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                 >
                                     Simpan Perubahan
                                 </button>
+                            </div>
+                        </form>
+                    )}
+
+                    {/* 1b. YouTube Videos Tab */}
+                    {activeTab === 'youtube_videos' && (
+                        <form onSubmit={handleSettingsSubmit} className="p-8 space-y-10">
+                            <div className="space-y-6">
+                                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                                    <div>
+                                        <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Pengaturan Galeri Video Beranda</h3>
+                                        <p className="text-xs text-slate-400 mt-1">Kelola judul, deskripsi, dan link video YouTube yang tampil di halaman beranda utama.</p>
+                                    </div>
+                                    <button 
+                                        type="submit" 
+                                        disabled={processing}
+                                        className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-8 py-3 transition-all rounded-[0.25rem] shadow-lg shadow-brand-primary/15 disabled:opacity-50"
+                                    >
+                                        Simpan Perubahan
+                                    </button>
+                                </div>
+                                
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Badge Video</label>
+                                        <input 
+                                            type="text" 
+                                            value={data.youtube_video_badge} 
+                                            onChange={e => setData('youtube_video_badge', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                            placeholder="Contoh: Galeri Video Resmi"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Judul Section Video</label>
+                                        <input 
+                                            type="text" 
+                                            value={data.youtube_video_title} 
+                                            onChange={e => setData('youtube_video_title', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                            placeholder="Contoh: Dokumentasi & Video Profil YPDS Al-Hikmah"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Deskripsi Section Video</label>
+                                    <textarea 
+                                        rows="2"
+                                        value={data.youtube_video_desc} 
+                                        onChange={e => setData('youtube_video_desc', e.target.value)}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                        placeholder="Contoh: Simak video profil resmi..."
+                                    ></textarea>
+                                </div>
+
+                                <div className="flex items-center justify-between pt-6 border-t border-slate-100/70">
+                                    <label className="block text-[10px] font-bold text-slate-600 uppercase tracking-widest">Daftar Tautan Video YouTube</label>
+                                    <button 
+                                        type="button"
+                                        onClick={addVideoInput}
+                                        className="inline-flex items-center gap-2 bg-brand-primary hover:bg-slate-900 text-white text-[10px] font-semibold uppercase tracking-widest px-4 py-2 transition-all rounded-[0.25rem]"
+                                    >
+                                        <PlusIcon className="h-3.5 w-3.5" />
+                                        Tambah Link Video
+                                    </button>
+                                </div>
+
+                                <div className="space-y-4">
+                                    {videoList.length === 0 ? (
+                                        <p className="text-xs text-slate-400 italic">Belum ada link video. Klik "Tambah Link Video" untuk menambahkan.</p>
+                                    ) : (
+                                        videoList.map((url, idx) => (
+                                            <div key={idx} className="flex items-center gap-3">
+                                                <div className="flex-1">
+                                                    <input 
+                                                        type="text" 
+                                                        value={url} 
+                                                        onChange={e => handleVideoUrlChange(idx, e.target.value)}
+                                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                                        placeholder="Contoh: https://www.youtube.com/watch?v=xxxxxx"
+                                                    />
+                                                </div>
+                                                <button 
+                                                    type="button"
+                                                    onClick={() => removeVideoInput(idx)}
+                                                    className="p-3 bg-red-50 text-red-500 hover:bg-red-100 border border-red-200 rounded-[0.25rem] transition-colors"
+                                                    title="Hapus Link Video"
+                                                >
+                                                    <TrashIcon className="h-4 w-4" />
+                                                </button>
+                                            </div>
+                                        ))
+                                    )}
+                                    <p className="text-[9px] text-slate-400 italic mt-2">
+                                        Masukkan link video YouTube profil yayasan / pesantren. Anda dapat menambahkan beberapa video sekaligus dan menghapusnya secara interaktif.
+                                    </p>
+                                </div>
                             </div>
                         </form>
                     )}
