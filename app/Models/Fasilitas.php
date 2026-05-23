@@ -42,6 +42,12 @@ class Fasilitas extends Model
         if (str_starts_with($value, '/')) return $value;
         
         $parsed = parse_url($value);
+        $path = $parsed['path'] ?? '';
+        
+        if (str_starts_with($path, '/storage/')) {
+            return $path . (isset($parsed['query']) ? '?' . $parsed['query'] : '');
+        }
+        
         $host = $parsed['host'] ?? '';
         $localHosts = ['localhost', '127.0.0.1'];
         if (function_exists('request') && request()) {
@@ -51,8 +57,7 @@ class Fasilitas extends Model
             return $value;
         }
         
-        return ($parsed['path'] ?? '/') .
-               (isset($parsed['query']) ? '?' . $parsed['query'] : '');
+        return $path . (isset($parsed['query']) ? '?' . $parsed['query'] : '');
     }
 
     public function lembaga() {
