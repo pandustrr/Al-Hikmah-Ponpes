@@ -55,16 +55,18 @@ export default function Index({ settings = {}, lembagas = [] }) {
             <div className="relative min-h-[48vh] md:min-h-[50vh] flex items-center pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-brand-primary">
                 {/* Background Layer */}
                 <div className="absolute inset-0 z-0">
-                    <picture className="w-full h-full">
-                        {settings.contact_hero_bg_mobile && (
-                            <source media="(max-w: 640px)" srcSet={settings.contact_hero_bg_mobile} />
-                        )}
-                        <img 
-                            src={settings.contact_hero_bg || "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=1600"} 
-                            alt="Hero BG" 
-                            className="w-full h-full object-cover opacity-55 scale-105"
-                        />
-                    </picture>
+                    {/* Desktop Background */}
+                    <img 
+                        src={settings.contact_hero_bg || "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=1600"} 
+                        alt="Hero BG Desktop" 
+                        className="hidden md:block w-full h-full object-cover opacity-55 scale-105"
+                    />
+                    {/* Mobile Background */}
+                    <img 
+                        src={settings.contact_hero_bg_mobile || settings.contact_hero_bg || "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=1600"} 
+                        alt="Hero BG Mobile" 
+                        className="block md:hidden w-full h-full object-cover opacity-55 scale-105"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/45 via-transparent to-brand-primary/75"></div>
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/az-subtle.png')] opacity-10"></div>
                 </div>

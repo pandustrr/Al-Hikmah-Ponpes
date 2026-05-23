@@ -14,10 +14,22 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $lembagas = \App\Models\Lembaga::with([
+        $activeLembagaSetting = \App\Models\LandingSetting::where('key', 'active_lembaga_ids')->first();
+        $activeLembagaIds = null;
+        if ($activeLembagaSetting && !empty($activeLembagaSetting->value)) {
+            $activeLembagaIds = json_decode($activeLembagaSetting->value, true);
+        }
+
+        $lembagasQuery = \App\Models\Lembaga::with([
             'prestasis' => fn($q) => $q->latest()->take(3),
             'kegiatans' => fn($q) => $q->latest()->take(2)
-        ])->get();
+        ]);
+
+        if (!is_null($activeLembagaIds)) {
+            $lembagasQuery->whereIn('id', is_array($activeLembagaIds) ? $activeLembagaIds : []);
+        }
+
+        $lembagas = $lembagasQuery->get();
 
         // Load berita terbaru per lembaga untuk section "Update Lembaga"
         foreach ($lembagas as $lembaga) {
@@ -30,7 +42,15 @@ class HomeController extends Controller
         }
 
         $siteSettings = \App\Models\SiteSetting::all()->pluck('value', 'key');
-        $landingSettings = \App\Models\LandingSetting::all()->pluck('value', 'key')->merge($siteSettings);
+        $landingSettings = \App\Models\LandingSetting::all()->pluck('value', 'key')->merge($siteSettings)->map(function ($val) {
+            if (is_string($val) && (str_starts_with($val, '[') || str_starts_with($val, '{'))) {
+                $decoded = json_decode($val, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    return $decoded;
+                }
+            }
+            return $val;
+        });
         $testimonials = \App\Models\Testimonial::where('is_active', true)->get();
 
         // Load fasilitas untuk section "Fasilitas Unggulan" (ambil yang punya gambar, max 4)
