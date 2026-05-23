@@ -40,20 +40,20 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="bg-brand-secondary p-5 border border-brand-accent/10 rounded-[0.25rem]">
                                         <h4 className="font-semibold text-brand-primary text-[10px] uppercase tracking-widest mb-1">Metode Pendidikan</h4>
-                                        <p className="text-[11px] text-brand-accent leading-relaxed">Holistik — mengintegrasikan sains, teknologi, dan ilmu agama.</p>
+                                        <p className="text-[11px] text-brand-accent leading-relaxed">{settings.about_method_desc || 'Holistik — mengintegrasikan sains, teknologi, dan ilmu agama.'}</p>
                                     </div>
                                     <div className="bg-brand-secondary p-5 border border-brand-accent/10 rounded-[0.25rem]">
                                         <h4 className="font-semibold text-brand-primary text-[10px] uppercase tracking-widest mb-1">Lingkungan Siswa</h4>
-                                        <p className="text-[11px] text-brand-accent leading-relaxed">Asrama nyaman dengan pembiasaan adab harian yang terstruktur.</p>
+                                        <p className="text-[11px] text-brand-accent leading-relaxed">{settings.about_env_desc || 'Asrama nyaman dengan pembiasaan adab harian yang terstruktur.'}</p>
                                     </div>
                                 </div>
                                 {/* Stats */}
                                 <div className="grid grid-cols-4 gap-4 border-t border-brand-accent/20 pt-6">
                                     {[
-                                        { value: '30+', label: 'Tahun Berdiri' },
-                                        { value: '3', label: 'Jenjang' },
-                                        { value: '5000+', label: 'Alumni' },
-                                        { value: '100%', label: 'Berasrama' },
+                                        { value: settings.about_stat_1_val || '30+', label: settings.about_stat_1_lbl || 'Tahun Berdiri' },
+                                        { value: settings.about_stat_2_val || '3', label: settings.about_stat_2_lbl || 'Jenjang' },
+                                        { value: settings.about_stat_3_val || '5000+', label: settings.about_stat_3_lbl || 'Alumni' },
+                                        { value: settings.about_stat_4_val || '100%', label: settings.about_stat_4_lbl || 'Berasrama' },
                                     ].map((stat, i) => (
                                         <div key={i} className="text-center">
                                             <div className="text-xl font-semibold text-brand-primary">{stat.value}</div>

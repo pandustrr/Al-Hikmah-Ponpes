@@ -3,13 +3,17 @@ import { Link } from '@inertiajs/react';
 import { ArrowRightIcon, ArrowLongRightIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 
 export default function PpdbCta({ settings = {} }) {
-    const requirements = [
+    // Ambil persyaratan dari settings (pisahkan per baris), fallback ke nilai bawaan
+    const defaultReqs = [
         'Fotokopi Kartu Keluarga & Akta Kelahiran',
         'Pas Foto Terbaru ukuran 3x4 (4 lembar)',
         'Fotokopi Ijazah & Raport terakhir',
         'Surat Keterangan Sehat dari Dokter',
         'Mengisi formulir pendaftaran secara online',
     ];
+    const requirements = settings.ppdb_requirements 
+        ? settings.ppdb_requirements.split('\n').map(item => item.trim()).filter(item => item.length > 0)
+        : defaultReqs;
 
     return (
         <section className="py-12 md:py-24 bg-brand-secondary reveal-section">
@@ -48,11 +52,22 @@ export default function PpdbCta({ settings = {} }) {
                             <div className="mt-8 pt-8 border-t border-white/10 flex items-center justify-between">
                                 <div>
                                     <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1">Butuh Bantuan?</p>
-                                    <p className="font-semibold text-brand-secondary">0812-3456-7890</p>
+                                    <p className="font-semibold text-brand-secondary">
+                                        {settings.sosmed_whatsapp ? (
+                                            settings.sosmed_whatsapp.startsWith('62') 
+                                                ? `+62 ${settings.sosmed_whatsapp.slice(2, 5)}-${settings.sosmed_whatsapp.slice(5, 9)}-${settings.sosmed_whatsapp.slice(9)}`
+                                                : settings.sosmed_whatsapp
+                                        ) : '0812-3456-7890'}
+                                    </p>
                                 </div>
-                                <Link href="/kontak" className="text-[10px] font-semibold text-brand-secondary/70 hover:text-brand-secondary uppercase tracking-widest transition-colors flex items-center gap-1 group">
+                                <a 
+                                    href={`https://wa.me/${settings.sosmed_whatsapp || '6281234567890'}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[10px] font-semibold text-brand-secondary/70 hover:text-brand-secondary uppercase tracking-widest transition-colors flex items-center gap-1 group"
+                                >
                                     Hubungi Kami <ArrowRightIcon className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                                </Link>
+                                </a>
                             </div>
                         </div>
                     </div>
