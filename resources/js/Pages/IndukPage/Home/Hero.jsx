@@ -64,14 +64,14 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
             {/* Sophisticated Overlay for the main background */}
             <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/80 via-brand-primary/60 to-brand-primary"></div>
 
-            <div className="relative z-10 max-w-7xl mx-auto px-4 w-full h-full flex flex-col justify-end lg:grid lg:grid-cols-12 lg:items-center gap-8 lg:gap-12 pb-12 lg:pb-0 pt-20 lg:pt-0">
+            <div className="relative z-10 max-w-7xl mx-auto px-4 w-full h-full flex flex-col justify-start lg:grid lg:grid-cols-12 lg:items-center gap-3 lg:gap-12 pb-8 lg:pb-0 pt-25 lg:pt-0">
                 
                 {/* Main Headline (Glassmorphism & Refined) */}
                 <div className="lg:col-span-7 xl:col-span-8 flex flex-col items-center lg:items-start text-center lg:text-left mb-4 lg:mb-0">
                     <div className={`transition-all duration-700 transform w-full ${isAnimating ? 'opacity-0 translate-y-8' : 'opacity-100 translate-y-0'}`}>
                         
                         {/* Glass Card for Content with Dynamic Blurred Background */}
-                        <div className="relative overflow-hidden backdrop-blur-sm bg-white/10 border border-white/20 p-6 sm:p-8 rounded-2xl mb-6 md:mb-10 shadow-2xl">
+                        <div className="relative overflow-hidden backdrop-blur-sm bg-white/10 border border-white/20 p-6 sm:p-8 rounded-2xl mb-0 md:mb-10 shadow-2xl">
                             
                             {/* Dynamic Background Image Layer inside the card */}
                             {sliderBerita.map((item, index) => item && (
