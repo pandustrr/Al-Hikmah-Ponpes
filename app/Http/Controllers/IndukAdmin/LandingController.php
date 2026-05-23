@@ -61,6 +61,38 @@ class LandingController extends Controller
             ]
         );
 
+        LandingSetting::firstOrCreate(
+            ['key' => 'fasilitas_tagline'],
+            [
+                'value' => 'Fasilitas Unggulan',
+                'group' => 'landing'
+            ]
+        );
+
+        LandingSetting::firstOrCreate(
+            ['key' => 'fasilitas_title'],
+            [
+                'value' => 'Mendukung Perkembangan \n Potensi Siswa',
+                'group' => 'landing'
+            ]
+        );
+
+        LandingSetting::firstOrCreate(
+            ['key' => 'fasilitas_desc'],
+            [
+                'value' => '"Fasilitas modern mulai dari laboratorium terpadu, asrama yang nyaman, hingga lapangan olahraga yang luas disediakan untuk memastikan kenyamanan belajar para siswa."',
+                'group' => 'landing'
+            ]
+        );
+
+        LandingSetting::firstOrCreate(
+            ['key' => 'fasilitas_btn_text'],
+            [
+                'value' => 'Jelajahi Fasilitas Selengkapnya',
+                'group' => 'landing'
+            ]
+        );
+
         $settings = LandingSetting::all()->pluck('value', 'key')->map(function ($val) {
             if (is_string($val) && (str_starts_with($val, '[') || str_starts_with($val, '{'))) {
                 $decoded = json_decode($val, true);

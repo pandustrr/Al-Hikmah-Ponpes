@@ -55,7 +55,7 @@ export default function Welcome({ lembagas, heroBerita, beritaTerbaru, bottomNew
             />
             <HomeVideo settings={landingSettings} />
             <Testimonials testimonials={testimonials} />
-            <FasilitasShortcut fasilitasUnggulan={fasilitasUnggulan} />
+            <FasilitasShortcut fasilitasUnggulan={fasilitasUnggulan} settings={landingSettings} />
             <LembagaUpdates lembagas={lembagas} />
             <PpdbCta settings={landingSettings} />
             <BeritaYayasan beritaTerbaru={beritaTerbaru} />

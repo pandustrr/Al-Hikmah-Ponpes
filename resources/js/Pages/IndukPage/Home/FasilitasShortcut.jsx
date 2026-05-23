@@ -15,7 +15,7 @@ const FALLBACK_IMAGES = [
     'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=400',
 ];
 
-export default function FasilitasShortcut({ fasilitasUnggulan = [] }) {
+export default function FasilitasShortcut({ fasilitasUnggulan = [], settings = {} }) {
     // Gunakan data dari DB jika ada, fallback ke data statis jika belum ada data
     const facilities = fasilitasUnggulan.length > 0 ? fasilitasUnggulan : FALLBACK_FASILITAS;
 
@@ -27,13 +27,19 @@ export default function FasilitasShortcut({ fasilitasUnggulan = [] }) {
             <div className="max-w-7xl mx-auto px-4 relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
                     <div className="reveal-element-left">
-                        <h2 className="text-xs font-semibold text-brand-accent uppercase tracking-[0.3em] mb-4">Fasilitas Unggulan</h2>
-                        <h3 className="text-2xl md:text-3xl font-semibold text-brand-primary tracking-tighter uppercase mb-5 leading-tight">Mendukung Perkembangan <br /> Potensi Siswa</h3>
+                        <h2 className="text-xs font-semibold text-brand-accent uppercase tracking-[0.3em] mb-4">
+                            {settings.fasilitas_tagline || 'Fasilitas Unggulan'}
+                        </h2>
+                        <h3 className="text-2xl md:text-3xl font-semibold text-brand-primary tracking-tighter uppercase mb-5 leading-tight whitespace-pre-line">
+                            {settings.fasilitas_title || 'Mendukung Perkembangan \n Potensi Siswa'}
+                        </h3>
                         <p className="text-brand-accent mb-8 leading-relaxed max-w-md text-sm italic">
-                            "Fasilitas modern mulai dari laboratorium terpadu, asrama yang nyaman, hingga lapangan olahraga yang luas disediakan untuk memastikan kenyamanan belajar para siswa."
+                            {settings.fasilitas_desc || '"Fasilitas modern mulai dari laboratorium terpadu, asrama yang nyaman, hingga lapangan olahraga yang luas disediakan untuk memastikan kenyamanan belajar para siswa."'}
                         </p>
                         <div className="mt-8">
-                            <Link href="/fasilitas" className="btn-primary px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] shadow-lg text-center block sm:inline-block w-full sm:w-auto">Jelajahi Fasilitas Selengkapnya</Link>
+                            <Link href="/fasilitas" className="btn-primary px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] shadow-lg text-center block sm:inline-block w-full sm:w-auto">
+                                {settings.fasilitas_btn_text || 'Jelajahi Fasilitas Selengkapnya'}
+                            </Link>
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3 md:gap-4 reveal-element-right">
