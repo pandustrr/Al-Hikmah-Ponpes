@@ -58,7 +58,7 @@ export default function Welcome({ lembagas, heroBerita, beritaTerbaru, bottomNew
             <FasilitasShortcut fasilitasUnggulan={fasilitasUnggulan} settings={landingSettings} />
             <LembagaUpdates lembagas={lembagas} />
             <PpdbCta settings={landingSettings} />
-            <BeritaYayasan beritaTerbaru={beritaTerbaru} />
+            <BeritaYayasan beritaTerbaru={beritaTerbaru} settings={landingSettings} />
             <BeritaKategoriBottom bottomNews={bottomNews} bottomNewsTitle={bottomNewsTitle} bottomNewsSlug={bottomNewsSlug} />
         </PublicLayout>
     );

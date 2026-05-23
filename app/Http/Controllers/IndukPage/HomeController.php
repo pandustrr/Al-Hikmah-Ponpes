@@ -53,12 +53,15 @@ class HomeController extends Controller
         });
         $testimonials = \App\Models\Testimonial::where('is_active', true)->get();
 
-        // Load fasilitas untuk section "Fasilitas Unggulan" (ambil yang punya gambar, max 4)
-        $fasilitasUnggulan = \App\Models\Fasilitas::whereNotNull('image_url')
-            ->whereNotNull('nama')
-            ->with('lembaga')
-            ->take(4)
-            ->get();
+        // Load fasilitas untuk section "Fasilitas Unggulan" (diambil dari pengaturan landing settings)
+        $fasilitasUnggulan = [];
+        for ($i = 1; $i <= 4; $i++) {
+            $fasilitasUnggulan[] = [
+                'id' => $i,
+                'nama' => $landingSettings->get("fasilitas_utama_{$i}_nama", ""),
+                'image_url' => $landingSettings->get("fasilitas_utama_{$i}_img", ""),
+            ];
+        }
 
         // 1. Hero News
         $heroNewsCategoryId = $landingSettings->get('hero_news_category_id', '');
@@ -137,19 +140,26 @@ class HomeController extends Controller
 
         // 4. Bottom Category News
         $bottomNewsCategoryId = $landingSettings->get('bottom_news_category_id', '');
-        $bottomNewsCategory = null;
-        if (!empty($bottomNewsCategoryId)) {
+        
+        if ($bottomNewsCategoryId === 'all') {
+            $bottomNews = \App\Models\Berita::with('category')->latest()->take(4)->get();
+            $bottomNewsTitle = 'Terbaru';
+            $bottomNewsSlug = '';
+        } elseif (!empty($bottomNewsCategoryId) && $bottomNewsCategoryId !== 'none') {
             $bottomNewsCategory = \App\Models\BeritaCategory::find($bottomNewsCategoryId);
-        }
-
-        if ($bottomNewsCategory) {
-            $bottomNews = \App\Models\Berita::with('category')
-                ->where('category_id', $bottomNewsCategoryId)
-                ->latest()
-                ->take(4)
-                ->get();
-            $bottomNewsTitle = $bottomNewsCategory->name;
-            $bottomNewsSlug = $bottomNewsCategory->slug;
+            if ($bottomNewsCategory) {
+                $bottomNews = \App\Models\Berita::with('category')
+                    ->where('category_id', $bottomNewsCategoryId)
+                    ->latest()
+                    ->take(4)
+                    ->get();
+                $bottomNewsTitle = $bottomNewsCategory->name;
+                $bottomNewsSlug = $bottomNewsCategory->slug;
+            } else {
+                $bottomNews = collect([]);
+                $bottomNewsTitle = '';
+                $bottomNewsSlug = '';
+            }
         } else {
             $bottomNews = collect([]);
             $bottomNewsTitle = '';
