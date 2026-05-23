@@ -15,22 +15,31 @@ git pull origin main
 echo "Menginstall dependencies PHP (Production)..."
 composer install --no-dev --optimize-autoloader
 
-# 3. Optimasi Cache Laravel
-echo "Membersihkan dan memperbarui cache konfigurasi & routing..."
+# 3. Install & Build Frontend Assets (React + Vite)
+echo "Menginstall dependencies Node.js & build assets frontend..."
+npm ci
+npm run build
+
+# 4. Bersihkan semua cache lama terlebih dahulu
+echo "Membersihkan cache lama..."
+php artisan optimize:clear
+
+# 5. Optimasi Cache Laravel
+echo "Memperbarui cache konfigurasi & routing..."
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 php artisan event:cache
 
-# 4. Menjalankan Migrasi Database
+# 6. Menjalankan Migrasi Database
 echo "Menjalankan migrasi database..."
 php artisan migrate --force
 
-# 5. Membuat link storage jika belum ada
+# 7. Membuat link storage jika belum ada
 echo "Membuat tautan folder storage..."
 php artisan storage:link || true
 
-# 6. Menonaktifkan mode maintenance
+# 8. Menonaktifkan mode maintenance
 # echo "Menonaktifkan Mode Maintenance (Website kembali Online)..."
 # php artisan up
 

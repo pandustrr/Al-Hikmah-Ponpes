@@ -29,6 +29,18 @@ class Galeri extends Model
 {
     protected $fillable = ['fasilitas_id', 'judul', 'deskripsi', 'image_url'];
 
+    /**
+     * Normalize image_url to relative path.
+     */
+    public function getImageUrlAttribute($value): ?string
+    {
+        if (empty($value)) return null;
+        if (str_starts_with($value, '/')) return $value;
+        $parsed = parse_url($value);
+        return ($parsed['path'] ?? '/') .
+               (isset($parsed['query']) ? '?' . $parsed['query'] : '');
+    }
+
     public function fasilitas()
     {
         return $this->belongsTo(Fasilitas::class);

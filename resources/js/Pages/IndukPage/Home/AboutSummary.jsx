@@ -3,6 +3,8 @@ import { Link } from '@inertiajs/react';
 import { ArrowLongRightIcon } from '@heroicons/react/24/outline';
 
 export default function AboutSummary({ lembagas = [], settings = {}, announcements = [], announcementTitle = 'Pengumuman', announcementSlug = 'pengumuman', articles = [], articleTitle = 'Artikel & Wawasan', articleSlug = 'artikel' }) {
+    // Gambar profil: dari admin setting 'about_image', fallback ke Unsplash
+    const aboutImage = settings.about_image || 'https://images.unsplash.com/photo-1564981797816-1043664bf78d?auto=format&fit=crop&q=80&w=600';
 
     return (
         <section className="pt-16 pb-24 bg-brand-light relative z-20">
@@ -16,7 +18,7 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                             <div className="lg:col-span-4 relative">
                                 <div className="aspect-[3/4] bg-brand-secondary rounded-[0.25rem] overflow-hidden shadow-xl max-w-xs mx-auto lg:max-w-none">
                                     <img
-                                        src="https://images.unsplash.com/photo-1564981797816-1043664bf78d?auto=format&fit=crop&q=80&w=600"
+                                        src={aboutImage}
                                         alt="YPDS Al-Hikmah"
                                         className="w-full h-full object-cover"
                                         onError={(e) => { e.target.onerror = null; e.target.src = "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=600"; }}

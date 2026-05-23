@@ -88,6 +88,43 @@ class Lembaga extends Model
         'sidebar_categories' => 'array',
     ];
 
+    /**
+     * Normalize image URL to always be root-relative (no domain prefix).
+     */
+    private function normalizeImageUrl(?string $value): ?string
+    {
+        if (empty($value)) return null;
+        if (str_starts_with($value, '/')) return $value;
+        $parsed = parse_url($value);
+        return ($parsed['path'] ?? '/') .
+               (isset($parsed['query']) ? '?' . $parsed['query'] : '');
+    }
+
+    public function getImageUrlAttribute($value): ?string
+    {
+        return $this->normalizeImageUrl($value);
+    }
+
+    public function getImageMobileUrlAttribute($value): ?string
+    {
+        return $this->normalizeImageUrl($value);
+    }
+
+    public function getIkonUrlAttribute($value): ?string
+    {
+        return $this->normalizeImageUrl($value);
+    }
+
+    public function getProfilImageUrlAttribute($value): ?string
+    {
+        return $this->normalizeImageUrl($value);
+    }
+
+    public function getProfilImageMobileUrlAttribute($value): ?string
+    {
+        return $this->normalizeImageUrl($value);
+    }
+
     public function prestasis()
     {
         return $this->hasMany(Prestasi::class);

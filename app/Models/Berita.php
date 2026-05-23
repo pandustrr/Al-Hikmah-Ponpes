@@ -62,6 +62,31 @@ class Berita extends Model
         'category_id'
     ];
 
+    /**
+     * Normalize image_url: strip any domain prefix so we always return a root-relative path.
+     * This prevents ERR_NAME_NOT_RESOLVED when images were uploaded locally (APP_URL=http://localhost)
+     * but are served from a different production domain.
+     */
+    public function getImageUrlAttribute($value): ?string
+    {
+        if (empty($value)) return null;
+        // If it's already a relative path, return as-is
+        if (str_starts_with($value, '/')) return $value;
+        // If it's an absolute URL (http/https), extract the path portion only
+        $parsed = parse_url($value);
+        return ($parsed['path'] ?? '/') .
+               (isset($parsed['query']) ? '?' . $parsed['query'] : '');
+    }
+
+    public function getImageMobileUrlAttribute($value): ?string
+    {
+        if (empty($value)) return null;
+        if (str_starts_with($value, '/')) return $value;
+        $parsed = parse_url($value);
+        return ($parsed['path'] ?? '/') .
+               (isset($parsed['query']) ? '?' . $parsed['query'] : '');
+    }
+
     public function category()
     {
         return $this->belongsTo(BeritaCategory::class, 'category_id');

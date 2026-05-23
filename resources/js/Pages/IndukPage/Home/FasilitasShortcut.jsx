@@ -1,13 +1,23 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
 
-export default function FasilitasShortcut() {
-    const facilities = [
-        { name: 'Asrama Putra & Putri', img: 'https://images.unsplash.com/photo-1555854817-40e09807a11d?auto=format&fit=crop&q=80&w=400' },
-        { name: 'Laboratorium IT', img: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=80&w=400' },
-        { name: 'Perpustakaan Digital', img: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&q=80&w=400' },
-        { name: 'Pusat Olahraga', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=400' },
-    ];
+const FALLBACK_FASILITAS = [
+    { nama: 'Asrama Putra & Putri', image_url: null },
+    { nama: 'Laboratorium IT', image_url: null },
+    { nama: 'Perpustakaan Digital', image_url: null },
+    { nama: 'Pusat Olahraga', image_url: null },
+];
+
+const FALLBACK_IMAGES = [
+    'https://images.unsplash.com/photo-1555854817-40e09807a11d?auto=format&fit=crop&q=80&w=400',
+    'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=80&w=400',
+    'https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&q=80&w=400',
+    'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=400',
+];
+
+export default function FasilitasShortcut({ fasilitasUnggulan = [] }) {
+    // Gunakan data dari DB jika ada, fallback ke data statis jika belum ada data
+    const facilities = fasilitasUnggulan.length > 0 ? fasilitasUnggulan : FALLBACK_FASILITAS;
 
     return (
         <section className="py-16 md:py-20 bg-brand-secondary relative overflow-hidden reveal-section border-y border-brand-accent/10">
@@ -25,16 +35,16 @@ export default function FasilitasShortcut() {
                         <Link href="/fasilitas" className="btn-primary px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] shadow-lg">Jelajahi Fasilitas Selengkapnya</Link>
                     </div>
                     <div className="grid grid-cols-2 gap-4 reveal-element-right">
-                        {facilities.map((f, i) => (
-                            <div key={i} className="group relative aspect-[4/3] overflow-hidden rounded-[0.25rem] border border-brand-accent/10 shadow-sm">
+                        {facilities.slice(0, 4).map((f, i) => (
+                            <div key={f.id || i} className="group relative aspect-[4/3] overflow-hidden rounded-[0.25rem] border border-brand-accent/10 shadow-sm">
                                 <img 
-                                    src={f.img} 
-                                    alt={f.name} 
+                                    src={f.image_url || FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]} 
+                                    alt={f.nama} 
                                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 opacity-80" 
-                                    onError={(e) => { e.target.onerror = null; e.target.src = "https://images.unsplash.com/photo-1555854817-40e09807a11d?auto=format&fit=crop&q=80&w=400"; }}
+                                    onError={(e) => { e.target.onerror = null; e.target.src = FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]; }}
                                 />
                                 <div className="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-brand-primary/80 to-transparent">
-                                    <span className="text-[10px] font-semibold text-white uppercase tracking-widest">{f.name}</span>
+                                    <span className="text-[10px] font-semibold text-white uppercase tracking-widest">{f.nama}</span>
                                 </div>
                             </div>
                         ))}
@@ -44,5 +54,3 @@ export default function FasilitasShortcut() {
         </section>
     );
 }
-
-
