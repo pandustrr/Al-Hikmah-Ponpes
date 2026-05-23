@@ -74,10 +74,10 @@ export default function Show({ berita, recentBerita = [], settings = {} }) {
                 </script>
             </Head>
 
-            {/* News Top Bar (Tempo Style) */}
-            <div className="bg-brand-primary text-white py-1.5 border-b border-white/10 hidden md:block">
-                <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-[10px] font-semibold uppercase tracking-widest">
-                    <div className="flex items-center gap-4">
+            {/* News Top Bar (Tempo Style) - Diaktifkan di mobile secara responsif */}
+            <div className="bg-brand-primary text-white py-2 border-b border-white/10">
+                <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 text-[9px] md:text-[10px] font-semibold uppercase tracking-widest text-center sm:text-left">
+                    <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 sm:gap-4">
                         <span>{new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
                         <span className="text-white/30">|</span>
                         <span className="text-brand-secondary animate-pulse flex items-center gap-1">
@@ -85,7 +85,7 @@ export default function Show({ berita, recentBerita = [], settings = {} }) {
                             Live Update
                         </span>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
                         <a href={settings.social_facebook || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Facebook</a>
                         <a href={settings.social_instagram || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Instagram</a>
                         <a href={settings.social_twitter || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Twitter</a>

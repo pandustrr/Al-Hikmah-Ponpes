@@ -28,14 +28,6 @@ class BeritaController extends Controller
             });
         }
 
-        if ($request->has('q')) {
-            $search = $request->q;
-            $query->where(function($q) use ($search) {
-                $q->where('judul', 'like', "%{$search}%")
-                  ->orWhere('konten', 'like', "%{$search}%");
-            });
-        }
-
         $settings = \App\Models\SiteSetting::all()->pluck('value', 'key');
         
         return Inertia::render('IndukPage/Berita/Index', [

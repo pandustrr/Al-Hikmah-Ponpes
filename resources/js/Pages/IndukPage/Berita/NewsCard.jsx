@@ -32,7 +32,7 @@ export default function NewsCard({ berita, variant = 'vertical', className = '',
                 onClick={() => setIsModalOpen(false)}
             >
                 <div 
-                    className="bg-white rounded-[0.5rem] shadow-2xl overflow-hidden w-full max-w-2xl h-auto md:h-[420px] flex flex-col md:flex-row relative transform transition-all duration-300 scale-100 animate-scale-up border border-slate-100"
+                    className="bg-white rounded-[0.5rem] shadow-2xl overflow-hidden w-full max-w-2xl h-auto max-h-[90vh] md:h-[420px] flex flex-col md:flex-row relative transform transition-all duration-300 scale-100 animate-scale-up border border-slate-100"
                     onClick={(e) => e.stopPropagation()}
                 >
                     {/* Close button */}
