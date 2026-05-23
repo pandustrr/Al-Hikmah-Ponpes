@@ -15,6 +15,10 @@ createInertiaApp({
             import.meta.glob('./Pages/**/*.jsx'),
         ),
     setup({ el, App, props }) {
+        if (!el) {
+            console.warn("Target container '#app' not found in DOM.");
+            return;
+        }
         const root = createRoot(el);
 
         root.render(<App {...props} />);

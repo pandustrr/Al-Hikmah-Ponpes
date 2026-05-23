@@ -57,7 +57,19 @@ class LembagaController extends Controller
             'sidebar_berita_id' => 'nullable|exists:beritas,id',
             'sidebar_categories' => 'nullable|array',
             'sidebar_categories.*' => 'exists:berita_categories,id',
+            'youtube_video_badge' => 'nullable|string|max:255',
+            'youtube_video_title' => 'nullable|string|max:255',
+            'youtube_video_desc' => 'nullable|string',
+            'youtube_video_urls' => 'nullable|string',
         ]);
+
+        if ($request->has('youtube_video_urls')) {
+            $urls = $request->input('youtube_video_urls');
+            if (is_string($urls)) {
+                $decoded = json_decode($urls, true);
+                $validated['youtube_video_urls'] = is_array($decoded) ? $decoded : [];
+            }
+        }
 
         $validated['slug'] = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['nama']);
         
@@ -132,7 +144,19 @@ class LembagaController extends Controller
             'sidebar_berita_id' => 'nullable|exists:beritas,id',
             'sidebar_categories' => 'nullable|array',
             'sidebar_categories.*' => 'exists:berita_categories,id',
+            'youtube_video_badge' => 'nullable|string|max:255',
+            'youtube_video_title' => 'nullable|string|max:255',
+            'youtube_video_desc' => 'nullable|string',
+            'youtube_video_urls' => 'nullable|string',
         ]);
+
+        if ($request->has('youtube_video_urls')) {
+            $urls = $request->input('youtube_video_urls');
+            if (is_string($urls)) {
+                $decoded = json_decode($urls, true);
+                $validated['youtube_video_urls'] = is_array($decoded) ? $decoded : [];
+            }
+        }
 
         // Keep existing URLs if not explicitly provided or if no new files are uploaded
         if (!$request->has('image_url') && !$request->hasFile('image')) {

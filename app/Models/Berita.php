@@ -72,8 +72,17 @@ class Berita extends Model
         if (empty($value)) return null;
         // If it's already a relative path, return as-is
         if (str_starts_with($value, '/')) return $value;
-        // If it's an absolute URL (http/https), extract the path portion only
+        
         $parsed = parse_url($value);
+        $host = $parsed['host'] ?? '';
+        $localHosts = ['localhost', '127.0.0.1'];
+        if (function_exists('request') && request()) {
+            $localHosts[] = request()->getHost();
+        }
+        if ($host && !in_array($host, $localHosts)) {
+            return $value;
+        }
+        
         return ($parsed['path'] ?? '/') .
                (isset($parsed['query']) ? '?' . $parsed['query'] : '');
     }
@@ -82,7 +91,17 @@ class Berita extends Model
     {
         if (empty($value)) return null;
         if (str_starts_with($value, '/')) return $value;
+        
         $parsed = parse_url($value);
+        $host = $parsed['host'] ?? '';
+        $localHosts = ['localhost', '127.0.0.1'];
+        if (function_exists('request') && request()) {
+            $localHosts[] = request()->getHost();
+        }
+        if ($host && !in_array($host, $localHosts)) {
+            return $value;
+        }
+        
         return ($parsed['path'] ?? '/') .
                (isset($parsed['query']) ? '?' . $parsed['query'] : '');
     }
