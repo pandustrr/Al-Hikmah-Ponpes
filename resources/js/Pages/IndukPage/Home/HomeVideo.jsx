@@ -39,6 +39,8 @@ export default function HomeVideo({ settings = {} }) {
     // Parsing data video secara robust (tangguh terhadap JSON escape ganda dan HTML entities)
     const robustParseUrls = (raw) => {
         if (!raw) return [];
+        if (Array.isArray(raw)) return raw;
+        if (typeof raw !== 'string') return [];
         let trimmed = raw.trim();
         
         // Decode HTML entities & unescape backslashes

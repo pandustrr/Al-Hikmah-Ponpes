@@ -38,14 +38,15 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                                     {settings.about_description || 'Berdiri di jantung Ambulu, Jember, lembaga kami telah menjadi rumah bagi ribuan siswa yang menyeimbangkan kurikulum modern dengan karakter Islami.'}
                                 </p>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div className="bg-brand-secondary p-5 border border-brand-accent/10 rounded-[0.25rem]">
-                                        <h4 className="font-semibold text-brand-primary text-[10px] uppercase tracking-widest mb-1">Metode Pendidikan</h4>
-                                        <p className="text-[11px] text-brand-accent leading-relaxed">{settings.about_method_desc || 'Holistik — mengintegrasikan sains, teknologi, dan ilmu agama.'}</p>
-                                    </div>
-                                    <div className="bg-brand-secondary p-5 border border-brand-accent/10 rounded-[0.25rem]">
-                                        <h4 className="font-semibold text-brand-primary text-[10px] uppercase tracking-widest mb-1">Lingkungan Siswa</h4>
-                                        <p className="text-[11px] text-brand-accent leading-relaxed">{settings.about_env_desc || 'Asrama nyaman dengan pembiasaan adab harian yang terstruktur.'}</p>
-                                    </div>
+                                    {(Array.isArray(settings.about_features) ? settings.about_features : [
+                                        { title: 'Metode Pendidikan', desc: settings.about_method_desc || 'Holistik — mengintegrasikan sains, teknologi, dan ilmu agama.' },
+                                        { title: 'Lingkungan Siswa', desc: settings.about_env_desc || 'Asrama nyaman dengan pembiasaan adab harian yang terstruktur.' }
+                                    ]).map((feature, i) => (
+                                        <div key={i} className="bg-brand-secondary p-5 border border-brand-accent/10 rounded-[0.25rem]">
+                                            <h4 className="font-semibold text-brand-primary text-[10px] uppercase tracking-widest mb-1">{feature.title}</h4>
+                                            <p className="text-[11px] text-brand-accent leading-relaxed">{feature.desc}</p>
+                                        </div>
+                                    ))}
                                 </div>
                                 {/* Stats */}
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-brand-accent/20 pt-6">
@@ -71,8 +72,8 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                         {/* 2. Lembaga Education Sub-Section */}
                         <div className="space-y-12">
                             <div className="text-center lg:text-left">
-                                <h2 className="text-xs font-semibold text-brand-accent uppercase tracking-[0.3em] mb-3">Program Unggulan</h2>
-                                <h3 className="text-3xl font-semibold text-brand-primary tracking-tighter uppercase mb-5">Lembaga Pendidikan</h3>
+                                <h2 className="text-xs font-semibold text-brand-accent uppercase tracking-[0.3em] mb-3">{settings.about_lembaga_tagline || 'Program Unggulan'}</h2>
+                                <h3 className="text-3xl font-semibold text-brand-primary tracking-tighter uppercase mb-5">{settings.about_lembaga_title || 'Lembaga Pendidikan'}</h3>
                                 <div className="h-1 w-20 bg-brand-primary lg:mx-0 mx-auto"></div>
                             </div>
                             <div className="grid grid-cols-2 gap-3 md:gap-6">

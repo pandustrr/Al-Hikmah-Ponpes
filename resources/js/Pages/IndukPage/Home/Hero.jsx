@@ -48,17 +48,20 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
         <section className="relative h-[85vh] min-h-[650px] flex items-center overflow-hidden bg-brand-primary">
             {/* Static Background Image Layer */}
             <div className="absolute inset-0">
-                <picture>
-                    {settings.hero_bg_mobile && (
-                        <source media="(max-w: 640px)" srcSet={settings.hero_bg_mobile} />
-                    )}
-                    <img
-                        src={settings.hero_bg || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1600'}
-                        alt="Hero Background"
-                        className="w-full h-full object-cover object-center scale-105"
-                        style={{ transform: `translateY(${offsetY * 0.15}px)` }}
-                    />
-                </picture>
+                {/* Desktop Background */}
+                <img
+                    src={settings.hero_bg || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1600'}
+                    alt="Hero Background Desktop"
+                    className="hidden md:block w-full h-full object-cover object-center scale-105"
+                    style={{ transform: `translateY(${offsetY * 0.15}px)` }}
+                />
+                {/* Mobile Background */}
+                <img
+                    src={settings.hero_bg_mobile || settings.hero_bg || 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1600'}
+                    alt="Hero Background Mobile"
+                    className="block md:hidden w-full h-full object-cover object-center scale-105"
+                    style={{ transform: `translateY(${offsetY * 0.15}px)` }}
+                />
             </div>
             
             {/* Sophisticated Overlay for the main background */}

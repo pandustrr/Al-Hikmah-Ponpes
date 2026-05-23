@@ -13,7 +13,7 @@ import {
 } from '@heroicons/react/24/outline';
 import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
-export default function Index({ settings, testimonials, beritaList = [], categories = [] }) {
+export default function Index({ settings, testimonials, beritaList = [], categories = [], lembagas = [] }) {
     const [activeTab, setActiveTab] = useState('settings');
     const [heroBgPreview, setHeroBgPreview] = useState(settings.hero_bg || null);
     const [heroBgMobilePreview, setHeroBgMobilePreview] = useState(settings.hero_bg_mobile || null);
@@ -23,13 +23,27 @@ export default function Index({ settings, testimonials, beritaList = [], categor
         hero_bg: null,
         hero_bg_mobile: null,
         hero_subtitle: settings.hero_subtitle || '',
+        hero_news_category_id: settings.hero_news_category_id || '',
+        sticky_announcement_category_id: settings.sticky_announcement_category_id || '',
+        sticky_article_category_id: settings.sticky_article_category_id || '',
         about_title_small: settings.about_title_small || '',
         about_title_large: settings.about_title_large || '',
         about_description_short: settings.about_description_short || '',
         about_description: settings.about_description || '',
+        about_lembaga_tagline: settings.about_lembaga_tagline || 'Program Unggulan',
+        about_lembaga_title: settings.about_lembaga_title || 'Lembaga Pendidikan',
+        active_lembaga_ids: settings.active_lembaga_ids && Array.isArray(settings.active_lembaga_ids)
+            ? settings.active_lembaga_ids
+            : lembagas.map(l => l.id),
         about_image: null,
         about_method_desc: settings.about_method_desc || '',
         about_env_desc: settings.about_env_desc || '',
+        about_features: settings.about_features && settings.about_features.length > 0
+            ? settings.about_features
+            : [
+                { title: 'Metode Pendidikan', desc: settings.about_method_desc || 'Holistik — mengintegrasikan sains, teknologi, dan ilmu agama.' },
+                { title: 'Lingkungan Siswa', desc: settings.about_env_desc || 'Asrama nyaman dengan pembiasaan adab harian yang terstruktur.' }
+            ],
         about_stat_1_val: settings.about_stat_1_val || '',
         about_stat_1_lbl: settings.about_stat_1_lbl || '',
         about_stat_2_val: settings.about_stat_2_val || '',
@@ -42,17 +56,22 @@ export default function Index({ settings, testimonials, beritaList = [], categor
         ppdb_wave_1: settings.ppdb_wave_1 || '',
         ppdb_wave_2: settings.ppdb_wave_2 || '',
         ppdb_requirements: settings.ppdb_requirements || '',
-        youtube_video_badge: settings.youtube_video_badge || '',
-        youtube_video_title: settings.youtube_video_title || '',
-        youtube_video_desc: settings.youtube_video_desc || '',
-        youtube_video_urls: settings.youtube_video_urls && settings.youtube_video_urls.trim().startsWith('[') 
-            ? settings.youtube_video_urls 
-            : JSON.stringify(settings.youtube_video_urls ? settings.youtube_video_urls.split('\n').map(u => u.trim()).filter(Boolean) : []),
+        youtube_video_badge: settings.youtube_video_badge || 'Galeri Video Resmi',
+        youtube_video_title: settings.youtube_video_title || 'Dokumentasi & Video Profil YPDS Al-Hikmah',
+        youtube_video_desc: settings.youtube_video_desc || 'Simak video profil resmi serta dokumentasi kegiatan kami untuk melihat lingkungan belajar dan pembiasaan nilai adab santri.',
+        youtube_video_urls: Array.isArray(settings.youtube_video_urls)
+            ? JSON.stringify(settings.youtube_video_urls)
+            : (typeof settings.youtube_video_urls === 'string' && settings.youtube_video_urls.trim().startsWith('['))
+                ? settings.youtube_video_urls
+                : JSON.stringify(settings.youtube_video_urls ? settings.youtube_video_urls.split('\n').map(u => u.trim()).filter(Boolean) : []),
     });
 
     const [videoList, setVideoList] = useState(() => {
         try {
-            if (settings.youtube_video_urls) {
+            if (Array.isArray(settings.youtube_video_urls)) {
+                return settings.youtube_video_urls;
+            }
+            if (typeof settings.youtube_video_urls === 'string') {
                 const trimmed = settings.youtube_video_urls.trim();
                 if (trimmed.startsWith('[')) {
                     return JSON.parse(trimmed);
@@ -86,9 +105,6 @@ export default function Index({ settings, testimonials, beritaList = [], categor
     };
 
     const { data: newsData, setData: setNewsData, post: postNews, processing: newsProcessing } = useForm({
-        hero_news_category_id: settings.hero_news_category_id || '',
-        sticky_announcement_category_id: settings.sticky_announcement_category_id || '',
-        sticky_article_category_id: settings.sticky_article_category_id || '',
         bottom_news_category_id: settings.bottom_news_category_id || '',
     });
 
@@ -248,11 +264,61 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                         placeholder="Pusat Pendidikan & Dakwah Sosial"
                                     />
                                 </div>
+
+                                <div className="space-y-2 max-w-md pt-2">
+                                    <label className="block text-[10px] font-bold text-slate-600 uppercase tracking-widest">
+                                        Kategori Slide Berita Utama (Hero Slider)
+                                    </label>
+                                    <p className="text-xs text-slate-400">
+                                        Pilih kategori berita yang ingin ditampilkan secara otomatis pada slider utama (Hero) di beranda.
+                                    </p>
+                                    <select
+                                        value={data.hero_news_category_id}
+                                        onChange={e => setData('hero_news_category_id', e.target.value)}
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] px-4 py-3 text-sm outline-none focus:ring-1 focus:ring-brand-primary"
+                                    >
+                                        <option value="">Semua Kategori (Terbaru)</option>
+                                        {categories.map(c => (
+                                            <option key={c.id} value={c.id}>{c.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
 
                             {/* About Section */}
                             <div className="space-y-6 pt-6 border-t border-slate-100">
                                 <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Bagian Tentang Kami</h3>
+                                
+                                {/* About Image Upload (3:4) */}
+                                <div className="space-y-3 bg-slate-50/50 p-4 rounded-[0.25rem] border border-slate-200 max-w-md">
+                                    <label className="block text-[10px] font-bold text-slate-600 uppercase tracking-widest mb-2">Foto Profil "Mengenal Lebih Dekat" (3:4)</label>
+                                    <div className="relative aspect-[3/4] w-full max-w-[140px] bg-slate-50 rounded-[0.25rem] overflow-hidden border border-slate-200 group flex items-center justify-center shadow-sm">
+                                        {aboutImagePreview ? (
+                                            <img src={aboutImagePreview} className="w-full h-full object-cover" alt="Preview About Image" />
+                                        ) : (
+                                            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-350 bg-slate-100/50">
+                                                <PhotoIcon className="h-8 w-8 mb-1" />
+                                                <span className="text-[8px] font-bold uppercase tracking-widest text-center px-2">Pilih Foto</span>
+                                            </div>
+                                        )}
+                                        <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
+                                            <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
+                                        </div>
+                                        <ImageInputWithCrop 
+                                            className="absolute inset-0 z-20"
+                                            aspectRatio={3/4}
+                                            title="Potong Foto Profil (3:4)"
+                                            onChange={(file) => {
+                                                setData('about_image', file);
+                                                if (file) setAboutImagePreview(URL.createObjectURL(file));
+                                            }}
+                                        />
+                                    </div>
+                                    <p className="text-[9px] text-slate-450 italic">
+                                        Rasio ideal 3:4. Foto ini akan tampil di samping teks deskripsi "Tentang Kami".
+                                    </p>
+                                </div>
+
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Title Kecil</label>
@@ -292,26 +358,108 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                     ></textarea>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {/* Sidebar News Categories Configuration */}
+                                <div className="space-y-4 pt-4 border-t border-slate-100/70">
                                     <div>
-                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Pendidikan (Holistik/Metode)</label>
-                                        <textarea 
-                                            rows="2"
-                                            value={data.about_method_desc} 
-                                            onChange={e => setData('about_method_desc', e.target.value)}
-                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
-                                            placeholder="Contoh: Holistik — mengintegrasikan sains, teknologi, dan ilmu agama."
-                                        ></textarea>
+                                        <label className="block text-[10px] font-bold text-slate-650 uppercase tracking-widest">
+                                            Pengaturan Kategori Berita Sidebar (Tentang Kami)
+                                        </label>
+                                        <p className="text-xs text-slate-400 mt-1">
+                                            Pilih kategori berita untuk kedua widget berita yang tampil di sidebar samping section Tentang Kami di halaman beranda.
+                                        </p>
                                     </div>
-                                    <div>
-                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Lingkungan Siswa (Asrama/Adab)</label>
-                                        <textarea 
-                                            rows="2"
-                                            value={data.about_env_desc} 
-                                            onChange={e => setData('about_env_desc', e.target.value)}
-                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
-                                            placeholder="Contoh: Asrama nyaman dengan pembiasaan adab harian yang terstruktur."
-                                        ></textarea>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Widget 1: Kategori Sticky 1 (Sidebar)</label>
+                                            <select
+                                                value={data.sticky_announcement_category_id}
+                                                onChange={e => setData('sticky_announcement_category_id', e.target.value)}
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] px-4 py-3 text-sm outline-none focus:ring-1 focus:ring-brand-primary"
+                                            >
+                                                <option value="">Pilih Kategori...</option>
+                                                {categories.map(c => (
+                                                    <option key={c.id} value={c.id}>{c.name}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Widget 2: Kategori Sticky 2 (Sidebar)</label>
+                                            <select
+                                                value={data.sticky_article_category_id}
+                                                onChange={e => setData('sticky_article_category_id', e.target.value)}
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] px-4 py-3 text-sm outline-none focus:ring-1 focus:ring-brand-primary"
+                                            >
+                                                <option value="">Pilih Kategori...</option>
+                                                {categories.map(c => (
+                                                    <option key={c.id} value={c.id}>{c.name}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Cards CRUD for About Section */}
+                                <div className="space-y-4 pt-4 border-t border-slate-100/70">
+                                    <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-brand-primary">Kartu Fitur Tentang Kami (Metode Pendidikan, dll.)</label>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                setData('about_features', [...data.about_features, { title: '', desc: '' }]);
+                                            }}
+                                            className="inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-brand-primary bg-brand-primary/5 hover:bg-brand-primary hover:text-white border border-brand-primary/15 py-2 px-3 rounded-[0.25rem] transition-all"
+                                        >
+                                            <PlusIcon className="w-3.5 h-3.5" /> Tambah Kartu
+                                        </button>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {data.about_features.map((card, index) => (
+                                            <div key={index} className="flex items-start gap-3 bg-slate-50/50 p-4 rounded-[0.25rem] border border-slate-200 group hover:border-slate-300 transition-all relative">
+                                                <div className="flex-1 space-y-3">
+                                                    <div className="space-y-1.5">
+                                                        <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-widest">Judul Kartu</label>
+                                                        <input
+                                                            type="text"
+                                                            value={card.title}
+                                                            onChange={e => {
+                                                                const newCards = [...data.about_features];
+                                                                newCards[index].title = e.target.value;
+                                                                setData('about_features', newCards);
+                                                            }}
+                                                            className="w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-[0.25rem] py-2.5 px-3.5 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary/20 outline-none font-semibold"
+                                                            placeholder="Metode Pendidikan"
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-1.5">
+                                                        <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-widest">Deskripsi Kartu</label>
+                                                        <textarea
+                                                            rows={2}
+                                                            value={card.desc}
+                                                            onChange={e => {
+                                                                const newCards = [...data.about_features];
+                                                                newCards[index].desc = e.target.value;
+                                                                setData('about_features', newCards);
+                                                            }}
+                                                            className="w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-[0.25rem] py-2.5 px-3.5 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary/20 outline-none font-medium leading-relaxed"
+                                                            placeholder="Pendekatan holistik yang mengintegrasikan..."
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        if (confirm('Apakah Anda yakin ingin menghapus kartu ini?')) {
+                                                            const newCards = data.about_features.filter((_, i) => i !== index);
+                                                            setData('about_features', newCards);
+                                                        }
+                                                    }}
+                                                    className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors mt-1 shrink-0"
+                                                    title="Hapus Kartu"
+                                                >
+                                                    <TrashIcon className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
 
@@ -346,35 +494,84 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                     </div>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {/* About Image Upload (3:4) */}
-                                <div className="space-y-3">
-                                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Foto Profil "Mengenal Lebih Dekat" (3:4)</label>
-                                    <div className="relative aspect-[3/4] w-full max-w-[160px] bg-slate-50 rounded-[0.25rem] overflow-hidden border border-slate-200 group flex items-center justify-center shadow-sm">
-                                        {aboutImagePreview ? (
-                                            <img src={aboutImagePreview} className="w-full h-full object-cover" alt="Preview About Image" />
-                                        ) : (
-                                            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-350 bg-slate-100/50">
-                                                <PhotoIcon className="h-8 w-8 mb-1" />
-                                                <span className="text-[8px] font-bold uppercase tracking-widest text-center px-2">Pilih Foto</span>
-                                            </div>
-                                        )}
-                                        <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
-                                            <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
-                                        </div>
-                                        <ImageInputWithCrop 
-                                            className="absolute inset-0 z-20"
-                                            aspectRatio={3/4}
-                                            title="Potong Foto Profil (3:4)"
-                                            onChange={(file) => {
-                                                setData('about_image', file);
-                                                if (file) setAboutImagePreview(URL.createObjectURL(file));
-                                            }}
+
+
+                            {/* Program Unggulan Section */}
+                            <div className="space-y-6 pt-6 border-t border-slate-100">
+                                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Bagian Program Unggulan (Beranda)</h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Tagline Section</label>
+                                        <input 
+                                            type="text" 
+                                            value={data.about_lembaga_tagline} 
+                                            onChange={e => setData('about_lembaga_tagline', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                            placeholder="Program Unggulan"
                                         />
                                     </div>
-                                    <p className="text-[9px] text-slate-400 italic">
-                                        Rasio ideal 3:4. Foto yang tampil di section "Mengenal Lebih Dekat" beranda.
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Judul Section</label>
+                                        <input 
+                                            type="text" 
+                                            value={data.about_lembaga_title} 
+                                            onChange={e => setData('about_lembaga_title', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                            placeholder="Lembaga Pendidikan"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Lembaga Cards Monitor & Toggle */}
+                                <div className="space-y-3 pt-2">
+                                    <label className="block text-[10px] font-bold text-slate-600 uppercase tracking-widest">
+                                        Monitoring & Status Tampilan Kartu Lembaga di Beranda
+                                    </label>
+                                    <p className="text-xs text-slate-400">
+                                        Aktifkan lembaga di bawah ini untuk menampilkan kartu profilnya pada section Program Unggulan di halaman beranda. Lembaga yang dinonaktifkan akan masuk ke draft (disembunyikan dari beranda).
                                     </p>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-2">
+                                        {lembagas.map(lembaga => {
+                                            const isActive = data.active_lembaga_ids.includes(lembaga.id);
+                                            return (
+                                                <div 
+                                                    key={lembaga.id} 
+                                                    className={`p-4 border rounded-[0.25rem] flex items-center justify-between transition-all ${
+                                                        isActive 
+                                                            ? 'bg-emerald-50/40 border-emerald-200 shadow-sm' 
+                                                            : 'bg-slate-50 border-slate-200 opacity-75'
+                                                    }`}
+                                                >
+                                                    <div className="space-y-1 pr-3">
+                                                        <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wide leading-tight">
+                                                            {lembaga.nama}
+                                                        </h4>
+                                                        <p className="text-[10px] text-slate-400 uppercase tracking-wider">
+                                                            Pendidikan Formal
+                                                        </p>
+                                                    </div>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            const newActiveIds = isActive
+                                                                ? data.active_lembaga_ids.filter(id => id !== lembaga.id)
+                                                                : [...data.active_lembaga_ids, lembaga.id];
+                                                            setData('active_lembaga_ids', newActiveIds);
+                                                        }}
+                                                        className={`relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                                                            isActive ? 'bg-emerald-600' : 'bg-slate-200'
+                                                        }`}
+                                                    >
+                                                        <span
+                                                            className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                                                                isActive ? 'translate-x-5' : 'translate-x-0'
+                                                            }`}
+                                                        />
+                                                    </button>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
                                 </div>
                             </div>
 
@@ -548,74 +745,14 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                 </button>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                                {/* Section 1: Hero News Category */}
+                            <div className="max-w-md">
+                                {/* Section: Bottom News Category */}
                                 <div className="bg-slate-50 p-6 rounded-[0.25rem] border border-slate-100 space-y-4">
                                     <div>
                                         <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                                            1. Kategori Hero Slider
+                                            Kategori Berita Beranda Bawah
                                         </h4>
-                                        <p className="text-[11px] text-slate-400 mt-1">Daftar slide berita utama akan diisi otomatis dari berita terbaru dengan kategori yang dipilih.</p>
-                                    </div>
-                                    <select
-                                        value={newsData.hero_news_category_id}
-                                        onChange={e => setNewsData('hero_news_category_id', e.target.value)}
-                                        className="w-full bg-white border border-slate-200 rounded-[0.25rem] px-3 py-2 text-xs outline-none focus:ring-1 focus:ring-brand-primary"
-                                    >
-                                        <option value="">Semua Kategori (Terbaru)</option>
-                                        {categories.map(c => (
-                                            <option key={c.id} value={c.id}>{c.name}</option>
-                                        ))}
-                                    </select>
-                                </div>
-
-                                {/* Section 2: Sticky 1 Category */}
-                                <div className="bg-slate-50 p-6 rounded-[0.25rem] border border-slate-100 space-y-4">
-                                    <div>
-                                        <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                                            2. Kategori Sticky 1 (Sidebar)
-                                        </h4>
-                                        <p className="text-[11px] text-slate-400 mt-1">Menampilkan berita terbaru dari kategori ini pada widget pertama di sidebar kanan (default: Pengumuman).</p>
-                                    </div>
-                                    <select
-                                        value={newsData.sticky_announcement_category_id}
-                                        onChange={e => setNewsData('sticky_announcement_category_id', e.target.value)}
-                                        className="w-full bg-white border border-slate-200 rounded-[0.25rem] px-3 py-2 text-xs outline-none focus:ring-1 focus:ring-brand-primary"
-                                    >
-                                        <option value="">Pilih Kategori...</option>
-                                        {categories.map(c => (
-                                            <option key={c.id} value={c.id}>{c.name}</option>
-                                        ))}
-                                    </select>
-                                </div>
-
-                                {/* Section 3: Sticky 2 Category */}
-                                <div className="bg-slate-50 p-6 rounded-[0.25rem] border border-slate-100 space-y-4">
-                                    <div>
-                                        <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                                            3. Kategori Sticky 2 (Sidebar)
-                                        </h4>
-                                        <p className="text-[11px] text-slate-400 mt-1">Menampilkan berita terbaru dari kategori ini pada widget kedua di sidebar kanan (default: Artikel).</p>
-                                    </div>
-                                    <select
-                                        value={newsData.sticky_article_category_id}
-                                        onChange={e => setNewsData('sticky_article_category_id', e.target.value)}
-                                        className="w-full bg-white border border-slate-200 rounded-[0.25rem] px-3 py-2 text-xs outline-none focus:ring-1 focus:ring-brand-primary"
-                                    >
-                                        <option value="">Pilih Kategori...</option>
-                                        {categories.map(c => (
-                                            <option key={c.id} value={c.id}>{c.name}</option>
-                                        ))}
-                                    </select>
-                                </div>
-
-                                {/* Section 4: Bottom News Category */}
-                                <div className="bg-slate-50 p-6 rounded-[0.25rem] border border-slate-100 space-y-4">
-                                    <div>
-                                        <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                                            4. Kategori Beranda Bawah
-                                        </h4>
-                                        <p className="text-[11px] text-slate-400 mt-1">Menampilkan berita terbaru dari kategori ini pada section khusus di bawah Informasi Terbaru.</p>
+                                        <p className="text-[11px] text-slate-400 mt-1">Menampilkan berita terbaru dari kategori ini pada section khusus di bagian paling bawah beranda (di bawah Informasi Terbaru).</p>
                                     </div>
                                     <select
                                         value={newsData.bottom_news_category_id}

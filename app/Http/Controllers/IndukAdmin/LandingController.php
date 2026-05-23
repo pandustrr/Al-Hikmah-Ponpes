@@ -61,11 +61,22 @@ class LandingController extends Controller
             ]
         );
 
+        $settings = LandingSetting::all()->pluck('value', 'key')->map(function ($val) {
+            if (is_string($val) && (str_starts_with($val, '[') || str_starts_with($val, '{'))) {
+                $decoded = json_decode($val, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    return $decoded;
+                }
+            }
+            return $val;
+        });
+
         return Inertia::render('IndukAdmin/Landing/Index', [
-            'settings' => LandingSetting::all()->pluck('value', 'key'),
+            'settings' => $settings,
             'testimonials' => Testimonial::latest()->get(),
             'beritaList' => \App\Models\Berita::with('category')->latest()->get(),
             'categories' => \App\Models\BeritaCategory::all(),
+            'lembagas' => \App\Models\Lembaga::all(['id', 'nama', 'slug']),
         ]);
     }
 
@@ -87,6 +98,16 @@ class LandingController extends Controller
         // Handle regular text inputs
         foreach ($request->all() as $key => $value) {
             if ($request->hasFile($key) || $key === '_method') continue;
+            
+            // Skip file keys when they don't contain a new file (to avoid overwriting existing images with null)
+            if (in_array($key, ['hero_bg', 'hero_bg_mobile', 'about_image', 'ppdb_hero_bg', 'ppdb_hero_bg_mobile']) && (is_null($value) || $value === 'null' || $value === '')) {
+                continue;
+            }
+            
+            // Encode arrays to JSON string
+            if (is_array($value)) {
+                $value = json_encode($value);
+            }
             
             LandingSetting::updateOrCreate(
                 ['key' => $key],
