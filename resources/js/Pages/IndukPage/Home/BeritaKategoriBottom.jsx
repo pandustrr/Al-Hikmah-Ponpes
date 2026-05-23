@@ -29,11 +29,11 @@ export default function BeritaKategoriBottom({ bottomNews, bottomNewsTitle, bott
                     </Link>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
                     {bottomNews.slice(0, 4).map((berita, i) => (
                         <div key={berita.id} className="reveal-element-up" style={{ transitionDelay: `${i * 100}ms` }}>
                             {/* Make NewsCard background white to pop out over the light sage-gray background */}
-                            <NewsCard berita={berita} className="bg-white p-4 rounded-[0.25rem] border border-slate-200/50 shadow-sm hover:shadow-md transition-all duration-300" />
+                            <NewsCard berita={berita} className="bg-white p-2.5 sm:p-4 rounded-[0.25rem] border border-slate-200/50 shadow-sm hover:shadow-md transition-all duration-300" />
                         </div>
                     ))}
                 </div>
