@@ -27,9 +27,20 @@ export default function Index({ settings, testimonials, beritaList = [], categor
         about_description_short: settings.about_description_short || '',
         about_description: settings.about_description || '',
         about_image: null,
+        about_method_desc: settings.about_method_desc || '',
+        about_env_desc: settings.about_env_desc || '',
+        about_stat_1_val: settings.about_stat_1_val || '',
+        about_stat_1_lbl: settings.about_stat_1_lbl || '',
+        about_stat_2_val: settings.about_stat_2_val || '',
+        about_stat_2_lbl: settings.about_stat_2_lbl || '',
+        about_stat_3_val: settings.about_stat_3_val || '',
+        about_stat_3_lbl: settings.about_stat_3_lbl || '',
+        about_stat_4_val: settings.about_stat_4_val || '',
+        about_stat_4_lbl: settings.about_stat_4_lbl || '',
         ppdb_cta_title: settings.ppdb_cta_title || '',
         ppdb_wave_1: settings.ppdb_wave_1 || '',
         ppdb_wave_2: settings.ppdb_wave_2 || '',
+        ppdb_requirements: settings.ppdb_requirements || '',
     });
 
     const { data: newsData, setData: setNewsData, post: postNews, processing: newsProcessing } = useForm({
@@ -227,38 +238,92 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                     ></textarea>
                                 </div>
-                            </div>
+
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {/* About Image Upload (3:4) */}
-                                    <div className="space-y-3">
-                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Foto Profil "Mengenal Lebih Dekat" (3:4)</label>
-                                        <div className="relative aspect-[3/4] w-full max-w-[160px] bg-slate-50 rounded-[0.25rem] overflow-hidden border border-slate-200 group flex items-center justify-center shadow-sm">
-                                            {aboutImagePreview ? (
-                                                <img src={aboutImagePreview} className="w-full h-full object-cover" alt="Preview About Image" />
-                                            ) : (
-                                                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-350 bg-slate-100/50">
-                                                    <PhotoIcon className="h-8 w-8 mb-1" />
-                                                    <span className="text-[8px] font-bold uppercase tracking-widest text-center px-2">Pilih Foto</span>
-                                                </div>
-                                            )}
-                                            <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
-                                                <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
-                                            </div>
-                                            <ImageInputWithCrop 
-                                                className="absolute inset-0 z-20"
-                                                aspectRatio={3/4}
-                                                title="Potong Foto Profil (3:4)"
-                                                onChange={(file) => {
-                                                    setData('about_image', file);
-                                                    if (file) setAboutImagePreview(URL.createObjectURL(file));
-                                                }}
-                                            />
-                                        </div>
-                                        <p className="text-[9px] text-slate-400 italic">
-                                            Rasio ideal 3:4. Foto yang tampil di section "Mengenal Lebih Dekat" beranda.
-                                        </p>
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Pendidikan (Holistik/Metode)</label>
+                                        <textarea 
+                                            rows="2"
+                                            value={data.about_method_desc} 
+                                            onChange={e => setData('about_method_desc', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                            placeholder="Contoh: Holistik — mengintegrasikan sains, teknologi, dan ilmu agama."
+                                        ></textarea>
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Lingkungan Siswa (Asrama/Adab)</label>
+                                        <textarea 
+                                            rows="2"
+                                            value={data.about_env_desc} 
+                                            onChange={e => setData('about_env_desc', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                            placeholder="Contoh: Asrama nyaman dengan pembiasaan adab harian yang terstruktur."
+                                        ></textarea>
                                     </div>
                                 </div>
+
+                                {/* Statistik Section */}
+                                <div className="space-y-4 pt-4 border-t border-slate-100/70">
+                                    <label className="block text-[10px] font-bold text-slate-600 uppercase tracking-widest">Statistik Pencapaian Yayasan</label>
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                        <div className="p-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] space-y-2">
+                                            <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-wider">Statistik 1 (Nilai)</label>
+                                            <input type="text" value={data.about_stat_1_val} onChange={e => setData('about_stat_1_val', e.target.value)} className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded-[0.15rem] text-xs outline-none" placeholder="30+" />
+                                            <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-wider">Label</label>
+                                            <input type="text" value={data.about_stat_1_lbl} onChange={e => setData('about_stat_1_lbl', e.target.value)} className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded-[0.15rem] text-xs outline-none" placeholder="Tahun Berdiri" />
+                                        </div>
+                                        <div className="p-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] space-y-2">
+                                            <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-wider">Statistik 2 (Nilai)</label>
+                                            <input type="text" value={data.about_stat_2_val} onChange={e => setData('about_stat_2_val', e.target.value)} className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded-[0.15rem] text-xs outline-none" placeholder="3" />
+                                            <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-wider">Label</label>
+                                            <input type="text" value={data.about_stat_2_lbl} onChange={e => setData('about_stat_2_lbl', e.target.value)} className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded-[0.15rem] text-xs outline-none" placeholder="Jenjang" />
+                                        </div>
+                                        <div className="p-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] space-y-2">
+                                            <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-wider">Statistik 3 (Nilai)</label>
+                                            <input type="text" value={data.about_stat_3_val} onChange={e => setData('about_stat_3_val', e.target.value)} className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded-[0.15rem] text-xs outline-none" placeholder="5000+" />
+                                            <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-wider">Label</label>
+                                            <input type="text" value={data.about_stat_3_lbl} onChange={e => setData('about_stat_3_lbl', e.target.value)} className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded-[0.15rem] text-xs outline-none" placeholder="Alumni" />
+                                        </div>
+                                        <div className="p-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] space-y-2">
+                                            <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-wider">Statistik 4 (Nilai)</label>
+                                            <input type="text" value={data.about_stat_4_val} onChange={e => setData('about_stat_4_val', e.target.value)} className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded-[0.15rem] text-xs outline-none" placeholder="100%" />
+                                            <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-wider">Label</label>
+                                            <input type="text" value={data.about_stat_4_lbl} onChange={e => setData('about_stat_4_lbl', e.target.value)} className="w-full px-2 py-1.5 bg-white border border-slate-200 rounded-[0.15rem] text-xs outline-none" placeholder="Berasrama" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {/* About Image Upload (3:4) */}
+                                <div className="space-y-3">
+                                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Foto Profil "Mengenal Lebih Dekat" (3:4)</label>
+                                    <div className="relative aspect-[3/4] w-full max-w-[160px] bg-slate-50 rounded-[0.25rem] overflow-hidden border border-slate-200 group flex items-center justify-center shadow-sm">
+                                        {aboutImagePreview ? (
+                                            <img src={aboutImagePreview} className="w-full h-full object-cover" alt="Preview About Image" />
+                                        ) : (
+                                            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-350 bg-slate-100/50">
+                                                <PhotoIcon className="h-8 w-8 mb-1" />
+                                                <span className="text-[8px] font-bold uppercase tracking-widest text-center px-2">Pilih Foto</span>
+                                            </div>
+                                        )}
+                                        <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
+                                            <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
+                                        </div>
+                                        <ImageInputWithCrop 
+                                            className="absolute inset-0 z-20"
+                                            aspectRatio={3/4}
+                                            title="Potong Foto Profil (3:4)"
+                                            onChange={(file) => {
+                                                setData('about_image', file);
+                                                if (file) setAboutImagePreview(URL.createObjectURL(file));
+                                            }}
+                                        />
+                                    </div>
+                                    <p className="text-[9px] text-slate-400 italic">
+                                        Rasio ideal 3:4. Foto yang tampil di section "Mengenal Lebih Dekat" beranda.
+                                    </p>
+                                </div>
+                            </div>
 
                             {/* PPDB CTA */}
                             <div className="space-y-6 pt-6 border-t border-slate-100">
@@ -291,6 +356,16 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                             className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                         />
                                     </div>
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Persyaratan Umum (Tulis satu syarat per baris)</label>
+                                    <textarea 
+                                        rows="5"
+                                        value={data.ppdb_requirements} 
+                                        onChange={e => setData('ppdb_requirements', e.target.value)}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                        placeholder="Fotokopi Kartu Keluarga & Akta Kelahiran&#10;Pas Foto Terbaru ukuran 3x4 (4 lembar)&#10;Fotokopi Ijazah & Raport terakhir"
+                                    ></textarea>
                                 </div>
                             </div>
 
