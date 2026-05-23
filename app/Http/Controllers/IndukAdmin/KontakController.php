@@ -70,6 +70,66 @@ class KontakController extends Controller
             ]
         );
 
+        \App\Models\SiteSetting::firstOrCreate(
+            ['key' => 'portal_email_kontak'],
+            [
+                'label' => 'Email Redaksi / Hubungi Kami',
+                'value' => 'redaksi@alhikmahambulu.sch.id',
+                'group' => 'sosial_media',
+                'type' => 'text'
+            ]
+        );
+
+        \App\Models\SiteSetting::firstOrCreate(
+            ['key' => 'sosmed_whatsapp'],
+            [
+                'label' => 'WhatsApp (No. HP dengan kode negara, mis: 6281234567890)',
+                'value' => '6281234567890',
+                'group' => 'sosial_media',
+                'type' => 'text'
+            ]
+        );
+
+        \App\Models\SiteSetting::firstOrCreate(
+            ['key' => 'sosmed_instagram'],
+            [
+                'label' => 'Instagram',
+                'value' => 'https://instagram.com/alhikmahambulu',
+                'group' => 'sosial_media',
+                'type' => 'url'
+            ]
+        );
+
+        \App\Models\SiteSetting::firstOrCreate(
+            ['key' => 'sosmed_facebook'],
+            [
+                'label' => 'Facebook',
+                'value' => 'https://facebook.com/alhikmahambulu',
+                'group' => 'sosial_media',
+                'type' => 'url'
+            ]
+        );
+
+        \App\Models\SiteSetting::firstOrCreate(
+            ['key' => 'sosmed_youtube'],
+            [
+                'label' => 'YouTube',
+                'value' => 'https://youtube.com/@alhikmahambulu',
+                'group' => 'sosial_media',
+                'type' => 'url'
+            ]
+        );
+
+        \App\Models\SiteSetting::firstOrCreate(
+            ['key' => 'sosmed_tiktok'],
+            [
+                'label' => 'TikTok',
+                'value' => '',
+                'group' => 'sosial_media',
+                'type' => 'url'
+            ]
+        );
+
         $settings = \App\Models\SiteSetting::where('group', 'sosial_media')
                         ->orWhere('key', 'portal_email_kontak')
                         ->get()
