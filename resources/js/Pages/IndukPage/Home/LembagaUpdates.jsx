@@ -3,6 +3,12 @@ import { Link } from '@inertiajs/react';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 export default function LembagaUpdates({ lembagas }) {
+    const lembagasWithNews = (lembagas || []).filter(
+        (lembaga) => (lembaga.berita_terbaru || []).length > 0
+    );
+
+    if (lembagasWithNews.length === 0) return null;
+
     return (
         <section className="py-12 md:py-24 bg-white border-b border-brand-light reveal-section">
             <div className="max-w-7xl mx-auto px-4">
@@ -15,8 +21,7 @@ export default function LembagaUpdates({ lembagas }) {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-start">
                     {/* FULL WIDTH — Lembaga Updates */}
                     <div className="lg:col-span-12 space-y-12 md:space-y-20">
-                        {lembagas.map((lembaga) => {
-                            // Prioritaskan berita_terbaru (dari DB), fallback ke latest_prestasi jika kosong
+                        {lembagasWithNews.map((lembaga) => {
                             const beritaItems = lembaga.berita_terbaru || [];
                             const prestasiItems = lembaga.latest_prestasi || [];
                             const hasBerita = beritaItems.length > 0;
