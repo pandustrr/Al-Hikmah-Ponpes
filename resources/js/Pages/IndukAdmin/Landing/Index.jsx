@@ -8,7 +8,8 @@ import {
     PlusIcon,
     PencilSquareIcon,
     TrashIcon,
-    PhotoIcon
+    PhotoIcon,
+    VideoCameraIcon
 } from '@heroicons/react/24/outline';
 import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
@@ -41,6 +42,9 @@ export default function Index({ settings, testimonials, beritaList = [], categor
         ppdb_wave_1: settings.ppdb_wave_1 || '',
         ppdb_wave_2: settings.ppdb_wave_2 || '',
         ppdb_requirements: settings.ppdb_requirements || '',
+        youtube_video_badge: settings.youtube_video_badge || '',
+        youtube_video_title: settings.youtube_video_title || '',
+        youtube_video_desc: settings.youtube_video_desc || '',
         youtube_video_urls: settings.youtube_video_urls && settings.youtube_video_urls.trim().startsWith('[') 
             ? settings.youtube_video_urls 
             : JSON.stringify(settings.youtube_video_urls ? settings.youtube_video_urls.split('\n').map(u => u.trim()).filter(Boolean) : []),
@@ -135,6 +139,17 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                     >
                         <NewspaperIcon className="h-4 w-4" />
                         Pilihan Berita
+                    </button>
+                    <button 
+                        onClick={() => setActiveTab('youtube_videos')}
+                        className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest transition-all border-b-2 flex items-center gap-2 ${
+                            activeTab === 'youtube_videos' 
+                            ? 'border-brand-primary text-brand-primary' 
+                            : 'border-transparent text-slate-400 hover:text-brand-primary'
+                        }`}
+                    >
+                        <VideoCameraIcon className="h-4 w-4" />
+                        Video Beranda
                     </button>
                     <button 
                         onClick={() => setActiveTab('testimonials')}
@@ -407,10 +422,71 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                 </div>
                             </div>
 
-                            {/* Video YouTube Section */}
-                            <div className="space-y-6 pt-6 border-t border-slate-100">
-                                <div className="flex items-center justify-between">
-                                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Bagian Video YouTube (Beranda)</h3>
+                            <div className="pt-6">
+                                <button 
+                                    type="submit" 
+                                    disabled={processing}
+                                    className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-10 py-4 transition-all rounded-[0.25rem] shadow-xl shadow-brand-primary/20 disabled:opacity-50"
+                                >
+                                    Simpan Perubahan
+                                </button>
+                            </div>
+                        </form>
+                    )}
+
+                    {/* 1b. YouTube Videos Tab */}
+                    {activeTab === 'youtube_videos' && (
+                        <form onSubmit={handleSettingsSubmit} className="p-8 space-y-10">
+                            <div className="space-y-6">
+                                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                                    <div>
+                                        <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Pengaturan Galeri Video Beranda</h3>
+                                        <p className="text-xs text-slate-400 mt-1">Kelola judul, deskripsi, dan link video YouTube yang tampil di halaman beranda utama.</p>
+                                    </div>
+                                    <button 
+                                        type="submit" 
+                                        disabled={processing}
+                                        className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-8 py-3 transition-all rounded-[0.25rem] shadow-lg shadow-brand-primary/15 disabled:opacity-50"
+                                    >
+                                        Simpan Perubahan
+                                    </button>
+                                </div>
+                                
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Badge Video</label>
+                                        <input 
+                                            type="text" 
+                                            value={data.youtube_video_badge} 
+                                            onChange={e => setData('youtube_video_badge', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                            placeholder="Contoh: Galeri Video Resmi"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Judul Section Video</label>
+                                        <input 
+                                            type="text" 
+                                            value={data.youtube_video_title} 
+                                            onChange={e => setData('youtube_video_title', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                            placeholder="Contoh: Dokumentasi & Video Profil YPDS Al-Hikmah"
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Deskripsi Section Video</label>
+                                    <textarea 
+                                        rows="2"
+                                        value={data.youtube_video_desc} 
+                                        onChange={e => setData('youtube_video_desc', e.target.value)}
+                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                        placeholder="Contoh: Simak video profil resmi..."
+                                    ></textarea>
+                                </div>
+
+                                <div className="flex items-center justify-between pt-6 border-t border-slate-100/70">
+                                    <label className="block text-[10px] font-bold text-slate-600 uppercase tracking-widest">Daftar Tautan Video YouTube</label>
                                     <button 
                                         type="button"
                                         onClick={addVideoInput}
@@ -420,6 +496,7 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                         Tambah Link Video
                                     </button>
                                 </div>
+
                                 <div className="space-y-4">
                                     {videoList.length === 0 ? (
                                         <p className="text-xs text-slate-400 italic">Belum ada link video. Klik "Tambah Link Video" untuk menambahkan.</p>
@@ -450,16 +527,6 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                         Masukkan link video YouTube profil yayasan / pesantren. Anda dapat menambahkan beberapa video sekaligus dan menghapusnya secara interaktif.
                                     </p>
                                 </div>
-                            </div>
-
-                            <div className="pt-6">
-                                <button 
-                                    type="submit" 
-                                    disabled={processing}
-                                    className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-10 py-4 transition-all rounded-[0.25rem] shadow-xl shadow-brand-primary/20 disabled:opacity-50"
-                                >
-                                    Simpan Perubahan
-                                </button>
                             </div>
                         </form>
                     )}

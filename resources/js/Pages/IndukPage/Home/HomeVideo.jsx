@@ -4,6 +4,11 @@ import { PlayIcon } from '@heroicons/react/24/solid';
 export default function HomeVideo({ settings = {} }) {
     const rawUrls = settings.youtube_video_urls;
     
+    // Metadata dinamis dari admin
+    const videoBadge = settings.youtube_video_badge || 'Galeri Video Resmi';
+    const videoTitle = settings.youtube_video_title || 'Dokumentasi & Video Profil YPDS Al-Hikmah';
+    const videoDesc = settings.youtube_video_desc || 'Simak video profil resmi serta dokumentasi kegiatan kami untuk melihat lingkungan belajar dan pembiasaan nilai adab santri.';
+
     if (!rawUrls) return null;
 
     // Helper untuk extract ID video YouTube
@@ -54,14 +59,16 @@ export default function HomeVideo({ settings = {} }) {
                 <div className="text-center max-w-3xl mx-auto mb-12">
                     <div className="inline-flex items-center gap-2 mb-4">
                         <span className="h-[2px] w-6 bg-brand-accent"></span>
-                        <span className="text-brand-accent text-[10px] font-black uppercase tracking-[0.4em]">Galeri Video Resmi</span>
+                        <span className="text-brand-accent text-[10px] font-black uppercase tracking-[0.4em]">
+                            {videoBadge}
+                        </span>
                         <span className="h-[2px] w-6 bg-brand-accent"></span>
                     </div>
                     <h2 className="text-3xl md:text-4xl font-serif font-semibold text-white tracking-tight uppercase">
-                        Dokumentasi & Video Profil YPDS Al-Hikmah
+                        {videoTitle}
                     </h2>
                     <p className="text-white/60 text-sm mt-4 leading-relaxed font-light">
-                        Simak video profil resmi serta dokumentasi kegiatan kami untuk melihat lingkungan belajar dan pembiasaan nilai adab santri.
+                        {videoDesc}
                     </p>
                 </div>
 
@@ -75,7 +82,7 @@ export default function HomeVideo({ settings = {} }) {
                             {/* YouTube Iframe */}
                             <iframe
                                 src={`${embedUrl}?autoplay=0&rel=0`}
-                                title={`Video Profil YPDS Al-Hikmah - ${idx + 1}`}
+                                title={`${videoTitle} - ${idx + 1}`}
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 allowFullScreen
