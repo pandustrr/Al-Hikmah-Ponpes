@@ -32,9 +32,11 @@ export default function FasilitasShortcut({ fasilitasUnggulan = [] }) {
                         <p className="text-brand-accent mb-8 leading-relaxed max-w-md text-sm italic">
                             "Fasilitas modern mulai dari laboratorium terpadu, asrama yang nyaman, hingga lapangan olahraga yang luas disediakan untuk memastikan kenyamanan belajar para siswa."
                         </p>
-                        <Link href="/fasilitas" className="btn-primary px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] shadow-lg">Jelajahi Fasilitas Selengkapnya</Link>
+                        <div className="mt-8">
+                            <Link href="/fasilitas" className="btn-primary px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] shadow-lg text-center block sm:inline-block w-full sm:w-auto">Jelajahi Fasilitas Selengkapnya</Link>
+                        </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4 reveal-element-right">
+                    <div className="grid grid-cols-2 gap-3 md:gap-4 reveal-element-right">
                         {facilities.slice(0, 4).map((f, i) => (
                             <div key={f.id || i} className="group relative aspect-[4/3] overflow-hidden rounded-[0.25rem] border border-brand-accent/10 shadow-sm">
                                 <img 
@@ -43,8 +45,8 @@ export default function FasilitasShortcut({ fasilitasUnggulan = [] }) {
                                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 opacity-80" 
                                     onError={(e) => { e.target.onerror = null; e.target.src = FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]; }}
                                 />
-                                <div className="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-brand-primary/80 to-transparent">
-                                    <span className="text-[10px] font-semibold text-white uppercase tracking-widest">{f.nama}</span>
+                                <div className="absolute inset-0 flex items-end p-2 sm:p-4 bg-gradient-to-t from-brand-primary/80 to-transparent">
+                                    <span className="text-[8px] sm:text-[10px] font-semibold text-white uppercase tracking-widest leading-tight">{f.nama}</span>
                                 </div>
                             </div>
                         ))}

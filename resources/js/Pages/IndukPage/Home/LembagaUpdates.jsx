@@ -42,24 +42,24 @@ export default function LembagaUpdates({ lembagas }) {
                                                     <span className="w-2 h-2 bg-brand-primary rounded-full"></span>
                                                     Berita Terbaru
                                                 </h5>
-                                                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+                                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-4">
                                                     {beritaItems.map(b => (
                                                         <Link key={b.id} href={`/berita/${b.slug}`} className="group bg-white border border-brand-secondary hover:border-brand-primary transition-all rounded-[0.25rem] overflow-hidden block">
-                                                            <div className="aspect-[16/9] overflow-hidden bg-brand-secondary">
-                                                                <img
-                                                                    src={b.image_url || `https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&q=80&w=400`}
-                                                                    alt={b.judul}
-                                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                                                    onError={(e) => { e.target.onerror = null; e.target.src = `https://images.unsplash.com/photo-1544717305-996b815c338c?auto=format&fit=crop&q=80&w=400`; }}
-                                                                />
-                                                            </div>
-                                                            <div className="p-2 md:p-3">
-                                                                <div className="text-[8px] font-semibold text-brand-accent uppercase tracking-widest mb-1 opacity-70">
-                                                                    {b.category?.name || 'Berita'}
-                                                                </div>
-                                                                <h6 className="font-semibold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug text-[10px] md:text-[12px] line-clamp-2">{b.judul}</h6>
-                                                            </div>
-                                                        </Link>
+                                                             <div className="aspect-[16/9] overflow-hidden bg-brand-secondary">
+                                                                 <img
+                                                                     src={b.image_url || `https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&q=80&w=400`}
+                                                                     alt={b.judul}
+                                                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                                     onError={(e) => { e.target.onerror = null; e.target.src = `https://images.unsplash.com/photo-1544717305-996b815c338c?auto=format&fit=crop&q=80&w=400`; }}
+                                                                 />
+                                                             </div>
+                                                             <div className="p-2 sm:p-3">
+                                                                 <div className="text-[8px] font-semibold text-brand-accent uppercase tracking-widest mb-1 opacity-70">
+                                                                     {b.category?.name || 'Berita'}
+                                                                 </div>
+                                                                 <h6 className="font-semibold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug text-[9px] sm:text-xs md:text-[12px] line-clamp-2">{b.judul}</h6>
+                                                             </div>
+                                                         </Link>
                                                     ))}
                                                 </div>
                                                 <Link href={`/berita`} className="inline-flex items-center gap-2 text-[10px] font-semibold text-brand-accent hover:text-brand-primary uppercase tracking-[0.15em] transition-all">
@@ -72,8 +72,8 @@ export default function LembagaUpdates({ lembagas }) {
                                                 <h5 className="text-[10px] font-semibold uppercase tracking-widest text-brand-primary border-b-2 border-brand-primary pb-2 flex items-center gap-2">
                                                     <span className="w-2 h-2 bg-brand-primary rounded-full"></span>
                                                     Prestasi Terbaru
-                                                </h5>
-                                                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+                                                 </h5>
+                                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-4">
                                                     {prestasiItems.map(p => (
                                                         <div key={p.id} className="group bg-white border border-brand-secondary hover:border-brand-primary transition-all rounded-[0.25rem] overflow-hidden">
                                                             <div className="aspect-[16/9] overflow-hidden bg-brand-secondary">
@@ -84,8 +84,8 @@ export default function LembagaUpdates({ lembagas }) {
                                                                     onError={(e) => { e.target.onerror = null; e.target.src = `https://images.unsplash.com/photo-1544717305-996b815c338c?auto=format&fit=crop&q=80&w=400`; }}
                                                                 />
                                                             </div>
-                                                            <div className="p-2 md:p-3">
-                                                                <h6 className="font-semibold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug text-[10px] md:text-[12px] line-clamp-2">{p.judul}</h6>
+                                                            <div className="p-2 sm:p-3">
+                                                                <h6 className="font-semibold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug text-[9px] sm:text-xs md:text-[12px] line-clamp-2">{p.judul}</h6>
                                                             </div>
                                                         </div>
                                                     ))}

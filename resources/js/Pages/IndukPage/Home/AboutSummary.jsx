@@ -48,22 +48,22 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                                     </div>
                                 </div>
                                 {/* Stats */}
-                                <div className="grid grid-cols-4 gap-4 border-t border-brand-accent/20 pt-6">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-brand-accent/20 pt-6">
                                     {[
                                         { value: settings.about_stat_1_val || '30+', label: settings.about_stat_1_lbl || 'Tahun Berdiri' },
                                         { value: settings.about_stat_2_val || '3', label: settings.about_stat_2_lbl || 'Jenjang' },
                                         { value: settings.about_stat_3_val || '5000+', label: settings.about_stat_3_lbl || 'Alumni' },
                                         { value: settings.about_stat_4_val || '100%', label: settings.about_stat_4_lbl || 'Berasrama' },
                                     ].map((stat, i) => (
-                                        <div key={i} className="text-center">
+                                        <div key={i} className="text-center py-2 bg-brand-primary/5 rounded-[0.25rem] md:bg-transparent md:py-0">
                                             <div className="text-xl font-semibold text-brand-primary">{stat.value}</div>
                                             <div className="text-[9px] font-semibold text-brand-accent uppercase tracking-widest">{stat.label}</div>
                                         </div>
                                     ))}
                                 </div>
-                                <div className="flex flex-wrap gap-4 pt-2">
-                                    <Link href="/info-ppdb" className="btn-primary px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] shadow-lg">Pendaftaran Siswa Baru</Link>
-                                    <Link href="/profil" className="border-2 border-brand-primary text-brand-primary px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] hover:bg-brand-primary hover:text-white transition-all rounded-[0.25rem]">Profil Lengkap</Link>
+                                <div className="flex flex-col sm:flex-row gap-4 pt-2 w-full">
+                                    <Link href="/info-ppdb" className="btn-primary px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] shadow-lg text-center w-full sm:w-auto">Pendaftaran Siswa Baru</Link>
+                                    <Link href="/profil" className="border-2 border-brand-primary text-brand-primary px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] hover:bg-brand-primary hover:text-white transition-all rounded-[0.25rem] text-center w-full sm:w-auto">Profil Lengkap</Link>
                                 </div>
                             </div>
                         </div>
@@ -80,14 +80,14 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                                     <Link
                                         key={lembaga.id}
                                         href={`/${lembaga.slug}`}
-                                        className="group bg-white p-4 md:p-8 border border-brand-secondary hover:border-brand-primary transition-all duration-500 rounded-[0.25rem] shadow-sm hover:shadow-xl"
+                                        className="group bg-white p-3 md:p-8 border border-brand-secondary hover:border-brand-primary transition-all duration-500 rounded-[0.25rem] shadow-sm hover:shadow-xl"
                                     >
-                                        <div className="text-[8px] md:text-[10px] font-semibold text-brand-accent uppercase tracking-widest mb-2 md:mb-3">Pendidikan Formal</div>
-                                        <h4 className="text-sm md:text-2xl font-semibold text-brand-primary mb-3 md:mb-5 group-hover:text-brand-accent transition-colors uppercase leading-tight">{lembaga.nama}</h4>
+                                        <div className="text-[8px] md:text-[10px] font-semibold text-brand-accent uppercase tracking-widest mb-1.5 md:mb-3">Pendidikan Formal</div>
+                                        <h4 className="text-[11px] sm:text-base md:text-2xl font-semibold text-brand-primary mb-2 md:mb-5 group-hover:text-brand-accent transition-colors uppercase leading-tight line-clamp-2">{lembaga.nama}</h4>
                                         <p className="hidden md:block text-brand-accent text-sm mb-8 leading-relaxed line-clamp-2">
                                             {lembaga.deskripsi}
                                         </p>
-                                        <div className="flex items-center text-brand-primary font-semibold text-[8px] md:text-[10px] uppercase tracking-widest border-t border-brand-secondary pt-3 md:pt-5">
+                                        <div className="flex items-center text-brand-primary font-semibold text-[8px] md:text-[10px] uppercase tracking-widest border-t border-brand-secondary pt-2 md:pt-5">
                                             <span className="hidden md:inline">Lihat Profil Lembaga</span>
                                             <span className="md:hidden">Profil</span>
                                             <ArrowLongRightIcon className="h-3 w-3 md:h-4 md:w-4 ml-1 md:ml-2 group-hover:translate-x-1 transition-transform stroke-[3px]" />

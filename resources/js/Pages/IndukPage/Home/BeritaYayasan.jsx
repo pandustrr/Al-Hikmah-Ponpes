@@ -10,7 +10,7 @@ export default function BeritaYayasan({ beritaTerbaru }) {
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 reveal-element-up">
                     <div>
                         <h2 className="text-[10px] font-semibold text-brand-gold uppercase tracking-[0.4em] mb-4">Warta Yayasan</h2>
-                        <h3 className="text-4xl md:text-5xl font-serif font-semibold text-brand-primary tracking-tight uppercase leading-none">
+                        <h3 className="text-4xl md:text-5xl font-serif font-semibold text-brand-primary tracking-tight uppercase leading-tight md:leading-none">
                             Informasi <br /> <span className="italic text-brand-accent">Terbaru</span>
                         </h3>
                     </div>
@@ -20,7 +20,7 @@ export default function BeritaYayasan({ beritaTerbaru }) {
                     </Link>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8">
                     {beritaTerbaru.slice(0, 4).map((berita, i) => (
                         <div key={berita.id} className="reveal-element-up" style={{ transitionDelay: `${i * 100}ms` }}>
                             <NewsCard berita={berita} />
