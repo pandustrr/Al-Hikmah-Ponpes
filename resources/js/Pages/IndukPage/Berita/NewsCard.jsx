@@ -230,7 +230,7 @@ export default function NewsCard({ berita, variant = 'vertical', className = '',
                 onClick={handleClick}
                 className={`group block bg-white ${className}`}
             >
-                <div className="aspect-[3/4] sm:aspect-video overflow-hidden bg-brand-secondary mb-4">
+                <div className="aspect-[4/3] sm:aspect-video overflow-hidden bg-brand-secondary mb-4">
                     <picture className="w-full h-full">
                         {berita.image_mobile_url && (
                             <source media="(max-w: 640px)" srcSet={berita.image_mobile_url} />
