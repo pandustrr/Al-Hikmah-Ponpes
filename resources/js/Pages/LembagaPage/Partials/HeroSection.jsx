@@ -32,7 +32,7 @@ export default function HeroSection({ lembaga }) {
                         )}
                         <div className="flex items-center gap-3">
                             <span className="h-[1px] w-8 bg-brand-secondary"></span>
-                            <span className="text-brand-secondary text-[10px] font-bold uppercase tracking-[0.4em]">Unit Pendidikan Formal</span>
+                            <span className="text-brand-secondary text-[10px] font-bold uppercase tracking-[0.4em]">{lembaga.hero_badge || 'Unit Pendidikan Formal'}</span>
                         </div>
                     </div>
                     

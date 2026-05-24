@@ -53,15 +53,10 @@ class HomeController extends Controller
         });
         $testimonials = \App\Models\Testimonial::where('is_active', true)->get();
 
-        // Load fasilitas untuk section "Fasilitas Unggulan" (diambil dari pengaturan landing settings)
-        $fasilitasUnggulan = [];
-        for ($i = 1; $i <= 4; $i++) {
-            $fasilitasUnggulan[] = [
-                'id' => $i,
-                'nama' => $landingSettings->get("fasilitas_utama_{$i}_nama", ""),
-                'image_url' => $landingSettings->get("fasilitas_utama_{$i}_img", ""),
-            ];
-        }
+        // Load fasilitas untuk section "Fasilitas Unggulan" (diambil langsung dari database)
+        $fasilitasUnggulan = \App\Models\Fasilitas::latest()
+            ->take(4)
+            ->get(['id', 'nama', 'image_url']);
 
         // 1. Hero News
         $heroNewsCategoryId = $landingSettings->get('hero_news_category_id', '');

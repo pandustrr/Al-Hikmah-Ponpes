@@ -9,7 +9,7 @@ const FALLBACK_FASILITAS = [
 ];
 
 const FALLBACK_IMAGES = [
-    'https://images.unsplash.com/photo-1555854817-40e09807a11d?auto=format&fit=crop&q=80&w=400',
+    'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=400',
     'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=80&w=400',
     'https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&q=80&w=400',
     'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=400',

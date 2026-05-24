@@ -86,12 +86,64 @@ class Lembaga extends Model
         'youtube_video_title',
         'youtube_video_desc',
         'youtube_video_urls',
+        
+        // Custom section titles / taglines
+        'hero_badge',
+        'tenaga_pendidik_tagline',
+        'tenaga_pendidik_title',
+        'tenaga_pendidik_subtitle',
+        'program_title',
+        'adab_title',
+        'struktur_title',
+        'galeri_title',
+        'berita_title',
+        'berita_section_category_id',
+        'ppdb_tagline',
+        'ppdb_title',
+        'ppdb_subtitle',
+        'ppdb_points',
+        'ppdb_bottom_title',
+        'ppdb_bottom_subtitle',
     ];
 
     protected $casts = [
         'sidebar_categories' => 'array',
         'youtube_video_urls' => 'array',
     ];
+
+    protected $appends = [
+        'keunggulan_list',
+    ];
+
+    /**
+     * Parse keunggulan as a list of objects containing title and description
+     */
+    public function getKeunggulanListAttribute(): array
+    {
+        $value = $this->keunggulan;
+        if (empty($value)) {
+            return [];
+        }
+        
+        $decoded = json_decode($value, true);
+        if (is_array($decoded)) {
+            return $decoded;
+        }
+        
+        // Fallback: split by newline and return as title/desc array
+        $lines = explode("\n", $value);
+        $result = [];
+        foreach ($lines as $line) {
+            $trimmed = trim($line);
+            if (!empty($trimmed)) {
+                $result[] = [
+                    'title' => $trimmed,
+                    'desc' => 'Layanan pendidikan terbaik untuk masa depan santri.'
+                ];
+            }
+        }
+        return $result;
+    }
 
     /**
      * Normalize image URL to always be root-relative (no domain prefix).

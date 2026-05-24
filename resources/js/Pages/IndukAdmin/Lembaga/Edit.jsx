@@ -57,6 +57,24 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
             : (typeof lembaga.youtube_video_urls === 'string' && lembaga.youtube_video_urls.trim().startsWith('['))
                 ? lembaga.youtube_video_urls
                 : JSON.stringify(lembaga.youtube_video_urls ? lembaga.youtube_video_urls.split('\n').map(u => u.trim()).filter(Boolean) : []),
+        
+        // Custom section titles / taglines
+        hero_badge: lembaga.hero_badge || 'Unit Pendidikan Formal',
+        tenaga_pendidik_tagline: lembaga.tenaga_pendidik_tagline || 'Tenaga Pendidik',
+        tenaga_pendidik_title: lembaga.tenaga_pendidik_title || 'Mengenal Para',
+        tenaga_pendidik_subtitle: lembaga.tenaga_pendidik_subtitle || 'Asatidzah Kami',
+        program_title: lembaga.program_title || 'Program & Keunggulan',
+        adab_title: lembaga.adab_title || 'Adab & Kompetensi',
+        struktur_title: lembaga.struktur_title || 'Struktur Pendidikan',
+        galeri_title: lembaga.galeri_title || 'Galeri Unit',
+        berita_title: lembaga.berita_title || 'Berita & Kegiatan Unit',
+        berita_section_category_id: lembaga.berita_section_category_id || '',
+        ppdb_tagline: lembaga.ppdb_tagline || 'Penerimaan Peserta Didik Baru',
+        ppdb_title: lembaga.ppdb_title || 'Bergabunglah Bersama',
+        ppdb_subtitle: lembaga.ppdb_subtitle || 'SD NU 22 Full Day Al-Hikmah',
+        ppdb_points: lembaga.ppdb_points || 'Gedung Milik Sendiri\nTenaga Pendidik Lulusan S1\nLingkungan Aman & Nyaman\nProgram Tahfidz Intensif',
+        ppdb_bottom_title: lembaga.ppdb_bottom_title || 'Mulai Perjalanan Pendidikan di SD NU 22 Full Day Al-Hikmah',
+        ppdb_bottom_subtitle: lembaga.ppdb_bottom_subtitle || 'Pendaftaran Peserta Didik Baru.',
     });
 
     // Local UI state for sidebar multi-category manager
@@ -130,6 +148,57 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
         const newList = videoList.filter((_, i) => i !== index);
         setVideoList(newList);
         setData('youtube_video_urls', JSON.stringify(newList));
+    };
+
+    // Keunggulan Cards State & Handlers
+    const [keunggulanCards, setKeunggulanCards] = React.useState(() => {
+        try {
+            if (lembaga.keunggulan) {
+                const decoded = JSON.parse(lembaga.keunggulan);
+                if (Array.isArray(decoded)) {
+                    return decoded;
+                }
+            }
+        } catch (e) {}
+        
+        // Fallback to split newline
+        const lines = (lembaga.keunggulan || '').split('\n').filter(Boolean);
+        if (lines.length > 0) {
+            return lines.map(line => ({
+                title: line.trim(),
+                desc: 'Layanan pendidikan terbaik untuk masa depan santri.'
+            }));
+        }
+        return [];
+    });
+
+    const handleAddKeunggulanCard = () => {
+        const newCard = { title: 'Keunggulan Baru', desc: 'Deskripsi keunggulan baru unit.' };
+        const next = [...keunggulanCards, newCard];
+        setKeunggulanCards(next);
+        setData('keunggulan', JSON.stringify(next));
+    };
+
+    const handleUpdateKeunggulanCard = (index, field, value) => {
+        const next = [...keunggulanCards];
+        next[index] = { ...next[index], [field]: value };
+        setKeunggulanCards(next);
+        setData('keunggulan', JSON.stringify(next));
+    };
+
+    const handleRemoveKeunggulanCard = (index) => {
+        const next = keunggulanCards.filter((_, i) => i !== index);
+        setKeunggulanCards(next);
+        setData('keunggulan', JSON.stringify(next));
+    };
+
+    const handleMoveKeunggulanCard = (index, dir) => {
+        const next = [...keunggulanCards];
+        const swap = index + dir;
+        if (swap < 0 || swap >= next.length) return;
+        [next[index], next[swap]] = [next[swap], next[index]];
+        setKeunggulanCards(next);
+        setData('keunggulan', JSON.stringify(next));
     };
 
     // PPDB Form
@@ -349,10 +418,10 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
     const tabs = [
         { id: 'visual',     name: 'Identitas Visual',     icon: PhotoIcon },
         { id: 'profil',     name: 'Profil & Narasi',       icon: DocumentTextIcon },
+        { id: 'pengajar',   name: 'Tenaga Pendidik',       icon: UserGroupIcon },
         { id: 'keunggulan', name: 'Keunggulan Unit',     icon: StarIcon },
         { id: 'youtube_videos', name: 'Video Unit',        icon: VideoCameraIcon },
         { id: 'ppdb',       name: 'Info PPDB',             icon: InformationCircleIcon },
-        { id: 'pengajar',   name: 'Tenaga Pendidik',       icon: UserGroupIcon },
         { id: 'fasilitas',  name: 'Fasilitas Unit',       icon: BuildingLibraryIcon },
     ];
 
@@ -823,9 +892,22 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
 
                                 {/* Divider */}
                                 <div className="border-t border-slate-100 pt-6">
-                                    <div className="flex items-center gap-2 mb-4">
+                                    <div className="flex items-center gap-2 mb-6">
                                         <span className="h-[2px] w-5 bg-brand-primary"></span>
                                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Informasi Teks &amp; Statistik</span>
+                                    </div>
+                                    <div className="mb-6">
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Badge Tagline Hero (Di atas Judul Unit)</label>
+                                        <input
+                                            type="text"
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                            value={data.hero_badge}
+                                            onChange={e => setData('hero_badge', e.target.value)}
+                                            placeholder="Contoh: Unit Pendidikan Formal"
+                                        />
+                                        {errors.hero_badge && (
+                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-2">{errors.hero_badge}</p>
+                                        )}
                                     </div>
                                 </div>
 
@@ -885,8 +967,48 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                         <div className="space-y-8 animate-fade-in">
                             <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-8">
                                 
+                                {/* Section Titles Config */}
+                                <div className="space-y-6">
+                                    <div className="flex items-center gap-2 mb-2 border-b border-slate-100 pb-4">
+                                        <span className="h-[2px] w-5 bg-brand-primary"></span>
+                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Pengaturan Judul Section</span>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        <div>
+                                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Judul Program &amp; Keunggulan</label>
+                                            <input
+                                                type="text"
+                                                value={data.program_title}
+                                                onChange={e => setData('program_title', e.target.value)}
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                                placeholder="Program &amp; Keunggulan"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Judul Adab &amp; Kompetensi</label>
+                                            <input
+                                                type="text"
+                                                value={data.adab_title}
+                                                onChange={e => setData('adab_title', e.target.value)}
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                                placeholder="Adab &amp; Kompetensi"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Judul Struktur Pendidikan</label>
+                                            <input
+                                                type="text"
+                                                value={data.struktur_title}
+                                                onChange={e => setData('struktur_title', e.target.value)}
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                                placeholder="Struktur Pendidikan"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
                                 {/* Tag Program Unggulan */}
-                                <div>
+                                <div className="border-t border-slate-100 pt-6">
                                     <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Tag Program Unggulan</label>
                                     <input 
                                         type="text" 
@@ -899,7 +1021,7 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                 </div>
 
                                 {/* Struktur Pendidikan / Kurikulum */}
-                                <div>
+                                <div className="border-t border-slate-100 pt-6">
                                     <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Struktur Pendidikan &amp; Kurikulum</label>
                                     <textarea 
                                         className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[150px]"
@@ -909,19 +1031,86 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                     ></textarea>
                                 </div>
 
-                                {/* Keunggulan Unit */}
-                                <div>
-                                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                                        <StarIcon className="h-3 w-3 text-brand-primary" /> Daftar Keunggulan Unit
-                                    </label>
-                                    <textarea 
-                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none min-h-[200px]"
-                                        value={data.keunggulan}
-                                        onChange={e => setData('keunggulan', e.target.value)}
-                                        placeholder="Tuliskan poin-poin keunggulan unit di sini..."
-                                    ></textarea>
-                                    <div className="mt-4 flex items-center gap-2 text-[10px] text-slate-400 uppercase tracking-widest italic font-medium">
-                                        <InformationCircleIcon className="h-3 w-3" /> Gunakan baris baru untuk memisahkan poin keunggulan.
+                                {/* Keunggulan Unit (CRUD Cards) */}
+                                <div className="border-t border-slate-100 pt-6 space-y-6">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <StarIcon className="h-4 w-4 text-brand-primary" />
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Daftar Keunggulan Unit (Cards)</span>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={handleAddKeunggulanCard}
+                                            className="bg-brand-primary text-white text-[9px] font-bold uppercase tracking-widest px-4 py-2 rounded-[0.25rem] hover:bg-slate-900 transition-colors"
+                                        >
+                                            + Tambah Card Keunggulan
+                                        </button>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        {keunggulanCards.length === 0 ? (
+                                            <p className="text-xs text-slate-400 italic">Belum ada card keunggulan. Klik "+ Tambah Card Keunggulan" untuk menambahkan.</p>
+                                        ) : (
+                                            keunggulanCards.map((card, idx) => (
+                                                <div key={idx} className="flex gap-4 p-5 bg-slate-50 border border-slate-200 rounded-[0.25rem] relative group">
+                                                    <div className="text-lg font-serif font-bold text-brand-primary/40 mt-1">
+                                                        {String(idx + 1).padStart(2, '0')}
+                                                    </div>
+                                                    <div className="flex-1 space-y-3">
+                                                        <div>
+                                                            <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1">Judul Card</label>
+                                                            <input
+                                                                type="text"
+                                                                value={card.title}
+                                                                onChange={e => handleUpdateKeunggulanCard(idx, 'title', e.target.value)}
+                                                                className="w-full bg-white border border-slate-200 rounded-[0.25rem] p-3 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
+                                                                placeholder="Contoh: Gedung Milik Sendiri"
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1">Deskripsi Card</label>
+                                                            <textarea
+                                                                rows="2"
+                                                                value={card.desc || ''}
+                                                                onChange={e => handleUpdateKeunggulanCard(idx, 'desc', e.target.value)}
+                                                                className="w-full bg-white border border-slate-200 rounded-[0.25rem] p-3 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
+                                                                placeholder="Contoh: Layanan pendidikan terbaik untuk masa depan santri."
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex flex-col items-center justify-between">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => handleRemoveKeunggulanCard(idx)}
+                                                            className="p-2 text-red-400 hover:text-red-600 transition-colors"
+                                                            title="Hapus Card"
+                                                        >
+                                                            <TrashIcon className="h-4 w-4" />
+                                                        </button>
+                                                        <div className="flex flex-col gap-1">
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => handleMoveKeunggulanCard(idx, -1)}
+                                                                disabled={idx === 0}
+                                                                className="px-2 py-1 text-slate-400 hover:text-brand-primary disabled:opacity-30 text-[10px] font-bold"
+                                                                title="Pindah ke Atas"
+                                                            >
+                                                                ↑
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => handleMoveKeunggulanCard(idx, 1)}
+                                                                disabled={idx === keunggulanCards.length - 1}
+                                                                className="px-2 py-1 text-slate-400 hover:text-brand-primary disabled:opacity-30 text-[10px] font-bold"
+                                                                title="Pindah ke Bawah"
+                                                            >
+                                                                ↓
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        )}
                                     </div>
                                 </div>
 
@@ -1051,12 +1240,167 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Card 2: Pengaturan Teks & Tampilan PPDB */}
+                            <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6">
+                                <div className="flex items-center gap-2 mb-6 border-b border-slate-100 pb-4">
+                                    <span className="h-[2px] w-5 bg-brand-primary"></span>
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Kustomisasi Teks &amp; Tampilan PPDB</span>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Tagline (Kecil di Atas)</label>
+                                        <input
+                                            type="text"
+                                            value={data.ppdb_tagline}
+                                            onChange={e => setData('ppdb_tagline', e.target.value)}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                            placeholder="Penerimaan Peserta Didik Baru"
+                                        />
+                                        {errors.ppdb_tagline && (
+                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-2">{errors.ppdb_tagline}</p>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Judul Baris 1</label>
+                                        <input
+                                            type="text"
+                                            value={data.ppdb_title}
+                                            onChange={e => setData('ppdb_title', e.target.value)}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                            placeholder="Bergabunglah Bersama"
+                                        />
+                                        {errors.ppdb_title && (
+                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-2">{errors.ppdb_title}</p>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Judul Baris 2 (Hijau)</label>
+                                        <input
+                                            type="text"
+                                            value={data.ppdb_subtitle}
+                                            onChange={e => setData('ppdb_subtitle', e.target.value)}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                            placeholder={lembaga.nama}
+                                        />
+                                        {errors.ppdb_subtitle && (
+                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-2">{errors.ppdb_subtitle}</p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Checklist Keunggulan PPDB (Satu per baris)</label>
+                                    <textarea
+                                        rows="4"
+                                        value={data.ppdb_points}
+                                        onChange={e => setData('ppdb_points', e.target.value)}
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                        placeholder="Gedung Milik Sendiri&#10;Tenaga Pendidik Lulusan S1&#10;Lingkungan Aman &amp; Nyaman&#10;Program Tahfidz Intensif"
+                                    />
+                                    {errors.ppdb_points && (
+                                        <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-2">{errors.ppdb_points}</p>
+                                    )}
+                                    <p className="text-[9px] text-slate-400 italic mt-1">Satu baris mewakili satu checklist keunggulan di section PPDB. Maksimal 4 baris direkomendasikan.</p>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-100/70">
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Judul Card Bottom CTA</label>
+                                        <input
+                                            type="text"
+                                            value={data.ppdb_bottom_title}
+                                            onChange={e => setData('ppdb_bottom_title', e.target.value)}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                            placeholder="Mulai Perjalanan Pendidikan di..."
+                                        />
+                                        {errors.ppdb_bottom_title && (
+                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-2">{errors.ppdb_bottom_title}</p>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Subjudul Card Bottom CTA</label>
+                                        <input
+                                            type="text"
+                                            value={data.ppdb_bottom_subtitle}
+                                            onChange={e => setData('ppdb_bottom_subtitle', e.target.value)}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                            placeholder="Pendaftaran Peserta Didik Baru."
+                                        />
+                                        {errors.ppdb_bottom_subtitle && (
+                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-2">{errors.ppdb_bottom_subtitle}</p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-end pt-4 border-t border-slate-100/70">
+                                    <button
+                                        type="submit"
+                                        disabled={processing}
+                                        className="bg-brand-primary text-white py-2 px-6 text-[9px] font-bold uppercase tracking-widest rounded-[0.25rem] hover:bg-slate-900 transition-colors flex items-center gap-2"
+                                    >
+                                        {processing ? 'Menyimpan...' : 'Simpan Kustomisasi Teks PPDB'}
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     )}
 
                     {/* Tab 5: Tenaga Pendidik */}
                     {activeTab === 'pengajar' && (
                         <div className="space-y-8 animate-fade-in">
+                            
+                            {/* Section Header Settings */}
+                            <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6">
+                                <div className="flex items-center gap-2 mb-6 border-b border-slate-100 pb-4">
+                                    <span className="h-[2px] w-5 bg-brand-primary"></span>
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Pengaturan Judul &amp; Tagline Section</span>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Tagline (Kecil di Atas)</label>
+                                        <input
+                                            type="text"
+                                            value={data.tenaga_pendidik_tagline}
+                                            onChange={e => setData('tenaga_pendidik_tagline', e.target.value)}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                            placeholder="Contoh: Tenaga Pendidik"
+                                        />
+                                        {errors.tenaga_pendidik_tagline && (
+                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-2">{errors.tenaga_pendidik_tagline}</p>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Judul Baris 1</label>
+                                        <input
+                                            type="text"
+                                            value={data.tenaga_pendidik_title}
+                                            onChange={e => setData('tenaga_pendidik_title', e.target.value)}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                            placeholder="Contoh: Mengenal Para"
+                                        />
+                                        {errors.tenaga_pendidik_title && (
+                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-2">{errors.tenaga_pendidik_title}</p>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Judul Baris 2 (Highlight Hijau)</label>
+                                        <input
+                                            type="text"
+                                            value={data.tenaga_pendidik_subtitle}
+                                            onChange={e => setData('tenaga_pendidik_subtitle', e.target.value)}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                            placeholder="Contoh: Asatidzah Kami"
+                                        />
+                                        {errors.tenaga_pendidik_subtitle && (
+                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-2">{errors.tenaga_pendidik_subtitle}</p>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
                             <div className="bg-white border border-slate-200 rounded-[0.25rem] overflow-hidden">
                                 <div className="px-8 py-6 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
                                     <div className="flex items-center gap-3">
@@ -1228,6 +1572,70 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                     {/* Tab 8: Galeri Unit */}
                     {activeTab === 'galeri' && (
                         <div className="space-y-8 animate-fade-in">
+                            
+                            {/* Section Header & News Filter Settings */}
+                            <div className="bg-white border border-slate-200 rounded-[0.25rem] p-8 space-y-6">
+                                <div className="flex items-center gap-2 mb-6 border-b border-slate-100 pb-4">
+                                    <span className="h-[2px] w-5 bg-brand-primary"></span>
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Pengaturan Judul &amp; Filter Berita Beranda</span>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Judul Section Galeri</label>
+                                        <input
+                                            type="text"
+                                            value={data.galeri_title}
+                                            onChange={e => setData('galeri_title', e.target.value)}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                            placeholder="Contoh: Galeri Unit"
+                                        />
+                                        {errors.galeri_title && (
+                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-2">{errors.galeri_title}</p>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Judul Section Berita</label>
+                                        <input
+                                            type="text"
+                                            value={data.berita_title}
+                                            onChange={e => setData('berita_title', e.target.value)}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                            placeholder="Contoh: Berita &amp; Kegiatan Unit"
+                                        />
+                                        {errors.berita_title && (
+                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-2">{errors.berita_title}</p>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Kategori Berita Beranda</label>
+                                        <select
+                                            value={data.berita_section_category_id}
+                                            onChange={e => setData('berita_section_category_id', e.target.value)}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-4 text-sm focus:ring-1 focus:ring-brand-primary outline-none"
+                                        >
+                                            <option value="">Semua Kategori (Tanpa Filter)</option>
+                                            {beritaCategories.map(c => (
+                                                <option key={c.id} value={c.id}>{c.name}</option>
+                                            ))}
+                                        </select>
+                                        {errors.berita_section_category_id && (
+                                            <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider mt-2">{errors.berita_section_category_id}</p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-end pt-4 border-t border-slate-100/70">
+                                    <button
+                                        type="submit"
+                                        disabled={processing}
+                                        className="bg-brand-primary text-white py-2 px-6 text-[9px] font-bold uppercase tracking-widest rounded-[0.25rem] hover:bg-slate-900 transition-colors flex items-center gap-2"
+                                    >
+                                        {processing ? 'Menyimpan...' : 'Simpan Pengaturan'}
+                                    </button>
+                                </div>
+                            </div>
+
                             <div className="bg-white border border-slate-200 rounded-[0.25rem] overflow-hidden">
                                 <div className="px-8 py-6 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
                                     <div className="flex items-center gap-3">

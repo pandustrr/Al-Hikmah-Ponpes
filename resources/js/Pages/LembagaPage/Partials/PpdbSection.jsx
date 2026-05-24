@@ -37,7 +37,7 @@ export default function PpdbSection({ lembaga, ppdbInfo }) {
                 {/* Section label */}
                 <div className="inline-flex items-center gap-2 mb-8">
                     <span className="h-[2px] w-8 bg-brand-primary"></span>
-                    <span className="text-brand-primary text-[10px] font-bold uppercase tracking-[0.3em]">Penerimaan Peserta Didik Baru</span>
+                    <span className="text-brand-primary text-[10px] font-bold uppercase tracking-[0.3em]">{lembaga.ppdb_tagline || 'Penerimaan Peserta Didik Baru'}</span>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
@@ -45,8 +45,8 @@ export default function PpdbSection({ lembaga, ppdbInfo }) {
                     {/* Left: Deskripsi & CTA */}
                     <div>
                         <h2 className="text-3xl md:text-4xl font-serif font-semibold text-slate-900 tracking-tight leading-tight mb-6">
-                            Bergabunglah Bersama <br />
-                            <span className="text-brand-primary">{lembaga.nama}</span>
+                            {lembaga.ppdb_title || 'Bergabunglah Bersama'} <br />
+                            <span className="text-brand-primary">{lembaga.ppdb_subtitle || lembaga.nama}</span>
                         </h2>
 
                         {ppdbInfo.description && (
@@ -55,17 +55,28 @@ export default function PpdbSection({ lembaga, ppdbInfo }) {
                             </p>
                         )}
 
-                        {/* Checklist highlights from lembaga.keunggulan */}
-                        {lembaga.keunggulan && (
-                            <ul className="space-y-3 mb-10">
-                                {lembaga.keunggulan.split('\n').filter(Boolean).slice(0, 4).map((item, i) => (
-                                    <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
-                                        <CheckCircleIcon className="h-4 w-4 text-brand-primary mt-0.5 shrink-0" />
-                                        {item.trim()}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+                        {/* Checklist highlights */}
+                        {(() => {
+                            let points = [];
+                            if (lembaga.ppdb_points) {
+                                points = lembaga.ppdb_points.split('\n').filter(Boolean);
+                            } else if (lembaga.keunggulan_list && lembaga.keunggulan_list.length > 0) {
+                                points = lembaga.keunggulan_list.slice(0, 4).map(k => k.title);
+                            } else {
+                                points = ['Gedung Milik Sendiri', 'Tenaga Pendidik Lulusan S1', 'Lingkungan Aman & Nyaman', 'Program Tahfidz Intensif'];
+                            }
+                            if (points.length === 0) return null;
+                            return (
+                                <ul className="space-y-3 mb-10">
+                                    {points.map((item, i) => (
+                                        <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
+                                            <CheckCircleIcon className="h-4 w-4 text-brand-primary mt-0.5 shrink-0" />
+                                            {item.trim()}
+                                        </li>
+                                    ))}
+                                </ul>
+                            );
+                        })()}
 
                         <div className="flex flex-col sm:flex-row flex-wrap gap-3">
                             {ppdbInfo.registration_link && ppdbInfo.is_link_active && (
