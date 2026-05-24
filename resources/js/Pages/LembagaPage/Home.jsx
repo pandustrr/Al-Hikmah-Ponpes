@@ -39,10 +39,10 @@ export default function Show({
                 sidebarBeritas={sidebarBeritas} 
                 sidebarCategoryName={sidebarCategoryName} 
             />
-            <TenagaPendidikSection pengajars={pengajars} />
+            <TenagaPendidikSection pengajars={pengajars} lembaga={lembaga} />
             <KeunggulanSection lembaga={lembaga} />
             <HomeVideo lembaga={lembaga} />
-            <BeritaKegiatanSection beritas={beritas} prestasi={prestasi} />
+            <BeritaKegiatanSection beritas={beritas} prestasi={prestasi} lembaga={lembaga} />
             <PpdbSection lembaga={lembaga} ppdbInfo={ppdbInfo} />
             <FasilitasSection lembaga={lembaga} fasilitas={fasilitas} />
             <CtaSection lembaga={lembaga} ppdbInfo={ppdbInfo} />

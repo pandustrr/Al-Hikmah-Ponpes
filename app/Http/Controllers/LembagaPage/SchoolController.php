@@ -26,13 +26,18 @@ class SchoolController extends Controller
             ->latest()
             ->first();
 
-        // Regular News (excluding sticky if exists)
-        $beritas = \App\Models\Berita::where('lembaga_id', $lembaga->id)
+        // Regular News (excluding sticky if exists, and filtered by custom category if selected)
+        $beritasQuery = \App\Models\Berita::where('lembaga_id', $lembaga->id)
             ->where('status', 'published')
             ->when($stickyBerita, function($query) use ($stickyBerita) {
                 return $query->where('id', '!=', $stickyBerita->id);
-            })
-            ->latest()
+            });
+
+        if ($lembaga->berita_section_category_id) {
+            $beritasQuery->where('category_id', $lembaga->berita_section_category_id);
+        }
+
+        $beritas = $beritasQuery->latest()
             ->take(4)
             ->get();
 

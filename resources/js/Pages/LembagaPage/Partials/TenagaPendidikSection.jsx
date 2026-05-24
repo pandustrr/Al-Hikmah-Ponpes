@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function TenagaPendidikSection({ pengajars = [] }) {
+export default function TenagaPendidikSection({ pengajars = [], lembaga = {} }) {
     if (pengajars.length === 0) return null;
 
     return (
@@ -12,11 +12,11 @@ export default function TenagaPendidikSection({ pengajars = [] }) {
                             <div>
                                 <div className="inline-flex items-center gap-2 mb-4">
                                     <span className="h-[2px] w-8 bg-brand-primary"></span>
-                                    <span className="text-brand-primary text-[10px] font-bold uppercase tracking-[0.3em]">Tenaga Pendidik</span>
+                                    <span className="text-brand-primary text-[10px] font-bold uppercase tracking-[0.3em]">{lembaga.tenaga_pendidik_tagline || 'Tenaga Pendidik'}</span>
                                 </div>
                                 <h2 className="text-3xl md:text-5xl font-serif font-semibold text-slate-900 tracking-tight leading-tight">
-                                    Mengenal Para <br />
-                                    <span className="text-brand-primary">Asatidzah Kami</span>
+                                    {lembaga.tenaga_pendidik_title || 'Mengenal Para'} <br />
+                                    <span className="text-brand-primary">{lembaga.tenaga_pendidik_subtitle || 'Asatidzah Kami'}</span>
                                 </h2>
                             </div>
                         </div>

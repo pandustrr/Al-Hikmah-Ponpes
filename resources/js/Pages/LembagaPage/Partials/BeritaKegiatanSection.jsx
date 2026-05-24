@@ -2,16 +2,31 @@ import React from 'react';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { Link } from '@inertiajs/react';
 
-export default function BeritaKegiatanSection({ beritas = [], prestasi = [] }) {
+export default function BeritaKegiatanSection({ beritas = [], prestasi = [], lembaga = {} }) {
     const items = beritas.length > 0 ? beritas : prestasi.slice(0, 4);
+
+    const renderTitle = (titleText) => {
+        if (!titleText) return '';
+        const words = titleText.split(' ');
+        if (words.length <= 1) return titleText;
+        const lastWord = words.pop();
+        return (
+            <>
+                {words.join(' ')}{' '}
+                <span className="text-brand-primary">{lastWord}</span>
+            </>
+        );
+    };
 
     return (
         <section className="py-20 md:py-28 bg-white">
             <div className="max-w-7xl mx-auto px-6 md:px-12">
                 <div className="flex items-end justify-between mb-12">
                     <div>
-                        <h2 className="text-[10px] font-bold text-brand-primary uppercase tracking-[0.4em] mb-4">Galeri Unit</h2>
-                        <h3 className="text-3xl md:text-4xl font-serif font-semibold text-slate-900 tracking-tight">Berita & <span className="text-brand-primary">Kegiatan Unit</span></h3>
+                        <h2 className="text-[10px] font-bold text-brand-primary uppercase tracking-[0.4em] mb-4">{lembaga.galeri_title || 'Galeri Unit'}</h2>
+                        <h3 className="text-3xl md:text-4xl font-serif font-semibold text-slate-900 tracking-tight">
+                            {renderTitle(lembaga.berita_title || 'Berita & Kegiatan Unit')}
+                        </h3>
                     </div>
                     <Link href="/berita" className="text-[9px] font-bold text-slate-400 hover:text-brand-primary uppercase tracking-widest flex items-center gap-2">
                         Selengkapnya <ArrowRightIcon className="h-3 w-3" />

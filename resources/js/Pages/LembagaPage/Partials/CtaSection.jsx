@@ -8,10 +8,10 @@ export default function CtaSection({ lembaga, ppdbInfo }) {
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/az-subtle.png')] opacity-10"></div>
                 <div className="relative z-10 max-w-xl mx-auto">
                     <h3 className="text-white text-2xl md:text-3xl font-serif font-semibold tracking-tight mb-4">
-                        Mulai Perjalanan Pendidikan di <span className="text-brand-secondary">{lembaga.nama}</span>
+                        {lembaga.ppdb_bottom_title || <>Mulai Perjalanan Pendidikan di <span className="text-brand-secondary">{lembaga.nama}</span></>}
                     </h3>
                     <p className="text-white/60 text-xs md:text-sm mb-8 leading-relaxed">
-                        {ppdbInfo?.description || 'Pendaftaran gelombang saat ini masih dibuka. Pastikan putra-putri Anda mendapatkan lingkungan belajar yang sesuai dengan tuntunan.'}
+                        {lembaga.ppdb_bottom_subtitle || ppdbInfo?.description || 'Pendaftaran gelombang saat ini masih dibuka. Pastikan putra-putri Anda mendapatkan lingkungan belajar yang sesuai dengan tuntunan.'}
                     </p>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <a 
