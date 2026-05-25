@@ -22,7 +22,7 @@ export default function BeritaYayasan({ beritaTerbaru, settings = {} }) {
                     </Link>
                 </div>
                 
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                     {beritaTerbaru.slice(0, 4).map((berita, i) => (
                         <div key={berita.id} className="reveal-element-up" style={{ transitionDelay: `${i * 100}ms` }}>
                             <NewsCard berita={berita} />

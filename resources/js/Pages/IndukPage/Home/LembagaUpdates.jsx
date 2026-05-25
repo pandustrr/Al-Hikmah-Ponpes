@@ -47,7 +47,7 @@ export default function LembagaUpdates({ lembagas }) {
                                                     <span className="w-2 h-2 bg-brand-primary rounded-full"></span>
                                                     Berita Terbaru
                                                 </h5>
-                                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-4">
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                                     {beritaItems.map(b => (
                                                         <Link key={b.id} href={`/berita/${b.slug}`} className="group bg-white border border-brand-secondary hover:border-brand-primary transition-all rounded-[0.25rem] overflow-hidden block">
                                                              <div className="aspect-[16/9] overflow-hidden bg-brand-secondary">
@@ -58,11 +58,11 @@ export default function LembagaUpdates({ lembagas }) {
                                                                      onError={(e) => { e.target.onerror = null; e.target.src = `https://images.unsplash.com/photo-1544717305-996b815c338c?auto=format&fit=crop&q=80&w=400`; }}
                                                                  />
                                                              </div>
-                                                             <div className="p-2 sm:p-3">
+                                                             <div className="p-3">
                                                                  <div className="text-[8px] font-semibold text-brand-accent uppercase tracking-widest mb-1 opacity-70">
                                                                      {b.category?.name || 'Berita'}
                                                                  </div>
-                                                                 <h6 className="font-semibold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug text-[9px] sm:text-xs md:text-[12px] line-clamp-2">{b.judul}</h6>
+                                                                 <h6 className="font-semibold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug text-xs sm:text-xs md:text-[12px] line-clamp-2">{b.judul}</h6>
                                                              </div>
                                                          </Link>
                                                     ))}
@@ -78,7 +78,7 @@ export default function LembagaUpdates({ lembagas }) {
                                                     <span className="w-2 h-2 bg-brand-primary rounded-full"></span>
                                                     Prestasi Terbaru
                                                  </h5>
-                                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-4">
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                                     {prestasiItems.map(p => (
                                                         <div key={p.id} className="group bg-white border border-brand-secondary hover:border-brand-primary transition-all rounded-[0.25rem] overflow-hidden">
                                                             <div className="aspect-[16/9] overflow-hidden bg-brand-secondary">
@@ -89,8 +89,8 @@ export default function LembagaUpdates({ lembagas }) {
                                                                     onError={(e) => { e.target.onerror = null; e.target.src = `https://images.unsplash.com/photo-1544717305-996b815c338c?auto=format&fit=crop&q=80&w=400`; }}
                                                                 />
                                                             </div>
-                                                            <div className="p-2 sm:p-3">
-                                                                <h6 className="font-semibold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug text-[9px] sm:text-xs md:text-[12px] line-clamp-2">{p.judul}</h6>
+                                                            <div className="p-3">
+                                                                <h6 className="font-semibold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug text-xs sm:text-xs md:text-[12px] line-clamp-2">{p.judul}</h6>
                                                             </div>
                                                         </div>
                                                     ))}
