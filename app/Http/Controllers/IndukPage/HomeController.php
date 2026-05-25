@@ -9,6 +9,7 @@ use App\Models\Kegiatan;
 use App\Models\Berita;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -135,7 +136,7 @@ class HomeController extends Controller
 
         // 4. Bottom Category News
         $bottomNewsCategoryId = $landingSettings->get('bottom_news_category_id', '');
-        
+
         if ($bottomNewsCategoryId === 'all') {
             $bottomNews = \App\Models\Berita::with('category')->latest()->take(4)->get();
             $bottomNewsTitle = 'Terbaru';
@@ -206,7 +207,7 @@ class HomeController extends Controller
             'info-ppdb' => ['priority' => '0.9', 'changefreq' => 'weekly'],
             'kontak'    => ['priority' => '0.7', 'changefreq' => 'monthly'],
             'fasilitas' => ['priority' => '0.7', 'changefreq' => 'monthly'],
-            'berita'    => ['priority' => '0.9', 'changefreq' => 'daily'], 
+            'berita'    => ['priority' => '0.9', 'changefreq' => 'daily'],
         ];
 
         foreach ($staticPages as $path => $meta) {
@@ -257,14 +258,13 @@ class HomeController extends Controller
         $categories = \App\Models\BeritaCategory::all();
         foreach ($categories as $cat) {
             if ($cat->slug) {
-                // Cari berita terakhir dalam kategori ini untuk mendapatkan lastmod yang akurat
                 $latestBeritaInCat = \App\Models\Berita::where('category_id', $cat->id)->latest()->first();
-                $lastmod = $latestBeritaInCat && $latestBeritaInCat->updated_at 
-                    ? $latestBeritaInCat->updated_at->toAtomString() 
+                $lastmod = $latestBeritaInCat && $latestBeritaInCat->updated_at
+                    ? $latestBeritaInCat->updated_at->toAtomString()
                     : now()->startOfDay()->toAtomString();
 
                 $urls[] = [
-                    'loc' => "{$baseUrl}/berita?kategori=" . urlencode($cat->slug),
+                    'loc' => "{$baseUrl}/berita/kategori/" . urlencode(Str::slug($cat->name)),
                     'lastmod' => $lastmod,
                     'changefreq' => 'daily',
                     'priority' => '0.75'
@@ -275,7 +275,7 @@ class HomeController extends Controller
         // Generate XML Content
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
         $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">';
-        
+
         foreach ($urls as $url) {
             $xml .= '<url>';
             $xml .= '<loc>' . htmlspecialchars($url['loc']) . '</loc>';
@@ -292,7 +292,7 @@ class HomeController extends Controller
             }
             $xml .= '</url>';
         }
-        
+
         $xml .= '</urlset>';
 
         return response($xml, 200)->header('Content-Type', 'text/xml');

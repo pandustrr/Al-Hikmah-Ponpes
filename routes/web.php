@@ -17,7 +17,7 @@ use Inertia\Inertia;
 Route::prefix('admin/console')->name('admin.')->group(function () {
     // Login Induk (Sekarang langsung di /admin/console)
     Route::get('/', [HomeController::class, 'adminLogin'])->name('login');
-    
+
     // Dashboard Induk (Protected)
     Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', function () {
@@ -47,7 +47,7 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
         Route::resource('/events', \App\Http\Controllers\IndukAdmin\EventController::class)->names('events');
         Route::post('/pengajar/{pengajar}', [\App\Http\Controllers\IndukAdmin\PengajarController::class, 'update'])->name('admin.pengajar.update-post');
         Route::resource('/pengajar', \App\Http\Controllers\IndukAdmin\PengajarController::class)->names('pengajar');
-        
+
         Route::get('/info-ppdb', [\App\Http\Controllers\IndukAdmin\InfoPPDBController::class, 'index'])->name('info-ppdb.index');
         Route::post('/info-ppdb/info', [\App\Http\Controllers\IndukAdmin\InfoPPDBController::class, 'storeInfo'])->name('ppdb-info.store');
         Route::put('/info-ppdb/info/{ppdbInfo}', [\App\Http\Controllers\IndukAdmin\InfoPPDBController::class, 'updateInfo'])->name('ppdb-info.update');
@@ -71,7 +71,7 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
         Route::post('/tentang', [\App\Http\Controllers\IndukAdmin\TentangAdminController::class, 'update'])->name('tentang.update');
         Route::get('/kontak', [\App\Http\Controllers\IndukAdmin\KontakController::class, 'index'])->name('kontak.index');
         Route::post('/kontak', [\App\Http\Controllers\IndukAdmin\KontakController::class, 'update'])->name('kontak.update');
-        
+
         // Settings
         Route::get('/settings', [\App\Http\Controllers\IndukAdmin\SiteSettingController::class, 'index'])->name('settings.index');
         Route::put('/settings', [\App\Http\Controllers\IndukAdmin\SiteSettingController::class, 'update'])->name('settings.update');
@@ -85,6 +85,7 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
 // --- PUBLIC ROUTES ---
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
+Route::get('/berita/kategori/{kategori}', [BeritaController::class, 'index'])->name('berita.kategori');
 Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.show');
 Route::get('/profil', [TentangController::class, 'profil'])->name('profil');
 Route::get('/info-ppdb', [InfoPPDBController::class, 'index'])->name('pendaftaran');
