@@ -253,6 +253,25 @@ class HomeController extends Controller
             }
         }
 
+        // 4. Dynamic News Categories (Kategori Berita) — Priority 0.75
+        $categories = \App\Models\BeritaCategory::all();
+        foreach ($categories as $cat) {
+            if ($cat->slug) {
+                // Cari berita terakhir dalam kategori ini untuk mendapatkan lastmod yang akurat
+                $latestBeritaInCat = \App\Models\Berita::where('category_id', $cat->id)->latest()->first();
+                $lastmod = $latestBeritaInCat && $latestBeritaInCat->updated_at 
+                    ? $latestBeritaInCat->updated_at->toAtomString() 
+                    : now()->startOfDay()->toAtomString();
+
+                $urls[] = [
+                    'loc' => "{$baseUrl}/berita?kategori=" . urlencode($cat->slug),
+                    'lastmod' => $lastmod,
+                    'changefreq' => 'daily',
+                    'priority' => '0.75'
+                ];
+            }
+        }
+
         // Generate XML Content
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
         $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">';
