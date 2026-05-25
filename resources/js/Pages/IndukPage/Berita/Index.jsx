@@ -4,7 +4,7 @@ import { Link, Head, router } from '@inertiajs/react';
 import NewsTicker from './NewsTicker';
 import NewsCard from './NewsCard';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-export default function Index({ berita, multimedia = [], currentCategory, categories, settings = {}, popularNews = [], filters = {} }) {
+export default function Index({ berita, multimedia = [], currentCategory, currentCategorySeoSlug, categories, settings = {}, popularNews = [], filters = {} }) {
     const [searchQuery, setSearchQuery] = useState(filters.q || '');
     const [search, setSearch] = useState(filters.q || '');
     // Combine "Semua Berita" with dynamic categories from DB
@@ -43,6 +43,10 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
     // Slider state
     const [currentSlide, setCurrentSlide] = useState(0);
 
+    const currentCategoryName = currentCategory
+        ? categories.find(c => c.slug === currentCategory)?.name || currentCategory
+        : null;
+
     useEffect(() => {
         if (featuredNewsList.length > 1) {
             const timer = setInterval(() => {
@@ -56,17 +60,17 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
 
     return (
         <PublicLayout title={currentCategory
-            ? `Berita ${categories.find(c => c.slug === currentCategory)?.name || currentCategory}`
+            ? `Berita ${currentCategoryName}`
             : 'Berita & Informasi'}
         >
             {/* Dynamic SEO Head for SPA navigation */}
             <Head>
                 {currentCategory ? (
                     <>
-                        <title key="title">{`Berita ${categories.find(c => c.slug === currentCategory)?.name || currentCategory} - Yayasan Al-Hikmah Ambulu`}</title>
-                        <meta key="desc" name="description" content={`Kumpulan berita dan informasi kategori ${categories.find(c => c.slug === currentCategory)?.name || currentCategory} dari Yayasan Al-Hikmah Ambulu.`} />
-                        <meta key="og-title" property="og:title" content={`Berita ${categories.find(c => c.slug === currentCategory)?.name || currentCategory} - Yayasan Al-Hikmah Ambulu`} />
-                        <meta key="og-desc" property="og:description" content={`Kumpulan berita dan informasi kategori ${categories.find(c => c.slug === currentCategory)?.name || currentCategory} dari Yayasan Al-Hikmah Ambulu.`} />
+                        <title key="title">{`Berita ${currentCategoryName} - Yayasan Al-Hikmah Ambulu`}</title>
+                        <meta key="desc" name="description" content={`Kumpulan berita dan informasi kategori ${currentCategoryName} dari Yayasan Al-Hikmah Ambulu.`} />
+                        <meta key="og-title" property="og:title" content={`Berita ${currentCategoryName} - Yayasan Al-Hikmah Ambulu`} />
+                        <meta key="og-desc" property="og:description" content={`Kumpulan berita dan informasi kategori ${currentCategoryName} dari Yayasan Al-Hikmah Ambulu.`} />
                     </>
                 ) : (
                     <>
@@ -74,9 +78,13 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                         <meta key="desc" name="description" content="Baca berita, pengumuman, dan informasi terkini dari Yayasan Al-Hikmah Ambulu. Update kegiatan, prestasi, dan program pendidikan santri." />
                     </>
                 )}
-                <link key="canonical" rel="canonical" href={typeof window !== 'undefined' ? `${window.location.origin}/berita` : '/berita'} />
+                <link key="canonical" rel="canonical" href={typeof window !== 'undefined'
+                    ? (currentCategory && currentCategorySeoSlug ? `${window.location.origin}/berita/kategori/${currentCategorySeoSlug}` : `${window.location.origin}/berita`)
+                    : (currentCategory && currentCategorySeoSlug ? `/berita/kategori/${currentCategorySeoSlug}` : '/berita')} />
                 <meta key="og-type" property="og:type" content="website" />
-                <meta key="og-url" property="og:url" content={typeof window !== 'undefined' ? `${window.location.origin}/berita` : '/berita'} />
+                <meta key="og-url" property="og:url" content={typeof window !== 'undefined'
+                    ? (currentCategory && currentCategorySeoSlug ? `${window.location.origin}/berita/kategori/${currentCategorySeoSlug}` : `${window.location.origin}/berita`)
+                    : (currentCategory && currentCategorySeoSlug ? `/berita/kategori/${currentCategorySeoSlug}` : '/berita')} />
                 <meta key="robots" name="robots" content="index, follow" />
             </Head>
             {/* Wrapper to offset the fixed navbar height so the top bar is not covered or too close */}
@@ -310,7 +318,7 @@ export default function Index({ berita, multimedia = [], currentCategory, catego
                             <div className="bg-gradient-to-br from-purple-600 via-pink-500 to-orange-500 p-6 rounded-[0.25rem] text-white shadow-lg relative overflow-hidden group">
                                 <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-xl group-hover:bg-white/20 transition-all"></div>
                                 <div className="absolute -left-4 -bottom-4 w-32 h-32 bg-orange-400/20 rounded-full blur-xl group-hover:bg-orange-400/30 transition-all"></div>
-                                
+
                                 <div className="relative z-10 flex flex-col items-center text-center space-y-4 py-2">
                                     <svg className="w-12 h-12 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                                     <p className="text-sm font-medium drop-shadow-sm line-clamp-2">Ikuti kami di Instagram untuk melihat dokumentasi kegiatan dan keseharian santri.</p>
