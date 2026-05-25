@@ -148,10 +148,10 @@ export default function Show({ berita, recentBerita = [], settings = {} }) {
                             </picture>
                         </div>
 
-                        <div className="prose prose-slate max-w-none mb-12">
+                        <div className="max-w-none mb-12">
                             <div 
-                                dangerouslySetInnerHTML={{ __html: berita.konten }} 
-                                className="text-brand-primary leading-relaxed text-lg font-serif space-y-6"
+                                dangerouslySetInnerHTML={{ __html: berita.konten ? berita.konten.replace(/&nbsp;/g, ' ') : '' }} 
+                                className="text-brand-primary leading-relaxed text-[15px] md:text-lg font-serif break-words overflow-hidden rich-text-content"
                             />
                         </div>
 
@@ -216,6 +216,35 @@ export default function Show({ berita, recentBerita = [], settings = {} }) {
                 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap');
                 .font-serif {
                     font-family: 'Playfair Display', serif;
+                }
+                .rich-text-content p {
+                    margin-bottom: 1.5rem;
+                }
+                .rich-text-content h1, .rich-text-content h2, .rich-text-content h3 {
+                    font-weight: 700;
+                    margin-top: 2rem;
+                    margin-bottom: 1rem;
+                    color: var(--color-brand-primary, inherit);
+                }
+                .rich-text-content ul {
+                    list-style-type: disc;
+                    padding-left: 1.5rem;
+                    margin-bottom: 1.5rem;
+                }
+                .rich-text-content ol {
+                    list-style-type: decimal;
+                    padding-left: 1.5rem;
+                    margin-bottom: 1.5rem;
+                }
+                .rich-text-content img {
+                    max-width: 100%;
+                    height: auto;
+                    border-radius: 0.5rem;
+                    margin-bottom: 1.5rem;
+                }
+                .rich-text-content a {
+                    color: var(--color-brand-accent, #3b82f6);
+                    text-decoration: underline;
                 }
             `}} />
         </PublicLayout>
