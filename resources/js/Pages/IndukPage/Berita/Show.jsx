@@ -74,22 +74,25 @@ export default function Show({ berita, recentBerita = [], settings = {} }) {
                 </script>
             </Head>
 
-            {/* News Top Bar (Tempo Style) - Diaktifkan di mobile secara responsif */}
-            <div className="bg-brand-primary text-white py-2 border-b border-white/10">
-                <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 text-[9px] md:text-[10px] font-semibold uppercase tracking-widest text-center sm:text-left">
-                    <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 sm:gap-4">
-                        <span>{new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                        <span className="text-white/30">|</span>
-                        <span className="text-brand-secondary animate-pulse flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 bg-brand-secondary rounded-full"></span>
-                            Live Update
-                        </span>
-                    </div>
-                    <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
-                        <a href={settings.social_facebook || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Facebook</a>
-                        <a href={settings.social_instagram || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Instagram</a>
-                        <a href={settings.social_twitter || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Twitter</a>
-                        <a href={settings.social_youtube || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">YouTube</a>
+            {/* Wrapper to offset the fixed navbar height so the top bar is not covered or too close */}
+            <div className="pt-20 md:pt-24">
+                {/* News Top Bar (Tempo Style) - Diaktifkan di mobile secara responsif */}
+                <div className="bg-brand-primary text-white py-2 border-b border-white/10">
+                    <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 text-[9px] md:text-[10px] font-semibold uppercase tracking-widest text-center sm:text-left">
+                        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 sm:gap-4">
+                            <span>{new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                            <span className="text-white/30">|</span>
+                            <span className="text-brand-secondary animate-pulse flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 bg-brand-secondary rounded-full"></span>
+                                Live Update
+                            </span>
+                        </div>
+                        <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
+                            <a href={settings.social_facebook || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Facebook</a>
+                            <a href={settings.social_instagram || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Instagram</a>
+                            <a href={settings.social_twitter || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">Twitter</a>
+                            <a href={settings.social_youtube || "#"} className="hover:text-brand-secondary transition-colors" target="_blank">YouTube</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -115,10 +118,7 @@ export default function Show({ berita, recentBerita = [], settings = {} }) {
                             <div className="text-xs font-semibold text-brand-primary uppercase tracking-[0.2em] mb-4">
                                 {berita.category?.name || 'Berita Utama'}
                             </div>
-                            <h1 className="text-3xl md:text-5xl font-semibold text-brand-primary leading-tight tracking-tighter mb-6">
-                                {berita.judul}
-                            </h1>
-                            <div className="flex flex-wrap items-center gap-6 py-6 border-y border-sage-light text-brand-accent">
+                            <div className="flex flex-wrap items-center gap-6 py-4 mb-6 border-y border-sage-light text-brand-accent">
                                 <div className="flex items-center gap-2">
                                     <div className="w-8 h-8 rounded-full bg-brand-secondary flex items-center justify-center text-[10px] font-semibold text-brand-accent">
                                         AH
@@ -129,6 +129,9 @@ export default function Show({ berita, recentBerita = [], settings = {} }) {
                                     {formattedDate}
                                 </time>
                             </div>
+                            <h1 className="text-3xl md:text-5xl font-semibold text-brand-primary leading-tight tracking-tighter mb-2">
+                                {berita.judul}
+                            </h1>
                         </div>
 
                         <div className="aspect-[3/4] sm:aspect-video bg-brand-secondary mb-10 overflow-hidden rounded-[0.25rem]">
@@ -142,7 +145,7 @@ export default function Show({ berita, recentBerita = [], settings = {} }) {
                                     width="1200"
                                     height="630"
                                     loading="eager"
-                                    fetchPriority="high"
+                                    fetchpriority="high"
                                     className="w-full h-full object-cover"
                                 />
                             </picture>

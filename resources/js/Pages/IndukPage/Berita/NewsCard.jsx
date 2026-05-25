@@ -67,7 +67,7 @@ export default function NewsCard({ berita, variant = 'vertical', className = '',
                             </h3>
 
                             <p className="text-slate-600 text-[11px] md:text-xs leading-relaxed line-clamp-6 md:line-clamp-8">
-                                {berita.ringkasan || berita.konten || 'Detail berita lengkap dapat diakses dengan menekan tombol Baca Selengkapnya.'}
+                                {(berita.ringkasan || berita.konten || '').replace(/&nbsp;/g, ' ').replace(/<[^>]*>?/gm, '') || 'Detail berita lengkap dapat diakses dengan menekan tombol Baca Selengkapnya.'}
                             </p>
                         </div>
 
@@ -128,7 +128,7 @@ export default function NewsCard({ berita, variant = 'vertical', className = '',
                             width="1200"
                             height="630"
                             loading={isPriority ? 'eager' : 'lazy'}
-                            fetchPriority={isPriority ? 'high' : 'auto'}
+                            fetchpriority={isPriority ? 'high' : 'auto'}
                             className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700"
                         />
                     </picture>
@@ -146,7 +146,7 @@ export default function NewsCard({ berita, variant = 'vertical', className = '',
                             {berita.judul}
                         </h2>
                         <p className="text-white/80 text-sm md:text-base line-clamp-2 max-w-2xl hidden md:block">
-                            {berita.konten}
+                            {(berita.ringkasan || berita.konten || '').replace(/&nbsp;/g, ' ').replace(/<[^>]*>?/gm, '')}
                         </p>
                     </div>
                 </Link>
