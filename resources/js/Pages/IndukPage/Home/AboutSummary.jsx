@@ -27,14 +27,14 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                             </div>
                             <div className="lg:col-span-5 space-y-6">
                                 <div>
-                                    <h2 className="text-[10px] font-semibold text-brand-accent uppercase tracking-[0.3em] mb-2">{settings.about_title_small || 'Mengenal Lebih Dekat'}</h2>
-                                    <h3 className="text-3xl font-semibold text-brand-primary tracking-tighter uppercase leading-none mb-4 whitespace-pre-line">{settings.about_title_large || 'YPDS \n Al-Hikmah'}</h3>
+                                    <h2 className="text-xs font-bold text-brand-accent uppercase tracking-[0.25em] mb-2">{settings.about_title_small || 'Mengenal Lebih Dekat'}</h2>
+                                    <h3 className="text-3xl font-bold text-brand-primary tracking-tighter uppercase leading-none mb-4 whitespace-pre-line">{settings.about_title_large || 'YPDS \n Al-Hikmah'}</h3>
                                     <div className="h-0.5 w-14 bg-brand-primary"></div>
                                 </div>
-                                <p className="text-brand-accent leading-relaxed italic border-l-4 border-brand-primary pl-4 text-sm">
+                                <p className="text-brand-accent leading-relaxed italic border-l-4 border-brand-primary pl-4 text-sm font-medium">
                                     "{settings.about_description_short || 'YPDS Al-Hikmah adalah lembaga pendidikan Islam yang berdedikasi untuk mencetak generasi cerdas secara intelektual dan kokoh secara spiritual.'}"
                                 </p>
-                                <p className="text-brand-primary leading-relaxed text-sm">
+                                <p className="text-brand-primary leading-relaxed text-sm font-medium">
                                     {settings.about_description || 'Berdiri di jantung Ambulu, Jember, lembaga kami telah menjadi rumah bagi ribuan siswa yang menyeimbangkan kurikulum modern dengan karakter Islami.'}
                                 </p>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -43,8 +43,8 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                                         { title: 'Lingkungan Siswa', desc: settings.about_env_desc || 'Asrama nyaman dengan pembiasaan adab harian yang terstruktur.' }
                                     ]).map((feature, i) => (
                                         <div key={i} className="bg-brand-secondary p-5 border border-brand-accent/10 rounded-[0.25rem]">
-                                            <h4 className="font-semibold text-brand-primary text-[10px] uppercase tracking-widest mb-1">{feature.title}</h4>
-                                            <p className="text-[11px] text-brand-accent leading-relaxed">{feature.desc}</p>
+                                            <h4 className="font-bold text-brand-primary text-xs uppercase tracking-widest mb-1">{feature.title}</h4>
+                                            <p className="text-xs text-brand-accent leading-relaxed font-medium">{feature.desc}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -57,14 +57,14 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                                         { value: settings.about_stat_4_val || '100%', label: settings.about_stat_4_lbl || 'Berasrama' },
                                     ].map((stat, i) => (
                                         <div key={i} className="text-center py-2 bg-brand-primary/5 rounded-[0.25rem] md:bg-transparent md:py-0">
-                                            <div className="text-xl font-semibold text-brand-primary">{stat.value}</div>
-                                            <div className="text-[9px] font-semibold text-brand-accent uppercase tracking-widest">{stat.label}</div>
+                                            <div className="text-xl font-bold text-brand-primary">{stat.value}</div>
+                                            <div className="text-[10px] font-bold text-brand-accent uppercase tracking-widest">{stat.label}</div>
                                         </div>
                                     ))}
                                 </div>
                                 <div className="flex flex-col sm:flex-row gap-4 pt-2 w-full">
-                                    <Link href="/info-ppdb" className="btn-primary px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] shadow-lg text-center w-full sm:w-auto">Pendaftaran Siswa Baru</Link>
-                                    <Link href="/profil" className="border-2 border-brand-primary text-brand-primary px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] hover:bg-brand-primary hover:text-white transition-all rounded-[0.25rem] text-center w-full sm:w-auto">Profil Lengkap</Link>
+                                    <Link href="/info-ppdb" className="btn-primary px-8 py-3 text-xs font-bold uppercase tracking-[0.15em] shadow-lg text-center w-full sm:w-auto">Pendaftaran Siswa Baru</Link>
+                                    <Link href="/profil" className="border-2 border-brand-primary text-brand-primary px-8 py-3 text-xs font-bold uppercase tracking-[0.15em] hover:bg-brand-primary hover:text-white transition-all rounded-[0.25rem] text-center w-full sm:w-auto">Profil Lengkap</Link>
                                 </div>
                             </div>
                         </div>
@@ -72,8 +72,8 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                         {/* 2. Lembaga Education Sub-Section */}
                         <div className="space-y-12">
                             <div className="text-center lg:text-left">
-                                <h2 className="text-xs font-semibold text-brand-accent uppercase tracking-[0.3em] mb-3">{settings.about_lembaga_tagline || 'Program Unggulan'}</h2>
-                                <h3 className="text-3xl font-semibold text-brand-primary tracking-tighter uppercase mb-5">{settings.about_lembaga_title || 'Lembaga Pendidikan'}</h3>
+                                <h2 className="text-xs font-bold text-brand-accent uppercase tracking-[0.25em] mb-3">{settings.about_lembaga_tagline || 'Program Unggulan'}</h2>
+                                <h3 className="text-3xl font-bold text-brand-primary tracking-tighter uppercase mb-5">{settings.about_lembaga_title || 'Lembaga Pendidikan'}</h3>
                                 <div className="h-1 w-20 bg-brand-primary lg:mx-0 mx-auto"></div>
                             </div>
                             <div className="grid grid-cols-2 gap-3 md:gap-6">
@@ -83,12 +83,12 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                                         href={`/${lembaga.slug}`}
                                         className="group bg-white p-3 md:p-8 border border-brand-secondary hover:border-brand-primary transition-all duration-500 rounded-[0.25rem] shadow-sm hover:shadow-xl"
                                     >
-                                        <div className="text-[8px] md:text-[10px] font-semibold text-brand-accent uppercase tracking-widest mb-1.5 md:mb-3">Pendidikan Formal</div>
-                                        <h4 className="text-[11px] sm:text-base md:text-2xl font-semibold text-brand-primary mb-2 md:mb-5 group-hover:text-brand-accent transition-colors uppercase leading-tight line-clamp-2">{lembaga.nama}</h4>
-                                        <p className="hidden md:block text-brand-accent text-sm mb-8 leading-relaxed line-clamp-2">
+                                        <div className="text-[10px] md:text-xs font-bold text-brand-accent uppercase tracking-widest mb-1.5 md:mb-3">Pendidikan Formal</div>
+                                        <h4 className="text-xs sm:text-base md:text-2xl font-bold text-brand-primary mb-2 md:mb-5 group-hover:text-brand-accent transition-colors uppercase leading-tight line-clamp-2">{lembaga.nama}</h4>
+                                        <p className="hidden md:block text-brand-accent text-sm mb-8 leading-relaxed line-clamp-2 font-medium">
                                             {lembaga.deskripsi}
                                         </p>
-                                        <div className="flex items-center text-brand-primary font-semibold text-[8px] md:text-[10px] uppercase tracking-widest border-t border-brand-secondary pt-2 md:pt-5">
+                                        <div className="flex items-center text-brand-primary font-bold text-[10px] md:text-xs uppercase tracking-widest border-t border-brand-secondary pt-2 md:pt-5">
                                             <span className="hidden md:inline">Lihat Profil Lembaga</span>
                                             <span className="md:hidden">Profil</span>
                                             <ArrowLongRightIcon className="h-3 w-3 md:h-4 md:w-4 ml-1 md:ml-2 group-hover:translate-x-1 transition-transform stroke-[3px]" />
@@ -106,24 +106,24 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                             {/* Pengumuman */}
                             <div>
                                 <div className="border-b-2 border-brand-primary pb-3 mb-6">
-                                    <h4 className="text-[10px] font-semibold text-brand-primary uppercase tracking-[0.2em] flex items-center justify-between">
+                                    <h4 className="text-xs font-bold text-brand-primary uppercase tracking-[0.15em] flex items-center justify-between">
                                         {announcementTitle}
                                         <span className="w-1.5 h-1.5 bg-brand-accent rounded-full animate-pulse"></span>
                                     </h4>
                                 </div>
                                 <div className="space-y-6">
                                     {announcements.length === 0 ? (
-                                        <p className="text-[10px] text-slate-400 italic">Belum ada berita.</p>
+                                        <p className="text-xs text-slate-400 italic font-medium">Belum ada berita.</p>
                                     ) : (
                                         announcements.map((item) => (
                                             <Link key={item.id} href={route('berita.show', item.slug)} className="block group border-b border-brand-secondary pb-4 last:border-0 hover:pl-2 transition-all duration-300">
-                                                <div className="text-[8px] font-semibold text-brand-accent uppercase tracking-widest mb-1 opacity-70">{item.category?.name || 'Berita'} · {item.formatted_date || item.tanggal}</div>
-                                                <p className="text-[11px] font-semibold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug line-clamp-2">{item.judul}</p>
+                                                <div className="text-[10px] font-bold text-brand-accent uppercase tracking-widest mb-1 opacity-70">{item.category?.name || 'Berita'} · {item.formatted_date || item.tanggal}</div>
+                                                <p className="text-xs font-bold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug line-clamp-2">{item.judul}</p>
                                             </Link>
                                         ))
                                     )}
                                     <div className="pt-2">
-                                        <Link href={`/berita?kategori=${encodeURIComponent(announcementSlug)}`} className="text-[10px] font-semibold text-brand-accent hover:text-brand-primary uppercase tracking-[0.2em] transition-all flex flex-col group/link">
+                                        <Link href={`/berita?kategori=${encodeURIComponent(announcementSlug)}`} className="text-xs font-bold text-brand-accent hover:text-brand-primary uppercase tracking-[0.15em] transition-all flex flex-col group/link">
                                             <span>Lihat Semua</span>
                                             <span className="mt-1 group-hover/link:translate-x-2 transition-transform duration-300">→</span>
                                         </Link>
@@ -134,24 +134,24 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                             {/* Artikel */}
                             <div className="pt-4">
                                 <div className="border-b-2 border-brand-primary pb-3 mb-6">
-                                    <h4 className="text-[10px] font-semibold text-brand-primary uppercase tracking-[0.2em] flex items-center justify-between">
+                                    <h4 className="text-xs font-bold text-brand-primary uppercase tracking-[0.15em] flex items-center justify-between">
                                         {articleTitle}
                                         <span className="w-1.5 h-1.5 bg-brand-accent rounded-full animate-pulse"></span>
                                     </h4>
                                 </div>
                                 <div className="space-y-6">
                                     {articles.length === 0 ? (
-                                        <p className="text-[10px] text-slate-400 italic">Belum ada berita.</p>
+                                        <p className="text-xs text-slate-400 italic font-medium">Belum ada berita.</p>
                                     ) : (
                                         articles.map((item) => (
                                             <Link key={item.id} href={route('berita.show', item.slug)} className="block group border-b border-brand-secondary pb-4 last:border-0 hover:pl-2 transition-all duration-300">
-                                                <div className="text-[8px] font-semibold text-brand-accent uppercase tracking-widest mb-1 opacity-70">{item.category?.name || 'Artikel'} · {item.formatted_date || item.tanggal}</div>
-                                                <p className="text-[11px] font-semibold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug line-clamp-2">{item.judul}</p>
+                                                <div className="text-[10px] font-bold text-brand-accent uppercase tracking-widest mb-1 opacity-70">{item.category?.name || 'Artikel'} · {item.formatted_date || item.tanggal}</div>
+                                                <p className="text-xs font-bold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug line-clamp-2">{item.judul}</p>
                                             </Link>
                                         ))
                                     )}
                                     <div className="pt-2">
-                                        <Link href={`/berita?kategori=${encodeURIComponent(articleSlug)}`} className="text-[10px] font-semibold text-brand-accent hover:text-brand-primary uppercase tracking-[0.2em] transition-all flex flex-col group/link">
+                                        <Link href={`/berita?kategori=${encodeURIComponent(articleSlug)}`} className="text-xs font-bold text-brand-accent hover:text-brand-primary uppercase tracking-[0.15em] transition-all flex flex-col group/link">
                                             <span>Lihat Semua</span>
                                             <span className="mt-1 group-hover/link:translate-x-2 transition-transform duration-300">→</span>
                                         </Link>

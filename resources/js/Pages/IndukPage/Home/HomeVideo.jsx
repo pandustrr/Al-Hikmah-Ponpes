@@ -104,15 +104,15 @@ export default function HomeVideo({ settings = {} }) {
                 <div className="text-center max-w-3xl mx-auto mb-12">
                     <div className="inline-flex items-center gap-2 mb-4">
                         <span className="h-[2px] w-6 bg-brand-accent"></span>
-                        <span className="text-brand-accent text-[10px] font-black uppercase tracking-[0.4em]">
+                        <span className="text-brand-accent text-xs font-bold uppercase tracking-[0.3em]">
                             {videoBadge}
                         </span>
                         <span className="h-[2px] w-6 bg-brand-accent"></span>
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-serif font-semibold text-white tracking-tight uppercase">
+                    <h2 className="text-3xl md:text-4xl font-serif font-bold text-white tracking-tight uppercase">
                         {videoTitle}
                     </h2>
-                    <p className="text-white/60 text-sm mt-4 leading-relaxed font-light">
+                    <p className="text-white/60 text-sm mt-4 leading-relaxed font-medium">
                         {videoDesc}
                     </p>
                 </div>

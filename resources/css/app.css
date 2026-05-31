@@ -92,10 +92,21 @@
 @layer base {
     body {
         @apply antialiased text-brand-primary bg-brand-light;
+        font-weight: 500;
     }
 
     h1, h2, h3, h4, h5, h6 {
-        @apply font-semibold tracking-tight text-brand-primary;
+        @apply font-bold tracking-tight text-brand-primary;
+    }
+
+    p, span, a, li, td, th, label, div {
+        font-weight: inherit;
+    }
+
+    /* Minimum font size untuk elemen teks kecil agar tetap terbaca */
+    p, li {
+        @apply leading-relaxed;
+        font-size: max(0.875rem, 1em);
     }
 }
 

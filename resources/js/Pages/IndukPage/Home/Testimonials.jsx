@@ -35,8 +35,8 @@ export default function Testimonials({ testimonials = [] }) {
                 
                 {/* Header Section */}
                 <div className="text-center mb-12 reveal-element-up">
-                    <h2 className="text-[9px] font-black text-brand-accent uppercase tracking-[0.4em] mb-2.5">Testimoni</h2>
-                    <h3 className="text-2xl md:text-3xl font-serif font-semibold text-brand-primary tracking-tight uppercase leading-tight">
+                    <h2 className="text-xs font-bold text-brand-accent uppercase tracking-[0.3em] mb-2.5">Testimoni</h2>
+                    <h3 className="text-2xl md:text-3xl font-serif font-bold text-brand-primary tracking-tight uppercase leading-tight">
                         Apa Kata Mereka<br />Tentang Al-Hikmah?
                     </h3>
                     <div className="h-[2px] w-12 bg-brand-accent mx-auto mt-3"></div>
@@ -65,7 +65,7 @@ export default function Testimonials({ testimonials = [] }) {
                                     <h4 className="font-serif font-bold text-brand-primary text-sm md:text-base leading-tight">
                                         {currentTesti.name}
                                     </h4>
-                                    <p className="text-[8px] md:text-[9px] text-brand-accent uppercase tracking-[0.2em] font-semibold mt-1">
+                                    <p className="text-[10px] md:text-xs text-brand-accent uppercase tracking-[0.15em] font-bold mt-1">
                                         {currentTesti.info}
                                     </p>
                                 </div>
@@ -84,7 +84,7 @@ export default function Testimonials({ testimonials = [] }) {
                                     “
                                 </div>
 
-                                <blockquote className={`text-sm md:text-base font-serif text-brand-primary italic leading-relaxed font-light pl-6 relative z-10 transition-all duration-300 ${
+                                <blockquote className={`text-sm md:text-base font-serif text-brand-primary italic leading-relaxed font-medium pl-6 relative z-10 transition-all duration-300 ${
                                     fade ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
                                 }`}>
                                     "{currentTesti.quote}"

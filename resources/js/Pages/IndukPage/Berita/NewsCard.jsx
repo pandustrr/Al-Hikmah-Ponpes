@@ -55,18 +55,18 @@ export default function NewsCard({ berita, variant = 'vertical', className = '',
                     {/* Content section */}
                     <div className="w-full md:w-1/2 p-6 flex flex-col justify-between overflow-y-auto h-auto md:h-full">
                         <div className="space-y-4">
-                            <div className="flex flex-wrap items-center gap-3 text-[10px] font-semibold text-brand-accent uppercase tracking-wider">
+                            <div className="flex flex-wrap items-center gap-3 text-xs font-bold text-brand-accent uppercase tracking-wider">
                                 <span className="bg-brand-secondary text-brand-primary px-2.5 py-1 rounded-[0.25rem]">
                                     {berita.category?.name || 'Berita'}
                                 </span>
                                 <span>{formattedDate}</span>
                             </div>
 
-                            <h3 className="text-base md:text-lg font-serif font-semibold text-brand-primary leading-tight">
+                            <h3 className="text-lg md:text-xl font-serif font-bold text-brand-primary leading-tight">
                                 {berita.judul}
                             </h3>
 
-                            <p className="text-slate-600 text-[11px] md:text-xs leading-relaxed line-clamp-6 md:line-clamp-8">
+                            <p className="text-slate-600 text-xs md:text-sm leading-relaxed line-clamp-6 md:line-clamp-8 font-medium">
                                 {(berita.ringkasan || berita.konten || '').replace(/&nbsp;/g, ' ').replace(/<[^>]*>?/gm, '') || 'Detail berita lengkap dapat diakses dengan menekan tombol Baca Selengkapnya.'}
                             </p>
                         </div>
@@ -135,17 +135,17 @@ export default function NewsCard({ berita, variant = 'vertical', className = '',
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
                     <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-10">
                         <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-4">
-                            <span className="bg-brand-primary text-white text-[8px] sm:text-[10px] font-semibold uppercase tracking-[0.2em] px-2 py-0.5 sm:px-3 sm:py-1">
+                            <span className="bg-brand-primary text-white text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] px-2 py-0.5 sm:px-3 sm:py-1">
                                 UTAMA
                             </span>
-                            <span className="text-white/70 text-[8px] sm:text-[10px] font-semibold uppercase tracking-widest">
+                            <span className="text-white/70 text-[10px] sm:text-xs font-bold uppercase tracking-widest">
                                 {formattedDate}
                             </span>
                         </div>
-                        <h2 className="text-xl sm:text-2xl md:text-4xl font-serif font-semibold text-white leading-tight group-hover:text-brand-secondary transition-colors line-clamp-2 mb-2 sm:mb-4">
+                        <h2 className="text-xl sm:text-2xl md:text-4xl font-serif font-bold text-white leading-tight group-hover:text-brand-secondary transition-colors line-clamp-2 mb-2 sm:mb-4">
                             {berita.judul}
                         </h2>
-                        <p className="text-white/80 text-sm md:text-base line-clamp-2 max-w-2xl hidden md:block">
+                        <p className="text-white/80 text-sm md:text-base font-medium line-clamp-2 max-w-2xl hidden md:block">
                             {(berita.ringkasan || berita.konten || '').replace(/&nbsp;/g, ' ').replace(/<[^>]*>?/gm, '')}
                         </p>
                     </div>
@@ -174,13 +174,13 @@ export default function NewsCard({ berita, variant = 'vertical', className = '',
                         />
                     </div>
                     <div className="flex-grow">
-                        <div className="text-[8px] sm:text-[10px] font-semibold text-brand-accent uppercase tracking-widest mb-1">
+                        <div className="text-[10px] sm:text-xs font-bold text-brand-accent uppercase tracking-widest mb-1">
                             {berita.category?.name || 'Berita'}
                         </div>
-                        <h3 className="text-sm sm:text-base font-semibold text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2 mb-1 sm:mb-2">
+                        <h3 className="text-base sm:text-lg font-bold text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2 mb-1 sm:mb-2">
                             {berita.judul}
                         </h3>
-                        <div className="text-[8px] sm:text-[10px] font-medium text-brand-accent uppercase tracking-widest">
+                        <div className="text-[10px] sm:text-xs font-semibold text-brand-accent uppercase tracking-widest">
                             {formattedDate}
                         </div>
                     </div>
@@ -245,13 +245,13 @@ export default function NewsCard({ berita, variant = 'vertical', className = '',
                         />
                     </picture>
                 </div>
-                <div className="text-[10px] font-semibold text-brand-accent uppercase tracking-widest mb-2">
+                <div className="text-xs font-bold text-brand-accent uppercase tracking-widest mb-2">
                     {berita.category?.name || 'Berita'}
                 </div>
-                <h3 className="text-xs sm:text-lg font-semibold text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2 mb-2">
+                <h3 className="text-sm sm:text-lg font-bold text-brand-primary leading-tight group-hover:text-brand-accent transition-colors line-clamp-2 mb-2">
                     {berita.judul}
                 </h3>
-                <div className="text-[10px] font-medium text-brand-accent uppercase tracking-widest">
+                <div className="text-xs font-semibold text-brand-accent uppercase tracking-widest">
                     {formattedDate}
                 </div>
             </Link>
