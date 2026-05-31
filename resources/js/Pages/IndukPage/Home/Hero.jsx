@@ -96,21 +96,21 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
                             <div className="relative z-10 space-y-4 md:space-y-4 text-left">
                                 <div className="space-y-1 mb-2">
                                     {settings.hero_subtitle && (
-                                        <div className="text-white/60 text-[9px] font-semibold uppercase tracking-[0.4em]">
+                                        <div className="text-white/60 text-xs font-bold uppercase tracking-[0.3em]">
                                             {settings.hero_subtitle}
                                         </div>
                                     )}
                                     <div className="flex items-center justify-start gap-3">
                                         <span className="h-[1px] w-8 md:w-12 bg-brand-secondary"></span>
-                                        <span className="text-brand-secondary text-[8px] md:text-[11px] font-semibold uppercase tracking-[0.5em]">
+                                        <span className="text-brand-secondary text-[10px] md:text-xs font-bold uppercase tracking-[0.4em]">
                                             {sliderBerita[currentIndex].category?.name || 'YPDS Update'}
                                         </span>
                                     </div>
                                 </div>
-                                <h1 className="text-2xl md:text-4xl lg:text-5xl font-serif font-semibold text-white tracking-tight leading-[1.2] max-w-2xl">
+                                <h1 className="text-2xl md:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight leading-[1.2] max-w-2xl">
                                     {sliderBerita[currentIndex].judul}
                                 </h1>
-                                <p className="text-white/80 text-[10px] md:text-base font-light max-w-xl line-clamp-2 md:line-clamp-3 leading-relaxed">
+                                <p className="text-white/80 text-xs md:text-base font-medium max-w-xl line-clamp-2 md:line-clamp-3 leading-relaxed">
                                     {sliderBerita[currentIndex].ringkasan || 'Dapatkan informasi terbaru mengenai perkembangan pendidikan dan kegiatan eksklusif di lingkungan YPDS Al-Hikmah Jember.'}
                                 </p>
                             </div>
@@ -118,7 +118,7 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
                             <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-5 mt-8">
                                 <Link 
                                     href={sliderBerita[currentIndex].slug === '#' ? '#' : `/berita/${sliderBerita[currentIndex].slug}`}
-                                    className="bg-brand-secondary text-brand-primary px-5 md:px-7 py-2.5 md:py-3 text-[8px] md:text-[9px] font-semibold uppercase tracking-[0.2em] rounded-[0.25rem] flex items-center gap-2.5 md:gap-3 hover:bg-white transition-all shadow-xl w-fit group"
+                                    className="bg-brand-secondary text-brand-primary px-5 md:px-7 py-2.5 md:py-3 text-[10px] md:text-xs font-bold uppercase tracking-[0.15em] rounded-[0.25rem] flex items-center gap-2.5 md:gap-3 hover:bg-white transition-all shadow-xl w-fit group"
                                 >
                                     Baca Selengkapnya
                                     <ChevronRightIcon className="w-3.5 h-3.5 md:w-4 h-4 stroke-[2.5px] group-hover:translate-x-1 transition-transform" />
@@ -143,7 +143,7 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
 
                 {/* Thumbnail Gallery Sidebar (Docked Look) */}
                 <div className="lg:col-span-5 xl:col-span-4 flex flex-col gap-4">
-                    <h3 className="text-white/70 text-[10px] font-semibold uppercase tracking-[0.4em] mb-1 hidden lg:block">Berita Lainnya</h3>
+                    <h3 className="text-white/70 text-xs font-bold uppercase tracking-[0.3em] mb-1 hidden lg:block">Berita Lainnya</h3>
                     
                     <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto pb-6 lg:pb-0 custom-scrollbar snap-x scroll-px-4 px-4 lg:px-0">
                         {sliderBerita.map((item, idx) => (
@@ -164,10 +164,10 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
                                     />
                                 </div>
                                 <div className="text-left min-w-0 py-1">
-                                    <p className={`text-[8px] lg:text-[10px] font-bold uppercase tracking-widest mb-1 ${idx === currentIndex ? 'text-brand-secondary' : 'text-white/80'}`}>
+                                    <p className={`text-[10px] lg:text-xs font-bold uppercase tracking-widest mb-1 ${idx === currentIndex ? 'text-brand-secondary' : 'text-white/80'}`}>
                                         {item.category?.name || 'Berita'}
                                     </p>
-                                    <h4 className={`text-[10px] lg:text-[11px] font-semibold leading-tight line-clamp-2 ${idx === currentIndex ? 'text-white' : 'text-white/90 group-hover:text-white'}`}>
+                                    <h4 className={`text-xs lg:text-sm font-bold leading-tight line-clamp-2 ${idx === currentIndex ? 'text-white' : 'text-white/90 group-hover:text-white'}`}>
                                         {item.judul}
                                     </h4>
                                 </div>

@@ -27,17 +27,17 @@ export default function FasilitasShortcut({ fasilitasUnggulan = [], settings = {
             <div className="max-w-7xl mx-auto px-4 relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
                     <div className="reveal-element-left">
-                        <h2 className="text-xs font-semibold text-brand-accent uppercase tracking-[0.3em] mb-4">
+                        <h2 className="text-xs font-bold text-brand-accent uppercase tracking-[0.25em] mb-4">
                             {settings.fasilitas_tagline || 'Fasilitas Unggulan'}
                         </h2>
-                        <h3 className="text-2xl md:text-3xl font-semibold text-brand-primary tracking-tighter uppercase mb-5 leading-tight whitespace-pre-line">
+                        <h3 className="text-2xl md:text-3xl font-bold text-brand-primary tracking-tighter uppercase mb-5 leading-tight whitespace-pre-line">
                             {settings.fasilitas_title || 'Mendukung Perkembangan \n Potensi Siswa'}
                         </h3>
-                        <p className="text-brand-accent mb-8 leading-relaxed max-w-md text-sm italic">
+                        <p className="text-brand-accent mb-8 leading-relaxed max-w-md text-sm italic font-medium">
                             {settings.fasilitas_desc || '"Fasilitas modern mulai dari laboratorium terpadu, asrama yang nyaman, hingga lapangan olahraga yang luas disediakan untuk memastikan kenyamanan belajar para siswa."'}
                         </p>
                         <div className="mt-8">
-                            <Link href="/fasilitas" className="btn-primary px-8 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] shadow-lg text-center block sm:inline-block w-full sm:w-auto">
+                            <Link href="/fasilitas" className="btn-primary px-8 py-3 text-xs font-bold uppercase tracking-[0.15em] shadow-lg text-center block sm:inline-block w-full sm:w-auto">
                                 {settings.fasilitas_btn_text || 'Jelajahi Fasilitas Selengkapnya'}
                             </Link>
                         </div>
@@ -52,7 +52,7 @@ export default function FasilitasShortcut({ fasilitasUnggulan = [], settings = {
                                     onError={(e) => { e.target.onerror = null; e.target.src = FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]; }}
                                 />
                                 <div className="absolute inset-0 flex items-end p-2 sm:p-4 bg-gradient-to-t from-brand-primary/80 to-transparent">
-                                    <span className="text-[8px] sm:text-[10px] font-semibold text-white uppercase tracking-widest leading-tight">{f.nama}</span>
+                                    <span className="text-[10px] sm:text-xs font-bold text-white uppercase tracking-widest leading-tight">{f.nama}</span>
                                 </div>
                             </div>
                         ))}

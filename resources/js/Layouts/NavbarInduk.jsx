@@ -45,16 +45,16 @@ export default function NavbarInduk({ navTheme = 'light' }) {
         const isActive = url === href || isDropdownOpen;
         
         if (scrolled) {
-            return `px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.1em] transition-all duration-300 rounded-[0.25rem] flex items-center gap-1 ${
+            return `px-3 py-2 text-xs font-bold uppercase tracking-[0.08em] transition-all duration-300 rounded-[0.25rem] flex items-center gap-1 ${
                 isActive ? 'text-brand-primary bg-brand-light/50 shadow-sm' : 'text-brand-accent hover:text-brand-primary hover:bg-white/50'
             }`;
         } else {
             if (navTheme === 'dark') {
-                return `px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.1em] transition-all duration-300 rounded-[0.25rem] flex items-center gap-1 ${
+                return `px-3 py-2 text-xs font-bold uppercase tracking-[0.08em] transition-all duration-300 rounded-[0.25rem] flex items-center gap-1 ${
                     isActive ? 'text-white bg-white/10 ring-1 ring-white/20' : 'text-white/90 hover:text-white hover:bg-white/10'
                 }`;
             } else {
-                return `px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.1em] transition-all duration-300 rounded-[0.25rem] flex items-center gap-1 ${
+                return `px-3 py-2 text-xs font-bold uppercase tracking-[0.08em] transition-all duration-300 rounded-[0.25rem] flex items-center gap-1 ${
                     isActive ? 'text-brand-primary bg-brand-secondary/50 shadow-sm' : 'text-brand-accent hover:text-brand-primary hover:bg-brand-secondary/30'
                 }`;
             }
@@ -78,15 +78,15 @@ export default function NavbarInduk({ navTheme = 'light' }) {
                             //     <img src="/logo.png" alt="Logo YPDS Al-Hikmah" className="h-8 md:h-10 w-auto object-contain transition-all group-hover:scale-105 flex-shrink-0" />
                             // )} */}
                             <div className="flex flex-col">
-                                <span className={`text-md md:text-xl font-serif font-semibold tracking-tighter leading-none transition-colors ${
+                                <span className={`text-md md:text-xl font-serif font-bold tracking-tighter leading-none transition-colors ${
                                     scrolled || navTheme === 'light' ? 'text-brand-primary group-hover:text-brand-accent' : 'text-white'
                                 }`}>YPDS</span>
-                                <span className={`text-[10px] md:text-[14px] font-semibold tracking-[0.2em] leading-none mt-1 transition-colors ${
+                                <span className={`text-[10px] md:text-[14px] font-bold tracking-[0.15em] leading-none mt-1 transition-colors ${
                                     scrolled || navTheme === 'light' ? 'text-brand-accent' : 'text-brand-secondary'
                                 }`}>
                                     AL-HIKMAH
                                 </span>
-                                <span className={`text-[10px] md:text-[10px] font-semibold tracking-[0.2em] leading-none mt-1 transition-colors ${
+                                <span className={`text-[10px] md:text-xs font-bold tracking-[0.15em] leading-none mt-1 transition-colors ${
                                     scrolled || navTheme === 'light' ? 'text-brand-accent' : 'text-brand-secondary'
                                 }`}>
                                     Kesilir Wuluhan - Jember
@@ -120,7 +120,7 @@ export default function NavbarInduk({ navTheme = 'light' }) {
                                                         allLembagas.map((l) => (
                                                             <Link 
                                                                 key={l.id} href={`/${l.slug}`} 
-                                                                className={`block px-4 py-2 text-[10px] font-semibold uppercase tracking-widest transition-colors ${
+                                                                className={`block px-4 py-2 text-xs font-bold uppercase tracking-widest transition-colors ${
                                                                     activeLembaga?.id === l.id 
                                                                         ? 'text-brand-primary bg-white/70 shadow-inner' 
                                                                         : 'text-brand-accent hover:text-brand-primary hover:bg-white/50'
@@ -133,7 +133,7 @@ export default function NavbarInduk({ navTheme = 'light' }) {
                                                         link.dropdown.map((item) => (
                                                             <Link 
                                                                 key={item.name} href={item.href} 
-                                                                className="block px-4 py-2 text-[10px] font-semibold text-brand-accent hover:text-brand-primary hover:bg-white/50 uppercase tracking-widest"
+                                                                className="block px-4 py-2 text-xs font-bold text-brand-accent hover:text-brand-primary hover:bg-white/50 uppercase tracking-widest"
                                                             >
                                                                 {item.name}
                                                             </Link>
@@ -191,8 +191,8 @@ export default function NavbarInduk({ navTheme = 'light' }) {
                         {/* Sidebar Header (SHRUNK) */}
                         <div className="flex justify-between items-center p-4 border-b border-brand-light sticky top-0 bg-brand-secondary z-10">
                             <div className="flex flex-col">
-                                <span className="text-brand-primary text-lg font-serif font-semibold tracking-tighter leading-none">YPDS</span>
-                                <span className="text-brand-accent text-[8px] font-semibold tracking-[0.2em] leading-none mt-1">AL-HIKMAH</span>
+                                <span className="text-brand-primary text-lg font-serif font-bold tracking-tighter leading-none">YPDS</span>
+                                <span className="text-brand-accent text-[10px] font-bold tracking-[0.15em] leading-none mt-1">AL-HIKMAH</span>
                             </div>
                             <button onClick={() => setIsOpen(false)} className="p-1.5 bg-brand-light/50 rounded-full text-brand-primary hover:bg-brand-light transition-all">
                                 <XMarkIcon className="h-5 w-5 stroke-[3px]" />
@@ -207,7 +207,7 @@ export default function NavbarInduk({ navTheme = 'light' }) {
                                     <div key={link.name} className="space-y-3">
                                         {link.dropdown || link.isLembaga ? (
                                             <div className="space-y-2">
-                                                <p className={`text-[9px] font-semibold uppercase tracking-[0.3em] ${isLembagaActive ? 'text-brand-primary' : 'text-brand-accent/30'}`}>
+                                                <p className={`text-xs font-bold uppercase tracking-[0.2em] ${isLembagaActive ? 'text-brand-primary' : 'text-brand-accent/30'}`}>
                                                     {link.name}
                                                 </p>
                                                 <div className="pl-3 border-l border-brand-light space-y-3">
@@ -215,7 +215,7 @@ export default function NavbarInduk({ navTheme = 'light' }) {
                                                         allLembagas.map((l) => (
                                                             <Link 
                                                                 key={l.id} href={`/${l.slug}`} onClick={() => setIsOpen(false)}
-                                                                className={`block text-[10px] font-semibold uppercase tracking-widest transition-colors ${
+                                                                className={`block text-xs font-bold uppercase tracking-widest transition-colors ${
                                                                     activeLembaga?.id === l.id ? 'text-brand-primary' : 'text-brand-accent'
                                                                 }`}
                                                             >
@@ -226,7 +226,7 @@ export default function NavbarInduk({ navTheme = 'light' }) {
                                                         link.dropdown.map((item) => (
                                                             <Link 
                                                                 key={item.name} href={item.href} onClick={() => setIsOpen(false)}
-                                                                className="block text-[10px] font-semibold uppercase tracking-widest text-brand-accent hover:text-brand-primary transition-colors"
+                                                                className="block text-xs font-bold uppercase tracking-widest text-brand-accent hover:text-brand-primary transition-colors"
                                                             >
                                                                 {item.name}
                                                             </Link>
@@ -237,7 +237,7 @@ export default function NavbarInduk({ navTheme = 'light' }) {
                                         ) : (
                                             <Link 
                                                 href={link.href} onClick={() => setIsOpen(false)}
-                                                className="block py-1 text-xs font-semibold uppercase tracking-[0.1em] text-brand-primary hover:text-brand-accent transition-all"
+                                                className="block py-1 text-sm font-bold uppercase tracking-[0.08em] text-brand-primary hover:text-brand-accent transition-all"
                                             >
                                                 {link.name}
                                             </Link>
@@ -249,10 +249,10 @@ export default function NavbarInduk({ navTheme = 'light' }) {
 
                         {/* Sidebar Footer (SHRUNK) */}
                         <div className="mt-auto p-5 bg-brand-light/20 border-t border-brand-light">
-                            <p className="text-[8px] font-semibold text-brand-accent/40 uppercase tracking-[0.3em] mb-3">Informasi Pendaftaran</p>
+                            <p className="text-[10px] font-bold text-brand-accent/40 uppercase tracking-[0.2em] mb-3">Informasi Pendaftaran</p>
                             <Link 
                                 href="/info-ppdb" onClick={() => setIsOpen(false)}
-                                className="bg-brand-primary text-white text-center block py-3 text-[9px] font-semibold uppercase tracking-[0.3em] rounded-[0.25rem] shadow-xl hover:bg-brand-accent transition-all"
+                                className="bg-brand-primary text-white text-center block py-3 text-xs font-bold uppercase tracking-[0.2em] rounded-[0.25rem] shadow-xl hover:bg-brand-accent transition-all"
                             >
                                 Daftar Sekarang
                             </Link>
