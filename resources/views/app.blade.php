@@ -90,6 +90,10 @@
             } else {
                 $rawImage = \App\Models\SiteSetting::get('news_hero_bg', '/logo.png');
             }
+            // Guard: if image is still empty after all fallbacks, use logo
+            if (empty($rawImage)) {
+                $rawImage = '/logo.png';
+            }
             if (filter_var($rawImage, FILTER_VALIDATE_URL)) {
                 $metaImage = $rawImage;
             } else {
@@ -114,6 +118,7 @@
         <meta name="keywords" content="{{ $metaKeywords }}">
         <meta name="author" content="Redaksi Yayasan Al-Hikmah Ambulu">
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+        <meta name="google-site-verification" content="cf4c31d1790bf6f0">
         <link rel="canonical" href="{{ $canonicalUrl }}">
 
         <!-- Open Graph / Facebook / WhatsApp -->

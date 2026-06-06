@@ -35,7 +35,8 @@ class SiteSetting extends Model
      */
     public static function get(string $key, $default = null): mixed
     {
-        return static::where('key', $key)->value('value') ?? $default;
+        $value = static::where('key', $key)->value('value');
+        return (is_null($value) || $value === '') ? $default : $value;
     }
 
     /**
