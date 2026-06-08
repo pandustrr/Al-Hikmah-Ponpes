@@ -79,12 +79,12 @@ export default function Index({ berita, multimedia = [], currentCategory, curren
                     </>
                 )}
                 <link key="canonical" rel="canonical" href={typeof window !== 'undefined'
-                    ? (currentCategory && currentCategorySeoSlug ? `${window.location.origin}/berita/kategori/${currentCategorySeoSlug}` : `${window.location.origin}/berita`)
-                    : (currentCategory && currentCategorySeoSlug ? `/berita/kategori/${currentCategorySeoSlug}` : '/berita')} />
+                    ? (currentCategory ? `${window.location.origin}/berita/kategori/${currentCategory}` : `${window.location.origin}/berita`)
+                    : (currentCategory ? `/berita/kategori/${currentCategory}` : '/berita')} />
                 <meta key="og-type" property="og:type" content="website" />
                 <meta key="og-url" property="og:url" content={typeof window !== 'undefined'
-                    ? (currentCategory && currentCategorySeoSlug ? `${window.location.origin}/berita/kategori/${currentCategorySeoSlug}` : `${window.location.origin}/berita`)
-                    : (currentCategory && currentCategorySeoSlug ? `/berita/kategori/${currentCategorySeoSlug}` : '/berita')} />
+                    ? (currentCategory ? `${window.location.origin}/berita/kategori/${currentCategory}` : `${window.location.origin}/berita`)
+                    : (currentCategory ? `/berita/kategori/${currentCategory}` : '/berita')} />
                 <meta key="robots" name="robots" content="index, follow" />
             </Head>
             {/* Wrapper to offset the fixed navbar height so the top bar is not covered or too close */}

@@ -264,7 +264,7 @@ class HomeController extends Controller
                     : now()->startOfDay()->toAtomString();
 
                 $urls[] = [
-                    'loc' => "{$baseUrl}/berita/kategori/" . urlencode(Str::slug($cat->name)),
+                    'loc' => "{$baseUrl}/berita/kategori/" . ltrim($cat->slug, '/'),
                     'lastmod' => $lastmod,
                     'changefreq' => 'daily',
                     'priority' => '0.75'

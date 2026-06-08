@@ -9,7 +9,7 @@
             $berita = $page['props']['berita'] ?? null;
             $lembaga = $page['props']['lembaga'] ?? null;
             $q = request()->query('q');
-            $kategori = request()->query('kategori');
+            $kategori = request()->route('kategori') ?? request()->query('kategori') ?? (request()->segment(2) === 'kategori' ? request()->segment(3) : null);
 
             // 1. Title Selection
             if ($berita) {
@@ -24,7 +24,7 @@
                 $metaTitle = 'Fasilitas Yayasan & Sekolah - Yayasan Al-Hikmah Ambulu';
             } elseif (request()->is('kontak')) {
                 $metaTitle = 'Hubungi Kami & Lokasi - Yayasan Al-Hikmah Ambulu';
-            } elseif (request()->is('berita')) {
+            } elseif (request()->is('berita*')) {
                 if ($q) {
                     $metaTitle = 'Hasil Pencarian "' . e($q) . '" - Berita Al-Hikmah';
                 } elseif ($kategori) {
@@ -58,7 +58,7 @@
                 $metaDescription = 'Lihat fasilitas lengkap pendukung belajar mengajar dan asrama di Yayasan Al-Hikmah Ambulu Jember.';
             } elseif (request()->is('kontak')) {
                 $metaDescription = 'Hubungi kami via WhatsApp, email, atau kunjungi lokasi kampus terpadu Yayasan Al-Hikmah di Ambulu, Jember.';
-            } elseif (request()->is('berita')) {
+            } elseif (request()->is('berita*')) {
                 if ($q) {
                     $metaDescription = 'Hasil pencarian berita untuk kata kunci "' . e($q) . '" di portal berita Yayasan Al-Hikmah Ambulu.';
                 } elseif ($kategori) {
