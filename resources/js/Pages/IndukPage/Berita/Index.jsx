@@ -67,14 +67,14 @@ export default function Index({ berita, multimedia = [], currentCategory, curren
             <Head>
                 {currentCategory ? (
                     <>
-                        <title key="title">{`Berita ${currentCategoryName} - YPDS Al-Hikmah Ambulu Jember`}</title>
+                        <title key="title">{`Berita ${currentCategoryName} - YPDS Al-Hikmah Kesilir Wuluhan Jember`}</title>
                         <meta key="desc" name="description" content={`Kumpulan berita dan informasi kategori ${currentCategoryName} dari Yayasan Al-Hikmah Ambulu.`} />
-                        <meta key="og-title" property="og:title" content={`Berita ${currentCategoryName} - YPDS Al-Hikmah Ambulu Jember`} />
+                        <meta key="og-title" property="og:title" content={`Berita ${currentCategoryName} - YPDS Al-Hikmah Kesilir Wuluhan Jember`} />
                         <meta key="og-desc" property="og:description" content={`Kumpulan berita dan informasi kategori ${currentCategoryName} dari Yayasan Al-Hikmah Ambulu.`} />
                     </>
                 ) : (
                     <>
-                        <title key="title">Berita &amp; Informasi Terbaru - YPDS Al-Hikmah Ambulu Jember</title>
+                        <title key="title">Berita &amp; Informasi Terbaru - YPDS Al-Hikmah Kesilir Wuluhan Jember</title>
                         <meta key="desc" name="description" content="Baca berita, pengumuman, dan informasi terkini dari Yayasan Al-Hikmah Ambulu. Update kegiatan, prestasi, dan program pendidikan santri." />
                     </>
                 )}
