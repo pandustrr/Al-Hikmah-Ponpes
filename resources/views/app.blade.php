@@ -13,29 +13,29 @@
 
             // 1. Title Selection
             if ($berita) {
-                $metaTitle = ($berita['judul'] ?? 'Berita') . ' - Yayasan Al-Hikmah Ambulu';
+                $metaTitle = ($berita['judul'] ?? 'Berita') . ' - YPDS Al-Hikmah Ambulu Jember';
             } elseif ($lembaga) {
-                $metaTitle = ($lembaga['nama'] ?? 'Lembaga') . ' - Unit Pendidikan Al-Hikmah';
+                $metaTitle = ($lembaga['nama'] ?? 'Lembaga') . ' - Unit Pendidikan Al-Hikmah Jember';
             } elseif (request()->is('profil')) {
-                $metaTitle = 'Profil & Tentang Kami - Yayasan Al-Hikmah Ambulu';
+                $metaTitle = 'Profil & Tentang Kami - YPDS Al-Hikmah Ambulu Jember';
             } elseif (request()->is('info-ppdb')) {
-                $metaTitle = 'Informasi Pendaftaran PPDB - Yayasan Al-Hikmah Ambulu';
+                $metaTitle = 'Informasi Pendaftaran PPDB - YPDS Al-Hikmah Ambulu Jember';
             } elseif (request()->is('fasilitas')) {
-                $metaTitle = 'Fasilitas Yayasan & Sekolah - Yayasan Al-Hikmah Ambulu';
+                $metaTitle = 'Fasilitas Yayasan & Sekolah - YPDS Al-Hikmah Ambulu Jember';
             } elseif (request()->is('kontak')) {
-                $metaTitle = 'Hubungi Kami & Lokasi - Yayasan Al-Hikmah Ambulu';
+                $metaTitle = 'Hubungi Kami & Lokasi - YPDS Al-Hikmah Ambulu Jember';
             } elseif (request()->is('berita*')) {
                 if ($q) {
-                    $metaTitle = 'Hasil Pencarian "' . e($q) . '" - Berita Al-Hikmah';
+                    $metaTitle = 'Hasil Pencarian "' . e($q) . '" - Berita Al-Hikmah Jember';
                 } elseif ($kategori) {
                     $cat = \App\Models\BeritaCategory::where('slug', $kategori)->first();
                     $catName = $cat ? $cat->name : ucfirst(str_replace('-', ' ', $kategori));
-                    $metaTitle = 'Berita ' . $catName . ' - Yayasan Al-Hikmah Ambulu';
+                    $metaTitle = 'Berita ' . $catName . ' - YPDS Al-Hikmah Ambulu Jember';
                 } else {
-                    $metaTitle = \App\Models\SiteSetting::get('seo_berita_title', 'Berita & Informasi Terbaru - Yayasan Al-Hikmah Ambulu');
+                    $metaTitle = \App\Models\SiteSetting::get('seo_berita_title', 'Berita & Informasi Terbaru - YPDS Al-Hikmah Ambulu Jember');
                 }
             } else {
-                $metaTitle = \App\Models\SiteSetting::get('news_portal_title', 'Yayasan Al-Hikmah Ambulu') . ' - Portal & Informasi';
+                $metaTitle = \App\Models\SiteSetting::get('news_portal_title', 'YPDS Al-Hikmah Ambulu Jember') . ' - Portal & Informasi';
             }
 
             // 2. Description Selection
