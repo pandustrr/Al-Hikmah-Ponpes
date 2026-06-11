@@ -14,12 +14,9 @@ export default function ImageInputWithCrop({
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setTempImageSrc(reader.result);
-                setIsModalOpen(true);
-            };
-            reader.readAsDataURL(file);
+            const objectUrl = URL.createObjectURL(file);
+            setTempImageSrc(objectUrl);
+            setIsModalOpen(true);
         }
         // Reset input value so the same file can be selected again if needed
         e.target.value = null;
@@ -27,6 +24,9 @@ export default function ImageInputWithCrop({
 
     const handleCrop = (croppedFile) => {
         setIsModalOpen(false);
+        if (tempImageSrc && tempImageSrc.startsWith('blob:')) {
+            URL.revokeObjectURL(tempImageSrc);
+        }
         setTempImageSrc(null);
         onChange(croppedFile);
     };
