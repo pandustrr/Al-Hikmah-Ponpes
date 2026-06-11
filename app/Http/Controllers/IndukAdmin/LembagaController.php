@@ -182,85 +182,93 @@ class LembagaController extends Controller
             'ppdb_bottom_subtitle' => 'nullable|string|max:255',
         ]);
 
-        if ($request->has('youtube_video_urls')) {
-            $urls = $request->input('youtube_video_urls');
-            if (is_string($urls)) {
-                $decoded = json_decode($urls, true);
-                $validated['youtube_video_urls'] = is_array($decoded) ? $decoded : [];
+        try {
+            if ($request->has('youtube_video_urls')) {
+                $urls = $request->input('youtube_video_urls');
+                if (is_string($urls)) {
+                    $decoded = json_decode($urls, true);
+                    $validated['youtube_video_urls'] = is_array($decoded) ? $decoded : [];
+                }
             }
-        }
 
-        // Keep existing URLs if not explicitly provided or if no new files are uploaded
-        if (!$request->has('image_url') && !$request->hasFile('image')) {
-            unset($validated['image_url']);
-        }
-        if (!$request->has('image_mobile_url') && !$request->hasFile('image_mobile')) {
-            unset($validated['image_mobile_url']);
-        }
-        if (!$request->has('ikon_url') && !$request->hasFile('ikon')) {
-            unset($validated['ikon_url']);
-        }
-        if (!$request->has('profil_image_url') && !$request->hasFile('profil_image')) {
-            unset($validated['profil_image_url']);
-        }
-        if (!$request->has('profil_image_mobile_url') && !$request->hasFile('profil_image_mobile')) {
-            unset($validated['profil_image_mobile_url']);
-        }
-
-        // Clean slug
-        $validated['slug'] = Str::slug($validated['slug']);
-        
-        // Ensure slug is unique
-        $originalSlug = $validated['slug'];
-        $count = 1;
-        while (Lembaga::where('slug', $validated['slug'])->where('id', '!=', $lembaga->id)->exists()) {
-            $validated['slug'] = $originalSlug . '-' . $count++;
-        }
-
-        // Handle File Uploads
-        if ($request->hasFile('image')) {
-            if ($lembaga->image_url && str_starts_with($lembaga->image_url, '/storage/')) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->image_url));
+            // Keep existing URLs if not explicitly provided or if no new files are uploaded
+            if (!$request->has('image_url') && !$request->hasFile('image')) {
+                unset($validated['image_url']);
             }
-            $path = $request->file('image')->store('lembagas/banners', 'public');
-            $validated['image_url'] = '/storage/' . $path;
-        }
-
-        if ($request->hasFile('image_mobile')) {
-            if ($lembaga->image_mobile_url && str_starts_with($lembaga->image_mobile_url, '/storage/')) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->image_mobile_url));
+            if (!$request->has('image_mobile_url') && !$request->hasFile('image_mobile')) {
+                unset($validated['image_mobile_url']);
             }
-            $path = $request->file('image_mobile')->store('lembagas/banners_mobile', 'public');
-            $validated['image_mobile_url'] = '/storage/' . $path;
-        }
-
-        if ($request->hasFile('ikon')) {
-            if ($lembaga->ikon_url && str_starts_with($lembaga->ikon_url, '/storage/')) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->ikon_url));
+            if (!$request->has('ikon_url') && !$request->hasFile('ikon')) {
+                unset($validated['ikon_url']);
             }
-            $path = $request->file('ikon')->store('lembagas/icons', 'public');
-            $validated['ikon_url'] = '/storage/' . $path;
-        }
-
-        if ($request->hasFile('profil_image')) {
-            if ($lembaga->profil_image_url && str_starts_with($lembaga->profil_image_url, '/storage/')) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->profil_image_url));
+            if (!$request->has('profil_image_url') && !$request->hasFile('profil_image')) {
+                unset($validated['profil_image_url']);
             }
-            $path = $request->file('profil_image')->store('lembagas/profils', 'public');
-            $validated['profil_image_url'] = '/storage/' . $path;
-        }
-
-        if ($request->hasFile('profil_image_mobile')) {
-            if ($lembaga->profil_image_mobile_url && str_starts_with($lembaga->profil_image_mobile_url, '/storage/')) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->profil_image_mobile_url));
+            if (!$request->has('profil_image_mobile_url') && !$request->hasFile('profil_image_mobile')) {
+                unset($validated['profil_image_mobile_url']);
             }
-            $path = $request->file('profil_image_mobile')->store('lembagas/profils_mobile', 'public');
-            $validated['profil_image_mobile_url'] = '/storage/' . $path;
+
+            // Clean slug
+            $validated['slug'] = Str::slug($validated['slug']);
+            
+            // Ensure slug is unique
+            $originalSlug = $validated['slug'];
+            $count = 1;
+            while (Lembaga::where('slug', $validated['slug'])->where('id', '!=', $lembaga->id)->exists()) {
+                $validated['slug'] = $originalSlug . '-' . $count++;
+            }
+
+            // Handle File Uploads
+            if ($request->hasFile('image')) {
+                if ($lembaga->image_url && str_starts_with($lembaga->image_url, '/storage/')) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->image_url));
+                }
+                $path = $request->file('image')->store('lembagas/banners', 'public');
+                $validated['image_url'] = '/storage/' . $path;
+            }
+
+            if ($request->hasFile('image_mobile')) {
+                if ($lembaga->image_mobile_url && str_starts_with($lembaga->image_mobile_url, '/storage/')) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->image_mobile_url));
+                }
+                $path = $request->file('image_mobile')->store('lembagas/banners_mobile', 'public');
+                $validated['image_mobile_url'] = '/storage/' . $path;
+            }
+
+            if ($request->hasFile('ikon')) {
+                if ($lembaga->ikon_url && str_starts_with($lembaga->ikon_url, '/storage/')) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->ikon_url));
+                }
+                $path = $request->file('ikon')->store('lembagas/icons', 'public');
+                $validated['ikon_url'] = '/storage/' . $path;
+            }
+
+            if ($request->hasFile('profil_image')) {
+                if ($lembaga->profil_image_url && str_starts_with($lembaga->profil_image_url, '/storage/')) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->profil_image_url));
+                }
+                $path = $request->file('profil_image')->store('lembagas/profils', 'public');
+                $validated['profil_image_url'] = '/storage/' . $path;
+            }
+
+            if ($request->hasFile('profil_image_mobile')) {
+                if ($lembaga->profil_image_mobile_url && str_starts_with($lembaga->profil_image_mobile_url, '/storage/')) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $lembaga->profil_image_mobile_url));
+                }
+                $path = $request->file('profil_image_mobile')->store('lembagas/profils_mobile', 'public');
+                $validated['profil_image_mobile_url'] = '/storage/' . $path;
+            }
+
+            $lembaga->update($validated);
+
+            return back()->with('success', 'Lembaga berhasil diperbarui.');
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Error updating lembaga: ' . $e->getMessage(), [
+                'exception' => $e,
+                'request_keys' => array_keys($request->all()),
+            ]);
+            return back()->withErrors(['error' => 'Gagal memperbarui lembaga: ' . $e->getMessage()]);
         }
-
-        $lembaga->update($validated);
-
-        return back()->with('success', 'Lembaga berhasil diperbarui.');
     }
 
     public function destroy(Lembaga $lembaga)
