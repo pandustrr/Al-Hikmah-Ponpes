@@ -29,10 +29,19 @@ export default function NavbarInduk({ navTheme = 'light' }) {
         ]},
         { name: activeLembaga ? activeLembaga.nama : 'Tingkat Pendidikan', href: '#', isLembaga: true },
         { name: 'Berita', href: '#', dropdown: [
-            { name: 'Prestasi', href: '/berita?kategori=prestasi' },
-            { name: 'Pengumuman', href: '/berita?kategori=pengumuman' },
-            { name: 'Artikel', href: '/berita?kategori=artikel' },
-            { name: 'Event', href: '/berita?kategori=event' },
+            { name: 'Semua Berita', href: '/berita' },
+            ...(beritaCategories.length > 0
+                ? beritaCategories.map(cat => ({
+                    name: cat.name,
+                    href: `/berita/kategori/${cat.slug}`
+                  }))
+                : [
+                    { name: 'Prestasi', href: '/berita/kategori/prestasi' },
+                    { name: 'Pengumuman', href: '/berita/kategori/pengumuman' },
+                    { name: 'Artikel', href: '/berita/kategori/artikel' },
+                    { name: 'Event', href: '/berita/kategori/event' },
+                ]
+            )
         ]},
         { name: 'Info PPDB', href: '/info-ppdb' },
         { name: 'Fasilitas', href: '/fasilitas' },
