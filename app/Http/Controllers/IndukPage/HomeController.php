@@ -190,6 +190,13 @@ class HomeController extends Controller
 
     public function adminLogin()
     {
+        if (auth()->check()) {
+            $user = auth()->user();
+            if ($user->role === 'super_admin') {
+                return redirect()->route('admin.dashboard');
+            }
+        }
+
         return Inertia::render('IndukAdmin/Auth/Login');
     }
 

@@ -25,7 +25,17 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
 
-        //
+        // Redirect unauthenticated guests to the admin console login page
+        $middleware->redirectGuestsTo('/admin/console');
+
+        // Redirect already authenticated users to their respective dashboard
+        $middleware->redirectUsersTo(function (\Illuminate\Http\Request $request) {
+            $user = $request->user();
+            if ($user && $user->role === 'super_admin') {
+                return route('admin.dashboard');
+            }
+            return '/';
+        });
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->respond(function ($response, $exception, $request) {
