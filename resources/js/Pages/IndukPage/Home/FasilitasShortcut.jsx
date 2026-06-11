@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from '@inertiajs/react';
 
 const FALLBACK_FASILITAS = [
-    { nama: 'Asrama Putra & Putri', image_url: null },
-    { nama: 'Laboratorium IT', image_url: null },
-    { nama: 'Perpustakaan Digital', image_url: null },
-    { nama: 'Pusat Olahraga', image_url: null },
+    { id: 'fb-1', nama: 'Asrama Putra & Putri', image_url: null, galeris: [] },
+    { id: 'fb-2', nama: 'Laboratorium IT', image_url: null, galeris: [] },
+    { id: 'fb-3', nama: 'Perpustakaan Digital', image_url: null, galeris: [] },
+    { id: 'fb-4', nama: 'Pusat Olahraga', image_url: null, galeris: [] },
 ];
 
 const FALLBACK_IMAGES = [
@@ -18,6 +18,15 @@ const FALLBACK_IMAGES = [
 export default function FasilitasShortcut({ fasilitasUnggulan = [], settings = {} }) {
     // Gunakan data dari DB jika ada, fallback ke data statis jika belum ada data
     const facilities = fasilitasUnggulan.length > 0 ? fasilitasUnggulan : FALLBACK_FASILITAS;
+
+    const [activeFacilityId, setActiveFacilityId] = useState(null);
+    const [selectedLightboxImage, setSelectedLightboxImage] = useState(null);
+
+    const handleFacilityClick = (facilityId) => {
+        setActiveFacilityId(prev => prev === facilityId ? null : facilityId);
+    };
+
+    const activeFacility = facilities.find(f => (f.id || f.nama) === activeFacilityId);
 
     return (
         <section className="py-16 md:py-20 bg-brand-secondary relative overflow-hidden reveal-section border-y border-brand-accent/10">
@@ -43,22 +52,131 @@ export default function FasilitasShortcut({ fasilitasUnggulan = [], settings = {
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3 md:gap-4 reveal-element-right">
-                        {facilities.slice(0, 4).map((f, i) => (
-                            <div key={f.id || i} className="group relative aspect-[4/3] overflow-hidden rounded-[0.25rem] border border-brand-accent/10 shadow-sm">
-                                <img 
-                                    src={f.image_url || FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]} 
-                                    alt={f.nama} 
-                                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 opacity-80" 
-                                    onError={(e) => { e.target.onerror = null; e.target.src = FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]; }}
-                                />
-                                <div className="absolute inset-0 flex items-end p-2 sm:p-4 bg-gradient-to-t from-brand-primary/80 to-transparent">
-                                    <span className="text-[10px] sm:text-xs font-bold text-white uppercase tracking-widest leading-tight">{f.nama}</span>
+                        {facilities.slice(0, 4).map((f, i) => {
+                            const isSelected = activeFacilityId === (f.id || f.nama);
+                            return (
+                                <div 
+                                    key={f.id || i} 
+                                    onClick={() => handleFacilityClick(f.id || f.nama)}
+                                    className={`group relative aspect-[4/3] overflow-hidden rounded-[0.25rem] border shadow-sm cursor-pointer transition-all duration-300 ${
+                                        isSelected 
+                                            ? 'ring-2 ring-brand-primary border-transparent scale-95 shadow-md' 
+                                            : 'border-brand-accent/10 hover:border-brand-primary/50'
+                                    }`}
+                                >
+                                    <img 
+                                        src={f.image_url || FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]} 
+                                        alt={f.nama} 
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700" 
+                                        onError={(e) => { e.target.onerror = null; e.target.src = FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]; }}
+                                    />
+                                    {/* Overlay */}
+                                    <div className="absolute inset-0 flex flex-col justify-between p-2 sm:p-4 bg-gradient-to-t from-brand-primary/95 via-brand-primary/30 to-transparent">
+                                        <div className="flex justify-end">
+                                            {/* Indicator Icon */}
+                                            <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-white transition-all ${
+                                                isSelected ? 'bg-brand-primary border border-white/40' : 'bg-black/30 group-hover:bg-brand-primary/80'
+                                            }`}>
+                                                {isSelected ? '✓' : '+'}
+                                            </span>
+                                        </div>
+                                        <span className="text-[10px] sm:text-xs font-bold text-white uppercase tracking-widest leading-tight">{f.nama}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
+
+                    {/* Dropdown Galeri Fasilitas */}
+                    {activeFacility && (
+                        <div className="lg:col-span-2 bg-white border border-slate-200 rounded-[0.25rem] p-6 md:p-8 shadow-xl animate-fade-in space-y-6">
+                            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                                <div className="space-y-1">
+                                    <span className="text-[9px] font-black text-brand-primary uppercase tracking-[0.2em] block">Galeri Foto Resmi</span>
+                                    <h4 className="text-base font-bold text-slate-800 uppercase tracking-tight">{activeFacility.nama}</h4>
+                                </div>
+                                <button 
+                                    onClick={() => setActiveFacilityId(null)} 
+                                    className="text-[10px] font-bold text-slate-400 hover:text-slate-800 uppercase tracking-widest border border-slate-200 hover:border-slate-300 px-3 py-1.5 rounded transition-all"
+                                >
+                                    Tutup Galeri ×
+                                </button>
+                            </div>
+
+                            {activeFacility.deskripsi && (
+                                <p className="text-xs text-slate-500 leading-relaxed max-w-2xl">{activeFacility.deskripsi}</p>
+                            )}
+
+                            {/* Grid Gambar Galeri */}
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                {activeFacility.galeris && activeFacility.galeris.length > 0 ? (
+                                    activeFacility.galeris.map((img) => (
+                                        <div 
+                                            key={img.id} 
+                                            onClick={() => setSelectedLightboxImage(img.image_url)}
+                                            className="group relative aspect-[4/3] overflow-hidden rounded-[0.25rem] border border-slate-100 cursor-pointer shadow-sm"
+                                        >
+                                            <img 
+                                                src={img.image_url} 
+                                                alt={img.judul || activeFacility.nama} 
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                                            />
+                                            <div className="absolute inset-0 bg-brand-primary/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2.5">
+                                                <span className="text-[9px] font-bold text-white uppercase tracking-wider truncate w-full">
+                                                    {img.judul || 'Perbesar Foto 🔍'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    // Fallback: jika tidak ada galeri tambahan, tampilkan gambar utama fasilitas
+                                    <div 
+                                        onClick={() => setSelectedLightboxImage(activeFacility.image_url || FALLBACK_IMAGES[0])}
+                                        className="group relative aspect-[4/3] overflow-hidden rounded-[0.25rem] border border-slate-100 cursor-pointer shadow-sm col-span-1"
+                                    >
+                                        <img 
+                                            src={activeFacility.image_url || FALLBACK_IMAGES[0]} 
+                                            alt={activeFacility.nama} 
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                                        />
+                                        <div className="absolute inset-0 bg-brand-primary/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2.5">
+                                            <span className="text-[9px] font-bold text-white uppercase tracking-wider truncate w-full">
+                                                Perbesar Foto Utama 🔍
+                                            </span>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
+
+            {/* Lightbox Modal Premium */}
+            {selectedLightboxImage && (
+                <div 
+                    className="fixed inset-0 bg-slate-950/90 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 transition-all duration-300 animate-fade-in"
+                    onClick={() => setSelectedLightboxImage(null)}
+                >
+                    <button 
+                        onClick={() => setSelectedLightboxImage(null)}
+                        className="absolute top-6 right-6 text-white/75 hover:text-white text-3xl font-extralight transition-colors"
+                        aria-label="Tutup"
+                    >
+                        ×
+                    </button>
+                    <div 
+                        className="relative max-w-4xl max-h-[85vh] overflow-hidden rounded-[0.25rem] bg-slate-900 border border-white/10 shadow-2xl"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <img 
+                            src={selectedLightboxImage} 
+                            alt="Lightbox Preview" 
+                            className="max-w-full max-h-[80vh] object-contain mx-auto"
+                        />
+                    </div>
+                </div>
+            )}
         </section>
     );
 }

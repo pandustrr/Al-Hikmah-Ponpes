@@ -55,9 +55,10 @@ class HomeController extends Controller
         $testimonials = \App\Models\Testimonial::where('is_active', true)->get();
 
         // Load fasilitas untuk section "Fasilitas Unggulan" (diambil langsung dari database)
-        $fasilitasUnggulan = \App\Models\Fasilitas::latest()
+        $fasilitasUnggulan = \App\Models\Fasilitas::with('galeris')
+            ->latest()
             ->take(4)
-            ->get(['id', 'nama', 'image_url']);
+            ->get();
 
         // 1. Hero News
         $heroNewsCategoryId = $landingSettings->get('hero_news_category_id', '');
