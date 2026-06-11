@@ -149,6 +149,19 @@ class LandingController extends Controller
             );
         }
 
+        // Make sure there are exactly 4 database facilities for the homepage section
+        $dbFasilitas = \App\Models\Fasilitas::where('is_utama', true)->oldest('id')->get();
+        if ($dbFasilitas->count() < 4) {
+            for ($i = $dbFasilitas->count() + 1; $i <= 4; $i++) {
+                $newF = \App\Models\Fasilitas::create([
+                    'nama' => $defaultFasilitas[$i]['nama'],
+                    'is_utama' => true,
+                    'image_url' => $defaultFasilitas[$i]['img'],
+                ]);
+                $dbFasilitas->push($newF);
+            }
+        }
+
         $settings = LandingSetting::all()->pluck('value', 'key')->map(function ($val) {
             if (is_string($val) && (str_starts_with($val, '[') || str_starts_with($val, '{'))) {
                 $decoded = json_decode($val, true);
@@ -164,6 +177,10 @@ class LandingController extends Controller
             'testimonials' => Testimonial::latest()->get(),
             'categories' => \App\Models\BeritaCategory::all(),
             'lembagas' => \App\Models\Lembaga::all(['id', 'nama', 'slug']),
+            'fasilitas' => \App\Models\Fasilitas::with(['lembaga', 'galeris'])
+                ->where('is_utama', true)
+                ->oldest('id')
+                ->get(),
         ]);
     }
 
@@ -185,11 +202,11 @@ class LandingController extends Controller
         // Handle regular text inputs
         foreach ($request->all() as $key => $value) {
             if ($request->hasFile($key) || $key === '_method') continue;
+            if (preg_match('/^fasilitas_(nama|img)_/', $key)) continue;
             
             // Skip file keys when they don't contain a new file (to avoid overwriting existing images with null)
             $imageKeys = [
-                'hero_bg', 'hero_bg_mobile', 'about_image', 'ppdb_hero_bg', 'ppdb_hero_bg_mobile',
-                'fasilitas_utama_1_img', 'fasilitas_utama_2_img', 'fasilitas_utama_3_img', 'fasilitas_utama_4_img'
+                'hero_bg', 'hero_bg_mobile', 'about_image', 'ppdb_hero_bg', 'ppdb_hero_bg_mobile'
             ];
             if (in_array($key, $imageKeys) && (is_null($value) || $value === 'null' || $value === '')) {
                 continue;
@@ -207,6 +224,28 @@ class LandingController extends Controller
                     'group' => str_starts_with($key, 'ppdb_') ? 'ppdb' : 'landing'
                 ]
             );
+        }
+
+        // Synchronize edits of dynamic name and image fields for any facility IDs in the request
+        foreach ($request->all() as $key => $value) {
+            if (preg_match('/^fasilitas_nama_(\d+)$/', $key, $matches)) {
+                $id = $matches[1];
+                $facility = \App\Models\Fasilitas::find($id);
+                if ($facility) {
+                    $facility->nama = $value;
+                    
+                    // Check if there is a corresponding image uploaded for this ID
+                    $imgKey = "fasilitas_img_{$id}";
+                    if ($request->hasFile($imgKey)) {
+                        if ($facility->image_url && str_starts_with($facility->image_url, '/storage/')) {
+                            \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $facility->image_url));
+                        }
+                        $path = $request->file($imgKey)->store('fasilitas', 'public');
+                        $facility->image_url = '/storage/' . $path;
+                    }
+                    $facility->save();
+                }
+            }
         }
 
         return back()->with('success', 'Pengaturan beranda berhasil diperbarui.');

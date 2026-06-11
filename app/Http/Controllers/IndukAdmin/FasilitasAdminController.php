@@ -25,11 +25,12 @@ class FasilitasAdminController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'lembaga_id' => 'required|integer|exists:lembagas,id',
+            'lembaga_id' => 'nullable|integer|exists:lembagas,id',
             'nama'       => 'required|string|max:255',
             'kategori'   => 'nullable|string|max:100',
             'deskripsi'  => 'nullable|string',
             'image'      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'is_utama'   => 'nullable|boolean',
         ]);
 
         if ($request->hasFile('image')) {
@@ -37,6 +38,9 @@ class FasilitasAdminController extends Controller
             $validated['image_url'] = '/storage/' . $path;
         }
         unset($validated['image']);
+
+        // Default is_utama to true if request is from landing/homepage context or explicitly passed
+        $validated['is_utama'] = $request->boolean('is_utama', true);
 
         Fasilitas::create($validated);
 
@@ -46,10 +50,12 @@ class FasilitasAdminController extends Controller
     public function update(Request $request, Fasilitas $fasilitas)
     {
         $validated = $request->validate([
-            'nama'      => 'required|string|max:255',
-            'kategori'  => 'nullable|string|max:100',
-            'deskripsi' => 'nullable|string',
-            'image'     => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'lembaga_id' => 'nullable|integer|exists:lembagas,id',
+            'nama'       => 'required|string|max:255',
+            'kategori'   => 'nullable|string|max:100',
+            'deskripsi'  => 'nullable|string',
+            'image'      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'is_utama'   => 'nullable|boolean',
         ]);
 
         if ($request->hasFile('image')) {
@@ -60,6 +66,10 @@ class FasilitasAdminController extends Controller
             $validated['image_url'] = '/storage/' . $path;
         }
         unset($validated['image']);
+
+        if ($request->has('is_utama')) {
+            $validated['is_utama'] = $request->boolean('is_utama');
+        }
 
         $fasilitas->update($validated);
 

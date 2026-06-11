@@ -52,7 +52,7 @@ export default function FasilitasShortcut({ fasilitasUnggulan = [], settings = {
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3 md:gap-4 reveal-element-right">
-                        {facilities.slice(0, 4).map((f, i) => {
+                        {facilities.map((f, i) => {
                             const isSelected = activeFacilityId === (f.id || f.nama);
                             return (
                                 <div 
@@ -67,20 +67,20 @@ export default function FasilitasShortcut({ fasilitasUnggulan = [], settings = {
                                     <img 
                                         src={f.image_url || FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]} 
                                         alt={f.nama} 
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700" 
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 filter-none opacity-100 brightness-100 grayscale-0" 
                                         onError={(e) => { e.target.onerror = null; e.target.src = FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]; }}
                                     />
                                     {/* Overlay */}
-                                    <div className="absolute inset-0 flex flex-col justify-between p-2 sm:p-4 bg-gradient-to-t from-brand-primary/95 via-brand-primary/30 to-transparent">
+                                    <div className="absolute inset-0 flex flex-col justify-between p-2 sm:p-4 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent group-hover:from-slate-950/95 transition-all duration-300">
                                         <div className="flex justify-end">
                                             {/* Indicator Icon */}
                                             <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-white transition-all ${
-                                                isSelected ? 'bg-brand-primary border border-white/40' : 'bg-black/30 group-hover:bg-brand-primary/80'
+                                                isSelected ? 'bg-brand-primary border border-white/40' : 'bg-black/45 group-hover:bg-brand-primary/80'
                                             }`}>
                                                 {isSelected ? '✓' : '+'}
                                             </span>
                                         </div>
-                                        <span className="text-[10px] sm:text-xs font-bold text-white uppercase tracking-widest leading-tight">{f.nama}</span>
+                                        <span className="text-[10px] sm:text-xs font-bold text-white uppercase tracking-widest leading-tight drop-shadow-md">{f.nama}</span>
                                     </div>
                                 </div>
                             );

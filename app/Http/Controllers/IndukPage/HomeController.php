@@ -54,10 +54,10 @@ class HomeController extends Controller
         });
         $testimonials = \App\Models\Testimonial::where('is_active', true)->get();
 
-        // Load fasilitas untuk section "Fasilitas Unggulan" (diambil langsung dari database)
+        // Load all main facilities with their galleries for the homepage
         $fasilitasUnggulan = \App\Models\Fasilitas::with('galeris')
-            ->latest()
-            ->take(4)
+            ->where('is_utama', true)
+            ->oldest('id')
             ->get();
 
         // 1. Hero News
