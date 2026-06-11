@@ -31,7 +31,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Fasilitas extends Model
 {
-    protected $fillable = ['lembaga_id', 'nama', 'kategori', 'deskripsi', 'image_url'];
+    protected $fillable = ['lembaga_id', 'nama', 'kategori', 'deskripsi', 'image_url', 'is_utama'];
+
+    protected $casts = [
+        'is_utama' => 'boolean',
+    ];
 
     /**
      * Normalize image_url: strip any domain prefix so we always return a root-relative path.

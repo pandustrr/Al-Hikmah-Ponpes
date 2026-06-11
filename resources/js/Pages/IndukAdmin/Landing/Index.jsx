@@ -9,12 +9,140 @@ import {
     PencilSquareIcon,
     TrashIcon,
     PhotoIcon,
-    VideoCameraIcon
+    VideoCameraIcon,
+    BuildingLibraryIcon
 } from '@heroicons/react/24/outline';
 import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
-export default function Index({ settings, testimonials, beritaList = [], categories = [], lembagas = [] }) {
+export default function Index({ settings, testimonials, beritaList = [], categories = [], lembagas = [], fasilitas = [] }) {
     const [activeTab, setActiveTab] = useState('hero');
+
+    // Facilities States & Forms
+    const [isFasilitasModalOpen, setIsFasilitasModalOpen] = useState(false);
+    const [editingFasilitas, setEditingFasilitas] = useState(null);
+    const [fasilitasPreview, setFasilitasPreview] = useState(null);
+
+    const fasilitasForm = useForm({
+        lembaga_id: '',
+        nama: '',
+        kategori: '',
+        deskripsi: '',
+        image: null,
+        is_utama: true,
+    });
+
+    const openAddFasilitas = () => {
+        setEditingFasilitas(null);
+        fasilitasForm.reset();
+        fasilitasForm.setData({
+            lembaga_id: lembagas.length > 0 ? lembagas[0].id : '',
+            nama: '',
+            kategori: '',
+            deskripsi: '',
+            image: null,
+            is_utama: true,
+        });
+        setFasilitasPreview(null);
+        setIsFasilitasModalOpen(true);
+    };
+
+    const openEditFasilitas = (f) => {
+        setEditingFasilitas(f);
+        fasilitasForm.setData({
+            lembaga_id: f.lembaga_id || '',
+            nama: f.nama,
+            kategori: f.kategori || '',
+            deskripsi: f.deskripsi || '',
+            image: null,
+            is_utama: true,
+        });
+        setFasilitasPreview(f.image_url);
+        galeriForm.setData('fasilitas_id', f.id);
+        setIsFasilitasModalOpen(true);
+    };
+
+    const closeFasilitasModal = () => {
+        setIsFasilitasModalOpen(false);
+        setEditingFasilitas(null);
+        fasilitasForm.reset();
+        setFasilitasPreview(null);
+    };
+
+    const submitFasilitas = (e) => {
+        e.preventDefault();
+        if (editingFasilitas) {
+            fasilitasForm.post(route('admin.fasilitas.update', editingFasilitas.id), {
+                onSuccess: () => closeFasilitasModal(),
+            });
+        } else {
+            fasilitasForm.post(route('admin.fasilitas.store'), {
+                onSuccess: () => closeFasilitasModal(),
+            });
+        }
+    };
+
+    const deleteFasilitas = (id) => {
+        if (confirm('Apakah Anda yakin ingin menghapus fasilitas ini? Foto-foto di dalam galeri fasilitas ini juga akan terhapus.')) {
+            router.delete(route('admin.fasilitas.destroy', id));
+        }
+    };
+
+    // Galeri States & Forms
+    const [galeriPreview, setGaleriPreview] = useState(null);
+    const [editingGaleri, setEditingGaleri] = useState(null);
+    const galeriForm = useForm({
+        fasilitas_id: '',
+        judul: '',
+        deskripsi: '',
+        image: null,
+    });
+
+    const startEditGaleri = (g) => {
+        setEditingGaleri(g);
+        galeriForm.setData({
+            fasilitas_id: g.fasilitas_id,
+            judul: g.judul || '',
+            deskripsi: g.deskripsi || '',
+            image: null,
+        });
+        setGaleriPreview(g.image_url);
+    };
+
+    const cancelEditGaleri = () => {
+        setEditingGaleri(null);
+        galeriForm.reset();
+        if (editingFasilitas) galeriForm.setData('fasilitas_id', editingFasilitas.id);
+        setGaleriPreview(null);
+    };
+
+    const submitGaleri = (e) => {
+        e.preventDefault();
+        const payload = {
+            fasilitas_id: editingFasilitas.id,
+            judul: galeriForm.data.judul || '',
+            deskripsi: galeriForm.data.deskripsi || '',
+            image: galeriForm.data.image,
+        };
+
+        if (editingGaleri) {
+            router.post(route('admin.galeri.update', editingGaleri.id), {
+                ...payload,
+                _method: 'POST'
+            }, {
+                onSuccess: () => cancelEditGaleri(),
+            });
+        } else {
+            router.post(route('admin.galeri.store'), payload, {
+                onSuccess: () => cancelEditGaleri(),
+            });
+        }
+    };
+
+    const deleteGaleri = (id) => {
+        if (confirm('Apakah Anda yakin ingin menghapus foto dari galeri fasilitas ini?')) {
+            router.delete(route('admin.galeri.destroy', id));
+        }
+    };
 
     // Testimonial States & Form
     const [isTestimonialModalOpen, setIsTestimonialModalOpen] = useState(false);
@@ -90,74 +218,78 @@ export default function Index({ settings, testimonials, beritaList = [], categor
     const [heroBgPreview, setHeroBgPreview] = useState(settings.hero_bg || null);
     const [heroBgMobilePreview, setHeroBgMobilePreview] = useState(settings.hero_bg_mobile || null);
     const [aboutImagePreview, setAboutImagePreview] = useState(settings.about_image || null);
-    const [fasilitas1Preview, setFasilitas1Preview] = useState(settings.fasilitas_utama_1_img || null);
-    const [fasilitas2Preview, setFasilitas2Preview] = useState(settings.fasilitas_utama_2_img || null);
-    const [fasilitas3Preview, setFasilitas3Preview] = useState(settings.fasilitas_utama_3_img || null);
-    const [fasilitas4Preview, setFasilitas4Preview] = useState(settings.fasilitas_utama_4_img || null);
-
-    const { data, setData, post, processing, errors } = useForm({
-        hero_bg: null,
-        hero_bg_mobile: null,
-        hero_subtitle: settings.hero_subtitle || '',
-        hero_news_category_id: settings.hero_news_category_id || '',
-        sticky_announcement_category_id: settings.sticky_announcement_category_id || '',
-        sticky_article_category_id: settings.sticky_article_category_id || '',
-        about_title_small: settings.about_title_small || '',
-        about_title_large: settings.about_title_large || '',
-        about_description_short: settings.about_description_short || '',
-        about_description: settings.about_description || '',
-        about_lembaga_tagline: settings.about_lembaga_tagline || 'Program Unggulan',
-        about_lembaga_title: settings.about_lembaga_title || 'Lembaga Pendidikan',
-        active_lembaga_ids: settings.active_lembaga_ids && Array.isArray(settings.active_lembaga_ids)
-            ? settings.active_lembaga_ids
-            : lembagas.map(l => l.id),
-        about_image: null,
-        about_method_desc: settings.about_method_desc || '',
-        about_env_desc: settings.about_env_desc || '',
-        about_features: settings.about_features && settings.about_features.length > 0
-            ? settings.about_features
-            : [
-                { title: 'Metode Pendidikan', desc: settings.about_method_desc || 'Holistik — mengintegrasikan sains, teknologi, dan ilmu agama.' },
-                { title: 'Lingkungan Siswa', desc: settings.about_env_desc || 'Asrama nyaman dengan pembiasaan adab harian yang terstruktur.' }
-            ],
-        about_stat_1_val: settings.about_stat_1_val || '',
-        about_stat_1_lbl: settings.about_stat_1_lbl || '',
-        about_stat_2_val: settings.about_stat_2_val || '',
-        about_stat_2_lbl: settings.about_stat_2_lbl || '',
-        about_stat_3_val: settings.about_stat_3_val || '',
-        about_stat_3_lbl: settings.about_stat_3_lbl || '',
-        about_stat_4_val: settings.about_stat_4_val || '',
-        about_stat_4_lbl: settings.about_stat_4_lbl || '',
-        ppdb_cta_title: settings.ppdb_cta_title || '',
-        ppdb_wave_1: settings.ppdb_wave_1 || '',
-        ppdb_wave_2: settings.ppdb_wave_2 || '',
-        ppdb_requirements: settings.ppdb_requirements || '',
-        youtube_video_badge: settings.youtube_video_badge || 'Galeri Video Resmi',
-        youtube_video_title: settings.youtube_video_title || 'Dokumentasi & Video Profil YPDS Al-Hikmah',
-        youtube_video_desc: settings.youtube_video_desc || 'Simak video profil resmi serta dokumentasi kegiatan kami untuk melihat lingkungan belajar dan pembiasaan nilai adab santri.',
-        youtube_video_urls: Array.isArray(settings.youtube_video_urls)
-            ? JSON.stringify(settings.youtube_video_urls)
-            : (typeof settings.youtube_video_urls === 'string' && settings.youtube_video_urls.trim().startsWith('['))
-                ? settings.youtube_video_urls
-                : JSON.stringify(settings.youtube_video_urls ? settings.youtube_video_urls.split('\n').map(u => u.trim()).filter(Boolean) : []),
-        bottom_news_category_id: settings.bottom_news_category_id || '',
-        fasilitas_tagline: settings.fasilitas_tagline || '',
-        fasilitas_title: settings.fasilitas_title || '',
-        fasilitas_desc: settings.fasilitas_desc || '',
-        fasilitas_btn_text: settings.fasilitas_btn_text || '',
-        fasilitas_utama_1_nama: settings.fasilitas_utama_1_nama || '',
-        fasilitas_utama_1_img: null,
-        fasilitas_utama_2_nama: settings.fasilitas_utama_2_nama || '',
-        fasilitas_utama_2_img: null,
-        fasilitas_utama_3_nama: settings.fasilitas_utama_3_nama || '',
-        fasilitas_utama_3_img: null,
-        fasilitas_utama_4_nama: settings.fasilitas_utama_4_nama || '',
-        fasilitas_utama_4_img: null,
-        warta_tagline: settings.warta_tagline || '',
-        warta_title_1: settings.warta_title_1 || '',
-        warta_title_2: settings.warta_title_2 || '',
-        warta_btn_text: settings.warta_btn_text || '',
+    const [facilityPreviews, setFacilityPreviews] = useState(() => {
+        const initial = {};
+        fasilitas.forEach(f => {
+            initial[f.id] = f.image_url;
+        });
+        return initial;
     });
+
+    const getInitialData = () => {
+        const base = {
+            hero_bg: null,
+            hero_bg_mobile: null,
+            hero_subtitle: settings.hero_subtitle || '',
+            hero_news_category_id: settings.hero_news_category_id || '',
+            sticky_announcement_category_id: settings.sticky_announcement_category_id || '',
+            sticky_article_category_id: settings.sticky_article_category_id || '',
+            about_title_small: settings.about_title_small || '',
+            about_title_large: settings.about_title_large || '',
+            about_description_short: settings.about_description_short || '',
+            about_description: settings.about_description || '',
+            about_lembaga_tagline: settings.about_lembaga_tagline || 'Program Unggulan',
+            about_lembaga_title: settings.about_lembaga_title || 'Lembaga Pendidikan',
+            active_lembaga_ids: settings.active_lembaga_ids && Array.isArray(settings.active_lembaga_ids)
+                ? settings.active_lembaga_ids
+                : lembagas.map(l => l.id),
+            about_image: null,
+            about_method_desc: settings.about_method_desc || '',
+            about_env_desc: settings.about_env_desc || '',
+            about_features: settings.about_features && settings.about_features.length > 0
+                ? settings.about_features
+                : [
+                    { title: 'Metode Pendidikan', desc: settings.about_method_desc || 'Holistik — mengintegrasikan sains, teknologi, dan ilmu agama.' },
+                    { title: 'Lingkungan Siswa', desc: settings.about_env_desc || 'Asrama nyaman dengan pembiasaan adab harian yang terstruktur.' }
+                ],
+            about_stat_1_val: settings.about_stat_1_val || '',
+            about_stat_1_lbl: settings.about_stat_1_lbl || '',
+            about_stat_2_val: settings.about_stat_2_val || '',
+            about_stat_2_lbl: settings.about_stat_2_lbl || '',
+            about_stat_3_val: settings.about_stat_3_val || '',
+            about_stat_3_lbl: settings.about_stat_3_lbl || '',
+            about_stat_4_val: settings.about_stat_4_val || '',
+            about_stat_4_lbl: settings.about_stat_4_lbl || '',
+            ppdb_cta_title: settings.ppdb_cta_title || '',
+            ppdb_wave_1: settings.ppdb_wave_1 || '',
+            ppdb_wave_2: settings.ppdb_wave_2 || '',
+            ppdb_requirements: settings.ppdb_requirements || '',
+            youtube_video_badge: settings.youtube_video_badge || 'Galeri Video Resmi',
+            youtube_video_title: settings.youtube_video_title || 'Dokumentasi & Video Profil YPDS Al-Hikmah',
+            youtube_video_desc: settings.youtube_video_desc || 'Simak video profil resmi serta dokumentasi kegiatan kami untuk melihat lingkungan belajar dan pembiasaan nilai adab santri.',
+            youtube_video_urls: Array.isArray(settings.youtube_video_urls)
+                ? JSON.stringify(settings.youtube_video_urls)
+                : (typeof settings.youtube_video_urls === 'string' && settings.youtube_video_urls.trim().startsWith('['))
+                    ? settings.youtube_video_urls
+                    : JSON.stringify(settings.youtube_video_urls ? settings.youtube_video_urls.split('\n').map(u => u.trim()).filter(Boolean) : []),
+            bottom_news_category_id: settings.bottom_news_category_id || '',
+            fasilitas_tagline: settings.fasilitas_tagline || '',
+            fasilitas_title: settings.fasilitas_title || '',
+            fasilitas_desc: settings.fasilitas_desc || '',
+            fasilitas_btn_text: settings.fasilitas_btn_text || '',
+            warta_tagline: settings.warta_tagline || '',
+            warta_title_1: settings.warta_title_1 || '',
+            warta_title_2: settings.warta_title_2 || '',
+            warta_btn_text: settings.warta_btn_text || '',
+        };
+        fasilitas.forEach(f => {
+            base[`fasilitas_nama_${f.id}`] = f.nama || '';
+            base[`fasilitas_img_${f.id}`] = null;
+        });
+        return base;
+    };
+
+    const { data, setData, post, processing, errors } = useForm(getInitialData());
 
     const [videoList, setVideoList] = useState(() => {
         try {
@@ -733,10 +865,10 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                     {/* 5. Fasilitas Keunggulan Tab */}
                     {activeTab === 'fasilitas' && (
                         <form onSubmit={handleSettingsSubmit} className="p-8 space-y-10">
-                            {/* Fasilitas Unggulan */}
+                            {/* Fasilitas Section */}
                             <div className="space-y-6">
                                 <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Bagian Fasilitas Unggulan</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     <div>
                                         <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Tagline Section (Fasilitas)</label>
                                         <input
@@ -757,16 +889,16 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                             placeholder="Jelajahi Fasilitas Selengkapnya"
                                         />
                                     </div>
-                                </div>
-                                <div>
-                                    <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Judul Besar</label>
-                                    <input
-                                        type="text"
-                                        value={data.fasilitas_title}
-                                        onChange={e => setData('fasilitas_title', e.target.value)}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
-                                        placeholder="Mendukung Perkembangan \n Potensi Siswa"
-                                    />
+                                    <div>
+                                        <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Judul Besar</label>
+                                        <input
+                                            type="text"
+                                            value={data.fasilitas_title}
+                                            onChange={e => setData('fasilitas_title', e.target.value)}
+                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                                            placeholder="Mendukung Perkembangan \n Potensi Siswa"
+                                        />
+                                    </div>
                                 </div>
                                 <div>
                                     <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-2">Deskripsi / Kutipan Singkat (Italic)</label>
@@ -777,43 +909,61 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-[0.25rem] text-sm focus:ring-1 focus:ring-brand-primary outline-none transition-all"
                                         placeholder='"Fasilitas modern mulai dari laboratorium terpadu, asrama yang nyaman, hingga lapangan olahraga yang luas disediakan untuk memastikan kenyamanan belajar para siswa."'
                                     ></textarea>
-                                </div>
-
-                                {/* 4 Fasilitas Utama */}
+                                </div>                                {/* 4 Fasilitas Utama */}
                                 <div className="space-y-4 pt-4 border-t border-slate-100/70">
                                     <label className="block text-[10px] font-bold text-slate-600 uppercase tracking-widest">
-                                        Data 4 Gambar Fasilitas Utama (Rasio Gambar 4:3)
+                                        Data Gambar Fasilitas Utama (Rasio Gambar 4:3)
                                     </label>
                                     <p className="text-xs text-slate-400">
-                                        Unggah gambar dan beri nama untuk 4 fasilitas utama yayasan yang akan tampil di halaman depan beranda.
+                                        Unggah gambar dan beri nama untuk fasilitas utama yayasan yang akan tampil di halaman depan beranda.
                                     </p>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-2">
-                                        {[1, 2, 3, 4].map(idx => {
-                                            const previewState = idx === 1 ? fasilitas1Preview : idx === 2 ? fasilitas2Preview : idx === 3 ? fasilitas3Preview : fasilitas4Preview;
-                                            const setPreviewState = idx === 1 ? setFasilitas1Preview : idx === 2 ? setFasilitas2Preview : idx === 3 ? setFasilitas3Preview : setFasilitas4Preview;
+                                        {fasilitas.map((fRecord, idx) => {
+                                            const previewState = facilityPreviews[fRecord.id];
+                                            const setPreviewState = (newUrl) => {
+                                                setFacilityPreviews(prev => ({
+                                                    ...prev,
+                                                    [fRecord.id]: newUrl
+                                                }));
+                                            };
+
                                             return (
-                                                <div key={idx} className="p-4 bg-slate-50/50 border border-slate-200 rounded-[0.25rem] space-y-4">
-                                                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Slot Fasilitas {idx}</div>
+                                                <div key={fRecord.id} className="p-4 bg-slate-50/50 border border-slate-200 rounded-[0.25rem] space-y-4 relative group">
+                                                    <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                                                        <span>Slot Fasilitas {idx + 1}</span>
+                                                        
+                                                        {/* Delete button (only if more than 1 facility to avoid breaking layout) */}
+                                                        {fasilitas.length > 1 && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => deleteFasilitas(fRecord.id)}
+                                                                className="text-red-500 hover:text-red-700 transition-colors"
+                                                                title="Hapus fasilitas utama ini"
+                                                            >
+                                                                <TrashIcon className="h-3.5 w-3.5" />
+                                                            </button>
+                                                        )}
+                                                    </div>
                                                     
                                                     {/* Image upload with crop */}
-                                                    <div className="relative aspect-[4/3] bg-slate-100 border border-slate-200 rounded-[0.25rem] overflow-hidden group">
+                                                    <div className="relative aspect-[4/3] bg-slate-100 border border-slate-200 rounded-[0.25rem] overflow-hidden group/img">
                                                         {previewState ? (
-                                                            <img src={previewState} alt={`Fasilitas ${idx}`} className="w-full h-full object-cover" />
+                                                            <img src={previewState} alt={fRecord.nama} className="w-full h-full object-cover" />
                                                         ) : (
-                                                            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300 bg-slate-100/50">
+                                                            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-350 bg-slate-100/50">
                                                                 <PhotoIcon className="h-8 w-8 mb-1" />
                                                                 <span className="text-[8px] font-bold uppercase tracking-widest text-center px-2">Pilih Foto</span>
                                                             </div>
                                                         )}
-                                                        <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
+                                                        <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center z-10">
                                                             <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
                                                         </div>
                                                         <ImageInputWithCrop 
                                                             className="absolute inset-0 z-20"
                                                             aspectRatio={4/3}
-                                                            title={`Potong Foto Fasilitas ${idx} (4:3)`}
+                                                            title={`Potong Foto Fasilitas ${idx + 1} (4:3)`}
                                                             onChange={(file) => {
-                                                                setData(`fasilitas_utama_${idx}_img`, file);
+                                                                setData(`fasilitas_img_${fRecord.id}`, file);
                                                                 if (file) setPreviewState(URL.createObjectURL(file));
                                                             }}
                                                         />
@@ -824,15 +974,40 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                                         <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-widest">Nama Fasilitas</label>
                                                         <input
                                                             type="text"
-                                                            value={data[`fasilitas_utama_${idx}_nama`]}
-                                                            onChange={e => setData(`fasilitas_utama_${idx}_nama`, e.target.value)}
+                                                            value={data[`fasilitas_nama_${fRecord.id}`] || ''}
+                                                            onChange={e => setData(`fasilitas_nama_${fRecord.id}`, e.target.value)}
                                                             className="w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-[0.25rem] py-2 px-2.5 focus:border-brand-primary focus:ring-1 focus:ring-brand-primary/20 outline-none font-semibold"
-                                                            placeholder={`Contoh: Laboratorium IT`}
+                                                            placeholder={`Nama Fasilitas`}
                                                         />
+                                                    </div>
+
+                                                    {/* Gallery access */}
+                                                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                                                        <span className="text-[9px] text-slate-400 font-semibold">Galeri: {fRecord.galeris?.length || 0} Foto</span>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => openEditFasilitas(fRecord)}
+                                                            className="text-brand-primary hover:text-slate-900 text-[9px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1"
+                                                        >
+                                                            <PhotoIcon className="h-3 w-3" />
+                                                            <span>+ Kelola Galeri</span>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             );
                                         })}
+
+                                        {/* Dotted add card */}
+                                        <div 
+                                            onClick={openAddFasilitas}
+                                            className="border-2 border-dashed border-slate-200 hover:border-brand-primary bg-slate-50/25 hover:bg-slate-50/50 rounded-[0.25rem] flex flex-col items-center justify-center p-6 text-center cursor-pointer transition-all aspect-[4/3] group"
+                                        >
+                                            <div className="p-3 bg-white border border-slate-200 rounded-full text-slate-400 group-hover:text-brand-primary shadow-sm mb-3">
+                                                <PlusIcon className="h-6 w-6" />
+                                            </div>
+                                            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider group-hover:text-brand-primary transition-colors">Tambah Fasilitas</span>
+                                            <span className="text-[9px] text-slate-400 mt-1">Tambahkan slot fasilitas utama baru</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1318,6 +1493,276 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                     </div>
                 </div>
             )}
+
+            {/* --- MODAL UNIFIED FASILITAS & GALERI --- */}
+            {isFasilitasModalOpen && (() => {
+                const isEditing = !!editingFasilitas;
+                const activeFasilitas = isEditing 
+                    ? (fasilitas.find(item => item.id === editingFasilitas.id) || editingFasilitas) 
+                    : null;
+                const activePhotos = activeFasilitas ? (activeFasilitas.galeris || []) : [];
+
+                return (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+                        <div className={`bg-white w-full ${isEditing ? 'max-w-6xl' : 'max-w-md'} rounded-[0.25rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]`}>
+                            
+                            {/* Header */}
+                            <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                                <div>
+                                    <span className="text-[8px] font-black text-brand-primary uppercase tracking-[0.2em]">
+                                        {isEditing ? 'Kelola Unit & Dokumentasi' : 'Manajemen Fasilitas'}
+                                    </span>
+                                    <h3 className="font-bold uppercase tracking-tight text-slate-900 text-sm mt-0.5">
+                                        {isEditing ? `Edit Fasilitas: ${activeFasilitas.nama}` : 'Tambah Fasilitas Baru'}
+                                    </h3>
+                                </div>
+                                <button 
+                                    onClick={closeFasilitasModal} 
+                                    className="text-slate-450 hover:text-slate-900 text-2xl leading-none"
+                                >
+                                    &times;
+                                </button>
+                            </div>
+
+                            {/* Content Body */}
+                            <div className="flex-1 overflow-y-auto min-h-0">
+                                <div className={`grid grid-cols-1 ${isEditing ? 'md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-slate-100' : ''}`}>
+                                    
+                                    {/* LEFT COLUMN: BASIC DATA & MAIN IMAGE */}
+                                    {(!isEditing || !activeFasilitas?.is_utama) && (
+                                        <div className={`${isEditing ? 'md:col-span-5 p-8' : 'p-8'} space-y-6`}>
+                                            <form onSubmit={submitFasilitas} className="space-y-5">
+                                                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2">
+                                                    Informasi Utama & Gambar Sampul
+                                                </h4>
+                                                
+                                                {!fasilitasForm.data.is_utama && (
+                                                    <div>
+                                                        <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Pilih Unit (Lembaga)</label>
+                                                        <select 
+                                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
+                                                            value={fasilitasForm.data.lembaga_id}
+                                                            onChange={e => fasilitasForm.setData('lembaga_id', e.target.value)}
+                                                            required={!fasilitasForm.data.is_utama}
+                                                        >
+                                                            <option value="" disabled>-- Pilih Unit --</option>
+                                                            {lembagas.map(l => (
+                                                                <option key={l.id} value={l.id}>{l.nama}</option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                )}
+
+                                                <div>
+                                                    <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Nama Fasilitas</label>
+                                                    <input 
+                                                        type="text" 
+                                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
+                                                        value={fasilitasForm.data.nama}
+                                                        onChange={e => fasilitasForm.setData('nama', e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
+
+                                                <div>
+                                                    <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Kategori Fasilitas</label>
+                                                    <input 
+                                                        type="text" 
+                                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
+                                                        value={fasilitasForm.data.kategori}
+                                                        onChange={e => fasilitasForm.setData('kategori', e.target.value)}
+                                                        placeholder="Contoh: Gedung, Laboratorium, Lapangan"
+                                                    />
+                                                </div>
+
+                                                <div>
+                                                    <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Deskripsi Fasilitas</label>
+                                                    <textarea 
+                                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-xs focus:ring-1 focus:ring-brand-primary outline-none min-h-[60px]"
+                                                        value={fasilitasForm.data.deskripsi}
+                                                        onChange={e => fasilitasForm.setData('deskripsi', e.target.value)}
+                                                        placeholder="Deskripsi singkat..."
+                                                    />
+                                                </div>
+
+                                                <div>
+                                                     <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-2">Gambar Sampul Utama (Rasio 4:3)</label>
+                                                     <div className="relative aspect-[4/3] w-full bg-slate-50 rounded-[0.25rem] overflow-hidden border border-dashed border-slate-200 group hover:border-brand-primary transition-colors flex items-center justify-center">
+                                                         {fasilitasPreview ? (
+                                                             <img src={fasilitasPreview} className="w-full h-full object-cover pointer-events-none" alt="Preview" />
+                                                         ) : (
+                                                             <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-350 pointer-events-none">
+                                                                 <PhotoIcon className="h-8 w-8 mb-1" />
+                                                                 <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Gambar</span>
+                                                             </div>
+                                                         )}
+                                                         <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10 pointer-events-none">
+                                                             <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti Sampul</span>
+                                                         </div>
+                                                         <ImageInputWithCrop 
+                                                             className="absolute inset-0 z-20"
+                                                             aspectRatio={4/3}
+                                                             title="Potong Gambar Sampul (4:3)"
+                                                             onChange={(file) => {
+                                                                 fasilitasForm.setData('image', file);
+                                                                 if (file) setFasilitasPreview(URL.createObjectURL(file));
+                                                             }}
+                                                         />
+                                                     </div>
+                                                 </div>
+
+                                                <div className="pt-4 border-t border-slate-100 flex justify-end gap-2">
+                                                    <button 
+                                                        type="button" 
+                                                        onClick={closeFasilitasModal} 
+                                                        className="px-4 py-2.5 text-[9px] font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors"
+                                                    >
+                                                        Batal
+                                                    </button>
+                                                    <button 
+                                                        type="submit" 
+                                                        disabled={fasilitasForm.processing}
+                                                        className="bg-brand-primary text-white py-2.5 px-6 text-[9px] font-bold uppercase tracking-widest rounded-[0.25rem] hover:bg-slate-900 transition-all shadow-xl shadow-brand-primary/20"
+                                                    >
+                                                        {fasilitasForm.processing ? 'Menyimpan...' : 'Simpan Fasilitas'}
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    )}
+
+                                    {/* RIGHT COLUMN: INTEGRATED PHOTO GALLERY (ONLY WHEN EDITING) */}
+                                    {isEditing && (
+                                        <div className={`${activeFasilitas?.is_utama ? 'md:col-span-12' : 'md:col-span-7'} p-8 flex flex-col min-h-0 bg-slate-50/50 space-y-6`}>
+                                            
+                                            {/* Form Add to Gallery */}
+                                            <form onSubmit={submitGaleri} className="space-y-4 bg-white border border-slate-200/60 rounded-[0.25rem] p-5 shadow-sm">
+                                                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2 flex justify-between items-center">
+                                                    <span>{editingGaleri ? 'Ubah Foto Galeri' : 'Unggah Foto Tambahan'}</span>
+                                                    {editingGaleri && (
+                                                        <button 
+                                                            type="button" 
+                                                            onClick={cancelEditGaleri} 
+                                                            className="text-[8px] text-red-500 font-bold uppercase tracking-wider animate-pulse"
+                                                        >
+                                                            Batal Edit
+                                                        </button>
+                                                    )}
+                                                </h4>
+                                                
+                                                <div className="grid grid-cols-2 gap-3">
+                                                    <div>
+                                                        <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1">Judul Foto</label>
+                                                        <input 
+                                                            type="text" 
+                                                            className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
+                                                            value={galeriForm.data.judul}
+                                                            onChange={e => galeriForm.setData('judul', e.target.value)}
+                                                            placeholder="Misal: Tampak Depan"
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-1">Deskripsi Singkat</label>
+                                                        <input 
+                                                            type="text" 
+                                                            className="w-full bg-slate-50 border border-slate-200 rounded p-2 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
+                                                            value={galeriForm.data.deskripsi}
+                                                            onChange={e => galeriForm.setData('deskripsi', e.target.value)}
+                                                            placeholder="Keterangan foto..."
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex items-center gap-3">
+                                                    <div className="flex-1 relative h-16 bg-slate-50 border border-dashed border-slate-200 rounded flex items-center justify-center group overflow-hidden">
+                                                        {galeriPreview ? (
+                                                            <>
+                                                                <img src={galeriPreview} className="w-full h-full object-cover pointer-events-none" alt="Preview" />
+                                                                <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10 pointer-events-none">
+                                                                    <span className="text-white text-[8px] font-bold uppercase tracking-wider border border-white/40 px-2.5 py-1">Ganti</span>
+                                                                </div>
+                                                            </>
+                                                        ) : (
+                                                            <div className="flex flex-col items-center justify-center text-slate-350 pointer-events-none">
+                                                                <PhotoIcon className="h-4 w-4 mb-0.5" />
+                                                                <span className="text-[8px] font-bold uppercase tracking-wider">Pilih Foto Galeri</span>
+                                                            </div>
+                                                        )}
+                                                        <ImageInputWithCrop 
+                                                            className="absolute inset-0 z-20"
+                                                            aspectRatio={4/3}
+                                                            title="Potong Foto Galeri (4:3)"
+                                                            onChange={(file) => {
+                                                                galeriForm.setData('image', file);
+                                                                if (file) setGaleriPreview(URL.createObjectURL(file));
+                                                            }}
+                                                        />
+                                                    </div>
+                                                    <button 
+                                                        type="submit" 
+                                                        disabled={galeriForm.processing}
+                                                        className="bg-slate-900 hover:bg-brand-primary text-white text-[8px] font-bold uppercase tracking-widest px-6 h-16 rounded-[0.25rem] transition-colors"
+                                                    >
+                                                        {galeriForm.processing ? 'Proses...' : (editingGaleri ? 'Ubah' : 'Unggah')}
+                                                    </button>
+                                                </div>
+                                            </form>
+
+                                            {/* Gallery Photo List */}
+                                            <div className="flex-1 flex flex-col min-h-0">
+                                                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2 mb-3">
+                                                    Koleksi Foto Galeri ({activePhotos.length})
+                                                </h4>
+                                                
+                                                <div className="flex-1 overflow-y-auto pr-1">
+                                                    {activePhotos.length === 0 ? (
+                                                        <div className="py-12 text-center text-slate-350">
+                                                            <PhotoIcon className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                                                            <span className="text-[8px] font-bold uppercase tracking-widest">Belum ada foto galeri</span>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                                            {activePhotos.map((g) => (
+                                                                <div key={g.id} className="bg-white border border-slate-200 rounded overflow-hidden relative group/gal shadow-sm">
+                                                                    <div className="aspect-[4/3] w-full bg-slate-100 overflow-hidden relative">
+                                                                        <img src={g.image_url} className="w-full h-full object-cover" alt="Galeri" />
+                                                                        <div className="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/gal:opacity-100 transition-opacity flex items-center justify-center gap-1.5">
+                                                                            <button 
+                                                                                type="button" 
+                                                                                onClick={() => startEditGaleri(g)} 
+                                                                                className="p-1 rounded bg-white/20 hover:bg-brand-primary text-white transition-colors"
+                                                                                title="Edit"
+                                                                            >
+                                                                                <PencilSquareIcon className="h-3.5 w-3.5" />
+                                                                            </button>
+                                                                            <button 
+                                                                                type="button" 
+                                                                                onClick={() => deleteGaleri(g.id)} 
+                                                                                className="p-1 rounded bg-white/20 hover:bg-red-600 text-white transition-colors"
+                                                                                title="Hapus"
+                                                                            >
+                                                                                <TrashIcon className="h-3.5 w-3.5" />
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="p-2 bg-white">
+                                                                        <h5 className="text-[9px] font-bold uppercase tracking-widest text-slate-900 truncate">{g.judul || 'Tanpa Judul'}</h5>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            })()}
         </IndukAdminLayout>
     );
 }
