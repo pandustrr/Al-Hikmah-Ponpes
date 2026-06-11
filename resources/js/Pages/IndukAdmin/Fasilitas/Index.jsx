@@ -474,14 +474,14 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                                      <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-2">Gambar Sampul Utama (Rasio 4:3)</label>
                                                      <div className="relative aspect-[4/3] w-full bg-slate-50 rounded-[0.25rem] overflow-hidden border border-dashed border-slate-200 group hover:border-brand-primary transition-colors flex items-center justify-center">
                                                          {fasilitasPreview ? (
-                                                             <img src={fasilitasPreview} className="w-full h-full object-cover" alt="Preview" />
+                                                             <img src={fasilitasPreview} className="w-full h-full object-cover pointer-events-none" alt="Preview" />
                                                          ) : (
-                                                             <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-350">
+                                                             <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-350 pointer-events-none">
                                                                  <PhotoIcon className="h-8 w-8 mb-1" />
                                                                  <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Gambar</span>
                                                              </div>
                                                          )}
-                                                         <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10">
+                                                         <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10 pointer-events-none">
                                                              <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti Sampul</span>
                                                          </div>
                                                          <ImageInputWithCrop 
@@ -560,9 +560,9 @@ export default function Index({ fasilitas = [], lembagas = [] }) {
                                                     <div className="flex items-center gap-3">
                                                         <div className="flex-1 relative h-10 bg-slate-50 border border-dashed border-slate-200 rounded flex items-center justify-center group overflow-hidden">
                                                             {galeriPreview ? (
-                                                                <span className="text-[8px] font-bold text-brand-primary truncate px-3">File Terpilih</span>
+                                                                <span className="text-[8px] font-bold text-brand-primary truncate px-3 pointer-events-none">File Terpilih</span>
                                                             ) : (
-                                                                <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider">Pilih Foto Galeri</span>
+                                                                <span className="text-[8px] font-bold text-slate-400 uppercase tracking-wider pointer-events-none">Pilih Foto Galeri</span>
                                                             )}
                                                             <ImageInputWithCrop 
                                                                 className="absolute inset-0 z-10"

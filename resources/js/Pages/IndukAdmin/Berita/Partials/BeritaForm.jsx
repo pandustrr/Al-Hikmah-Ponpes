@@ -207,14 +207,14 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                                 <span className="block text-[9px] font-bold text-slate-500 uppercase tracking-widest">Gambar Desktop (16:9)</span>
                                 <div className="relative aspect-video bg-slate-50 rounded-[0.25rem] overflow-hidden border border-slate-200 group flex items-center justify-center shadow-sm">
                                     {preview || berita?.image_url ? (
-                                        <img src={preview || berita.image_url} className="w-full h-full object-cover" alt="Preview Lanskap" />
+                                        <img src={preview || berita.image_url} className="w-full h-full object-cover pointer-events-none" alt="Preview Lanskap" />
                                     ) : (
-                                        <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300 pointer-events-none">
                                             <PhotoIcon className="h-8 w-8 mb-1" />
                                             <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Gambar Lanskap</span>
                                         </div>
                                     )}
-                                    <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
                                         <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
                                     </div>
                                     <ImageInputWithCrop 
@@ -238,14 +238,14 @@ export default function BeritaForm({ berita = null, categories, lembagas, submit
                                 <span className="block text-[9px] font-bold text-slate-500 uppercase tracking-widest">Gambar Mobile (3:4)</span>
                                 <div className="relative aspect-[3/4] w-full max-w-[130px] mx-auto bg-slate-50 rounded-[0.25rem] overflow-hidden border border-slate-200 group flex items-center justify-center shadow-sm">
                                     {previewMobile || berita?.image_mobile_url ? (
-                                        <img src={previewMobile || berita.image_mobile_url} className="w-full h-full object-cover" alt="Preview Potret" />
+                                        <img src={previewMobile || berita.image_mobile_url} className="w-full h-full object-cover pointer-events-none" alt="Preview Potret" />
                                     ) : (
-                                        <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300">
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300 pointer-events-none">
                                             <PhotoIcon className="h-8 w-8 mb-1" />
                                             <span className="text-[8px] font-bold uppercase tracking-widest">Pilih Gambar Potret</span>
                                         </div>
                                     )}
-                                    <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
                                         <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-3 py-1.5 cursor-pointer">Ganti</span>
                                     </div>
                                     <ImageInputWithCrop 
