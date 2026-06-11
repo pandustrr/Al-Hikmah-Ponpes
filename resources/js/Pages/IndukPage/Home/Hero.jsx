@@ -147,9 +147,10 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
                     
                     <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto pb-6 lg:pb-0 custom-scrollbar snap-x scroll-px-4 px-4 lg:px-0">
                         {sliderBerita.map((item, idx) => (
-                            <button
+                            <Link
                                 key={`thumb-${item.id}`}
-                                onClick={() => goToSlide(idx)}
+                                href={item.slug === '#' ? '#' : `/berita/${item.slug}`}
+                                onMouseEnter={() => goToSlide(idx)}
                                 className={`group relative flex flex-shrink-0 lg:flex-shrink flex-col lg:flex-row lg:items-center gap-2 lg:gap-4 p-2.5 lg:p-3 rounded-[0.5rem] transition-all duration-500 snap-center w-[140px] md:w-[160px] lg:w-full backdrop-blur-xl ${
                                     idx === currentIndex 
                                         ? 'bg-black/60 border-2 border-brand-secondary shadow-2xl scale-[1.02] lg:scale-100' 
@@ -174,7 +175,7 @@ export default function Hero({ offsetY, berita = [], settings = {} }) {
                                 {idx === currentIndex && (
                                     <div className="absolute left-0 right-0 bottom-0 h-1 bg-brand-secondary lg:hidden rounded-b-[0.5rem]"></div>
                                 )}
-                            </button>
+                            </Link>
                         ))}
                     </div>
                 </div>
