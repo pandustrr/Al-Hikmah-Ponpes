@@ -35,12 +35,11 @@ class AuthenticatedSessionController extends Controller
 
         $user = Auth::user();
 
-        if ($user->role === 'super_admin') {
+        if ($user->role === 'super_admin' || $user->role === 'lembaga_admin') {
+            if ($user->role === 'lembaga_admin' && $user->lembaga) {
+                return redirect()->route('lembaga.admin.dashboard', ['lembaga_slug' => $user->lembaga->slug]);
+            }
             return redirect()->route('admin.dashboard');
-        }
-
-        if ($user->role === 'lembaga_admin' && $user->lembaga) {
-            return redirect()->route('lembaga.admin.dashboard', ['lembaga_slug' => $user->lembaga->slug]);
         }
 
         return redirect()->intended(route('home', absolute: false));

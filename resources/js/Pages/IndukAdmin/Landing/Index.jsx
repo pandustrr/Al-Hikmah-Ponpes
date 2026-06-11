@@ -15,6 +15,78 @@ import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
 export default function Index({ settings, testimonials, beritaList = [], categories = [], lembagas = [] }) {
     const [activeTab, setActiveTab] = useState('hero');
+
+    // Testimonial States & Form
+    const [isTestimonialModalOpen, setIsTestimonialModalOpen] = useState(false);
+    const [editingTestimonial, setEditingTestimonial] = useState(null);
+    const [testimonialImagePreview, setTestimonialImagePreview] = useState(null);
+
+    const testimonialForm = useForm({
+        _method: 'POST',
+        name: '',
+        info: '',
+        quote: '',
+        stars: 5,
+        image_file: null,
+        is_active: true,
+    });
+
+    const openAddTestimonial = () => {
+        setEditingTestimonial(null);
+        testimonialForm.reset();
+        testimonialForm.setData({
+            _method: 'POST',
+            name: '',
+            info: '',
+            quote: '',
+            stars: 5,
+            image_file: null,
+            is_active: true,
+        });
+        setTestimonialImagePreview(null);
+        setIsTestimonialModalOpen(true);
+    };
+
+    const openEditTestimonial = (t) => {
+        setEditingTestimonial(t);
+        testimonialForm.setData({
+            _method: 'PUT',
+            name: t.name,
+            info: t.info,
+            quote: t.quote,
+            stars: t.stars || 5,
+            image_file: null,
+            is_active: t.is_active === undefined ? true : !!t.is_active,
+        });
+        setTestimonialImagePreview(t.image_url);
+        setIsTestimonialModalOpen(true);
+    };
+
+    const closeTestimonialModal = () => {
+        setIsTestimonialModalOpen(false);
+        setEditingTestimonial(null);
+        testimonialForm.reset();
+        setTestimonialImagePreview(null);
+    };
+
+    const submitTestimonial = (e) => {
+        e.preventDefault();
+        if (editingTestimonial) {
+            testimonialForm.post(route('testimonials.update', editingTestimonial.id), {
+                onSuccess: () => closeTestimonialModal(),
+            });
+        } else {
+            testimonialForm.post(route('testimonials.store'), {
+                onSuccess: () => closeTestimonialModal(),
+            });
+        }
+    };
+
+    const deleteTestimonial = (id) => {
+        if (confirm('Apakah Anda yakin ingin menghapus testimoni ini?')) {
+            router.delete(route('testimonials.destroy', id));
+        }
+    };
     const [heroBgPreview, setHeroBgPreview] = useState(settings.hero_bg || null);
     const [heroBgMobilePreview, setHeroBgMobilePreview] = useState(settings.hero_bg_mobile || null);
     const [aboutImagePreview, setAboutImagePreview] = useState(settings.about_image || null);
@@ -1019,38 +1091,233 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                     {/* 3. Testimonials Tab */}
                     {activeTab === 'testimonials' && (
                         <div className="p-8">
-                            <div className="flex justify-between items-center mb-8">
-                                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Daftar Testimoni</h3>
-                                <button className="inline-flex items-center gap-2 bg-brand-primary hover:bg-slate-900 text-white text-[10px] font-semibold uppercase tracking-widest px-4 py-2 transition-all rounded-[0.25rem]">
-                                    <PlusIcon className="h-3 w-3" />
+                            <div className="flex justify-between items-center mb-8 border-b border-slate-100 pb-4">
+                                <div>
+                                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Daftar Testimoni</h3>
+                                    <p className="text-xs text-slate-400 mt-1">Kelola testimoni wali santri, tokoh, alumni, atau asatidzah yang tampil di halaman depan.</p>
+                                </div>
+                                <button 
+                                    onClick={openAddTestimonial}
+                                    className="inline-flex items-center gap-2 bg-brand-primary hover:bg-slate-900 text-white text-[10px] font-semibold uppercase tracking-widest px-4 py-2 transition-all rounded-[0.25rem] shadow-md shadow-brand-primary/10"
+                                >
+                                    <PlusIcon className="h-3.5 w-3.5" />
                                     Tambah Testimoni
                                 </button>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {testimonials.map(testi => (
-                                    <div key={testi.id} className="p-6 border border-slate-100 rounded-[0.25rem] bg-slate-50 relative group">
-                                        <div className="flex items-center gap-4 mb-4">
-                                            <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-200">
-                                                <img src={testi.image_url} alt="" className="w-full h-full object-cover" />
-                                            </div>
+
+                            {testimonials.length === 0 ? (
+                                <div className="py-16 text-center text-slate-350 bg-slate-50 border border-slate-100 rounded-[0.25rem]">
+                                    <ChatBubbleLeftRightIcon className="h-10 w-10 mx-auto mb-2 opacity-50" />
+                                    <span className="text-[10px] font-bold uppercase tracking-widest">Belum ada testimoni</span>
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
+                                    {testimonials.map(testi => (
+                                        <div key={testi.id} className="p-6 border border-slate-150 rounded-[0.25rem] bg-white hover:border-slate-300 transition-all relative group shadow-sm flex flex-col justify-between">
                                             <div>
-                                                <h4 className="font-bold text-slate-900 text-sm">{testi.name}</h4>
-                                                <p className="text-[10px] text-slate-400 uppercase tracking-widest">{testi.info}</p>
+                                                <div className="flex items-center justify-between mb-4">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-100 border border-slate-200 flex-shrink-0">
+                                                            {testi.image_url ? (
+                                                                <img src={testi.image_url} alt={testi.name} className="w-full h-full object-cover" />
+                                                            ) : (
+                                                                <div className="w-full h-full flex items-center justify-center bg-brand-primary/5 text-brand-primary font-bold text-sm">
+                                                                    {testi.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                        <div>
+                                                            <h4 className="font-bold text-slate-900 text-sm flex items-center gap-2">
+                                                                {testi.name}
+                                                                {!testi.is_active && (
+                                                                    <span className="text-[7px] font-bold uppercase tracking-widest bg-slate-100 border border-slate-250 text-slate-400 px-1.5 py-0.5 rounded-[0.15rem]">
+                                                                        Draft
+                                                                    </span>
+                                                                )}
+                                                            </h4>
+                                                            <p className="text-[10px] text-slate-450 uppercase tracking-widest mt-0.5">{testi.info}</p>
+                                                            <div className="flex items-center gap-0.5 mt-1">
+                                                                {[...Array(5)].map((_, i) => (
+                                                                    <span key={i} className={`text-xs ${i < testi.stars ? 'text-amber-400' : 'text-slate-250'}`}>★</span>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p className="text-xs text-slate-600 italic leading-relaxed">"{testi.quote}"</p>
+                                            </div>
+
+                                            <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1.5">
+                                                <button 
+                                                    onClick={() => openEditTestimonial(testi)}
+                                                    className="p-2 bg-white border border-slate-200 rounded text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors shadow-sm"
+                                                    title="Edit Testimoni"
+                                                >
+                                                    <PencilSquareIcon className="h-4 w-4" />
+                                                </button>
+                                                <button 
+                                                    onClick={() => deleteTestimonial(testi.id)}
+                                                    className="p-2 bg-white border border-slate-200 rounded text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors shadow-sm"
+                                                    title="Hapus Testimoni"
+                                                >
+                                                    <TrashIcon className="h-4 w-4" />
+                                                </button>
                                             </div>
                                         </div>
-                                        <p className="text-sm text-slate-600 italic">"{testi.quote}"</p>
-                                        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
-                                            <button className="p-1.5 bg-white border border-slate-200 rounded text-slate-400 hover:text-brand-primary"><PencilSquareIcon className="h-3.5 w-3.5" /></button>
-                                            <button className="p-1.5 bg-white border border-slate-200 rounded text-slate-400 hover:text-red-500"><TrashIcon className="h-3.5 w-3.5" /></button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     )}
 
                 </div>
             </div>
+
+            {/* Testimonial Modal */}
+            {isTestimonialModalOpen && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-white w-full max-w-md rounded-[0.25rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+                        
+                        {/* Header */}
+                        <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                            <div>
+                                <span className="text-[8px] font-black text-brand-primary uppercase tracking-[0.2em]">
+                                    Manajemen Testimoni
+                                </span>
+                                <h3 className="font-bold uppercase tracking-tight text-slate-900 text-sm mt-0.5">
+                                    {editingTestimonial ? 'Ubah Testimoni' : 'Tambah Testimoni Baru'}
+                                </h3>
+                            </div>
+                            <button 
+                                onClick={closeTestimonialModal} 
+                                className="text-slate-455 hover:text-slate-900 text-2xl leading-none"
+                            >
+                                &times;
+                            </button>
+                        </div>
+
+                        {/* Form */}
+                        <form onSubmit={submitTestimonial} className="flex-1 overflow-y-auto min-h-0 p-8 space-y-5">
+                            <div>
+                                <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Nama Pengirim</label>
+                                <input 
+                                    type="text" 
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
+                                    value={testimonialForm.data.name}
+                                    onChange={e => testimonialForm.setData('name', e.target.value)}
+                                    required
+                                    placeholder="Contoh: Budi Santoso"
+                                />
+                                {testimonialForm.errors.name && <p className="text-[10px] text-red-500 mt-1">{testimonialForm.errors.name}</p>}
+                            </div>
+
+                            <div>
+                                <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Info / Jabatan / Hubungan</label>
+                                <input 
+                                    type="text" 
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
+                                    value={testimonialForm.data.info}
+                                    onChange={e => testimonialForm.setData('info', e.target.value)}
+                                    required
+                                    placeholder="Contoh: Wali Santri SD, Alumni Angkatan 2020"
+                                />
+                                {testimonialForm.errors.info && <p className="text-[10px] text-red-500 mt-1">{testimonialForm.errors.info}</p>}
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Rating Bintang</label>
+                                    <select 
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
+                                        value={testimonialForm.data.stars}
+                                        onChange={e => testimonialForm.setData('stars', parseInt(e.target.value))}
+                                        required
+                                    >
+                                        <option value={5}>⭐⭐⭐⭐⭐ (5 Bintang)</option>
+                                        <option value={4}>⭐⭐⭐⭐ (4 Bintang)</option>
+                                        <option value={3}>⭐⭐⭐ (3 Bintang)</option>
+                                        <option value={2}>⭐⭐ (2 Bintang)</option>
+                                        <option value={1}>⭐ (1 Bintang)</option>
+                                    </select>
+                                    {testimonialForm.errors.stars && <p className="text-[10px] text-red-500 mt-1">{testimonialForm.errors.stars}</p>}
+                                </div>
+
+                                {editingTestimonial && (
+                                    <div>
+                                        <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Status Tampilan</label>
+                                        <select 
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-xs focus:ring-1 focus:ring-brand-primary outline-none"
+                                            value={testimonialForm.data.is_active ? '1' : '0'}
+                                            onChange={e => testimonialForm.setData('is_active', e.target.value === '1')}
+                                            required
+                                        >
+                                            <option value="1">Aktif (Tampilkan)</option>
+                                            <option value="0">Draft (Sembunyikan)</option>
+                                        </select>
+                                        {testimonialForm.errors.is_active && <p className="text-[10px] text-red-500 mt-1">{testimonialForm.errors.is_active}</p>}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div>
+                                <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-2">Foto Profil (Rasio 1:1)</label>
+                                <div className="relative aspect-square w-24 bg-slate-50 rounded-full overflow-hidden border border-dashed border-slate-200 group hover:border-brand-primary transition-colors flex items-center justify-center mx-auto">
+                                    {testimonialImagePreview ? (
+                                        <img src={testimonialImagePreview} className="w-full h-full object-cover pointer-events-none" alt="Preview" />
+                                    ) : (
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-350 pointer-events-none">
+                                            <PhotoIcon className="h-6 w-6 mb-1" />
+                                            <span className="text-[8px] font-bold uppercase tracking-widest text-center px-1">Pilih Foto</span>
+                                        </div>
+                                    )}
+                                    <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10 pointer-events-none">
+                                        <span className="text-white text-[8px] font-bold uppercase tracking-[0.2em] border border-white/40 px-2 py-1 cursor-pointer">Ganti</span>
+                                    </div>
+                                    <ImageInputWithCrop 
+                                        className="absolute inset-0 z-20"
+                                        aspectRatio={1}
+                                        title="Potong Foto Profil (1:1)"
+                                        onChange={(file) => {
+                                            testimonialForm.setData('image_file', file);
+                                            if (file) setTestimonialImagePreview(URL.createObjectURL(file));
+                                        }}
+                                    />
+                                </div>
+                                {testimonialForm.errors.image_file && <p className="text-[10px] text-red-500 text-center mt-1">{testimonialForm.errors.image_file}</p>}
+                            </div>
+
+                            <div>
+                                <label className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Kutipan Testimoni</label>
+                                <textarea 
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-[0.25rem] p-3 text-xs focus:ring-1 focus:ring-brand-primary outline-none min-h-[80px]"
+                                    value={testimonialForm.data.quote}
+                                    onChange={e => testimonialForm.setData('quote', e.target.value)}
+                                    required
+                                    placeholder="Tulis testimoni/kesan pesan..."
+                                />
+                                {testimonialForm.errors.quote && <p className="text-[10px] text-red-500 mt-1">{testimonialForm.errors.quote}</p>}
+                            </div>
+
+                            <div className="pt-4 border-t border-slate-100 flex justify-end gap-2">
+                                <button 
+                                    type="button" 
+                                    onClick={closeTestimonialModal} 
+                                    className="px-4 py-2.5 text-[9px] font-bold uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors"
+                                >
+                                    Batal
+                                </button>
+                                <button 
+                                    type="submit" 
+                                    disabled={testimonialForm.processing}
+                                    className="bg-brand-primary text-white py-2.5 px-6 text-[9px] font-bold uppercase tracking-widest rounded-[0.25rem] hover:bg-slate-900 transition-all shadow-xl shadow-brand-primary/20"
+                                >
+                                    {testimonialForm.processing ? 'Menyimpan...' : 'Simpan Testimoni'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </IndukAdminLayout>
     );
 }
