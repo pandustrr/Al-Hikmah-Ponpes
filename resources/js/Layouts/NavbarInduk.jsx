@@ -33,13 +33,13 @@ export default function NavbarInduk({ navTheme = 'light' }) {
             ...(beritaCategories.length > 0
                 ? beritaCategories.map(cat => ({
                     name: cat.name,
-                    href: `/berita/kategori/${cat.slug}`
+                    href: `/berita?kategori=${cat.slug}`
                   }))
                 : [
-                    { name: 'Prestasi', href: '/berita/kategori/prestasi' },
-                    { name: 'Pengumuman', href: '/berita/kategori/pengumuman' },
-                    { name: 'Artikel', href: '/berita/kategori/artikel' },
-                    { name: 'Event', href: '/berita/kategori/event' },
+                    { name: 'Prestasi', href: '/berita?kategori=prestasi' },
+                    { name: 'Pengumuman', href: '/berita?kategori=pengumuman' },
+                    { name: 'Artikel', href: '/berita?kategori=artikel' },
+                    { name: 'Event', href: '/berita?kategori=event' },
                 ]
             )
         ]},
