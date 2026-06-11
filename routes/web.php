@@ -16,7 +16,7 @@ use Inertia\Inertia;
 // --- ADMIN INDUK (SUPER ADMIN) ---
 Route::prefix('admin/console')->name('admin.')->group(function () {
     // Login Induk (Sekarang langsung di /admin/console)
-    Route::get('/', [HomeController::class, 'adminLogin'])->name('login');
+    Route::get('/', [HomeController::class, 'adminLogin'])->name('login')->middleware('guest');
 
     // Dashboard Induk (Protected)
     Route::middleware(['auth'])->group(function () {
