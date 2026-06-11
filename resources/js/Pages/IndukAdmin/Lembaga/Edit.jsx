@@ -474,6 +474,11 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
 
                 {/* Main Form Wrapper */}
                 <form onSubmit={handleSubmit}>
+                    {errors.error && (
+                        <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded text-xs font-bold uppercase tracking-wider">
+                            {errors.error}
+                        </div>
+                    )}
                     
                     {/* Tab: YouTube Videos */}
                     {activeTab === 'youtube_videos' && (
