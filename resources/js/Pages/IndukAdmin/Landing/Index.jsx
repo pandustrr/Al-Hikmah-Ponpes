@@ -72,11 +72,11 @@ export default function Index({ settings, testimonials, beritaList = [], categor
     const submitTestimonial = (e) => {
         e.preventDefault();
         if (editingTestimonial) {
-            testimonialForm.post(route('testimonials.update', editingTestimonial.id), {
+            testimonialForm.post(route('admin.testimonials.update', editingTestimonial.id), {
                 onSuccess: () => closeTestimonialModal(),
             });
         } else {
-            testimonialForm.post(route('testimonials.store'), {
+            testimonialForm.post(route('admin.testimonials.store'), {
                 onSuccess: () => closeTestimonialModal(),
             });
         }
@@ -84,7 +84,7 @@ export default function Index({ settings, testimonials, beritaList = [], categor
 
     const deleteTestimonial = (id) => {
         if (confirm('Apakah Anda yakin ingin menghapus testimoni ini?')) {
-            router.delete(route('testimonials.destroy', id));
+            router.delete(route('admin.testimonials.destroy', id));
         }
     };
     const [heroBgPreview, setHeroBgPreview] = useState(settings.hero_bg || null);
