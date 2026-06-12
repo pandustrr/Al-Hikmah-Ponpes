@@ -94,7 +94,7 @@ export default function Testimonials({ testimonials = [] }) {
                                     “
                                 </div>
 
-                                <blockquote className={`text-sm md:text-base font-serif text-brand-primary italic leading-relaxed font-medium pl-6 relative z-10 transition-all duration-300 ${
+                                <blockquote className={`text-sm md:text-base font-serif text-brand-primary leading-relaxed font-medium pl-6 relative z-10 transition-all duration-300 ${
                                     fade ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
                                 }`}>
                                     "{currentTesti.quote}"
