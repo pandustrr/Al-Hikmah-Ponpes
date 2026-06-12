@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import IndukAdminLayout from '@/Layouts/Induk/IndukAdminLayout';
-import { useForm, Link } from '@inertiajs/react';
+import { useForm, Link, usePage } from '@inertiajs/react';
+import Toast from '@/Components/Toast';
+import ConfirmationModal from '@/Components/ConfirmationModal';
 import { 
     AcademicCapIcon, 
     ArrowLeftIcon,
@@ -22,6 +24,34 @@ import {
 import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
 export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilitas = [], galeris = [], beritaCategories = [], beritas = [] }) {
+    const { flash } = usePage().props;
+
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastType, setToastType] = useState('success');
+
+    // Monitor flash messages
+    useEffect(() => {
+        if (flash?.success) {
+            setToastMessage(flash.success);
+            setToastType('success');
+            setShowToast(true);
+        } else if (flash?.error) {
+            setToastMessage(flash.error);
+            setToastType('error');
+            setShowToast(true);
+        }
+    }, [flash]);
+
+    // Modal Confirmation State
+    const [confirmModal, setConfirmModal] = useState({
+        show: false,
+        title: '',
+        message: '',
+        type: 'danger',
+        onConfirm: null
+    });
+
     const [activeTab, setActiveTab] = React.useState('visual');
     
     const { data, setData, post, processing, errors } = useForm({
@@ -262,9 +292,20 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
     };
 
     const deletePengajar = (id) => {
-        if (confirm('Hapus pengajar ini?')) {
-            pengajarForm.delete(route('admin.pengajar.destroy', id));
-        }
+        setConfirmModal({
+            show: true,
+            title: 'Hapus Pengajar?',
+            message: 'Apakah Anda yakin ingin menghapus pengajar ini? Tindakan ini tidak dapat dibatalkan.',
+            type: 'danger',
+            confirmText: 'Ya, Hapus',
+            onConfirm: () => {
+                pengajarForm.delete(route('admin.pengajar.destroy', id), {
+                    onSuccess: () => {
+                        setConfirmModal(prev => ({ ...prev, show: false }));
+                    }
+                });
+            }
+        });
     };
 
     // Fasilitas CRUD State & Handlers
@@ -335,9 +376,20 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
     };
 
     const deleteFasilitas = (id) => {
-        if (confirm('Hapus fasilitas ini?')) {
-            fasilitasForm.delete(route('admin.fasilitas.destroy', id));
-        }
+        setConfirmModal({
+            show: true,
+            title: 'Hapus Fasilitas?',
+            message: 'Apakah Anda yakin ingin menghapus fasilitas ini? Tindakan ini tidak dapat dibatalkan.',
+            type: 'danger',
+            confirmText: 'Ya, Hapus',
+            onConfirm: () => {
+                fasilitasForm.delete(route('admin.fasilitas.destroy', id), {
+                    onSuccess: () => {
+                        setConfirmModal(prev => ({ ...prev, show: false }));
+                    }
+                });
+            }
+        });
     };
 
     // Galeri Fasilitas CRUD State & Handlers
@@ -405,9 +457,20 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
     };
 
     const deleteGaleri = (id) => {
-        if (confirm('Hapus foto galeri ini?')) {
-            galeriForm.delete(route('admin.galeri.destroy', id));
-        }
+        setConfirmModal({
+            show: true,
+            title: 'Hapus Foto Galeri?',
+            message: 'Apakah Anda yakin ingin menghapus foto galeri ini? Tindakan ini tidak dapat dibatalkan.',
+            type: 'danger',
+            confirmText: 'Ya, Hapus',
+            onConfirm: () => {
+                galeriForm.delete(route('admin.galeri.destroy', id), {
+                    onSuccess: () => {
+                        setConfirmModal(prev => ({ ...prev, show: false }));
+                    }
+                });
+            }
+        });
     };
 
     const handleSubmit = (e) => {
@@ -2043,6 +2106,25 @@ export default function Edit({ lembaga, pengajars = [], ppdbInfo = null, fasilit
                     );
                 })()}
             </div>
+
+            {/* Reusable Premium Toast Component */}
+            <Toast 
+                show={showToast}
+                message={toastMessage}
+                type={toastType}
+                onClose={() => setShowToast(false)}
+            />
+
+            {/* Reusable Premium Confirmation Modal Component */}
+            <ConfirmationModal
+                show={confirmModal.show}
+                title={confirmModal.title}
+                message={confirmModal.message}
+                type={confirmModal.type}
+                confirmText={confirmModal.confirmText}
+                onConfirm={confirmModal.onConfirm}
+                onCancel={() => setConfirmModal(prev => ({ ...prev, show: false }))}
+            />
             
             <style dangerouslySetInnerHTML={{ __html: `
                 .animate-fade-in {
