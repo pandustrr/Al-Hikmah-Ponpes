@@ -1169,7 +1169,7 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                     {activeTab === 'youtube_videos' && (
                         <form onSubmit={handleSettingsSubmit} className="p-8 space-y-10">
                             <div className="space-y-6">
-                                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-100 pb-4">
                                     <div>
                                         <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest border-l-4 border-brand-primary pl-4">Pengaturan Galeri Video Beranda</h3>
                                         <p className="text-xs text-slate-400 mt-1">Kelola judul, deskripsi, dan link video YouTube yang tampil di halaman beranda utama.</p>
@@ -1177,7 +1177,7 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                     <button
                                         type="submit"
                                         disabled={processing}
-                                        className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-8 py-3 transition-all rounded-[0.25rem] shadow-lg shadow-brand-primary/15 disabled:opacity-50"
+                                        className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-8 py-3 transition-all rounded-[0.25rem] shadow-lg shadow-brand-primary/15 disabled:opacity-50 shrink-0 self-start sm:self-auto"
                                     >
                                         Simpan Perubahan
                                     </button>
@@ -1257,6 +1257,16 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                     <p className="text-[9px] text-slate-400 italic mt-2">
                                         Masukkan link video YouTube profil yayasan / pesantren. Anda dapat menambahkan beberapa video sekaligus dan menghapusnya secara interaktif.
                                     </p>
+                                </div>
+
+                                <div className="pt-6 border-t border-slate-100 mt-6">
+                                    <button
+                                        type="submit"
+                                        disabled={processing}
+                                        className="bg-brand-primary hover:bg-slate-900 text-white text-xs font-semibold uppercase tracking-widest px-10 py-4 transition-all rounded-[0.25rem] shadow-xl shadow-brand-primary/20 disabled:opacity-50"
+                                    >
+                                        Simpan Perubahan
+                                    </button>
                                 </div>
                             </div>
                         </form>
