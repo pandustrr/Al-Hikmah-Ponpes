@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
@@ -23,6 +23,16 @@ export default function Testimonials({ testimonials = [] }) {
     const handlePrev = () => {
         changeSlide((currentIndex - 1 + testimonials.length) % testimonials.length);
     };
+
+    useEffect(() => {
+        if (testimonials.length <= 1) return;
+
+        const interval = setInterval(() => {
+            changeSlide((currentIndex + 1) % testimonials.length);
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [currentIndex, testimonials.length]);
 
     const currentTesti = testimonials[currentIndex];
 
