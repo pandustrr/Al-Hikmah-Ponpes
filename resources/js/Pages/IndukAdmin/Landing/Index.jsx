@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import IndukAdminLayout from '@/Layouts/Induk/IndukAdminLayout';
-import { useForm, router } from '@inertiajs/react';
+import { useForm, router, usePage } from '@inertiajs/react';
+import Toast from '@/Components/Toast';
+import ConfirmationModal from '@/Components/ConfirmationModal';
 import {
     Cog6ToothIcon,
     ChatBubbleLeftRightIcon,
@@ -15,6 +17,34 @@ import {
 import ImageInputWithCrop from '@/Components/ImageInputWithCrop';
 
 export default function Index({ settings, testimonials, beritaList = [], categories = [], lembagas = [], fasilitas = [] }) {
+    const { flash } = usePage().props;
+
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastType, setToastType] = useState('success');
+
+    // Monitor flash messages
+    useEffect(() => {
+        if (flash?.success) {
+            setToastMessage(flash.success);
+            setToastType('success');
+            setShowToast(true);
+        } else if (flash?.error) {
+            setToastMessage(flash.error);
+            setToastType('error');
+            setShowToast(true);
+        }
+    }, [flash]);
+
+    // Modal Confirmation State
+    const [confirmModal, setConfirmModal] = useState({
+        show: false,
+        title: '',
+        message: '',
+        type: 'danger',
+        onConfirm: null
+    });
+
     const [activeTab, setActiveTab] = useState('hero');
 
     // Facilities States & Forms
@@ -82,9 +112,20 @@ export default function Index({ settings, testimonials, beritaList = [], categor
     };
 
     const deleteFasilitas = (id) => {
-        if (confirm('Apakah Anda yakin ingin menghapus fasilitas ini? Foto-foto di dalam galeri fasilitas ini juga akan terhapus.')) {
-            router.delete(route('admin.fasilitas.destroy', id));
-        }
+        setConfirmModal({
+            show: true,
+            title: 'Hapus Fasilitas?',
+            message: 'Apakah Anda yakin ingin menghapus fasilitas ini? Foto-foto di dalam galeri fasilitas ini juga akan terhapus.',
+            type: 'danger',
+            confirmText: 'Ya, Hapus',
+            onConfirm: () => {
+                router.delete(route('admin.fasilitas.destroy', id), {
+                    onSuccess: () => {
+                        setConfirmModal(prev => ({ ...prev, show: false }));
+                    }
+                });
+            }
+        });
     };
 
     // Galeri States & Forms
@@ -139,9 +180,20 @@ export default function Index({ settings, testimonials, beritaList = [], categor
     };
 
     const deleteGaleri = (id) => {
-        if (confirm('Apakah Anda yakin ingin menghapus foto dari galeri fasilitas ini?')) {
-            router.delete(route('admin.galeri.destroy', id));
-        }
+        setConfirmModal({
+            show: true,
+            title: 'Hapus Foto Galeri?',
+            message: 'Apakah Anda yakin ingin menghapus foto dari galeri fasilitas ini?',
+            type: 'danger',
+            confirmText: 'Ya, Hapus',
+            onConfirm: () => {
+                router.delete(route('admin.galeri.destroy', id), {
+                    onSuccess: () => {
+                        setConfirmModal(prev => ({ ...prev, show: false }));
+                    }
+                });
+            }
+        });
     };
 
     // Testimonial States & Form
@@ -211,9 +263,20 @@ export default function Index({ settings, testimonials, beritaList = [], categor
     };
 
     const deleteTestimonial = (id) => {
-        if (confirm('Apakah Anda yakin ingin menghapus testimoni ini?')) {
-            router.delete(route('admin.testimonials.destroy', id));
-        }
+        setConfirmModal({
+            show: true,
+            title: 'Hapus Testimoni?',
+            message: 'Apakah Anda yakin ingin menghapus testimoni ini?',
+            type: 'danger',
+            confirmText: 'Ya, Hapus',
+            onConfirm: () => {
+                router.delete(route('admin.testimonials.destroy', id), {
+                    onSuccess: () => {
+                        setConfirmModal(prev => ({ ...prev, show: false }));
+                    }
+                });
+            }
+        });
     };
     const [heroBgPreview, setHeroBgPreview] = useState(settings.hero_bg || null);
     const [heroBgMobilePreview, setHeroBgMobilePreview] = useState(settings.hero_bg_mobile || null);
@@ -714,10 +777,21 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                                                 <button
                                                     type="button"
                                                     onClick={() => {
-                                                        if (confirm('Apakah Anda yakin ingin menghapus kartu ini?')) {
-                                                            const newCards = data.about_features.filter((_, i) => i !== index);
-                                                            setData('about_features', newCards);
-                                                        }
+                                                        setConfirmModal({
+                                                            show: true,
+                                                            title: 'Hapus Kartu?',
+                                                            message: 'Apakah Anda yakin ingin menghapus kartu fitur ini dari daftar sementara?',
+                                                            type: 'warning',
+                                                            confirmText: 'Ya, Hapus',
+                                                            onConfirm: () => {
+                                                                const newCards = data.about_features.filter((_, i) => i !== index);
+                                                                setData('about_features', newCards);
+                                                                setConfirmModal(prev => ({ ...prev, show: false }));
+                                                                setToastMessage('Kartu berhasil dihapus dari daftar sementara.');
+                                                                setToastType('warning');
+                                                                setShowToast(true);
+                                                            }
+                                                        });
                                                     }}
                                                     className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors mt-1 shrink-0"
                                                     title="Hapus Kartu"
@@ -1773,6 +1847,25 @@ export default function Index({ settings, testimonials, beritaList = [], categor
                     </div>
                 );
             })()}
+
+            {/* Reusable Premium Toast Component */}
+            <Toast 
+                show={showToast}
+                message={toastMessage}
+                type={toastType}
+                onClose={() => setShowToast(false)}
+            />
+
+            {/* Reusable Premium Confirmation Modal Component */}
+            <ConfirmationModal
+                show={confirmModal.show}
+                title={confirmModal.title}
+                message={confirmModal.message}
+                type={confirmModal.type}
+                confirmText={confirmModal.confirmText}
+                onConfirm={confirmModal.onConfirm}
+                onCancel={() => setConfirmModal(prev => ({ ...prev, show: false }))}
+            />
         </IndukAdminLayout>
     );
 }
