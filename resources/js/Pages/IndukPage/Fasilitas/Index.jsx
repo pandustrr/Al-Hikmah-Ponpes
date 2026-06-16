@@ -144,7 +144,7 @@ export default function Index({ fasilitas = [], lembagas = [], settings = {} }) 
                                     <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between">
                                         <div>
                                             <h4 className="text-xs sm:text-base font-bold text-slate-900 uppercase tracking-tight mb-1 sm:mb-2 group-hover:text-brand-primary transition-colors line-clamp-1">{f.nama}</h4>
-                                            <p className="text-slate-500 text-[10px] sm:text-xs leading-relaxed line-clamp-2 sm:line-clamp-3 italic">
+                                            <p className="text-slate-500 text-[10px] sm:text-xs leading-relaxed line-clamp-2 sm:line-clamp-3">
                                                 "{f.deskripsi}"
                                             </p>
                                         </div>

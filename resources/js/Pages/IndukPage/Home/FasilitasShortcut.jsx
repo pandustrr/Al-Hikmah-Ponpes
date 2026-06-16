@@ -42,7 +42,7 @@ export default function FasilitasShortcut({ fasilitasUnggulan = [], settings = {
                         <h3 className="text-2xl md:text-3xl font-bold text-brand-primary tracking-tighter uppercase mb-5 leading-tight whitespace-pre-line">
                             {settings.fasilitas_title || 'Mendukung Perkembangan \n Potensi Siswa'}
                         </h3>
-                        <p className="text-brand-accent mb-8 leading-relaxed max-w-md text-sm italic font-medium">
+                        <p className="text-brand-accent mb-8 leading-relaxed max-w-md text-sm font-medium">
                             {settings.fasilitas_desc || '"Fasilitas modern mulai dari laboratorium terpadu, asrama yang nyaman, hingga lapangan olahraga yang luas disediakan untuk memastikan kenyamanan belajar para siswa."'}
                         </p>
                         <div className="mt-8">

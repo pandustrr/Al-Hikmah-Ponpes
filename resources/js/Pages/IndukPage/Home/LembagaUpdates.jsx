@@ -99,7 +99,7 @@ export default function LembagaUpdates({ lembagas }) {
                                         ) : (
                                             /* Empty state */
                                             <div className="py-8 text-center border border-dashed border-brand-secondary rounded-[0.25rem]">
-                                                <p className="text-brand-accent text-xs italic">Belum ada berita atau update dari lembaga ini.</p>
+                                                <p className="text-brand-accent text-xs">Belum ada berita atau update dari lembaga ini.</p>
                                                 <Link href={`/${lembaga.slug}`} className="mt-3 inline-block text-xs font-bold text-brand-primary hover:text-brand-accent uppercase tracking-widest transition-all">
                                                     Kunjungi Profil Lembaga →
                                                 </Link>

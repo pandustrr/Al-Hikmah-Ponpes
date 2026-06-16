@@ -195,7 +195,7 @@ export default function ImageGalleryModal({
                         </div>
 
                         <div className="border-t border-slate-100 pt-3">
-                            <p className="text-slate-500 text-xs md:text-sm leading-relaxed italic max-h-[220px] overflow-y-auto pr-1">
+                            <p className="text-slate-500 text-xs md:text-sm leading-relaxed max-h-[220px] overflow-y-auto pr-1">
                                 "{currentItem.deskripsi || description || 'Tidak ada deskripsi tambahan.'}"
                             </p>
                         </div>

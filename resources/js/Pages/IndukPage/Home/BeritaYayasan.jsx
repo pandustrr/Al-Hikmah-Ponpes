@@ -13,7 +13,7 @@ export default function BeritaYayasan({ beritaTerbaru, settings = {} }) {
                             {settings.warta_tagline || 'Warta Yayasan'}
                         </h2>
                         <h3 className="text-3xl md:text-4xl font-serif font-bold text-brand-primary tracking-tight uppercase leading-tight">
-                            {settings.warta_title_1 || 'Informasi'} <br /> <span className="italic text-brand-accent">{settings.warta_title_2 || 'Terbaru'}</span>
+                            {settings.warta_title_1 || 'Informasi'} <br /> <span className="text-brand-accent">{settings.warta_title_2 || 'Terbaru'}</span>
                         </h3>
                     </div>
                     <Link href="/berita" className="group text-xs font-bold text-brand-accent hover:text-brand-primary uppercase tracking-[0.15em] transition-all flex items-center gap-2">

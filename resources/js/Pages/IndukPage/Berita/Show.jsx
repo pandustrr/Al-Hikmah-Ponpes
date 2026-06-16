@@ -206,7 +206,7 @@ export default function Show({ berita, recentBerita = [], settings = {} }) {
                                         <NewsCard key={item.id} berita={item} variant="sidebar" />
                                     ))
                                 ) : (
-                                    <p className="text-xs text-brand-accent italic">Tidak ada berita terkait lainnya.</p>
+                                    <p className="text-xs text-brand-accent">Tidak ada berita terkait lainnya.</p>
                                 )}
                             </div>
                         </div>

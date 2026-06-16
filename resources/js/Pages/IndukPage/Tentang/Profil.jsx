@@ -199,7 +199,7 @@ export default function Profil({ settings = {} }) {
                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/az-subtle.png')] opacity-10"></div>
                             <div className="relative z-10 h-full flex flex-col justify-center">
                                 <h3 className="text-[8px] sm:text-[10px] font-black text-brand-secondary uppercase tracking-[0.3em] sm:tracking-[0.4em] mb-4 sm:mb-6">Visi Utama</h3>
-                                <p className="text-lg sm:text-2xl md:text-3xl font-serif font-semibold leading-relaxed italic">
+                                <p className="text-lg sm:text-2xl md:text-3xl font-serif font-semibold leading-relaxed">
                                     "{settings.profil_visi_text || 'Menjadi lembaga pendidikan Islam terkemuka yang melahirkan generasi beradab, berilmu, dan bermanfaat bagi semesta alam.'}"
                                 </p>
                             </div>
