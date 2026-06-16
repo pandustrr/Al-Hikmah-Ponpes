@@ -45,6 +45,7 @@ export default function NavbarInduk({ navTheme = 'light' }) {
         ]},
         { name: 'Info PPDB', href: '/info-ppdb' },
         { name: 'Fasilitas', href: '/fasilitas' },
+        { name: 'Kegiatan', href: '/kegiatan' },
         { name: 'Kontak & Maps', href: '/kontak' },
     ];
 

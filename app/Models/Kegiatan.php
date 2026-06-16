@@ -37,4 +37,9 @@ class Kegiatan extends Model
     {
         return $this->belongsTo(Lembaga::class);
     }
+
+    public function galeris()
+    {
+        return $this->hasMany(KegiatanGaleri::class, 'kegiatan_id');
+    }
 }
