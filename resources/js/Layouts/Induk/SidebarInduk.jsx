@@ -10,7 +10,8 @@ import {
     InformationCircleIcon,
     PhoneIcon,
     ChevronDownIcon,
-    Cog6ToothIcon
+    Cog6ToothIcon,
+    CalendarIcon
 } from '@heroicons/react/24/outline';
 
 export default function SidebarInduk({ isOpen }) {
@@ -79,6 +80,7 @@ export default function SidebarInduk({ isOpen }) {
         },
         { name: 'Info PPDB', href: route('admin.info-ppdb.index'), icon: ClipboardDocumentListIcon },
         { name: 'Fasilitas', href: route('admin.fasilitas.index'), icon: BuildingOfficeIcon },
+        { name: 'Kegiatan', href: route('admin.kegiatan.index'), icon: CalendarIcon },
         { name: 'Kontak', href: route('admin.kontak.index'), icon: PhoneIcon },
         { name: 'Pengaturan', href: route('admin.settings.index'), icon: Cog6ToothIcon },
     ];

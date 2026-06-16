@@ -29,6 +29,7 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
                     'total_event' => \App\Models\Event::count(),
                     'total_testimonial' => \App\Models\Testimonial::count(),
                     'total_fasilitas' => \App\Models\Fasilitas::count(),
+                    'total_kegiatan' => \App\Models\Kegiatan::count(),
                 ],
                 'recent_berita' => \App\Models\Berita::with('category')->latest()->take(5)->get(),
                 'recent_lembaga' => \App\Models\Lembaga::latest()->take(5)->get(),
@@ -72,6 +73,14 @@ Route::prefix('admin/console')->name('admin.')->group(function () {
         Route::get('/kontak', [\App\Http\Controllers\IndukAdmin\KontakController::class, 'index'])->name('kontak.index');
         Route::post('/kontak', [\App\Http\Controllers\IndukAdmin\KontakController::class, 'update'])->name('kontak.update');
 
+        // Kegiatan CRUD
+        Route::get('/kegiatan', [\App\Http\Controllers\IndukAdmin\KegiatanAdminController::class, 'index'])->name('kegiatan.index');
+        Route::post('/kegiatan', [\App\Http\Controllers\IndukAdmin\KegiatanAdminController::class, 'store'])->name('kegiatan.store');
+        Route::post('/kegiatan/{kegiatan}', [\App\Http\Controllers\IndukAdmin\KegiatanAdminController::class, 'update'])->name('kegiatan.update');
+        Route::delete('/kegiatan/{kegiatan}', [\App\Http\Controllers\IndukAdmin\KegiatanAdminController::class, 'destroy'])->name('kegiatan.destroy');
+        Route::post('/kegiatan/{kegiatan}/galeri', [\App\Http\Controllers\IndukAdmin\KegiatanAdminController::class, 'storeGallery'])->name('kegiatan.galeri.store');
+        Route::delete('/kegiatan-galeri/{galeri}', [\App\Http\Controllers\IndukAdmin\KegiatanAdminController::class, 'destroyGallery'])->name('kegiatan.galeri.destroy');
+
         // Settings
         Route::get('/settings', [\App\Http\Controllers\IndukAdmin\SiteSettingController::class, 'index'])->name('settings.index');
         Route::put('/settings', [\App\Http\Controllers\IndukAdmin\SiteSettingController::class, 'update'])->name('settings.update');
@@ -92,6 +101,8 @@ Route::get('/info-ppdb', [InfoPPDBController::class, 'index'])->name('pendaftara
 
 Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
 Route::get('/fasilitas', [FasilitasController::class, 'index'])->name('fasilitas.index');
+Route::get('/kegiatan', [\App\Http\Controllers\IndukPage\KegiatanController::class, 'index'])->name('kegiatan.index');
+Route::get('/kegiatan/{slug}', [\App\Http\Controllers\IndukPage\KegiatanController::class, 'show'])->name('kegiatan.show');
 
 // Automatic Sitemap for Google Indexing
 Route::get('/sitemap.xml', [HomeController::class, 'sitemap'])->name('sitemap');
