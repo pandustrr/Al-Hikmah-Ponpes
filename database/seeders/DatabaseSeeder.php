@@ -119,15 +119,16 @@ class DatabaseSeeder extends Seeder
 
         // 4. Call Detailed Seeders (Includes all missing seeders now)
         $this->call([
-            // BeritaSeeder::class,
-            // LandingPageSeeder::class,
-            // PpdbSeeder::class,
-            // LembagaContentSeeder::class,
-            // RunningTextSeeder::class,
-            // FasilitasSeeder::class,     
-            // GaleriSeeder::class,       
-            // PengajarSeeder::class,      
-            // SiteSettingSeeder::class,  
+            BeritaCategorySeeder::class,
+            BeritaSeeder::class,
+            LandingPageSeeder::class,
+            PpdbSeeder::class,
+            LembagaContentSeeder::class,
+            RunningTextSeeder::class,
+            FasilitasSeeder::class,     
+            GaleriSeeder::class,       
+            PengajarSeeder::class,      
+            SiteSettingSeeder::class,  
         ]);
     }
 }

@@ -31,7 +31,7 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                                     <h3 className="text-3xl font-bold text-brand-primary tracking-tighter uppercase leading-none mb-4 whitespace-pre-line">{settings.about_title_large || 'YPDS \n Al-Hikmah'}</h3>
                                     <div className="h-0.5 w-14 bg-brand-primary"></div>
                                 </div>
-                                <p className="text-brand-accent leading-relaxed italic border-l-4 border-brand-primary pl-4 text-sm font-medium">
+                                <p className="text-brand-accent leading-relaxed border-l-4 border-brand-primary pl-4 text-sm font-medium">
                                     "{settings.about_description_short || 'YPDS Al-Hikmah adalah lembaga pendidikan Islam yang berdedikasi untuk mencetak generasi cerdas secara intelektual dan kokoh secara spiritual.'}"
                                 </p>
                                 <p className="text-brand-primary leading-relaxed text-sm font-medium">
@@ -113,12 +113,29 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                                 </div>
                                 <div className="space-y-6">
                                     {announcements.length === 0 ? (
-                                        <p className="text-xs text-slate-400 italic font-medium">Belum ada berita.</p>
+                                        <p className="text-xs text-slate-400 font-medium">Belum ada berita.</p>
                                     ) : (
                                         announcements.map((item) => (
                                             <Link key={item.id} href={route('berita.show', item.slug)} className="block group border-b border-brand-secondary pb-4 last:border-0 hover:pl-2 transition-all duration-300">
-                                                <div className="text-[10px] font-bold text-brand-accent uppercase tracking-widest mb-1 opacity-70">{item.category?.name || 'Berita'} · {item.formatted_date || item.tanggal}</div>
-                                                <p className="text-xs font-bold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug line-clamp-2">{item.judul}</p>
+                                                <div className="flex gap-3 items-start">
+                                                    {item.image_url && (
+                                                        <div className="w-16 h-16 shrink-0 rounded-[0.25rem] overflow-hidden bg-brand-secondary border border-brand-accent/5">
+                                                            <img
+                                                                src={item.image_url}
+                                                                alt={item.judul}
+                                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                                                onError={(e) => {
+                                                                    e.target.onerror = null;
+                                                                    e.target.src = "https://images.unsplash.com/photo-1504711432869-5d39a110fdd7?auto=format&fit=crop&q=80&w=400";
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    )}
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className="text-[10px] font-bold text-brand-accent uppercase tracking-widest mb-1 opacity-70">{item.category?.name || 'Berita'} · {item.formatted_date || item.tanggal}</div>
+                                                        <p className="text-xs font-bold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug line-clamp-2">{item.judul}</p>
+                                                    </div>
+                                                </div>
                                             </Link>
                                         ))
                                     )}
@@ -141,12 +158,29 @@ export default function AboutSummary({ lembagas = [], settings = {}, announcemen
                                 </div>
                                 <div className="space-y-6">
                                     {articles.length === 0 ? (
-                                        <p className="text-xs text-slate-400 italic font-medium">Belum ada berita.</p>
+                                        <p className="text-xs text-slate-400 font-medium">Belum ada berita.</p>
                                     ) : (
                                         articles.map((item) => (
                                             <Link key={item.id} href={route('berita.show', item.slug)} className="block group border-b border-brand-secondary pb-4 last:border-0 hover:pl-2 transition-all duration-300">
-                                                <div className="text-[10px] font-bold text-brand-accent uppercase tracking-widest mb-1 opacity-70">{item.category?.name || 'Artikel'} · {item.formatted_date || item.tanggal}</div>
-                                                <p className="text-xs font-bold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug line-clamp-2">{item.judul}</p>
+                                                <div className="flex gap-3 items-start">
+                                                    {item.image_url && (
+                                                        <div className="w-16 h-16 shrink-0 rounded-[0.25rem] overflow-hidden bg-brand-secondary border border-brand-accent/5">
+                                                            <img
+                                                                src={item.image_url}
+                                                                alt={item.judul}
+                                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                                                onError={(e) => {
+                                                                    e.target.onerror = null;
+                                                                    e.target.src = "https://images.unsplash.com/photo-1585829365234-781fcd04c838?auto=format&fit=crop&q=80&w=400";
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    )}
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className="text-[10px] font-bold text-brand-accent uppercase tracking-widest mb-1 opacity-70">{item.category?.name || 'Artikel'} · {item.formatted_date || item.tanggal}</div>
+                                                        <p className="text-xs font-bold text-brand-primary group-hover:text-brand-accent transition-colors leading-snug line-clamp-2">{item.judul}</p>
+                                                    </div>
+                                                </div>
                                             </Link>
                                         ))
                                     )}

@@ -232,7 +232,7 @@ export default function Index({ berita, multimedia = [], currentCategory, curren
                                             ))}
                                         </div>
                                     ) : (
-                                        <div className="py-10 text-center text-brand-accent italic">
+                                        <div className="py-10 text-center text-brand-accent">
                                             Belum ada berita lainnya.
                                         </div>
                                     )}
@@ -271,7 +271,7 @@ export default function Index({ berita, multimedia = [], currentCategory, curren
                                                 </div>
                                             </>
                                         ) : (
-                                            <div className="col-span-2 py-10 text-center text-brand-accent italic border border-dashed border-sage-light">
+                                            <div className="col-span-2 py-10 text-center text-brand-accent border border-dashed border-sage-light">
                                                 Belum ada konten multimedia.
                                             </div>
                                         )}

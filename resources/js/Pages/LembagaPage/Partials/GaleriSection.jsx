@@ -51,7 +51,7 @@ export default function GaleriSection({ galeris = [] }) {
                                     </div>
                                     <h4 className="text-sm font-bold text-white uppercase tracking-tight line-clamp-1">{g.judul}</h4>
                                     {g.deskripsi && (
-                                        <p className="text-[10px] text-slate-300 leading-snug line-clamp-2 mt-1 font-light italic">
+                                        <p className="text-[10px] text-slate-300 leading-snug line-clamp-2 mt-1 font-light">
                                             "{g.deskripsi}"
                                         </p>
                                     )}

@@ -274,7 +274,7 @@ export default function Index({ settings = {}, lembagas = [] }) {
                                                     <div className="flex items-center justify-between">
                                                         <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">WhatsApp Utama</span>
                                                         {lembaga.ppdb_info?.contact_name && (
-                                                            <span className="text-[9px] font-medium text-slate-500 italic block">a.n. {lembaga.ppdb_info.contact_name}</span>
+                                                            <span className="text-[9px] font-medium text-slate-500 block">a.n. {lembaga.ppdb_info.contact_name}</span>
                                                         )}
                                                     </div>
                                                     <a 

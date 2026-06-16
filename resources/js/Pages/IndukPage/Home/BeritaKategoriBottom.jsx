@@ -17,7 +17,7 @@ export default function BeritaKategoriBottom({ bottomNews, bottomNewsTitle, bott
                             Kabar Pilihan
                         </h2>
                         <h3 className="text-3xl md:text-4xl font-serif font-bold text-brand-primary tracking-tight uppercase leading-tight">
-                            Kategori <br /> <span className="italic text-brand-accent">{bottomNewsTitle}</span>
+                            Kategori <br /> <span className="text-brand-accent">{bottomNewsTitle}</span>
                         </h3>
                     </div>
                     <Link 
