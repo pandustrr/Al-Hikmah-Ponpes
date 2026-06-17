@@ -3,12 +3,12 @@
 @theme {
   --radius-custom: 0.25rem;
   /* Font Lama */
-  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", serif;
-
+   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif; 
+   --font-serif: "Playfair Display", serif; 
+   
   /* Font Baru */
-  /* --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif; */
-  /* --font-serif: "Lora", serif; */
+  /* --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Lora", serif; */
 
   --color-brand-primary: #4A4E42;  
   --color-brand-secondary: #EEEEE6;  
