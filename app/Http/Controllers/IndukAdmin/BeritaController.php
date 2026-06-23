@@ -57,7 +57,15 @@ class BeritaController extends Controller
             $validated['image_mobile_url'] = Storage::url($path);
         }
 
-        $validated['slug'] = Str::slug($validated['judul']) . '-' . Str::random(5);
+        // Buat slug bersih tanpa hash random agar SEO-friendly
+        $baseSlug = Str::slug($validated['judul']);
+        $slug = $baseSlug;
+        $counter = 2;
+        while (Berita::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
+        $validated['slug'] = $slug;
 
         Berita::create($validated);
 
@@ -111,9 +119,16 @@ class BeritaController extends Controller
             $validated['image_mobile_url'] = Storage::url($path);
         }
 
-        // Only update slug if judul changed
+        // Only update slug if judul changed, gunakan slug bersih tanpa hash random
         if ($request->judul !== $berita->judul) {
-            $validated['slug'] = Str::slug($validated['judul']) . '-' . Str::random(5);
+            $baseSlug = Str::slug($validated['judul']);
+            $slug = $baseSlug;
+            $counter = 2;
+            while (Berita::where('slug', $slug)->where('id', '!=', $berita->id)->exists()) {
+                $slug = $baseSlug . '-' . $counter;
+                $counter++;
+            }
+            $validated['slug'] = $slug;
         }
 
         $berita->update($validated);

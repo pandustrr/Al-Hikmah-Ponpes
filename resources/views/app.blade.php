@@ -103,8 +103,17 @@
             // 5. URL, Type & Canonical
             $metaUrl     = request()->url();
             $metaType    = $berita ? 'article' : 'website';
-            // Canonical: article detail = clean URL; list pages = URL with relevant query params
-            $canonicalUrl = $berita ? $metaUrl : request()->url();
+            // Canonical yang konsisten:
+            // - Berita: gunakan slug dari database (bukan URL request) agar tidak ada hash lama
+            // - Homepage: selalu gunakan url('/') dengan trailing slash
+            // - Halaman lain: gunakan URL request tanpa query string
+            if ($berita) {
+                $canonicalUrl = url('/berita/' . ($berita['slug'] ?? ''));
+            } elseif (request()->is('/') || request()->is('')) {
+                $canonicalUrl = url('/');
+            } else {
+                $canonicalUrl = $metaUrl;
+            }
 
             // 6. Article-specific OG
             $articlePublishedTime = $berita ? ($berita['created_at'] ?? null) : null;
