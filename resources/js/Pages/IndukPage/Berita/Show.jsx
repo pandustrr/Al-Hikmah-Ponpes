@@ -76,15 +76,8 @@ export default function Show({ berita, recentBerita = [], settings = {} }) {
 
     return (
         <PublicLayout title={berita.judul}>
+            {/* Structured data JSON-LD khusus halaman berita - semua meta/canonical sudah dihandle di app.blade.php (server-side) */}
             <Head>
-                <title key="title">{`${berita.judul} - YPDS Al-Hikmah Jember`}</title>
-                <meta key="desc" name="description" content={cleanDescription} />
-                <link key="canonical" rel="canonical" href={canonicalUrl} />
-                <meta key="og-type" property="og:type" content="article" />
-                <meta key="og-title" property="og:title" content={`${berita.judul} - YPDS Al-Hikmah Jember`} />
-                <meta key="og-desc" property="og:description" content={cleanDescription} />
-                <meta key="og-url" property="og:url" content={canonicalUrl} />
-                {berita.image_url && <meta key="og-img" property="og:image" content={berita.image_url} />}
                 <script key="ld-article" type="application/ld+json">
                     {JSON.stringify(newsArticleSchema)}
                 </script>
